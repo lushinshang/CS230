@@ -1,0 +1,1412 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Stanford CS230 ｜ Autumn 2025 ｜ Lecture 3： Full Cycle of a DL project.en-US.html</title>
+  <style>
+    body{font-family:Inter, system-ui, -apple-system, Arial, sans-serif;line-height:1.6;padding:1rem;max-width:900px;margin:0 auto;color:#111}
+    .meta{color:#666;font-size:0.95rem;margin-bottom:0.5rem}
+    article{background:#fff;border-radius:8px;padding:1rem 1.2rem;box-shadow:0 6px 18px rgba(10,20,30,0.05)}
+    p.cue{margin:0 0 0.6rem}
+    span.time{color:#666;margin-right:8px;font-size:0.95rem}
+  </style>
+</head>
+<body>
+<article lang="en">
+  <header>
+    <h1>Stanford CS230 ｜ Autumn 2025 ｜ Lecture 3： Full Cycle of a DL project</h1>
+    <p class="meta">Source: Stanford CS230 ｜ Autumn 2025 ｜ Lecture 3： Full Cycle of a DL project.en-US.srt</p>
+  </header>
+  <section class="transcript">
+    <p class="cue"><span class="time">[00:05]</span>So what I&#x27;d like to do today is chat with you</p>
+    <p class="cue"><span class="time">[00:09]</span>about the full cycle of a deep learning project.</p>
+    <p class="cue"><span class="time">[00:13]</span>And as I promised in the first lecture,</p>
+    <p class="cue"><span class="time">[00:16]</span>rather than me talking at you for an hour and 20 minutes</p>
+    <p class="cue"><span class="time">[00:19]</span>or whatever, we&#x27;d love for this to be much more interactive.</p>
+    <p class="cue"><span class="time">[00:23]</span>And so what I&#x27;m going to do is illustrate this with an example,</p>
+    <p class="cue"><span class="time">[00:26]</span>but also ask you a bunch of questions</p>
+    <p class="cue"><span class="time">[00:29]</span>along the way about what you would do if you are</p>
+    <p class="cue"><span class="time">[00:32]</span>the one working on the project.</p>
+    <p class="cue"><span class="time">[00:34]</span>I&#x27;m going to use as an illustrative example.</p>
+    <p class="cue"><span class="time">[00:36]</span>So plan for this to be quite interactive</p>
+    <p class="cue"><span class="time">[00:38]</span>and please interrupt any time and ask questions.</p>
+    <p class="cue"><span class="time">[00:40]</span>Since I think that&#x27;s why I want to do this in person</p>
+    <p class="cue"><span class="time">[00:44]</span>here at Stanford.</p>
+    <p class="cue"><span class="time">[00:47]</span>So one of the reasons why developing machine</p>
+    <p class="cue"><span class="time">[00:51]</span>learning or deep learning or other types</p>
+    <p class="cue"><span class="time">[00:53]</span>of AI projects, including AI projects using large language</p>
+    <p class="cue"><span class="time">[00:57]</span>models or agentic AI workflows or whatever is that AI projects</p>
+    <p class="cue"><span class="time">[01:01]</span>are different than traditional software engineering projects.</p>
+    <p class="cue"><span class="time">[01:04]</span>So one of the biggest differences between AI projects</p>
+    <p class="cue"><span class="time">[01:08]</span>of the many different flavors--</p>
+    <p class="cue"><span class="time">[01:10]</span>supervised learning, OM based, generative</p>
+    <p class="cue"><span class="time">[01:13]</span>AI based is that in traditional software projects,</p>
+    <p class="cue"><span class="time">[01:18]</span>you write code, and you control your code.</p>
+    <p class="cue"><span class="time">[01:21]</span>Write whatever code you want.</p>
+    <p class="cue"><span class="time">[01:22]</span>Compile it.</p>
+    <p class="cue"><span class="time">[01:23]</span>Your code does what you tell it to.</p>
+    <p class="cue"><span class="time">[01:26]</span>But AI projects involve both code as well as data</p>
+    <p class="cue"><span class="time">[01:34]</span>that you train your algorithm on.</p>
+    <p class="cue"><span class="time">[01:36]</span>And you almost never know what strange and wonderful things</p>
+    <p class="cue"><span class="time">[01:41]</span>there are in your data.</p>
+    <p class="cue"><span class="time">[01:43]</span>For example, if you&#x27;re working on a face recognition</p>
+    <p class="cue"><span class="time">[01:45]</span>application-- that&#x27;s a running example I&#x27;m going to use today--</p>
+    <p class="cue"><span class="time">[01:48]</span>then as you&#x27;re just getting started on the project,</p>
+    <p class="cue"><span class="time">[01:51]</span>it&#x27;s really difficult to in advance</p>
+    <p class="cue"><span class="time">[01:55]</span>what you find in the data.</p>
+    <p class="cue"><span class="time">[01:56]</span>Is the lighting of the face good?</p>
+    <p class="cue"><span class="time">[01:58]</span>Do you struggle with people with very long hair or people</p>
+    <p class="cue"><span class="time">[02:01]</span>with short hair?</p>
+    <p class="cue"><span class="time">[02:02]</span>Do people making weird facial expressions</p>
+    <p class="cue"><span class="time">[02:04]</span>make your system struggle?</p>
+    <p class="cue"><span class="time">[02:06]</span>Do people wearing glasses make your systems struggle?</p>
+    <p class="cue"><span class="time">[02:08]</span>So data is so rich that a lot of time,</p>
+    <p class="cue"><span class="time">[02:13]</span>you can&#x27;t predict in advance what your AI</p>
+    <p class="cue"><span class="time">[02:15]</span>system is going to do, not because you</p>
+    <p class="cue"><span class="time">[02:17]</span>don&#x27;t control the code.</p>
+    <p class="cue"><span class="time">[02:18]</span>You can write whatever neural network</p>
+    <p class="cue"><span class="time">[02:20]</span>or whatever code you want.</p>
+    <p class="cue"><span class="time">[02:21]</span>But you don&#x27;t what&#x27;s in the data.</p>
+    <p class="cue"><span class="time">[02:23]</span>And this is why, unlike traditional software</p>
+    <p class="cue"><span class="time">[02:26]</span>engineering, machine learning development</p>
+    <p class="cue"><span class="time">[02:30]</span>is a much more iterative process where you just</p>
+    <p class="cue"><span class="time">[02:32]</span>have to build something, see how it works, and then</p>
+    <p class="cue"><span class="time">[02:36]</span>through a process, discover, almost discover</p>
+    <p class="cue"><span class="time">[02:38]</span>what is in the data, and therefore</p>
+    <p class="cue"><span class="time">[02:40]</span>what you should be doing to change your code to make</p>
+    <p class="cue"><span class="time">[02:43]</span>your overall system perform.</p>
+    <p class="cue"><span class="time">[02:45]</span>And this is also true not just for-- this</p>
+    <p class="cue"><span class="time">[02:48]</span>is true not just for deep learning based systems.</p>
+    <p class="cue"><span class="time">[02:50]</span>This is also true for modern large language models.</p>
+    <p class="cue"><span class="time">[02:54]</span>There&#x27;s been a lot of hype buzz about how LLMs, Large Language</p>
+    <p class="cue"><span class="time">[02:57]</span>Models, are hard to control.</p>
+    <p class="cue"><span class="time">[02:59]</span>I think there&#x27;s a lot of excessive hype about that kind</p>
+    <p class="cue"><span class="time">[03:01]</span>of fear mongering.</p>
+    <p class="cue"><span class="time">[03:03]</span>There&#x27;s a little bit of that.</p>
+    <p class="cue"><span class="time">[03:04]</span>But one of the reasons why none of us</p>
+    <p class="cue"><span class="time">[03:06]</span>know in advance what LLMs do is because it</p>
+    <p class="cue"><span class="time">[03:09]</span>was trained on a lot of data, more data</p>
+    <p class="cue"><span class="time">[03:11]</span>than any human could possibly look at.</p>
+    <p class="cue"><span class="time">[03:13]</span>And we just don&#x27;t know with precision</p>
+    <p class="cue"><span class="time">[03:16]</span>what is in all that data that the arm was trained on.</p>
+    <p class="cue"><span class="time">[03:19]</span>And so because we know the data, we</p>
+    <p class="cue"><span class="time">[03:21]</span>can&#x27;t really look at all the massive tens</p>
+    <p class="cue"><span class="time">[03:24]</span>of trillions of tokens of data was trained on.</p>
+    <p class="cue"><span class="time">[03:26]</span>It&#x27;s hard to know exactly how large language model will</p>
+    <p class="cue"><span class="time">[03:29]</span>perform, which is why building agentic AI applications</p>
+    <p class="cue"><span class="time">[03:34]</span>or building large language models based applications</p>
+    <p class="cue"><span class="time">[03:36]</span>is also very empirical or very experimental.</p>
+    <p class="cue"><span class="time">[03:40]</span>Meaning you just have to build something,</p>
+    <p class="cue"><span class="time">[03:41]</span>then see where it goes well, see where it goes poorly,</p>
+    <p class="cue"><span class="time">[03:44]</span>and then use that to fix problems.</p>
+    <p class="cue"><span class="time">[03:46]</span>And that&#x27;s how you drive progress.</p>
+    <p class="cue"><span class="time">[03:48]</span>That makes sense?</p>
+    <p class="cue"><span class="time">[03:48]</span>So, because you control your code, but you don&#x27;t really know.</p>
+    <p class="cue"><span class="time">[03:52]</span>It&#x27;s hard to control the data.</p>
+    <p class="cue"><span class="time">[03:54]</span>And this is true, both for the data</p>
+    <p class="cue"><span class="time">[03:56]</span>you have stored in your hard disk,</p>
+    <p class="cue"><span class="time">[03:57]</span>you can have terabytes of data stored in my hard disk.</p>
+    <p class="cue"><span class="time">[04:00]</span>I don&#x27;t really know what&#x27;s in my hard disk.</p>
+    <p class="cue"><span class="time">[04:04]</span>And the thing you really don&#x27;t control is what data the world</p>
+    <p class="cue"><span class="time">[04:06]</span>will give you in the future.</p>
+    <p class="cue"><span class="time">[04:07]</span>So when you deploy a system in the world,</p>
+    <p class="cue"><span class="time">[04:09]</span>say, face recognition, which we should talk about.</p>
+    <p class="cue"><span class="time">[04:12]</span>Will people wear a thick, heavy scarf</p>
+    <p class="cue"><span class="time">[04:14]</span>that covers part of their face when it&#x27;s winter?</p>
+    <p class="cue"><span class="time">[04:16]</span>We just don&#x27;t know.</p>
+    <p class="cue"><span class="time">[04:16]</span>There are all these things in data that will surprise you.</p>
+    <p class="cue"><span class="time">[04:20]</span>And you don&#x27;t even control your past data</p>
+    <p class="cue"><span class="time">[04:22]</span>that&#x27;s already a hard disk.</p>
+    <p class="cue"><span class="time">[04:23]</span>You certainly can&#x27;t control your future data.</p>
+    <p class="cue"><span class="time">[04:28]</span>So it turns out that a lot of machine learning classes</p>
+    <p class="cue"><span class="time">[04:32]</span>talk about building models.</p>
+    <p class="cue"><span class="time">[04:36]</span>And you learn a lot from the online videos</p>
+    <p class="cue"><span class="time">[04:40]</span>about how to build powerful deep learning models.</p>
+    <p class="cue"><span class="time">[04:43]</span>But it turns out that building the overall machine learning</p>
+    <p class="cue"><span class="time">[04:48]</span>system or a deep learning system has a lot more work</p>
+    <p class="cue"><span class="time">[04:52]</span>than just training models.</p>
+    <p class="cue"><span class="time">[04:54]</span>But if you look a lot of causes, there&#x27;s</p>
+    <p class="cue"><span class="time">[04:57]</span>actually a very strong focus on modeling</p>
+    <p class="cue"><span class="time">[05:00]</span>because I think that&#x27;s what academia has focused on.</p>
+    <p class="cue"><span class="time">[05:02]</span>We can train models, evaluate models,</p>
+    <p class="cue"><span class="time">[05:05]</span>publish papers on models.</p>
+    <p class="cue"><span class="time">[05:06]</span>And so you find that a lot of causes</p>
+    <p class="cue"><span class="time">[05:08]</span>focus on training a good deep learning model.</p>
+    <p class="cue"><span class="time">[05:11]</span>And that is absolutely important.</p>
+    <p class="cue"><span class="time">[05:13]</span>But because we know how to evaluate models,</p>
+    <p class="cue"><span class="time">[05:16]</span>different research groups can benchmark different models.</p>
+    <p class="cue"><span class="time">[05:18]</span>There&#x27;s a lot of academic research work on that.</p>
+    <p class="cue"><span class="time">[05:20]</span>That&#x27;s reflected a lot of causes.</p>
+    <p class="cue"><span class="time">[05:22]</span>But this is just a small part of what</p>
+    <p class="cue"><span class="time">[05:23]</span>you need to do if you want to build an effective deep learning</p>
+    <p class="cue"><span class="time">[05:26]</span>system.</p>
+    <p class="cue"><span class="time">[05:27]</span>And what I want to do today is go</p>
+    <p class="cue"><span class="time">[05:30]</span>outside the small box of models to give you</p>
+    <p class="cue"><span class="time">[05:33]</span>a broader view of what it feels like to develop a deep learning</p>
+    <p class="cue"><span class="time">[05:37]</span>or AI or machine learning system.</p>
+    <p class="cue"><span class="time">[05:40]</span>And this is what it often--</p>
+    <p class="cue"><span class="time">[05:44]</span>this is what building a deep learning system</p>
+    <p class="cue"><span class="time">[05:47]</span>would be like, which is, first, specify the problem,</p>
+    <p class="cue"><span class="time">[06:01]</span>figure out what we&#x27;re actually working on.</p>
+    <p class="cue"><span class="time">[06:02]</span>The running example I want to use today</p>
+    <p class="cue"><span class="time">[06:05]</span>will be to build a face recognition system, or face rec</p>
+    <p class="cue"><span class="time">[06:08]</span>system for security, for deciding when to unlock a door.</p>
+    <p class="cue"><span class="time">[06:12]</span>And [INAUDIBLE] [? talked ?] about some face recognition,</p>
+    <p class="cue"><span class="time">[06:15]</span>which I abbreviate face rec architectures,</p>
+    <p class="cue"><span class="time">[06:17]</span>last week as well.</p>
+    <p class="cue"><span class="time">[06:19]</span>But specific application I want to talk about</p>
+    <p class="cue"><span class="time">[06:21]</span>is something I&#x27;ve worked on.</p>
+    <p class="cue"><span class="time">[06:22]</span>Actually, I built one of the commercial systems that--</p>
+    <p class="cue"><span class="time">[06:27]</span>For this, if this is a door and this is-- well,</p>
+    <p class="cue"><span class="time">[06:35]</span>you or a friend or maybe someone that you don&#x27;t want to let</p>
+    <p class="cue"><span class="time">[06:38]</span>in, approaching, if you have a little camera--</p>
+    <p class="cue"><span class="time">[06:41]</span>sorry, bad drawing-- take a picture</p>
+    <p class="cue"><span class="time">[06:43]</span>of whoever&#x27;s approaching the door</p>
+    <p class="cue"><span class="time">[06:45]</span>and decide whether or not to unlock the door.</p>
+    <p class="cue"><span class="time">[06:47]</span>So face recognition to decide who</p>
+    <p class="cue"><span class="time">[06:49]</span>is authorized to enter a restricted location,</p>
+    <p class="cue"><span class="time">[06:52]</span>like a corporate office building or your house or whatever.</p>
+    <p class="cue"><span class="time">[06:56]</span>And actually, one common use case that one of my teams built</p>
+    <p class="cue"><span class="time">[07:00]</span>was a key card, swipe key cards.</p>
+    <p class="cue"><span class="time">[07:02]</span>So sometimes, key cards get stolen.</p>
+    <p class="cue"><span class="time">[07:05]</span>And so one of the systems we deploy fairly large office</p>
+    <p class="cue"><span class="time">[07:08]</span>complexes was if you swipe a key card,</p>
+    <p class="cue"><span class="time">[07:12]</span>we also just take a picture that is then soon</p>
+    <p class="cue"><span class="time">[07:14]</span>discarded to make sure that the key card is</p>
+    <p class="cue"><span class="time">[07:17]</span>held by the person whose face is shown on the key card.</p>
+    <p class="cue"><span class="time">[07:20]</span>So it makes it harder if someone to steal</p>
+    <p class="cue"><span class="time">[07:22]</span>a key card to gain unauthorized access to an office complex.</p>
+    <p class="cue"><span class="time">[07:26]</span>So I&#x27;m going to use this as the motivating example for today.</p>
+    <p class="cue"><span class="time">[07:32]</span>And after specifying a problem, typical process is then--</p>
+    <p class="cue"><span class="time">[07:45]</span>sometimes, the open source model can download.</p>
+    <p class="cue"><span class="time">[07:47]</span>But let&#x27;s say for today that the open source model is not</p>
+    <p class="cue"><span class="time">[07:49]</span>good enough.</p>
+    <p class="cue"><span class="time">[07:50]</span>You want to train your own model.</p>
+    <p class="cue"><span class="time">[07:51]</span>The typical process, we get data, design the model,</p>
+    <p class="cue"><span class="time">[08:04]</span>train the model.</p>
+    <p class="cue"><span class="time">[08:07]</span>And then we will iterate through these steps</p>
+    <p class="cue"><span class="time">[08:11]</span>a bunch of times until the model looks like it&#x27;s</p>
+    <p class="cue"><span class="time">[08:14]</span>performing well enough.</p>
+    <p class="cue"><span class="time">[08:16]</span>And then after that, we have to deploy it and monitor</p>
+    <p class="cue"><span class="time">[08:36]</span>and maintain the model.</p>
+    <p class="cue"><span class="time">[08:37]</span>So I&#x27;m actually going to talk a bunch about multiple</p>
+    <p class="cue"><span class="time">[08:41]</span>of these steps today because I want you to come away</p>
+    <p class="cue"><span class="time">[08:44]</span>with a feel for when you&#x27;re working</p>
+    <p class="cue"><span class="time">[08:46]</span>on a real machine learning application,</p>
+    <p class="cue"><span class="time">[08:49]</span>what the important steps you will face on.</p>
+    <p class="cue"><span class="time">[08:53]</span>And so as I alluded, machine learning development</p>
+    <p class="cue"><span class="time">[08:59]</span>is very iterative process.</p>
+    <p class="cue"><span class="time">[09:00]</span>So for these three steps, we often drive a rapid development</p>
+    <p class="cue"><span class="time">[09:06]</span>loop where we--</p>
+    <p class="cue"><span class="time">[09:16]</span>oops, sorry-- design the model, train it, analyze the results,</p>
+    <p class="cue"><span class="time">[09:31]</span>and then may be designed to update the model or the data</p>
+    <p class="cue"><span class="time">[09:33]</span>or something and iterate around this loop</p>
+    <p class="cue"><span class="time">[09:35]</span>many times before you are satisfied.</p>
+    <p class="cue"><span class="time">[09:40]</span>And just one more detail.</p>
+    <p class="cue"><span class="time">[09:43]</span>It turns out that for face recognition,</p>
+    <p class="cue"><span class="time">[09:45]</span>the very common architecture, which</p>
+    <p class="cue"><span class="time">[09:46]</span>you learn in detail about later in the online videos,</p>
+    <p class="cue"><span class="time">[09:50]</span>is a neural network called a Siamese network.</p>
+    <p class="cue"><span class="time">[09:53]</span>And what that does is a neural network that</p>
+    <p class="cue"><span class="time">[09:55]</span>takes as input two pictures.</p>
+    <p class="cue"><span class="time">[10:01]</span>And two pictures get fed to a neural network</p>
+    <p class="cue"><span class="time">[10:03]</span>or a deep learning algorithm.</p>
+    <p class="cue"><span class="time">[10:05]</span>And it&#x27;s a job of a deep learning algorithm to tell us,</p>
+    <p class="cue"><span class="time">[10:08]</span>are these two pictures the same person or different persons?</p>
+    <p class="cue"><span class="time">[10:12]</span>Because if you&#x27;re trying to set up this system, say,</p>
+    <p class="cue"><span class="time">[10:16]</span>for your house, and maybe you have a few family members</p>
+    <p class="cue"><span class="time">[10:19]</span>or roommates you want to let in.</p>
+    <p class="cue"><span class="time">[10:21]</span>Then it&#x27;d be quite annoying if you</p>
+    <p class="cue"><span class="time">[10:24]</span>have to retrain a neural network for every single home.</p>
+    <p class="cue"><span class="time">[10:26]</span>So the most common way to do face recognition</p>
+    <p class="cue"><span class="time">[10:28]</span>is of a neural network that inputs two pictures.</p>
+    <p class="cue"><span class="time">[10:31]</span>And the job of the neural network is to tell me,</p>
+    <p class="cue"><span class="time">[10:34]</span>are these two pictures the same person?</p>
+    <p class="cue"><span class="time">[10:37]</span>And then the way you set up the system is to input</p>
+    <p class="cue"><span class="time">[10:40]</span>a few registration pictures.</p>
+    <p class="cue"><span class="time">[10:41]</span>So take a picture of yourself.</p>
+    <p class="cue"><span class="time">[10:43]</span>Take a picture of your roommate.</p>
+    <p class="cue"><span class="time">[10:44]</span>Take a picture any family members you want to have access.</p>
+    <p class="cue"><span class="time">[10:47]</span>So then, when someone comes, it can quickly</p>
+    <p class="cue"><span class="time">[10:50]</span>check if the person that just showed up</p>
+    <p class="cue"><span class="time">[10:52]</span>is one of the people that&#x27;s authorized.</p>
+    <p class="cue"><span class="time">[10:54]</span>And then let them in.</p>
+    <p class="cue"><span class="time">[10:56]</span>And then the corporate key card swipe example</p>
+    <p class="cue"><span class="time">[10:58]</span>is someone swipes a card and my card says,</p>
+    <p class="cue"><span class="time">[11:00]</span>this is Andrew&#x27;s card.</p>
+    <p class="cue"><span class="time">[11:02]</span>Then I&#x27;ll quickly pull up my registration picture</p>
+    <p class="cue"><span class="time">[11:04]</span>to double check if I am, if I seem</p>
+    <p class="cue"><span class="time">[11:06]</span>to be the same person as the Andrew that was registered.</p>
+    <p class="cue"><span class="time">[11:10]</span>So this is a typical neural network architecture.</p>
+    <p class="cue"><span class="time">[11:16]</span>So, I have a question for you.</p>
+    <p class="cue"><span class="time">[11:20]</span>One thing I&#x27;d like to do today is</p>
+    <p class="cue"><span class="time">[11:24]</span>walk you through a number of scenarios</p>
+    <p class="cue"><span class="time">[11:26]</span>and invite you to think about what decision you would</p>
+    <p class="cue"><span class="time">[11:29]</span>make if you are the CTO of a startup building</p>
+    <p class="cue"><span class="time">[11:33]</span>these technologies.</p>
+    <p class="cue"><span class="time">[11:34]</span>So my question for you is, if you&#x27;re the CTO of a startup,</p>
+    <p class="cue"><span class="time">[11:41]</span>building the next face recognition system,</p>
+    <p class="cue"><span class="time">[11:44]</span>and if your lawyers have said you</p>
+    <p class="cue"><span class="time">[11:46]</span>aren&#x27;t allowed to download data from the internet.</p>
+    <p class="cue"><span class="time">[11:48]</span>So let&#x27;s not download data for this application.</p>
+    <p class="cue"><span class="time">[11:52]</span>How would you go about getting data to train this system?</p>
+    <p class="cue"><span class="time">[11:55]</span>So what you need is a bunch of pictures</p>
+    <p class="cue"><span class="time">[11:57]</span>of people to train a neural network to say,</p>
+    <p class="cue"><span class="time">[12:03]</span>are they the same person or not.</p>
+    <p class="cue"><span class="time">[12:06]</span>So maybe take a few minutes to think about it,</p>
+    <p class="cue"><span class="time">[12:09]</span>and then I&#x27;ll see if people raise hands and give</p>
+    <p class="cue"><span class="time">[12:12]</span>some answers.</p>
+    <p class="cue"><span class="time">[12:13]</span>And one specific question I have as well</p>
+    <p class="cue"><span class="time">[12:16]</span>is, how long would you take to collect data before you</p>
+    <p class="cue"><span class="time">[12:20]</span>start training a model?</p>
+    <p class="cue"><span class="time">[12:22]</span>So I think, well, we need to get data.</p>
+    <p class="cue"><span class="time">[12:28]</span>We design the model, I guess, and then</p>
+    <p class="cue"><span class="time">[12:30]</span>you need to train model.</p>
+    <p class="cue"><span class="time">[12:31]</span>So what does the timeline look for you?</p>
+    <p class="cue"><span class="time">[12:33]</span>We&#x27;ll specify the problem.</p>
+    <p class="cue"><span class="time">[12:34]</span>We design the model.</p>
+    <p class="cue"><span class="time">[12:36]</span>How many hours or days or weeks would you is spent to get data</p>
+    <p class="cue"><span class="time">[12:39]</span>and how before you start running your gradient descent?</p>
+    <p class="cue"><span class="time">[12:45]</span>I see a hand up.</p>
+    <p class="cue"><span class="time">[12:47]</span>Sure, go ahead.</p>
+    <p class="cue"><span class="time">[12:48]</span>Are we [INAUDIBLE] everyone around the world,</p>
+    <p class="cue"><span class="time">[12:52]</span>or are we specifically like Bay Area or America [INAUDIBLE],</p>
+    <p class="cue"><span class="time">[12:58]</span>or it&#x27;s like this [? wide range ?] [INAUDIBLE]?</p>
+    <p class="cue"><span class="time">[13:02]</span>Let me leave it a bit more open-ended.</p>
+    <p class="cue"><span class="time">[13:05]</span>Say you just graduated from Stanford.</p>
+    <p class="cue"><span class="time">[13:07]</span>And you&#x27;re CTO of a three-person startup building this thing</p>
+    <p class="cue"><span class="time">[13:13]</span>that, eventually, hopefully, you sell all around the world.</p>
+    <p class="cue"><span class="time">[13:15]</span>But your goals are just get started</p>
+    <p class="cue"><span class="time">[13:17]</span>with the three of you working out of Palo Alto, California.</p>
+    <p class="cue"><span class="time">[13:22]</span>And do it as your real self, with the resources</p>
+    <p class="cue"><span class="time">[13:25]</span>that you have.</p>
+    <p class="cue"><span class="time">[13:31]</span>Anyone want to venture an answer?</p>
+    <p class="cue"><span class="time">[13:33]</span>How would you get data to train a neural network?</p>
+    <p class="cue"><span class="time">[13:38]</span>Go for it.</p>
+    <p class="cue"><span class="time">[13:39]</span>[INAUDIBLE]</p>
+    <p class="cue"><span class="time">[14:02]</span>Yeah, cool, video streaming service.</p>
+    <p class="cue"><span class="time">[14:03]</span>By video streaming service, you&#x27;re</p>
+    <p class="cue"><span class="time">[14:05]</span>thinking like Netflix and Hulu?</p>
+    <p class="cue"><span class="time">[14:07]</span>Are you thinking security videos?</p>
+    <p class="cue"><span class="time">[14:09]</span>Like Zoom.</p>
+    <p class="cue"><span class="time">[14:11]</span>Like Zoom.</p>
+    <p class="cue"><span class="time">[14:11]</span>I see.</p>
+    <p class="cue"><span class="time">[14:12]</span>Cool.</p>
+    <p class="cue"><span class="time">[14:12]</span>Like a video.</p>
+    <p class="cue"><span class="time">[14:13]</span>People [INAUDIBLE] video.</p>
+    <p class="cue"><span class="time">[14:14]</span>I see.</p>
+    <p class="cue"><span class="time">[14:15]</span>Cool, cool, cool.</p>
+    <p class="cue"><span class="time">[14:17]</span>Video streaming service.</p>
+    <p class="cue"><span class="time">[14:18]</span>How long do you think it&#x27;ll take to do that?</p>
+    <p class="cue"><span class="time">[14:21]</span>A couple of months.</p>
+    <p class="cue"><span class="time">[14:22]</span>[INAUDIBLE]</p>
+    <p class="cue"><span class="time">[14:33]</span>Yeah, cool.</p>
+    <p class="cue"><span class="time">[14:34]</span>Cool.</p>
+    <p class="cue"><span class="time">[14:35]</span>Thank you.</p>
+    <p class="cue"><span class="time">[14:35]</span>Creative idea.</p>
+    <p class="cue"><span class="time">[14:37]</span>Any other ideas?</p>
+    <p class="cue"><span class="time">[14:37]</span>How would you go about getting data?</p>
+    <p class="cue"><span class="time">[14:39]</span>Go ahead.</p>
+    <p class="cue"><span class="time">[14:39]</span>[INAUDIBLE] [? work ?] with a three-person startup.</p>
+    <p class="cue"><span class="time">[14:42]</span>I&#x27;ve had a larger company.</p>
+    <p class="cue"><span class="time">[14:44]</span>I would put a camera [INAUDIBLE] the camera [? up ?]</p>
+    <p class="cue"><span class="time">[14:47]</span>[? also the ?] [? start ?] and just ask the employees if they</p>
+    <p class="cue"><span class="time">[14:50]</span>would like to participate in the collection and take pictures</p>
+    <p class="cue"><span class="time">[14:54]</span>of [INAUDIBLE].</p>
+    <p class="cue"><span class="time">[14:57]</span>[? So ?] the [? employees ?] that are after them.</p>
+    <p class="cue"><span class="time">[15:00]</span>We might not be generalizable, but [INAUDIBLE].</p>
+    <p class="cue"><span class="time">[15:06]</span>Cool, awesome.</p>
+    <p class="cue"><span class="time">[15:07]</span>Stick a camera there.</p>
+    <p class="cue"><span class="time">[15:08]</span>Let people opt in to get their picture taken.</p>
+    <p class="cue"><span class="time">[15:11]</span>Cool.</p>
+    <p class="cue"><span class="time">[15:12]</span>I think I saw a hand up.</p>
+    <p class="cue"><span class="time">[15:14]</span>Go for it.</p>
+    <p class="cue"><span class="time">[15:15]</span>[INAUDIBLE]</p>
+    <p class="cue"><span class="time">[15:18]</span>Sorry.</p>
+    <p class="cue"><span class="time">[15:19]</span>[INAUDIBLE]</p>
+    <p class="cue"><span class="time">[15:25]</span>I see.</p>
+    <p class="cue"><span class="time">[15:26]</span>Cool.</p>
+    <p class="cue"><span class="time">[15:27]</span>How would you get users?</p>
+    <p class="cue"><span class="time">[15:29]</span>[INAUDIBLE]</p>
+    <p class="cue"><span class="time">[15:37]</span>I see.</p>
+    <p class="cue"><span class="time">[15:38]</span>Cool.</p>
+    <p class="cue"><span class="time">[15:38]</span>Yeah, by your own people mean like, grab some friends</p>
+    <p class="cue"><span class="time">[15:41]</span>and ask them.</p>
+    <p class="cue"><span class="time">[15:42]</span>They&#x27;ll give you their LinkedIn photo,</p>
+    <p class="cue"><span class="time">[15:43]</span>give you some pictures from your camera roll.</p>
+    <p class="cue"><span class="time">[15:45]</span>Yeah, cool.</p>
+    <p class="cue"><span class="time">[15:45]</span>I like that.</p>
+    <p class="cue"><span class="time">[15:46]</span>That&#x27;s fast.</p>
+    <p class="cue"><span class="time">[15:47]</span>I like that.</p>
+    <p class="cue"><span class="time">[15:49]</span>Any other ideas?</p>
+    <p class="cue"><span class="time">[15:51]</span>Go ahead.</p>
+    <p class="cue"><span class="time">[15:52]</span>[INAUDIBLE]</p>
+    <p class="cue"><span class="time">[16:02]</span>I see.</p>
+    <p class="cue"><span class="time">[16:02]</span>Interesting.</p>
+    <p class="cue"><span class="time">[16:03]</span>Yeah, ask Stanford to send an email.</p>
+    <p class="cue"><span class="time">[16:05]</span>Cool.</p>
+    <p class="cue"><span class="time">[16:06]</span>I love Stanford.</p>
+    <p class="cue"><span class="time">[16:08]</span>Stanford is a wonderful institution.</p>
+    <p class="cue"><span class="time">[16:10]</span>Awesome.</p>
+    <p class="cue"><span class="time">[16:11]</span>That&#x27;s going to take a while, I think.</p>
+    <p class="cue"><span class="time">[16:12]</span>[LAUGHTER]</p>
+    <p class="cue"><span class="time">[16:15]</span>Creative idea.</p>
+    <p class="cue"><span class="time">[16:16]</span>I like the creative ideas.</p>
+    <p class="cue"><span class="time">[16:19]</span>So let me share with you one guiding principle</p>
+    <p class="cue"><span class="time">[16:21]</span>for how I would encourage you to approach this problem of data</p>
+    <p class="cue"><span class="time">[16:25]</span>collection.</p>
+    <p class="cue"><span class="time">[16:25]</span>I appreciate all the creative ideas, actually.</p>
+    <p class="cue"><span class="time">[16:28]</span>One of the frameworks I often use to decide how I collect data</p>
+    <p class="cue"><span class="time">[16:33]</span>is speed.</p>
+    <p class="cue"><span class="time">[16:35]</span>Because I find that--</p>
+    <p class="cue"><span class="time">[16:38]</span>actually, especially in building a startup.</p>
+    <p class="cue"><span class="time">[16:41]</span>In my opinion, one of the strongest</p>
+    <p class="cue"><span class="time">[16:44]</span>predictors for whether a startup will succeed, and also,</p>
+    <p class="cue"><span class="time">[16:47]</span>whether a small, innovative project in a large corporation--</p>
+    <p class="cue"><span class="time">[16:51]</span>you can be a giant corporation.</p>
+    <p class="cue"><span class="time">[16:52]</span>But if a team of three, work on a small, innovative project,</p>
+    <p class="cue"><span class="time">[16:56]</span>a big company, I find that one of the biggest predictors</p>
+    <p class="cue"><span class="time">[16:59]</span>for the chance of success is just</p>
+    <p class="cue"><span class="time">[17:01]</span>the speed of execution, the sheer speed of getting</p>
+    <p class="cue"><span class="time">[17:04]</span>stuff done.</p>
+    <p class="cue"><span class="time">[17:05]</span>And so when I&#x27;m sitting with a team</p>
+    <p class="cue"><span class="time">[17:08]</span>and brainstorming different tactics,</p>
+    <p class="cue"><span class="time">[17:10]</span>I will gravitate toward the tactics that let</p>
+    <p class="cue"><span class="time">[17:13]</span>me get a data set very quickly.</p>
+    <p class="cue"><span class="time">[17:15]</span>And quickly usually means one or two days,</p>
+    <p class="cue"><span class="time">[17:19]</span>even if it ends up with a inferior, smaller, lower quality</p>
+    <p class="cue"><span class="time">[17:23]</span>data sets or whatever.</p>
+    <p class="cue"><span class="time">[17:25]</span>Because I don&#x27;t really know what problems I&#x27;ll see in my data.</p>
+    <p class="cue"><span class="time">[17:31]</span>And the quicker I can get the data set, create a model,</p>
+    <p class="cue"><span class="time">[17:35]</span>see where it goes wrong, the quicker I</p>
+    <p class="cue"><span class="time">[17:37]</span>can then discover what&#x27;s wrong with my data and fix it.</p>
+    <p class="cue"><span class="time">[17:42]</span>True story.</p>
+    <p class="cue"><span class="time">[17:43]</span>Chatting with a CEO that told me-- he actually had spent</p>
+    <p class="cue"><span class="time">[17:50]</span>I think it was over $100 million.</p>
+    <p class="cue"><span class="time">[17:52]</span>Definitely more than tens of million dollars.</p>
+    <p class="cue"><span class="time">[17:54]</span>Spent a lot of money buying a company for its data.</p>
+    <p class="cue"><span class="time">[17:59]</span>And then he actually said, hey, Andrew, I spend all this money</p>
+    <p class="cue"><span class="time">[18:02]</span>to get all this data.</p>
+    <p class="cue"><span class="time">[18:04]</span>Can you help me figure out how to monetize this,</p>
+    <p class="cue"><span class="time">[18:06]</span>how to make money off of this?</p>
+    <p class="cue"><span class="time">[18:07]</span>And I look and goes, boy, I wish I hadn&#x27;t done that.</p>
+    <p class="cue"><span class="time">[18:12]</span>And what I find is that the value of data</p>
+    <p class="cue"><span class="time">[18:16]</span>is just so difficult to know in advance.</p>
+    <p class="cue"><span class="time">[18:19]</span>What&#x27;s important and what&#x27;s not important about data?</p>
+    <p class="cue"><span class="time">[18:22]</span>So for a lot of these tactics, for example,</p>
+    <p class="cue"><span class="time">[18:25]</span>I think student IDs is an interesting one.</p>
+    <p class="cue"><span class="time">[18:28]</span>But our student ID photos are weird in some way.</p>
+    <p class="cue"><span class="time">[18:32]</span>Or are they too expressionless or people smiling too much</p>
+    <p class="cue"><span class="time">[18:35]</span>in student IDs.</p>
+    <p class="cue"><span class="time">[18:36]</span>I actually have no idea.</p>
+    <p class="cue"><span class="time">[18:37]</span>Actually, my Stanford ID, I look really weird in my Stanford ID.</p>
+    <p class="cue"><span class="time">[18:44]</span>And I actually the idea of seeking a camera</p>
+    <p class="cue"><span class="time">[18:51]</span>and just letting people come up and opt in and take a picture</p>
+    <p class="cue"><span class="time">[18:54]</span>if you can do it quickly.</p>
+    <p class="cue"><span class="time">[18:56]</span>And I think in a big company or even in a small startup--</p>
+    <p class="cue"><span class="time">[19:00]</span>it&#x27;s important to respect user privacy or individual privacy.</p>
+    <p class="cue"><span class="time">[19:03]</span>But if you can stick a camera in some place that doesn&#x27;t--</p>
+    <p class="cue"><span class="time">[19:08]</span>what&#x27;s the word-- invade people&#x27;s privacy</p>
+    <p class="cue"><span class="time">[19:12]</span>that don&#x27;t want to be any part of this, but let people opt in,</p>
+    <p class="cue"><span class="time">[19:14]</span>take the pictures of permission.</p>
+    <p class="cue"><span class="time">[19:16]</span>If you can do that in days, I find that to be valuable.</p>
+    <p class="cue"><span class="time">[19:20]</span>One of the things I found--</p>
+    <p class="cue"><span class="time">[19:21]</span>quite a few of my projects found that Stanford students,</p>
+    <p class="cue"><span class="time">[19:26]</span>our community here is pretty cosmopolitan with people</p>
+    <p class="cue"><span class="time">[19:29]</span>from all around the world.</p>
+    <p class="cue"><span class="time">[19:30]</span>We&#x27;re not fully representative of the world&#x27;s distribution</p>
+    <p class="cue"><span class="time">[19:33]</span>of people, but we actually do have people</p>
+    <p class="cue"><span class="time">[19:34]</span>from all around the world.</p>
+    <p class="cue"><span class="time">[19:36]</span>A lot of Stanford people are actually very nice.</p>
+    <p class="cue"><span class="time">[19:38]</span>So one thing I&#x27;ve done multiple times is</p>
+    <p class="cue"><span class="time">[19:39]</span>when I need to collect data, we&#x27;ll go to places on campus</p>
+    <p class="cue"><span class="time">[19:43]</span>with high foot traffic.</p>
+    <p class="cue"><span class="time">[19:44]</span>Turns out cafeterias have very high foot traffic.</p>
+    <p class="cue"><span class="time">[19:47]</span>And we just ask people, hey, work on the project.</p>
+    <p class="cue"><span class="time">[19:49]</span>Can I get a sample of your voice?</p>
+    <p class="cue"><span class="time">[19:50]</span>Can I take a picture of you?</p>
+    <p class="cue"><span class="time">[19:51]</span>And with the informed consent, tell people,</p>
+    <p class="cue"><span class="time">[19:54]</span>is it OK if I do this?</p>
+    <p class="cue"><span class="time">[19:55]</span>I&#x27;ve been delighted at how collaborative Stanford</p>
+    <p class="cue"><span class="time">[19:59]</span>students are.</p>
+    <p class="cue"><span class="time">[20:02]</span>And I find that one thing I&#x27;ve often done is gone to my teams</p>
+    <p class="cue"><span class="time">[20:05]</span>and said, we have two days to collect data.</p>
+    <p class="cue"><span class="time">[20:09]</span>It&#x27;s 11:52 AM now.</p>
+    <p class="cue"><span class="time">[20:12]</span>Let&#x27;s figure out what we can do by--</p>
+    <p class="cue"><span class="time">[20:15]</span>what day is it--</p>
+    <p class="cue"><span class="time">[20:16]</span>Tuesday.</p>
+    <p class="cue"><span class="time">[20:17]</span>Let&#x27;s go ahead and do by Thursday, 11:52 AM.</p>
+    <p class="cue"><span class="time">[20:19]</span>So that gives us a 48 hours and let&#x27;s brainstorm.</p>
+    <p class="cue"><span class="time">[20:22]</span>How can we collect data?</p>
+    <p class="cue"><span class="time">[20:23]</span>And it&#x27;s fine if the data isn&#x27;t all there.</p>
+    <p class="cue"><span class="time">[20:26]</span>Find that the data low quality.</p>
+    <p class="cue"><span class="time">[20:28]</span>But that velocity lets us more quickly train the model,</p>
+    <p class="cue"><span class="time">[20:33]</span>figure out what&#x27;s wrong with the data, and then jigger</p>
+    <p class="cue"><span class="time">[20:36]</span>or we tweak how we collect data.</p>
+    <p class="cue"><span class="time">[20:39]</span>So I find that there&#x27;s some teams that</p>
+    <p class="cue"><span class="time">[20:41]</span>will ask, how can we collect the data we need and how long?</p>
+    <p class="cue"><span class="time">[20:45]</span>And then ask, how long will that take?</p>
+    <p class="cue"><span class="time">[20:47]</span>That usually leads to much slower execution.</p>
+    <p class="cue"><span class="time">[20:50]</span>I, instead, tend to go to my teams</p>
+    <p class="cue"><span class="time">[20:52]</span>and say, we have two days or one day</p>
+    <p class="cue"><span class="time">[20:54]</span>or maybe a week, some short time span like that,</p>
+    <p class="cue"><span class="time">[20:57]</span>and say, what&#x27;s the most creative,</p>
+    <p class="cue"><span class="time">[21:00]</span>respectful, responsible, but creative way you</p>
+    <p class="cue"><span class="time">[21:02]</span>can use to collect data in a short time span?</p>
+    <p class="cue"><span class="time">[21:05]</span>And one of the ways to think about that, too,</p>
+    <p class="cue"><span class="time">[21:07]</span>is a training a model takes--</p>
+    <p class="cue"><span class="time">[21:11]</span>let&#x27;s say it takes two days.</p>
+    <p class="cue"><span class="time">[21:13]</span>Maybe I should take more one day.</p>
+    <p class="cue"><span class="time">[21:15]</span>If you can train a model in a couple of days,</p>
+    <p class="cue"><span class="time">[21:17]</span>then I would not spend like two months</p>
+    <p class="cue"><span class="time">[21:23]</span>to find data to train a model.</p>
+    <p class="cue"><span class="time">[21:25]</span>Because then, this becomes a huge bottleneck.</p>
+    <p class="cue"><span class="time">[21:28]</span>Because you can train the model relatively quickly,</p>
+    <p class="cue"><span class="time">[21:30]</span>let&#x27;s take a commensurate amount of time to design a model</p>
+    <p class="cue"><span class="time">[21:35]</span>or design the data as train a model.</p>
+    <p class="cue"><span class="time">[21:38]</span>And depending on how long it takes to train a model,</p>
+    <p class="cue"><span class="time">[21:41]</span>sometimes, training a model needs to run overnight.</p>
+    <p class="cue"><span class="time">[21:45]</span>I actually see teams sometimes take one day iteration</p>
+    <p class="cue"><span class="time">[21:48]</span>loops around this.</p>
+    <p class="cue"><span class="time">[21:49]</span>The fast moving teams I work with,</p>
+    <p class="cue"><span class="time">[21:51]</span>we often go around this loop once</p>
+    <p class="cue"><span class="time">[21:53]</span>per day for the smaller models.</p>
+    <p class="cue"><span class="time">[21:56]</span>If we&#x27;re training a large AI foundation model,</p>
+    <p class="cue"><span class="time">[21:58]</span>sometimes, training a model takes weeks or even months,</p>
+    <p class="cue"><span class="time">[22:00]</span>then the process can be different.</p>
+    <p class="cue"><span class="time">[22:02]</span>If your model run is going to be two months,</p>
+    <p class="cue"><span class="time">[22:06]</span>then, yeah, maybe it makes sense to spend a couple of months</p>
+    <p class="cue"><span class="time">[22:08]</span>to get the data really right.</p>
+    <p class="cue"><span class="time">[22:10]</span>But for face recognition, you could train that</p>
+    <p class="cue"><span class="time">[22:12]</span>overnight, or actually, in a couple of hours quite easily.</p>
+    <p class="cue"><span class="time">[22:15]</span>So it makes sense not to spend massive amounts of time</p>
+    <p class="cue"><span class="time">[22:18]</span>before you go into train the model.</p>
+    <p class="cue"><span class="time">[22:20]</span>Does that make sense?</p>
+    <p class="cue"><span class="time">[22:22]</span>And the word empirical means experimental.</p>
+    <p class="cue"><span class="time">[22:28]</span>Sorry, I&#x27;ve used the word a few times today.</p>
+    <p class="cue"><span class="time">[22:30]</span>And I think we say that machine learning is</p>
+    <p class="cue"><span class="time">[22:36]</span>very empirical process.</p>
+    <p class="cue"><span class="time">[22:37]</span>Meaning, it&#x27;s very experimental process.</p>
+    <p class="cue"><span class="time">[22:39]</span>You have to do it, see what happens,</p>
+    <p class="cue"><span class="time">[22:41]</span>then decide what to do next.</p>
+    <p class="cue"><span class="time">[22:42]</span>I know that sometimes, others have criticized our field</p>
+    <p class="cue"><span class="time">[22:45]</span>like we never what we&#x27;re doing.</p>
+    <p class="cue"><span class="time">[22:47]</span>We just try stuff and see what works.</p>
+    <p class="cue"><span class="time">[22:49]</span>And there&#x27;s a little bit of truth to that.</p>
+    <p class="cue"><span class="time">[22:52]</span>I think understanding neural networks, hyperparameters,</p>
+    <p class="cue"><span class="time">[22:56]</span>architecture that is really valuable.</p>
+    <p class="cue"><span class="time">[22:58]</span>So we don&#x27;t just try stuff at random.</p>
+    <p class="cue"><span class="time">[23:00]</span>But because we don&#x27;t what&#x27;s in the data,</p>
+    <p class="cue"><span class="time">[23:02]</span>we do try a lot of things, and then drive a disciplined</p>
+    <p class="cue"><span class="time">[23:05]</span>process, understand what works and what doesn&#x27;t, and then use</p>
+    <p class="cue"><span class="time">[23:08]</span>that to navigate forward.</p>
+    <p class="cue"><span class="time">[23:10]</span>Does that make sense?</p>
+    <p class="cue"><span class="time">[23:12]</span>And then I&#x27;ll just say, there&#x27;s one exception to the advice I&#x27;m</p>
+    <p class="cue"><span class="time">[23:16]</span>giving here, which is, if you&#x27;re working on the project</p>
+    <p class="cue"><span class="time">[23:21]</span>that you have worked on many times before--</p>
+    <p class="cue"><span class="time">[23:23]</span>so, I&#x27;ve built a bunch of facial recognition systems,</p>
+    <p class="cue"><span class="time">[23:26]</span>so I have a sense from previous experience</p>
+    <p class="cue"><span class="time">[23:30]</span>and from reading research papers that certain things, I know</p>
+    <p class="cue"><span class="time">[23:33]</span>are just not going to work if I have 100 images.</p>
+    <p class="cue"><span class="time">[23:37]</span>So there&#x27;s some face recognition systems that I know probably</p>
+    <p class="cue"><span class="time">[23:40]</span>need at least 50,000 images before it will have any hope</p>
+    <p class="cue"><span class="time">[23:44]</span>of working.</p>
+    <p class="cue"><span class="time">[23:45]</span>So because of that prior experience,</p>
+    <p class="cue"><span class="time">[23:46]</span>having gone through that loop a lot, I now have a basis to say,</p>
+    <p class="cue"><span class="time">[23:50]</span>OK, I do need 50,000 images, then I might invest upfront</p>
+    <p class="cue"><span class="time">[23:55]</span>and put more effort upfront to get those 50,000 images.</p>
+    <p class="cue"><span class="time">[23:58]</span>But I think for most applications</p>
+    <p class="cue"><span class="time">[24:00]</span>you work on for the first time, if you don&#x27;t</p>
+    <p class="cue"><span class="time">[24:02]</span>have an academic literature to justify certain larger data</p>
+    <p class="cue"><span class="time">[24:05]</span>investments, or if you don&#x27;t have the prior experience</p>
+    <p class="cue"><span class="time">[24:08]</span>yourself, then I would focus on the speed</p>
+    <p class="cue"><span class="time">[24:11]</span>of iterating around this loop.</p>
+    <p class="cue"><span class="time">[24:13]</span>Make sense?</p>
+    <p class="cue"><span class="time">[24:19]</span>And to relate this to large language models based</p>
+    <p class="cue"><span class="time">[24:24]</span>applications as well, a lot of us, a lot of you</p>
+    <p class="cue"><span class="time">[24:28]</span>are probably-- well, you may be building applications that</p>
+    <p class="cue"><span class="time">[24:31]</span>prompting OMs and calling an API,</p>
+    <p class="cue"><span class="time">[24:34]</span>like OpenAI or Anthropic or Gemini or Meta Llama</p>
+    <p class="cue"><span class="time">[24:38]</span>or whatever API to get things back from [? home. ?]</p>
+    <p class="cue"><span class="time">[24:41]</span>One of the reasons that, too, is a very experimental and very</p>
+    <p class="cue"><span class="time">[24:44]</span>iterative empirical process is because when</p>
+    <p class="cue"><span class="time">[24:47]</span>you write an LLM prompt, you don&#x27;t really</p>
+    <p class="cue"><span class="time">[24:49]</span>know in advance how well it&#x27;s going</p>
+    <p class="cue"><span class="time">[24:51]</span>to do because it was trained on data that none of us</p>
+    <p class="cue"><span class="time">[24:54]</span>have really looked at.</p>
+    <p class="cue"><span class="time">[24:55]</span>And that, too, is why, instead of theorizing</p>
+    <p class="cue"><span class="time">[24:59]</span>for a long time about what prompt to use in LLM,</p>
+    <p class="cue"><span class="time">[25:03]</span>just try it out.</p>
+    <p class="cue"><span class="time">[25:04]</span>And then it&#x27;s by doing that, you will then see the problems.</p>
+    <p class="cue"><span class="time">[25:07]</span>And then your focus can be on fixing the problems.</p>
+    <p class="cue"><span class="time">[25:11]</span>Makes sense?</p>
+    <p class="cue"><span class="time">[25:12]</span>And in fact, there&#x27;s a lot of discussion on responsible AI,</p>
+    <p class="cue"><span class="time">[25:16]</span>how do you make your AI systems are safe,</p>
+    <p class="cue"><span class="time">[25:18]</span>or they don&#x27;t have unforeseen circumstances.</p>
+    <p class="cue"><span class="time">[25:21]</span>And because a lot of the theorizing--</p>
+    <p class="cue"><span class="time">[25:24]</span>you can only theorize so much.</p>
+    <p class="cue"><span class="time">[25:27]</span>I find that if you want to build safe, responsible AI systems,</p>
+    <p class="cue"><span class="time">[25:31]</span>one of the best ways to do that is to just build it, and then</p>
+    <p class="cue"><span class="time">[25:35]</span>experiment with it in a sandbox environment.</p>
+    <p class="cue"><span class="time">[25:38]</span>Just don&#x27;t let it out in the world</p>
+    <p class="cue"><span class="time">[25:40]</span>until you&#x27;ve tested it rigorously.</p>
+    <p class="cue"><span class="time">[25:41]</span>But just go build something, and then test</p>
+    <p class="cue"><span class="time">[25:44]</span>it, probe it in the safety of your own laptop.</p>
+    <p class="cue"><span class="time">[25:47]</span>Don&#x27;t let it enter innocent users</p>
+    <p class="cue"><span class="time">[25:49]</span>and have some weird impact on innocent third parties.</p>
+    <p class="cue"><span class="time">[25:53]</span>But it&#x27;s only by building it and probing it</p>
+    <p class="cue"><span class="time">[25:55]</span>that you can figure out where can it go wrong,</p>
+    <p class="cue"><span class="time">[25:57]</span>where it will say inappropriate things, where</p>
+    <p class="cue"><span class="time">[25:59]</span>it would respond inappropriately to certain user queries?</p>
+    <p class="cue"><span class="time">[26:02]</span>And then that tells you where the problems are, and then</p>
+    <p class="cue"><span class="time">[26:04]</span>work on addressing.</p>
+    <p class="cue"><span class="time">[26:07]</span>Yeah, question?</p>
+    <p class="cue"><span class="time">[26:09]</span>How do you use [? generalizing ?] results</p>
+    <p class="cue"><span class="time">[26:14]</span>to [INAUDIBLE]?</p>
+    <p class="cue"><span class="time">[26:18]</span>Sorry.</p>
+    <p class="cue"><span class="time">[26:18]</span>Say that again.</p>
+    <p class="cue"><span class="time">[26:19]</span>So when you come up and you analyze it as a model</p>
+    <p class="cue"><span class="time">[26:23]</span>and you come to a conclusion that your model is not good,</p>
+    <p class="cue"><span class="time">[26:27]</span>how do you use that to figure out what&#x27;s wrong in the data?</p>
+    <p class="cue"><span class="time">[26:33]</span>Great question.</p>
+    <p class="cue"><span class="time">[26:35]</span>So when you analyze something&#x27;s wrong with your model,</p>
+    <p class="cue"><span class="time">[26:38]</span>how do you use that to take the next step forward?</p>
+    <p class="cue"><span class="time">[26:40]</span>That&#x27;s a big topic that we&#x27;ll talk at length multiple</p>
+    <p class="cue"><span class="time">[26:44]</span>times in some of the videos and also in some future lessons.</p>
+    <p class="cue"><span class="time">[26:48]</span>But maybe long story short, one of the things you could do</p>
+    <p class="cue"><span class="time">[26:52]</span>is change your neural network architecture.</p>
+    <p class="cue"><span class="time">[26:54]</span>You may realize that maybe the sign means</p>
+    <p class="cue"><span class="time">[26:55]</span>that it wasn&#x27;t working or read the literature change</p>
+    <p class="cue"><span class="time">[26:58]</span>architecture.</p>
+    <p class="cue"><span class="time">[26:58]</span>The other thing you can often do is change your data.</p>
+    <p class="cue"><span class="time">[27:02]</span>So data-centric AI is the discipline</p>
+    <p class="cue"><span class="time">[27:04]</span>of systematically entering your data to build a successful AI</p>
+    <p class="cue"><span class="time">[27:07]</span>system.</p>
+    <p class="cue"><span class="time">[27:07]</span>And it turns out that if you build a face recognition</p>
+    <p class="cue"><span class="time">[27:10]</span>system, let&#x27;s say, I like your hat, Stanford hat.</p>
+    <p class="cue"><span class="time">[27:12]</span>That&#x27;s cool.</p>
+    <p class="cue"><span class="time">[27:12]</span>But let&#x27;s say, hypothetically, that you</p>
+    <p class="cue"><span class="time">[27:14]</span>find that the system has really struggles recognizing</p>
+    <p class="cue"><span class="time">[27:17]</span>people that are wearing hats.</p>
+    <p class="cue"><span class="time">[27:19]</span>Then you may say, I need to get more data</p>
+    <p class="cue"><span class="time">[27:21]</span>with people wearing hats.</p>
+    <p class="cue"><span class="time">[27:22]</span>And so it&#x27;s often that looking at what goes wrong,</p>
+    <p class="cue"><span class="time">[27:26]</span>we should call error analysis.</p>
+    <p class="cue"><span class="time">[27:28]</span>That then gives you the insight to say, oh,</p>
+    <p class="cue"><span class="time">[27:30]</span>it works well on these types of data or these types of users,</p>
+    <p class="cue"><span class="time">[27:34]</span>but it struggles with these types of users in the data.</p>
+    <p class="cue"><span class="time">[27:37]</span>So can I fix my data or get more data just</p>
+    <p class="cue"><span class="time">[27:40]</span>on the subset of cases it struggles with?</p>
+    <p class="cue"><span class="time">[27:42]</span>And that&#x27;s a very common motion.</p>
+    <p class="cue"><span class="time">[27:44]</span>That&#x27;s very common process for then driving</p>
+    <p class="cue"><span class="time">[27:47]</span>the performance of your system.</p>
+    <p class="cue"><span class="time">[27:49]</span>And this is also why blindly going out</p>
+    <p class="cue"><span class="time">[27:53]</span>to grab more data willingly, that&#x27;s often</p>
+    <p class="cue"><span class="time">[27:55]</span>not a good strategy.</p>
+    <p class="cue"><span class="time">[27:56]</span>Because there&#x27;s just too much data you could get.</p>
+    <p class="cue"><span class="time">[27:58]</span>Do I want more data with people with long hair</p>
+    <p class="cue"><span class="time">[28:02]</span>or short hair or people with facial hair?</p>
+    <p class="cue"><span class="time">[28:04]</span>Sorry, too much hair.</p>
+    <p class="cue"><span class="time">[28:06]</span>Too many hair examples.</p>
+    <p class="cue"><span class="time">[28:07]</span>Or do I want people wearing a scarf,</p>
+    <p class="cue"><span class="time">[28:11]</span>covering part of the face, or people</p>
+    <p class="cue"><span class="time">[28:12]</span>that wear glasses, or that don&#x27;t wear glasses,</p>
+    <p class="cue"><span class="time">[28:15]</span>or people that are slightly turned away?</p>
+    <p class="cue"><span class="time">[28:18]</span>There&#x27;s just so many different types</p>
+    <p class="cue"><span class="time">[28:21]</span>of data you could invest effort to get more of that</p>
+    <p class="cue"><span class="time">[28:25]</span>until you build a system, see where it goes well,</p>
+    <p class="cue"><span class="time">[28:27]</span>see where it goes poorly, is really difficult to decide where</p>
+    <p class="cue"><span class="time">[28:30]</span>to get more data and just get more data of everything</p>
+    <p class="cue"><span class="time">[28:33]</span>under the sun.</p>
+    <p class="cue"><span class="time">[28:34]</span>That&#x27;s very slow and expensive.</p>
+    <p class="cue"><span class="time">[28:37]</span>And I think part of the hype about the value of data</p>
+    <p class="cue"><span class="time">[28:41]</span>has led people to have sometimes overly simplistic view of data.</p>
+    <p class="cue"><span class="time">[28:45]</span>Yes, of course, I want more data.</p>
+    <p class="cue"><span class="time">[28:48]</span>But just grabbing more data of all types of data</p>
+    <p class="cue"><span class="time">[28:51]</span>is a very inefficient, very expensive way</p>
+    <p class="cue"><span class="time">[28:54]</span>to improve my system.</p>
+    <p class="cue"><span class="time">[28:56]</span>And even if you look at the way that frontier models are trained</p>
+    <p class="cue"><span class="time">[28:58]</span>right now is not a game of just grabbing more data of anything</p>
+    <p class="cue"><span class="time">[29:02]</span>under the sun.</p>
+    <p class="cue"><span class="time">[29:03]</span>It is identifying the subcategories</p>
+    <p class="cue"><span class="time">[29:06]</span>where it&#x27;s valuable to invest to get high quality data, which</p>
+    <p class="cue"><span class="time">[29:09]</span>is why, if you look at--</p>
+    <p class="cue"><span class="time">[29:11]</span>It turns out in AI, there are two clear buckets</p>
+    <p class="cue"><span class="time">[29:14]</span>of value in LLMs.</p>
+    <p class="cue"><span class="time">[29:15]</span>There&#x27;s the general answering people&#x27;s questions.</p>
+    <p class="cue"><span class="time">[29:18]</span>I think OpenAI [INAUDIBLE] is doing really well there.</p>
+    <p class="cue"><span class="time">[29:21]</span>Gemini, Anthropic have momentum.</p>
+    <p class="cue"><span class="time">[29:23]</span>But there&#x27;s a [? chance in ?] general questions.</p>
+    <p class="cue"><span class="time">[29:25]</span>And then one of the verticals is really</p>
+    <p class="cue"><span class="time">[29:27]</span>valuable, is AI for coding assistant.</p>
+    <p class="cue"><span class="time">[29:29]</span>So I think Claude has been ahead for a while.</p>
+    <p class="cue"><span class="time">[29:33]</span>But OpenAI, Gemini 2.5 Pro, some of the models</p>
+    <p class="cue"><span class="time">[29:37]</span>are making really good progress in coding as well.</p>
+    <p class="cue"><span class="time">[29:40]</span>And if you look at the work that the frontier teams are doing</p>
+    <p class="cue"><span class="time">[29:43]</span>to improve coding, building iterative agentic workflows</p>
+    <p class="cue"><span class="time">[29:46]</span>is part of it.</p>
+    <p class="cue"><span class="time">[29:47]</span>But also finding clever ways to come up with coding related data</p>
+    <p class="cue"><span class="time">[29:52]</span>is also a part of it.</p>
+    <p class="cue"><span class="time">[29:54]</span>And if you want your OM to do better in coding,</p>
+    <p class="cue"><span class="time">[29:57]</span>you don&#x27;t grab data willy-nilly with low quality random internet</p>
+    <p class="cue"><span class="time">[30:01]</span>chat, social media, or whatever data.</p>
+    <p class="cue"><span class="time">[30:04]</span>But instead, having high quality coding related data</p>
+    <p class="cue"><span class="time">[30:07]</span>is how you can have a focused effort</p>
+    <p class="cue"><span class="time">[30:09]</span>to improve your OM&#x27;s ability to code.</p>
+    <p class="cue"><span class="time">[30:12]</span>So a lot of these things are actually--</p>
+    <p class="cue"><span class="time">[30:16]</span>Yeah, I feel more data is better.</p>
+    <p class="cue"><span class="time">[30:21]</span>That is absolutely true.</p>
+    <p class="cue"><span class="time">[30:22]</span>But it&#x27;s also overly simplistic.</p>
+    <p class="cue"><span class="time">[30:23]</span>Data is not monolithic.</p>
+    <p class="cue"><span class="time">[30:25]</span>There are subcategories of data.</p>
+    <p class="cue"><span class="time">[30:27]</span>And having a view on what piece of data</p>
+    <p class="cue"><span class="time">[30:29]</span>to really invest in getting a lot more of,</p>
+    <p class="cue"><span class="time">[30:31]</span>that&#x27;s really important to being efficient in how you improve</p>
+    <p class="cue"><span class="time">[30:35]</span>your system&#x27;s performance.</p>
+    <p class="cue"><span class="time">[30:37]</span>That makes sense?</p>
+    <p class="cue"><span class="time">[30:39]</span>Well, we&#x27;ll talk more about error analysis later.</p>
+    <p class="cue"><span class="time">[30:42]</span>Any other questions?</p>
+    <p class="cue"><span class="time">[30:47]</span>Cool.</p>
+    <p class="cue"><span class="time">[30:49]</span>Yeah, go for it.</p>
+    <p class="cue"><span class="time">[30:50]</span>What about the technology of data?</p>
+    <p class="cue"><span class="time">[30:52]</span>For example, in the future, if you want to collect [INAUDIBLE].</p>
+    <p class="cue"><span class="time">[31:00]</span>Yeah, so as you collect data, the quality</p>
+    <p class="cue"><span class="time">[31:04]</span>of data matters a lot, too.</p>
+    <p class="cue"><span class="time">[31:07]</span>And I think data quality is tricky, I think.</p>
+    <p class="cue"><span class="time">[31:15]</span>When building an application for the first time,</p>
+    <p class="cue"><span class="time">[31:17]</span>I would still focus on speed and collecting some data quickly.</p>
+    <p class="cue"><span class="time">[31:21]</span>But as you then analyze where a system is going well</p>
+    <p class="cue"><span class="time">[31:23]</span>and where it&#x27;s doing poorly, you often</p>
+    <p class="cue"><span class="time">[31:25]</span>find that the quality of data really matters.</p>
+    <p class="cue"><span class="time">[31:31]</span>So trying to decide, should I talk about this now or later?</p>
+    <p class="cue"><span class="time">[31:39]</span>So let&#x27;s see what&#x27;s a good example.</p>
+    <p class="cue"><span class="time">[31:42]</span>Let&#x27;s talk about [INAUDIBLE].</p>
+    <p class="cue"><span class="time">[31:44]</span>There&#x27;s a lot of low quality random chat</p>
+    <p class="cue"><span class="time">[31:47]</span>on the internet that&#x27;s not that useful for training LLMs.</p>
+    <p class="cue"><span class="time">[31:50]</span>But I think it&#x27;s actually now well known</p>
+    <p class="cue"><span class="time">[31:53]</span>that if you can legally access very high quality written,</p>
+    <p class="cue"><span class="time">[31:58]</span>authored articles or books that are highly edited, very</p>
+    <p class="cue"><span class="time">[32:01]</span>insightful, that&#x27;s very high quality data for training norms.</p>
+    <p class="cue"><span class="time">[32:05]</span>And I&#x27;ll give an example later as well for face recognition.</p>
+    <p class="cue"><span class="time">[32:08]</span>It turns out that blurry images would</p>
+    <p class="cue"><span class="time">[32:13]</span>be a lower quality than sharp, in-focus images,</p>
+    <p class="cue"><span class="time">[32:16]</span>assuming that&#x27;s representative of how you want</p>
+    <p class="cue"><span class="time">[32:19]</span>to recognize people&#x27;s faces.</p>
+    <p class="cue"><span class="time">[32:20]</span>So that really matters as well.</p>
+    <p class="cue"><span class="time">[32:24]</span>Anything else?</p>
+    <p class="cue"><span class="time">[32:28]</span>Cool Yeah, go for it.</p>
+    <p class="cue"><span class="time">[32:33]</span>Question about the data and how close</p>
+    <p class="cue"><span class="time">[32:35]</span>do you need to be to ask what we want them to do.</p>
+    <p class="cue"><span class="time">[32:38]</span>For example, in face recognition where</p>
+    <p class="cue"><span class="time">[32:41]</span>we&#x27;re trying to compare two pictures [INAUDIBLE]</p>
+    <p class="cue"><span class="time">[32:44]</span>to train a model, just to compare object, just [INAUDIBLE]</p>
+    <p class="cue"><span class="time">[32:49]</span>people&#x27;s faces.</p>
+    <p class="cue"><span class="time">[32:51]</span>It&#x27;s much faster, but we&#x27;re moving away</p>
+    <p class="cue"><span class="time">[32:53]</span>from the ideal task we want [INAUDIBLE] to do.</p>
+    <p class="cue"><span class="time">[32:56]</span>So what is the balance here?</p>
+    <p class="cue"><span class="time">[32:59]</span>Yeah, so just repeat for mic.</p>
+    <p class="cue"><span class="time">[33:01]</span>How important is it that the data you collect</p>
+    <p class="cue"><span class="time">[33:03]</span>is similar to the distribution of things you want to work on?</p>
+    <p class="cue"><span class="time">[33:08]</span>I think it&#x27;s important, but not as important</p>
+    <p class="cue"><span class="time">[33:10]</span>as most people might think.</p>
+    <p class="cue"><span class="time">[33:14]</span>So it turns out one of the reasons neural networks have</p>
+    <p class="cue"><span class="time">[33:20]</span>been so effective is because when you build a very</p>
+    <p class="cue"><span class="time">[33:23]</span>large neural network, you can throw all sorts of data</p>
+    <p class="cue"><span class="time">[33:26]</span>into it, including data that is not perfectly tuned to your test</p>
+    <p class="cue"><span class="time">[33:32]</span>set distribution.</p>
+    <p class="cue"><span class="time">[33:34]</span>And it often doesn&#x27;t hurt so long</p>
+    <p class="cue"><span class="time">[33:36]</span>as your network is big enough.</p>
+    <p class="cue"><span class="time">[33:37]</span>So you raise the example.</p>
+    <p class="cue"><span class="time">[33:39]</span>What if we have it identified two identical objects?</p>
+    <p class="cue"><span class="time">[33:43]</span>If it&#x27;s generic objects like water bottles and markers,</p>
+    <p class="cue"><span class="time">[33:46]</span>maybe that&#x27;s too far afield.</p>
+    <p class="cue"><span class="time">[33:47]</span>But if we were to use, let&#x27;s say,</p>
+    <p class="cue"><span class="time">[33:51]</span>simulated cartoonish characters that</p>
+    <p class="cue"><span class="time">[33:54]</span>look really different than real humans,</p>
+    <p class="cue"><span class="time">[33:57]</span>my guess is it probably won&#x27;t hurt at all</p>
+    <p class="cue"><span class="time">[34:00]</span>and may even help a little bit.</p>
+    <p class="cue"><span class="time">[34:02]</span>And so throwing in a lot of data,</p>
+    <p class="cue"><span class="time">[34:04]</span>you can train a large neural network with a lot of capacity</p>
+    <p class="cue"><span class="time">[34:06]</span>to absorb even some slightly relevant data.</p>
+    <p class="cue"><span class="time">[34:10]</span>It usually doesn&#x27;t hurt and might even help a little bit.</p>
+    <p class="cue"><span class="time">[34:14]</span>But how much it helps is another empirical question</p>
+    <p class="cue"><span class="time">[34:17]</span>that will be problem dependent, and we often just</p>
+    <p class="cue"><span class="time">[34:19]</span>have to try it out.</p>
+    <p class="cue"><span class="time">[34:20]</span>But in the past, people used to have an obsession</p>
+    <p class="cue"><span class="time">[34:25]</span>that the data you train on has come</p>
+    <p class="cue"><span class="time">[34:27]</span>from exactly the same distribution as the distribution</p>
+    <p class="cue"><span class="time">[34:29]</span>you test on.</p>
+    <p class="cue"><span class="time">[34:30]</span>That used to be how machine learning was</p>
+    <p class="cue"><span class="time">[34:32]</span>done 10, 15 years ago.</p>
+    <p class="cue"><span class="time">[34:36]</span>That&#x27;s really not true today anymore.</p>
+    <p class="cue"><span class="time">[34:37]</span>I think we&#x27;re very comfortable.</p>
+    <p class="cue"><span class="time">[34:39]</span>And I think when neural networks were much smaller, when</p>
+    <p class="cue"><span class="time">[34:42]</span>you could train very small models,</p>
+    <p class="cue"><span class="time">[34:45]</span>there was a sense that you didn&#x27;t</p>
+    <p class="cue"><span class="time">[34:46]</span>want to distract the neural network with irrelevant data</p>
+    <p class="cue"><span class="time">[34:49]</span>because a computer was expensive, with few parameters.</p>
+    <p class="cue"><span class="time">[34:53]</span>And if you distract on irrelevant stuff,</p>
+    <p class="cue"><span class="time">[34:55]</span>maybe it gets less good at the core tasks</p>
+    <p class="cue"><span class="time">[34:57]</span>you really care about.</p>
+    <p class="cue"><span class="time">[34:58]</span>But if you can train a bigger than neural network, which</p>
+    <p class="cue"><span class="time">[35:00]</span>is getting easier and easier these days,</p>
+    <p class="cue"><span class="time">[35:03]</span>then it&#x27;s become much more OK to toss in some data that hopefully</p>
+    <p class="cue"><span class="time">[35:09]</span>isn&#x27;t incorrect data.</p>
+    <p class="cue"><span class="time">[35:10]</span>I think incorrect data would be a problem.</p>
+    <p class="cue"><span class="time">[35:12]</span>But just irrelevant examples hurts</p>
+    <p class="cue"><span class="time">[35:15]</span>much less because big neural networks is like a human brain.</p>
+    <p class="cue"><span class="time">[35:19]</span>The fact that I learned to play the piano</p>
+    <p class="cue"><span class="time">[35:23]</span>probably doesn&#x27;t make me worse at AI.</p>
+    <p class="cue"><span class="time">[35:28]</span>Because hopefully, my brain is big enough</p>
+    <p class="cue"><span class="time">[35:30]</span>to learn to play the piano and learn some stuff about AI.</p>
+    <p class="cue"><span class="time">[35:34]</span>And I think as neural networks get big enough,</p>
+    <p class="cue"><span class="time">[35:36]</span>they can learn some other irrelevant things</p>
+    <p class="cue"><span class="time">[35:37]</span>and also do well at the core task that you really care about.</p>
+    <p class="cue"><span class="time">[35:40]</span>But this was less true if my brain was really small.</p>
+    <p class="cue"><span class="time">[35:44]</span>I don&#x27;t think any are fans of Sherlock Holmes.</p>
+    <p class="cue"><span class="time">[35:48]</span>But I think Sherlock Holmes had an attic theory</p>
+    <p class="cue"><span class="time">[35:50]</span>that your brain has only so much capacity</p>
+    <p class="cue"><span class="time">[35:52]</span>so you&#x27;ve got to forget some stuff to learn new stuff.</p>
+    <p class="cue"><span class="time">[35:54]</span>But when you train very large neural networks,</p>
+    <p class="cue"><span class="time">[35:57]</span>that&#x27;s much less true.</p>
+    <p class="cue"><span class="time">[36:00]</span>Cool.</p>
+    <p class="cue"><span class="time">[36:02]</span>Thank you all the questions.</p>
+    <p class="cue"><span class="time">[36:04]</span>So what I want to do is just keep going through this flow.</p>
+    <p class="cue"><span class="time">[36:07]</span>So we talked about get data, design model, train the model.</p>
+    <p class="cue"><span class="time">[36:11]</span>We&#x27;ll talk a lot more about error analysis later</p>
+    <p class="cue"><span class="time">[36:13]</span>this quarter of how to figure out</p>
+    <p class="cue"><span class="time">[36:16]</span>where your algorithm is still subpar</p>
+    <p class="cue"><span class="time">[36:17]</span>and where to focus efforts to improve it.</p>
+    <p class="cue"><span class="time">[36:21]</span>But what I want to do is give you a sense of a deployment.</p>
+    <p class="cue"><span class="time">[36:27]</span>So, when you have trained a model</p>
+    <p class="cue"><span class="time">[36:39]</span>is often a bunch of software engineering work</p>
+    <p class="cue"><span class="time">[36:43]</span>to then maybe take your model, host it</p>
+    <p class="cue"><span class="time">[36:46]</span>in the cloud or local server, and have it run inference.</p>
+    <p class="cue"><span class="time">[36:49]</span>So a very common architecture for deploying machine</p>
+    <p class="cue"><span class="time">[36:51]</span>learning model will be that you have a neural network</p>
+    <p class="cue"><span class="time">[36:54]</span>as a piece of software.</p>
+    <p class="cue"><span class="time">[36:55]</span>You deploy it maybe on a cloud hosted service</p>
+    <p class="cue"><span class="time">[36:58]</span>so that your software can accept a picture or a set of two</p>
+    <p class="cue"><span class="time">[37:02]</span>pictures, and it will reply back.</p>
+    <p class="cue"><span class="time">[37:05]</span>Do I unlock the door or not?</p>
+    <p class="cue"><span class="time">[37:06]</span>Or is this the same person or not?</p>
+    <p class="cue"><span class="time">[37:07]</span>So that&#x27;s much of software engineering</p>
+    <p class="cue"><span class="time">[37:09]</span>work that needs to be done.</p>
+    <p class="cue"><span class="time">[37:11]</span>But in practical deployment settings--</p>
+    <p class="cue"><span class="time">[37:14]</span>I&#x27;ll actually tell you.</p>
+    <p class="cue"><span class="time">[37:15]</span>It turns out that if you&#x27;re building a practical face</p>
+    <p class="cue"><span class="time">[37:18]</span>recognition system, you probably find that if you are trying</p>
+    <p class="cue"><span class="time">[37:21]</span>to unlock a door to a corporate campus is too expensive or too</p>
+    <p class="cue"><span class="time">[37:28]</span>slow to stream video 24/7 to cloud to classify every frame</p>
+    <p class="cue"><span class="time">[37:34]</span>at 30 frames a second to see if there&#x27;s a person that you should</p>
+    <p class="cue"><span class="time">[37:38]</span>unlock the door for.</p>
+    <p class="cue"><span class="time">[37:39]</span>So in practical face recognition systems, what we end up doing--</p>
+    <p class="cue"><span class="time">[37:45]</span>so actually, let&#x27;s take the example of someone</p>
+    <p class="cue"><span class="time">[37:49]</span>walk up to the door to your home, to your door at home.</p>
+    <p class="cue"><span class="time">[37:52]</span>And you want to see if there&#x27;s someone there that you</p>
+    <p class="cue"><span class="time">[37:54]</span>should unlock the door for.</p>
+    <p class="cue"><span class="time">[37:56]</span>So a lot of systems will actually</p>
+    <p class="cue"><span class="time">[38:00]</span>have an image from the camera, and then try to build a system--</p>
+    <p class="cue"><span class="time">[38:08]</span>So what we have so far is a system</p>
+    <p class="cue"><span class="time">[38:12]</span>that takes as input an image and maybe a reference image.</p>
+    <p class="cue"><span class="time">[38:15]</span>Neural network says, do I unlock the door or not?</p>
+    <p class="cue"><span class="time">[38:20]</span>But it turns out that if streaming video is</p>
+    <p class="cue"><span class="time">[38:23]</span>too expensive, classifying every frame is too expensive,</p>
+    <p class="cue"><span class="time">[38:26]</span>we&#x27;ll often end up with a system like this.</p>
+    <p class="cue"><span class="time">[38:36]</span>Well, VAD stands for Visual Activity Detection.</p>
+    <p class="cue"><span class="time">[38:47]</span>And what this does is a usually low cost,</p>
+    <p class="cue"><span class="time">[38:50]</span>low power, inexpensive compute job</p>
+    <p class="cue"><span class="time">[38:52]</span>to run to just very quickly maybe try to figure out,</p>
+    <p class="cue"><span class="time">[38:55]</span>is there a human face there?</p>
+    <p class="cue"><span class="time">[38:57]</span>Because it turns out, actually, if you&#x27;re building something</p>
+    <p class="cue"><span class="time">[39:00]</span>unlock your front door to you and your friends,</p>
+    <p class="cue"><span class="time">[39:02]</span>if you look out my front door and my house,</p>
+    <p class="cue"><span class="time">[39:05]</span>it&#x27;s pretty boring.</p>
+    <p class="cue"><span class="time">[39:06]</span>There&#x27;s a wall.</p>
+    <p class="cue"><span class="time">[39:09]</span>We see a little over the street, but nothing</p>
+    <p class="cue"><span class="time">[39:10]</span>moves most of the time.</p>
+    <p class="cue"><span class="time">[39:11]</span>So almost all of the time, it&#x27;s very obvious</p>
+    <p class="cue"><span class="time">[39:15]</span>that there&#x27;s no one outside my front door trying to be let in</p>
+    <p class="cue"><span class="time">[39:17]</span>and be very wasteful to stream all that video to the internet</p>
+    <p class="cue"><span class="time">[39:20]</span>for classification.</p>
+    <p class="cue"><span class="time">[39:21]</span>So visual activity detection is usually a low cost,</p>
+    <p class="cue"><span class="time">[39:25]</span>low power system to just very quickly decide,</p>
+    <p class="cue"><span class="time">[39:28]</span>should I do the work of sending this to the larger face</p>
+    <p class="cue"><span class="time">[39:35]</span>recognition system neural network that</p>
+    <p class="cue"><span class="time">[39:37]</span>may be hosted on the cloud to have</p>
+    <p class="cue"><span class="time">[39:39]</span>it do the much more computationally expensive work</p>
+    <p class="cue"><span class="time">[39:42]</span>to decide, 0 or 1, do I unlock the door or not?</p>
+    <p class="cue"><span class="time">[39:46]</span>So this type of optimization, in order</p>
+    <p class="cue"><span class="time">[39:52]</span>to make the system computationally</p>
+    <p class="cue"><span class="time">[39:54]</span>feasible to deploy is fairly common.</p>
+    <p class="cue"><span class="time">[39:58]</span>And I&#x27;m going to give you two options for how</p>
+    <p class="cue"><span class="time">[40:01]</span>to implement VAD.</p>
+    <p class="cue"><span class="time">[40:03]</span>And I&#x27;m going to ask you to reflect on them,</p>
+    <p class="cue"><span class="time">[40:05]</span>and then tell me which one you would pick to get started.</p>
+    <p class="cue"><span class="time">[40:09]</span>So option one is a non-machine learning based method,</p>
+    <p class="cue"><span class="time">[40:16]</span>which is--</p>
+    <p class="cue"><span class="time">[40:20]</span>see if the number of pixels changed--</p>
+    <p class="cue"><span class="time">[40:25]</span>is greater than some threshold epsilon.</p>
+    <p class="cue"><span class="time">[40:28]</span>So if the camera is stationary, maybe</p>
+    <p class="cue"><span class="time">[40:32]</span>looking at a wall, most of the time,</p>
+    <p class="cue"><span class="time">[40:34]</span>the pixels barely change because it&#x27;s just a wall.</p>
+    <p class="cue"><span class="time">[40:38]</span>And so you can write a little bit of code</p>
+    <p class="cue"><span class="time">[40:40]</span>using some image library like PIL, Python Imaging</p>
+    <p class="cue"><span class="time">[40:43]</span>Library, or some simple write a few lines of code to just say,</p>
+    <p class="cue"><span class="time">[40:46]</span>has the number of pixels whose RGB</p>
+    <p class="cue"><span class="time">[40:49]</span>values that change more than some threshold has more than 10%</p>
+    <p class="cue"><span class="time">[40:53]</span>of the pixels changed compared to what it looked</p>
+    <p class="cue"><span class="time">[40:55]</span>like a second ago, in order to see if there&#x27;s anything in front</p>
+    <p class="cue"><span class="time">[40:58]</span>of your camera to even decide to pass this to a more</p>
+    <p class="cue"><span class="time">[41:03]</span>high powered neural network.</p>
+    <p class="cue"><span class="time">[41:07]</span>Option two would be to train a small neural network.</p>
+    <p class="cue"><span class="time">[41:39]</span>So face recognition is a pretty complex task.</p>
+    <p class="cue"><span class="time">[41:42]</span>You have to look at multiple cues in the face.</p>
+    <p class="cue"><span class="time">[41:44]</span>Look at the eyes, look at the mouth.</p>
+    <p class="cue"><span class="time">[41:45]</span>So that takes a relatively large neural network.</p>
+    <p class="cue"><span class="time">[41:49]</span>But just taking a quick glance to see,</p>
+    <p class="cue"><span class="time">[41:51]</span>is there even a human in front of my door?</p>
+    <p class="cue"><span class="time">[41:53]</span>That&#x27;s a much simpler task.</p>
+    <p class="cue"><span class="time">[41:54]</span>So option two would be training a very small, very low power,</p>
+    <p class="cue"><span class="time">[41:58]</span>very lightweight neural network to just very quickly tell you,</p>
+    <p class="cue"><span class="time">[42:04]</span>do you think there&#x27;s a human there?</p>
+    <p class="cue"><span class="time">[42:07]</span>And then use this trained model to decide,</p>
+    <p class="cue"><span class="time">[42:10]</span>is it worth passing on to a much more powerful neural network</p>
+    <p class="cue"><span class="time">[42:14]</span>running in the cloud with a lot more resources</p>
+    <p class="cue"><span class="time">[42:16]</span>to make the final determination?</p>
+    <p class="cue"><span class="time">[42:18]</span>So if you are the CTO of a three-person startup building</p>
+    <p class="cue"><span class="time">[42:23]</span>this, how would you start?</p>
+    <p class="cue"><span class="time">[42:26]</span>We&#x27;ll give everyone a few seconds to reflect on this,</p>
+    <p class="cue"><span class="time">[42:29]</span>get people&#x27;s thoughts.</p>
+    <p class="cue"><span class="time">[42:42]</span>Go for it.</p>
+    <p class="cue"><span class="time">[42:43]</span>[INAUDIBLE] in the street where people walk by.</p>
+    <p class="cue"><span class="time">[42:49]</span>[INAUDIBLE] you might get a lot of false positives.</p>
+    <p class="cue"><span class="time">[42:57]</span>So it depends on what type of phone you have.</p>
+    <p class="cue"><span class="time">[43:00]</span>And you can also go with an option</p>
+    <p class="cue"><span class="time">[43:02]</span>that you can make it sound simpler classification,</p>
+    <p class="cue"><span class="time">[43:06]</span>not necessarily a [INAUDIBLE] or it [INAUDIBLE]</p>
+    <p class="cue"><span class="time">[43:11]</span>is there a person there [INAUDIBLE].</p>
+    <p class="cue"><span class="time">[43:14]</span>Yeah, right.</p>
+    <p class="cue"><span class="time">[43:14]</span>Cool Yeah, cool.</p>
+    <p class="cue"><span class="time">[43:18]</span>Just repeating [INAUDIBLE] my mic.</p>
+    <p class="cue"><span class="time">[43:19]</span>So problem dependent depends on whether you&#x27;re</p>
+    <p class="cue"><span class="time">[43:21]</span>on the street where a lot of people walking past maybe</p>
+    <p class="cue"><span class="time">[43:23]</span>consider other algorithms.</p>
+    <p class="cue"><span class="time">[43:25]</span>They&#x27;re even cheaper than small neural net.</p>
+    <p class="cue"><span class="time">[43:27]</span>Cool.</p>
+    <p class="cue"><span class="time">[43:28]</span>[INAUDIBLE] that.</p>
+    <p class="cue"><span class="time">[43:29]</span>[INAUDIBLE] just a training model because this</p>
+    <p class="cue"><span class="time">[43:31]</span>is not the main [INAUDIBLE] for that.</p>
+    <p class="cue"><span class="time">[43:36]</span>We could probably just be talking about [INAUDIBLE]</p>
+    <p class="cue"><span class="time">[43:40]</span>while we collect more data.</p>
+    <p class="cue"><span class="time">[43:41]</span>And then [INAUDIBLE] with this.</p>
+    <p class="cue"><span class="time">[43:44]</span>Yeah, cool.</p>
+    <p class="cue"><span class="time">[43:46]</span>Great.</p>
+    <p class="cue"><span class="time">[43:46]</span>So use option one in the short term.</p>
+    <p class="cue"><span class="time">[43:49]</span>And then maybe replace that with option two</p>
+    <p class="cue"><span class="time">[43:51]</span>when we have more data.</p>
+    <p class="cue"><span class="time">[43:52]</span>Yeah, cool.</p>
+    <p class="cue"><span class="time">[43:52]</span>That&#x27;s very same approach.</p>
+    <p class="cue"><span class="time">[43:54]</span>I was thinking, why don&#x27;t you use two options?</p>
+    <p class="cue"><span class="time">[43:56]</span>Because the [INAUDIBLE] is very simple.</p>
+    <p class="cue"><span class="time">[44:02]</span>Only if that is clear is then we [INAUDIBLE]</p>
+    <p class="cue"><span class="time">[44:05]</span>say [INAUDIBLE] or not.</p>
+    <p class="cue"><span class="time">[44:07]</span>And after that, moving to one.</p>
+    <p class="cue"><span class="time">[44:11]</span>Sorry, so use both options or put both in the pipeline.</p>
+    <p class="cue"><span class="time">[44:14]</span>That&#x27;s interesting, I see.</p>
+    <p class="cue"><span class="time">[44:16]</span>[INAUDIBLE]</p>
+    <p class="cue"><span class="time">[44:17]</span>So option one, let option one see if anything change.</p>
+    <p class="cue"><span class="time">[44:20]</span>If something is changed, then pass this [? neural ?] network.</p>
+    <p class="cue"><span class="time">[44:23]</span>That&#x27;s cool.</p>
+    <p class="cue"><span class="time">[44:24]</span>That could work.</p>
+    <p class="cue"><span class="time">[44:25]</span>[INAUDIBLE]</p>
+    <p class="cue"><span class="time">[44:32]</span>Yeah, cool.</p>
+    <p class="cue"><span class="time">[44:32]</span>Yeah, that could work.</p>
+    <p class="cue"><span class="time">[44:33]</span>So like a cascade of multiple steps.</p>
+    <p class="cue"><span class="time">[44:35]</span>Yeah.</p>
+    <p class="cue"><span class="time">[44:36]</span>Which would [INAUDIBLE] because that would affect--</p>
+    <p class="cue"><span class="time">[44:42]</span>[? because ?] it&#x27;s cheap to [INAUDIBLE].</p>
+    <p class="cue"><span class="time">[44:46]</span>Because then, you don&#x27;t have to worry</p>
+    <p class="cue"><span class="time">[44:47]</span>about someone coming to the door and nothing happening.</p>
+    <p class="cue"><span class="time">[44:50]</span>If it&#x27;s more expensive than I would probably</p>
+    <p class="cue"><span class="time">[44:52]</span>invest [INAUDIBLE] options.</p>
+    <p class="cue"><span class="time">[44:54]</span>I see, cool.</p>
+    <p class="cue"><span class="time">[44:55]</span>[INAUDIBLE] make sure we&#x27;re not wasting [INAUDIBLE].</p>
+    <p class="cue"><span class="time">[44:58]</span>I see, cool.</p>
+    <p class="cue"><span class="time">[44:59]</span>Yeah, so how expensive is it to run this neural network</p>
+    <p class="cue"><span class="time">[45:01]</span>in the cloud?</p>
+    <p class="cue"><span class="time">[45:02]</span>So actually, so I would usually want to design both of these</p>
+    <p class="cue"><span class="time">[45:06]</span>to run at the edge, meaning, on the device.</p>
+    <p class="cue"><span class="time">[45:09]</span>[INAUDIBLE]</p>
+    <p class="cue"><span class="time">[45:12]</span>This one.</p>
+    <p class="cue"><span class="time">[45:12]</span>Yeah.</p>
+    <p class="cue"><span class="time">[45:15]</span>So it turns out that streaming video is fairly expensive.</p>
+    <p class="cue"><span class="time">[45:21]</span>So I think, yeah, I feel like-- boy, I don&#x27;t have numbers</p>
+    <p class="cue"><span class="time">[45:28]</span>at tip of my fingertips.</p>
+    <p class="cue"><span class="time">[45:30]</span>But I think running this 24/7 is not feasible.</p>
+    <p class="cue"><span class="time">[45:34]</span>So we definitely need something to filter it down.</p>
+    <p class="cue"><span class="time">[45:37]</span>But sending few images every minute</p>
+    <p class="cue"><span class="time">[45:42]</span>is probably not a problem.</p>
+    <p class="cue"><span class="time">[45:44]</span>Makes sense?</p>
+    <p class="cue"><span class="time">[45:47]</span>Go ahead.</p>
+    <p class="cue"><span class="time">[45:49]</span>[INAUDIBLE]</p>
+    <p class="cue"><span class="time">[45:50]</span>Sorry?</p>
+    <p class="cue"><span class="time">[45:51]</span>[INAUDIBLE]</p>
+    <p class="cue"><span class="time">[46:01]</span>Sample certain frames of the video</p>
+    <p class="cue"><span class="time">[46:04]</span>in order to get all of them.</p>
+    <p class="cue"><span class="time">[46:06]</span>Yes, I guess so.</p>
+    <p class="cue"><span class="time">[46:08]</span>Yeah, although I think if you have a video of my front door,</p>
+    <p class="cue"><span class="time">[46:15]</span>you need a way to sample other than random, I guess.</p>
+    <p class="cue"><span class="time">[46:18]</span>Because a lot of times, nothing happens</p>
+    <p class="cue"><span class="time">[46:22]</span>unless you take one frame per minute, I guess,</p>
+    <p class="cue"><span class="time">[46:25]</span>which would be OK.</p>
+    <p class="cue"><span class="time">[46:27]</span>But then, we don&#x27;t want someone waiting there for a full minute</p>
+    <p class="cue"><span class="time">[46:30]</span>before we finally get around to sampling and sending it.</p>
+    <p class="cue"><span class="time">[46:33]</span>So, yeah.</p>
+    <p class="cue"><span class="time">[46:34]</span>Go ahead.</p>
+    <p class="cue"><span class="time">[46:36]</span>This is a question.</p>
+    <p class="cue"><span class="time">[46:37]</span>Could we use the same images to train [INAUDIBLE]</p>
+    <p class="cue"><span class="time">[46:42]</span>a neural network [INAUDIBLE]?</p>
+    <p class="cue"><span class="time">[46:45]</span>Or with that be biased?</p>
+    <p class="cue"><span class="time">[46:47]</span>Yeah, can we use the same images for training this network</p>
+    <p class="cue"><span class="time">[46:51]</span>to train the option two network?</p>
+    <p class="cue"><span class="time">[46:55]</span>Maybe.</p>
+    <p class="cue"><span class="time">[46:56]</span>It&#x27;s actually one of the things, I</p>
+    <p class="cue"><span class="time">[46:58]</span>would say, where to try it before we know if it works.</p>
+    <p class="cue"><span class="time">[47:00]</span>Might be doable.</p>
+    <p class="cue"><span class="time">[47:01]</span>Depends a lot on what data we collected to train</p>
+    <p class="cue"><span class="time">[47:03]</span>the [INAUDIBLE] neural network.</p>
+    <p class="cue"><span class="time">[47:07]</span>Cool.</p>
+    <p class="cue"><span class="time">[47:08]</span>Let&#x27;s take a [INAUDIBLE].</p>
+    <p class="cue"><span class="time">[47:09]</span>Go ahead.</p>
+    <p class="cue"><span class="time">[47:10]</span>[INAUDIBLE]</p>
+    <p class="cue"><span class="time">[47:19]</span>Cool, yeah.</p>
+    <p class="cue"><span class="time">[47:20]</span>How about use option one, keep a really low threshold.</p>
+    <p class="cue"><span class="time">[47:22]</span>So we send very few images.</p>
+    <p class="cue"><span class="time">[47:24]</span>Is that what you mean?</p>
+    <p class="cue"><span class="time">[47:26]</span>Yeah, I think that would that be reasonable to try.</p>
+    <p class="cue"><span class="time">[47:31]</span>Well, so long as we don&#x27;t miss too many people.</p>
+    <p class="cue"><span class="time">[47:33]</span>But, yeah.</p>
+    <p class="cue"><span class="time">[47:35]</span>Let&#x27;s take one last comment.</p>
+    <p class="cue"><span class="time">[47:37]</span>I&#x27;ll share your perspective on [INAUDIBLE].</p>
+    <p class="cue"><span class="time">[47:39]</span>[INAUDIBLE]</p>
+    <p class="cue"><span class="time">[47:48]</span>Yes.</p>
+    <p class="cue"><span class="time">[47:50]</span>so one of the weaknesses of option one</p>
+    <p class="cue"><span class="time">[47:52]</span>is if there&#x27;s a tree swaying in the background</p>
+    <p class="cue"><span class="time">[47:54]</span>or if you see a road and there&#x27;s a car that drives by</p>
+    <p class="cue"><span class="time">[47:57]</span>or if there&#x27;s a busy street, the car is driving by all the time,</p>
+    <p class="cue"><span class="time">[47:59]</span>or the neighbor&#x27;s cat comes and visits.</p>
+    <p class="cue"><span class="time">[48:01]</span>Those will trigger this.</p>
+    <p class="cue"><span class="time">[48:03]</span>So those are downsides.</p>
+    <p class="cue"><span class="time">[48:05]</span>So let me show you a perspective of how I would approach this,</p>
+    <p class="cue"><span class="time">[48:07]</span>and what we actually did.</p>
+    <p class="cue"><span class="time">[48:10]</span>So if you are the CTO of a startup implementing this,</p>
+    <p class="cue"><span class="time">[48:14]</span>to me, it again comes down to speed.</p>
+    <p class="cue"><span class="time">[48:20]</span>And so what I would ask is, how long does it</p>
+    <p class="cue"><span class="time">[48:24]</span>take to implement option one and how long does it</p>
+    <p class="cue"><span class="time">[48:26]</span>take to implement option two?</p>
+    <p class="cue"><span class="time">[48:28]</span>And I think everyone made good points about the pros</p>
+    <p class="cue"><span class="time">[48:30]</span>and cons of these two options.</p>
+    <p class="cue"><span class="time">[48:32]</span>And if you are actually doing this, the approach I would take</p>
+    <p class="cue"><span class="time">[48:36]</span>is, just ask, what can I do really</p>
+    <p class="cue"><span class="time">[48:39]</span>quickly so I can then deploy it and see whether it works.</p>
+    <p class="cue"><span class="time">[48:43]</span>And then I&#x27;ll fix it if it doesn&#x27;t work.</p>
+    <p class="cue"><span class="time">[48:46]</span>Because I think these insights like,</p>
+    <p class="cue"><span class="time">[48:48]</span>would trees swaying in the background affect it?</p>
+    <p class="cue"><span class="time">[48:50]</span>It turns out it actually does probably, but maybe</p>
+    <p class="cue"><span class="time">[48:55]</span>not if the wind isn&#x27;t that strong or if--</p>
+    <p class="cue"><span class="time">[48:58]</span>But it&#x27;s very difficult to know answers to questions like these</p>
+    <p class="cue"><span class="time">[49:02]</span>because you don&#x27;t really know until you stick</p>
+    <p class="cue"><span class="time">[49:04]</span>on a bunch of cameras in front of doors and see the data,</p>
+    <p class="cue"><span class="time">[49:07]</span>then you can get more confident in how well option one works,</p>
+    <p class="cue"><span class="time">[49:12]</span>how often does a neighbor&#x27;s cat actually come by?</p>
+    <p class="cue"><span class="time">[49:14]</span>And if there&#x27;s a car that drives past other cars usually so far</p>
+    <p class="cue"><span class="time">[49:18]</span>away, that it doesn&#x27;t matter because the number of pixels</p>
+    <p class="cue"><span class="time">[49:21]</span>per car is small.</p>
+    <p class="cue"><span class="time">[49:22]</span>So all of these are very empirical questions.</p>
+    <p class="cue"><span class="time">[49:24]</span>It&#x27;s really difficult to answer.</p>
+    <p class="cue"><span class="time">[49:26]</span>And the fastest way to get answers</p>
+    <p class="cue"><span class="time">[49:28]</span>is to just implement something quick and dirty.</p>
+    <p class="cue"><span class="time">[49:30]</span>And then run it, see what goes wrong, and then fix it.</p>
+    <p class="cue"><span class="time">[49:33]</span>So what happens on--</p>
+    <p class="cue"><span class="time">[49:34]</span>And to tell you, what the experience</p>
+    <p class="cue"><span class="time">[49:36]</span>of a lot of face recognition teams</p>
+    <p class="cue"><span class="time">[49:38]</span>is, because option one is so quick to implement,</p>
+    <p class="cue"><span class="time">[49:42]</span>this is like five lines of Python or something.</p>
+    <p class="cue"><span class="time">[49:46]</span>And get an answer right for you.</p>
+    <p class="cue"><span class="time">[49:49]</span>Just get on to write five lines of Python for you.</p>
+    <p class="cue"><span class="time">[49:52]</span>So you can implement this in 20 minutes, maybe even less.</p>
+    <p class="cue"><span class="time">[49:57]</span>Whereas this, I think will take you at least many hours,</p>
+    <p class="cue"><span class="time">[50:01]</span>maybe longer to implement.</p>
+    <p class="cue"><span class="time">[50:03]</span>So my instinct would be to start with this.</p>
+    <p class="cue"><span class="time">[50:06]</span>And it turns out, having built many face recognition systems,</p>
+    <p class="cue"><span class="time">[50:08]</span>I&#x27;ll tell you this actually doesn&#x27;t work well enough for all</p>
+    <p class="cue"><span class="time">[50:11]</span>the problems people raise.</p>
+    <p class="cue"><span class="time">[50:12]</span>And so we wind up going to this.</p>
+    <p class="cue"><span class="time">[50:15]</span>But implementing this also gives you insights</p>
+    <p class="cue"><span class="time">[50:17]</span>into where it&#x27;s going wrong.</p>
+    <p class="cue"><span class="time">[50:20]</span>And I&#x27;ll give you one example of one insight</p>
+    <p class="cue"><span class="time">[50:25]</span>that we and many other face recognition teams have,</p>
+    <p class="cue"><span class="time">[50:29]</span>which is, it turns out that when you&#x27;re approaching</p>
+    <p class="cue"><span class="time">[50:33]</span>a camera that&#x27;s trying to recognize your face,</p>
+    <p class="cue"><span class="time">[50:36]</span>there are some frames that are going</p>
+    <p class="cue"><span class="time">[50:38]</span>to be really clear and in focus, and a lot of frames</p>
+    <p class="cue"><span class="time">[50:41]</span>that are really blurry.</p>
+    <p class="cue"><span class="time">[50:43]</span>If you just look at a video of someone walking</p>
+    <p class="cue"><span class="time">[50:45]</span>toward the camera, just when I&#x27;m stepping,</p>
+    <p class="cue"><span class="time">[50:48]</span>sometimes, the velocity of my face is higher,</p>
+    <p class="cue"><span class="time">[50:50]</span>and sometimes it&#x27;s lower.</p>
+    <p class="cue"><span class="time">[50:51]</span>That&#x27;s just what it is.</p>
+    <p class="cue"><span class="time">[50:53]</span>And so sometimes, my face is in focus.</p>
+    <p class="cue"><span class="time">[50:55]</span>Sometimes, it&#x27;s more blurry.</p>
+    <p class="cue"><span class="time">[50:57]</span>And it turns out that if you can select out</p>
+    <p class="cue"><span class="time">[51:00]</span>the high resolution frames and feed that to face recognition,</p>
+    <p class="cue"><span class="time">[51:04]</span>you get much higher quality results.</p>
+    <p class="cue"><span class="time">[51:07]</span>So this is the kind of stuff that I</p>
+    <p class="cue"><span class="time">[51:09]</span>assume most people would not know about until you</p>
+    <p class="cue"><span class="time">[51:13]</span>worked on a system like this.</p>
+    <p class="cue"><span class="time">[51:14]</span>But it turns out that when I was working on</p>
+    <p class="cue"><span class="time">[51:17]</span>a system like that, having a system to not just do</p>
+    <p class="cue"><span class="time">[51:20]</span>VAD, but also capture the video and then deliberately select</p>
+    <p class="cue"><span class="time">[51:26]</span>not just one, but maybe five frames that are high resolution</p>
+    <p class="cue"><span class="time">[51:31]</span>and in focus of the person, that actually</p>
+    <p class="cue"><span class="time">[51:33]</span>gave a significant boost to the accuracy of our face recognition</p>
+    <p class="cue"><span class="time">[51:36]</span>system.</p>
+    <p class="cue"><span class="time">[51:37]</span>And I mentioned this as an example of the discovery</p>
+    <p class="cue"><span class="time">[51:40]</span>that you will have only when you implement one of these systems,</p>
+    <p class="cue"><span class="time">[51:43]</span>maybe even implement this system.</p>
+    <p class="cue"><span class="time">[51:45]</span>But you implement the system, you see,</p>
+    <p class="cue"><span class="time">[51:47]</span>boy, we&#x27;re trying to recognize a lot of pictures</p>
+    <p class="cue"><span class="time">[51:49]</span>from blurry faces.</p>
+    <p class="cue"><span class="time">[51:50]</span>Maybe you could need to do something about that.</p>
+    <p class="cue"><span class="time">[51:52]</span>And this is driving that empirical process</p>
+    <p class="cue"><span class="time">[51:55]</span>that may then lead you to train a neural network, both</p>
+    <p class="cue"><span class="time">[51:58]</span>to see if there&#x27;s a face, but also to see</p>
+    <p class="cue"><span class="time">[52:00]</span>if the picture of the face is in focus to select out</p>
+    <p class="cue"><span class="time">[52:03]</span>that frame for downstream processing.</p>
+    <p class="cue"><span class="time">[52:05]</span>Does that make sense?</p>
+    <p class="cue"><span class="time">[52:06]</span>And this is why you find that for some meaningful fraction</p>
+    <p class="cue"><span class="time">[52:10]</span>of questions that I asked in class.</p>
+    <p class="cue"><span class="time">[52:13]</span>The thing that&#x27;s the speediest to do</p>
+    <p class="cue"><span class="time">[52:15]</span>is often the right answer because that obsession</p>
+    <p class="cue"><span class="time">[52:18]</span>with speed really lets you go in and figure out</p>
+    <p class="cue"><span class="time">[52:21]</span>what&#x27;s in your data and improve your system more efficiently.</p>
+    <p class="cue"><span class="time">[52:26]</span>So, yeah.</p>
+    <p class="cue"><span class="time">[52:35]</span>So what happens in practice?</p>
+    <p class="cue"><span class="time">[52:36]</span>Start with this.</p>
+    <p class="cue"><span class="time">[52:37]</span>Discover how it doesn&#x27;t work because it doesn&#x27;t actually</p>
+    <p class="cue"><span class="time">[52:39]</span>work.</p>
+    <p class="cue"><span class="time">[52:39]</span>I&#x27;ll tell you that.</p>
+    <p class="cue"><span class="time">[52:40]</span>And then figure out.</p>
+    <p class="cue"><span class="time">[52:40]</span>But use those learnings to do this.</p>
+    <p class="cue"><span class="time">[52:43]</span>Yeah.</p>
+    <p class="cue"><span class="time">[52:44]</span>[INAUDIBLE]</p>
+    <p class="cue"><span class="time">[52:56]</span>Yeah, so is there a sense of what is a good classification</p>
+    <p class="cue"><span class="time">[52:59]</span>accuracy problems like these?</p>
+    <p class="cue"><span class="time">[53:00]</span>It&#x27;s actually really difficult. One of the common benchmarks--</p>
+    <p class="cue"><span class="time">[53:04]</span>you learn more about this in the third module on the online</p>
+    <p class="cue"><span class="time">[53:07]</span>videos as well--</p>
+    <p class="cue"><span class="time">[53:09]</span>is building machine learning systems</p>
+    <p class="cue"><span class="time">[53:11]</span>is easier if we have a reference level of performance,</p>
+    <p class="cue"><span class="time">[53:14]</span>like an aspirational target accuracy, which is often</p>
+    <p class="cue"><span class="time">[53:17]</span>human-level performance.</p>
+    <p class="cue"><span class="time">[53:19]</span>And so it turns out that the way you diagnose</p>
+    <p class="cue"><span class="time">[53:25]</span>bias and variance, which I&#x27;ll talk</p>
+    <p class="cue"><span class="time">[53:27]</span>should talk about later in this course,</p>
+    <p class="cue"><span class="time">[53:28]</span>it&#x27;s easier if you know what&#x27;s an achievable level of accuracy.</p>
+    <p class="cue"><span class="time">[53:31]</span>And very often, we&#x27;ll use what a human expert</p>
+    <p class="cue"><span class="time">[53:34]</span>could do as achievable level of accuracy.</p>
+    <p class="cue"><span class="time">[53:38]</span>And then in the case of face recognition, definitely</p>
+    <p class="cue"><span class="time">[53:41]</span>under controlled environments, we&#x27;re better than humans.</p>
+    <p class="cue"><span class="time">[53:44]</span>So, definitely.</p>
+    <p class="cue"><span class="time">[53:46]</span>Actually, the AI systems we built,</p>
+    <p class="cue"><span class="time">[53:47]</span>they&#x27;re way better than I am at recognizing human faces.</p>
+    <p class="cue"><span class="time">[53:50]</span>And I think AI systems are better than, I will say,</p>
+    <p class="cue"><span class="time">[53:53]</span>probably the vast majority of humans,</p>
+    <p class="cue"><span class="time">[53:55]</span>maybe all humans at this point, at really distinguishing of two</p>
+    <p class="cue"><span class="time">[53:57]</span>pictures are the same.</p>
+    <p class="cue"><span class="time">[53:59]</span>And then it gets really difficult.</p>
+    <p class="cue"><span class="time">[54:01]</span>Then it actually gets more difficult [INAUDIBLE]</p>
+    <p class="cue"><span class="time">[54:03]</span>even better than humans.</p>
+    <p class="cue"><span class="time">[54:05]</span>But, yeah.</p>
+    <p class="cue"><span class="time">[54:07]</span>But until you&#x27;re as good as humans on a certain task,</p>
+    <p class="cue"><span class="time">[54:11]</span>using a human level performance is often a good benchmark.</p>
+    <p class="cue"><span class="time">[54:14]</span>And then if you are doing something that even</p>
+    <p class="cue"><span class="time">[54:16]</span>humans can&#x27;t do well--</p>
+    <p class="cue"><span class="time">[54:18]</span>like it turns out, you&#x27;re recommending online books</p>
+    <p class="cue"><span class="time">[54:20]</span>or movies or whatever.</p>
+    <p class="cue"><span class="time">[54:22]</span>Humans are actually not that good at that.</p>
+    <p class="cue"><span class="time">[54:23]</span>I think most of us would have a hard time recommending</p>
+    <p class="cue"><span class="time">[54:26]</span>good movies, even to our closest friends.</p>
+    <p class="cue"><span class="time">[54:28]</span>AI actually probably does it even better than many of us</p>
+    <p class="cue"><span class="time">[54:31]</span>do as humans.</p>
+    <p class="cue"><span class="time">[54:32]</span>Then those things is harder to establish a baseline.</p>
+    <p class="cue"><span class="time">[54:38]</span>Cool.</p>
+    <p class="cue"><span class="time">[54:41]</span>Now, one final aspect I want to touch on</p>
+    <p class="cue"><span class="time">[54:48]</span>is after deploying a model to monitor and to maintain</p>
+    <p class="cue"><span class="time">[54:54]</span>the model, one thing that often happens</p>
+    <p class="cue"><span class="time">[54:58]</span>is, you train a machine learning model.</p>
+    <p class="cue"><span class="time">[55:01]</span>Works great.</p>
+    <p class="cue"><span class="time">[55:02]</span>Does well on your training set.</p>
+    <p class="cue"><span class="time">[55:03]</span>Does well on your test set.</p>
+    <p class="cue"><span class="time">[55:04]</span>Works great.</p>
+    <p class="cue"><span class="time">[55:05]</span>And then you deploy it.</p>
+    <p class="cue"><span class="time">[55:07]</span>And then annoyingly, the world changes, and your system</p>
+    <p class="cue"><span class="time">[55:11]</span>no longer works.</p>
+    <p class="cue"><span class="time">[55:13]</span>So we sometimes call this data drift or concept drift,</p>
+    <p class="cue"><span class="time">[55:16]</span>where the distribution of data, the world</p>
+    <p class="cue"><span class="time">[55:18]</span>gives you is different than what you had in your training set</p>
+    <p class="cue"><span class="time">[55:21]</span>or concept drift, which is the input output mapping.</p>
+    <p class="cue"><span class="time">[55:24]</span>Your x and y changes in the world compared to your training</p>
+    <p class="cue"><span class="time">[55:27]</span>set.</p>
+    <p class="cue"><span class="time">[55:28]</span>But to ground this, if you are training a face recognition</p>
+    <p class="cue"><span class="time">[55:32]</span>system now in--</p>
+    <p class="cue"><span class="time">[55:35]</span>when it&#x27;s not too cold here in California,</p>
+    <p class="cue"><span class="time">[55:39]</span>you get faces of a certain distribution.</p>
+    <p class="cue"><span class="time">[55:42]</span>But as we approach winter, if it starts</p>
+    <p class="cue"><span class="time">[55:45]</span>to rain more, people are wearing scarves, rain jackets,</p>
+    <p class="cue"><span class="time">[55:48]</span>people look different.</p>
+    <p class="cue"><span class="time">[55:51]</span>Or maybe we approach the summer.</p>
+    <p class="cue"><span class="time">[55:54]</span>More people are wearing sunglasses.</p>
+    <p class="cue"><span class="time">[55:56]</span>Then the data distribution changes.</p>
+    <p class="cue"><span class="time">[56:00]</span>Or if you train a system based on data here in California,</p>
+    <p class="cue"><span class="time">[56:04]</span>but we then decide to deploy it in a different country</p>
+    <p class="cue"><span class="time">[56:07]</span>where people dress differently or where</p>
+    <p class="cue"><span class="time">[56:10]</span>their appearance is different.</p>
+    <p class="cue"><span class="time">[56:12]</span>The world keeps on giving us different data.</p>
+    <p class="cue"><span class="time">[56:16]</span>And so one of the jobs of I think us</p>
+    <p class="cue"><span class="time">[56:20]</span>as machine learning engineers is to put in place systems that</p>
+    <p class="cue"><span class="time">[56:25]</span>monitor this type of concept drift or data drift, and fix</p>
+    <p class="cue"><span class="time">[56:28]</span>problems as they arise.</p>
+    <p class="cue"><span class="time">[56:30]</span>When you&#x27;re out building machine learning systems,</p>
+    <p class="cue"><span class="time">[56:33]</span>I have seen a segment of AI engineers</p>
+    <p class="cue"><span class="time">[56:36]</span>that think their job is to do well on a test set.</p>
+    <p class="cue"><span class="time">[56:39]</span>And so I&#x27;ve been in a bunch of these conversations</p>
+    <p class="cue"><span class="time">[56:41]</span>where the machine learning person would say, look,</p>
+    <p class="cue"><span class="time">[56:44]</span>I did well on the test set.</p>
+    <p class="cue"><span class="time">[56:45]</span>My job is done.</p>
+    <p class="cue"><span class="time">[56:47]</span>But then a product owner or business owner</p>
+    <p class="cue"><span class="time">[56:49]</span>will say, no, your system doesn&#x27;t work.</p>
+    <p class="cue"><span class="time">[56:51]</span>Look at all the ways it does not work.</p>
+    <p class="cue"><span class="time">[56:53]</span>And then if the machine learning person says,</p>
+    <p class="cue"><span class="time">[56:56]</span>well, that&#x27;s not my problem.</p>
+    <p class="cue"><span class="time">[56:57]</span>I do well on the test set.</p>
+    <p class="cue"><span class="time">[56:58]</span>I think that&#x27;s not a constructive way</p>
+    <p class="cue"><span class="time">[57:01]</span>to move it forward.</p>
+    <p class="cue"><span class="time">[57:02]</span>So I encourage you to think of yourselves.</p>
+    <p class="cue"><span class="time">[57:04]</span>If you&#x27;re building a machine learning system,</p>
+    <p class="cue"><span class="time">[57:06]</span>I think of my job as building something that works.</p>
+    <p class="cue"><span class="time">[57:09]</span>And that can be different than building something</p>
+    <p class="cue"><span class="time">[57:11]</span>that works on a test set.</p>
+    <p class="cue"><span class="time">[57:13]</span>So if ever you&#x27;re working on a product, and someone says,</p>
+    <p class="cue"><span class="time">[57:16]</span>I know you did well on the test set,</p>
+    <p class="cue"><span class="time">[57:19]</span>but your system doesn&#x27;t work.</p>
+    <p class="cue"><span class="time">[57:21]</span>I would encourage you not to respond.</p>
+    <p class="cue"><span class="time">[57:23]</span>But my job is to do one to test it.</p>
+    <p class="cue"><span class="time">[57:25]</span>I encourage you to think about why doing one on the test set</p>
+    <p class="cue"><span class="time">[57:28]</span>doesn&#x27;t translate to doing well on the application</p>
+    <p class="cue"><span class="time">[57:31]</span>that people actually care about, and then lean in and go and fix</p>
+    <p class="cue"><span class="time">[57:34]</span>that.</p>
+    <p class="cue"><span class="time">[57:35]</span>And one of the common problems for why doing well on a test set</p>
+    <p class="cue"><span class="time">[57:38]</span>doesn&#x27;t translate to doing well in real life</p>
+    <p class="cue"><span class="time">[57:41]</span>is if the data distribution changes, in which case,</p>
+    <p class="cue"><span class="time">[57:44]</span>you may need to update the distribution of data you&#x27;re</p>
+    <p class="cue"><span class="time">[57:46]</span>training on in order to capture whatever</p>
+    <p class="cue"><span class="time">[57:49]</span>has changed in the world.</p>
+    <p class="cue"><span class="time">[57:51]</span>And just a few other examples.</p>
+    <p class="cue"><span class="time">[57:55]</span>I feel like the world gives us new data all the time.</p>
+    <p class="cue"><span class="time">[58:00]</span>So if you&#x27;re building a web search engine,</p>
+    <p class="cue"><span class="time">[58:05]</span>sometimes, a new politician is elected</p>
+    <p class="cue"><span class="time">[58:08]</span>or there&#x27;s a new movement or some new video</p>
+    <p class="cue"><span class="time">[58:10]</span>goes viral or Taylor Swift releases a new album, whatever.</p>
+    <p class="cue"><span class="time">[58:15]</span>And then people are suddenly searching for a brand--</p>
+    <p class="cue"><span class="time">[58:17]</span>I thought I&#x27;d get a laugh from that.</p>
+    <p class="cue"><span class="time">[58:19]</span>No?</p>
+    <p class="cue"><span class="time">[58:19]</span>No Swifties here.</p>
+    <p class="cue"><span class="time">[58:22]</span>All right.</p>
+    <p class="cue"><span class="time">[58:22]</span>[CHUCKLES]</p>
+    <p class="cue"><span class="time">[58:26]</span>But then suddenly, a lot of people</p>
+    <p class="cue"><span class="time">[58:28]</span>are searching for a brand new thing.</p>
+    <p class="cue"><span class="time">[58:31]</span>And so the distribution of data you get</p>
+    <p class="cue"><span class="time">[58:33]</span>is different because the world has changed.</p>
+    <p class="cue"><span class="time">[58:35]</span>Or I&#x27;ve done a lot of work in factories.</p>
+    <p class="cue"><span class="time">[58:38]</span>There&#x27;s actually a reasonable chance</p>
+    <p class="cue"><span class="time">[58:40]</span>that a cell phone you have in your pocket</p>
+    <p class="cue"><span class="time">[58:41]</span>may have been inspected by software that my teams wrote.</p>
+    <p class="cue"><span class="time">[58:45]</span>But sometimes, the materials change.</p>
+    <p class="cue"><span class="time">[58:47]</span>Or there&#x27;s a new machine installed in the manufacturing</p>
+    <p class="cue"><span class="time">[58:49]</span>line.</p>
+    <p class="cue"><span class="time">[58:50]</span>And this machine makes a new type of scratch</p>
+    <p class="cue"><span class="time">[58:52]</span>on the cell phone.</p>
+    <p class="cue"><span class="time">[58:53]</span>So data changes in inspection lines as well.</p>
+    <p class="cue"><span class="time">[58:56]</span>Or one thing that actually surprised me,</p>
+    <p class="cue"><span class="time">[58:58]</span>when I work on self-driving cars, one of the things</p>
+    <p class="cue"><span class="time">[59:01]</span>I was working with, we trained a lot on data in California.</p>
+    <p class="cue"><span class="time">[59:04]</span>And then when we took the cars to Texas, you and I as people,</p>
+    <p class="cue"><span class="time">[59:08]</span>we can drive just fine in California or in Texas.</p>
+    <p class="cue"><span class="time">[59:11]</span>But it turns out that traffic lights look really different</p>
+    <p class="cue"><span class="time">[59:13]</span>in Texas, in California.</p>
+    <p class="cue"><span class="time">[59:15]</span>So traffic lights, horizontal, vertical.</p>
+    <p class="cue"><span class="time">[59:18]</span>I think part of it is that there are very high winds</p>
+    <p class="cue"><span class="time">[59:20]</span>in some parts of Texas.</p>
+    <p class="cue"><span class="time">[59:22]</span>So a lot of traffic lights tend to be strung up differently,</p>
+    <p class="cue"><span class="time">[59:25]</span>to be robust to high winds.</p>
+    <p class="cue"><span class="time">[59:26]</span>And so traffic lights actually look pretty different in Texas.</p>
+    <p class="cue"><span class="time">[59:28]</span>So the models we train in California, they</p>
+    <p class="cue"><span class="time">[59:30]</span>don&#x27;t work in Texas because we get new data.</p>
+    <p class="cue"><span class="time">[59:33]</span>Refresh the data.</p>
+    <p class="cue"><span class="time">[59:35]</span>So a lot of that is a process of monitoring and maintaining</p>
+    <p class="cue"><span class="time">[59:39]</span>the model, even when something in the world changes.</p>
+    <p class="cue"><span class="time">[59:44]</span>And before going on to monitoring the model performance</p>
+    <p class="cue"><span class="time">[59:49]</span>and maintaining it, one interesting difference</p>
+    <p class="cue"><span class="time">[59:53]</span>in performance between this and this</p>
+    <p class="cue"><span class="time">[59:56]</span>is option one is very simple model.</p>
+    <p class="cue"><span class="time">[60:01]</span>It basically has one parameter, which</p>
+    <p class="cue"><span class="time">[60:04]</span>is epsilon, the fraction of pixels that change.</p>
+    <p class="cue"><span class="time">[60:07]</span>And so this, because it&#x27;s so simple,</p>
+    <p class="cue"><span class="time">[60:11]</span>is actually very robust to changes in distribution.</p>
+    <p class="cue"><span class="time">[60:14]</span>For example, say it&#x27;s a hot summer and a lot of people</p>
+    <p class="cue"><span class="time">[60:17]</span>are wearing sunglasses.</p>
+    <p class="cue"><span class="time">[60:20]</span>Well, the fraction of pixels that change,</p>
+    <p class="cue"><span class="time">[60:22]</span>even when people are wearing sunglasses,</p>
+    <p class="cue"><span class="time">[60:24]</span>doesn&#x27;t change that much.</p>
+    <p class="cue"><span class="time">[60:26]</span>Maybe if it&#x27;s Halloween and people</p>
+    <p class="cue"><span class="time">[60:28]</span>are wearing crazy large costumes,</p>
+    <p class="cue"><span class="time">[60:29]</span>maybe that would change.</p>
+    <p class="cue"><span class="time">[60:30]</span>But this is actually a very robust algorithm</p>
+    <p class="cue"><span class="time">[60:33]</span>because it&#x27;s so simple.</p>
+    <p class="cue"><span class="time">[60:34]</span>In contrast, if you trained on data</p>
+    <p class="cue"><span class="time">[60:37]</span>with no one wearing sunglasses because the sun&#x27;s</p>
+    <p class="cue"><span class="time">[60:41]</span>not that hot these days.</p>
+    <p class="cue"><span class="time">[60:43]</span>Then with everyone starts to wear sunglasses,</p>
+    <p class="cue"><span class="time">[60:45]</span>this is actually less robust.</p>
+    <p class="cue"><span class="time">[60:48]</span>So one of the advantages, very simple</p>
+    <p class="cue"><span class="time">[60:50]</span>non-machine learning-based systems</p>
+    <p class="cue"><span class="time">[60:51]</span>is they may be less susceptible to data drift.</p>
+    <p class="cue"><span class="time">[60:56]</span>Because maybe I tuned this parameter epsilon</p>
+    <p class="cue"><span class="time">[60:59]</span>to limit the data set.</p>
+    <p class="cue"><span class="time">[61:02]</span>But even when the data changes, this tuning can be quite robust.</p>
+    <p class="cue"><span class="time">[61:05]</span>But if I train a neural network with, say, thousands</p>
+    <p class="cue"><span class="time">[61:08]</span>or tens of thousands of parameters,</p>
+    <p class="cue"><span class="time">[61:10]</span>then I&#x27;m more likely to overfit to people without sunglasses.</p>
+    <p class="cue"><span class="time">[61:14]</span>So when people start wearing sunglasses,</p>
+    <p class="cue"><span class="time">[61:17]</span>you&#x27;re more likely to have to update this model.</p>
+    <p class="cue"><span class="time">[61:21]</span>And if you are building a--</p>
+    <p class="cue"><span class="time">[61:30]</span>sorry.</p>
+    <p class="cue"><span class="time">[61:34]</span>Cool.</p>
+    <p class="cue"><span class="time">[61:43]</span>Boy.</p>
+    <p class="cue"><span class="time">[61:47]</span>If you&#x27;re building a system, it turns out</p>
+    <p class="cue"><span class="time">[61:56]</span>to be incredibly helpful if you can get user permission</p>
+    <p class="cue"><span class="time">[62:00]</span>to stream a little bit of data back to your cloud</p>
+    <p class="cue"><span class="time">[62:02]</span>hosted service.</p>
+    <p class="cue"><span class="time">[62:04]</span>So that respecting user privacy, being careful of opt in,</p>
+    <p class="cue"><span class="time">[62:07]</span>transparent privacy practices--</p>
+    <p class="cue"><span class="time">[62:09]</span>I think privacy is really important.</p>
+    <p class="cue"><span class="time">[62:11]</span>So do be transparent.</p>
+    <p class="cue"><span class="time">[62:12]</span>Do the right thing for users.</p>
+    <p class="cue"><span class="time">[62:14]</span>And if you&#x27;re able to do that and get a little bit of data</p>
+    <p class="cue"><span class="time">[62:16]</span>back to your cloud to plot dashboards--</p>
+    <p class="cue"><span class="time">[62:23]</span>and maybe one practice that I&#x27;ve seen</p>
+    <p class="cue"><span class="time">[62:26]</span>is when building a high stakes application,</p>
+    <p class="cue"><span class="time">[62:30]</span>one good practice would be to gather your team together</p>
+    <p class="cue"><span class="time">[62:34]</span>and get a diverse set of opinions</p>
+    <p class="cue"><span class="time">[62:36]</span>on all the things you could change,</p>
+    <p class="cue"><span class="time">[62:38]</span>or all the things that could go wrong.</p>
+    <p class="cue"><span class="time">[62:40]</span>And I&#x27;ve built quite a few machine learning systems.</p>
+    <p class="cue"><span class="time">[62:43]</span>And I&#x27;ve found that when we sit down and brainstorm</p>
+    <p class="cue"><span class="time">[62:46]</span>all the things that could go wrong, including the data</p>
+    <p class="cue"><span class="time">[62:48]</span>distribution changes, I don&#x27;t think I have ever seen something</p>
+    <p class="cue"><span class="time">[62:53]</span>go wrong in real life that we did not</p>
+    <p class="cue"><span class="time">[62:56]</span>identify as a possible problem.</p>
+    <p class="cue"><span class="time">[62:59]</span>I might be wrong.</p>
+    <p class="cue"><span class="time">[63:00]</span>But at least right now, when we sat down,</p>
+    <p class="cue"><span class="time">[63:02]</span>we really brainstorm all the things to go wrong.</p>
+    <p class="cue"><span class="time">[63:04]</span>I think I have yet to see something</p>
+    <p class="cue"><span class="time">[63:05]</span>go wrong that was not on the list of stuff</p>
+    <p class="cue"><span class="time">[63:08]</span>that we brainstormed.</p>
+    <p class="cue"><span class="time">[63:10]</span>And so if you brainstorm-- and this</p>
+    <p class="cue"><span class="time">[63:12]</span>is true for safety critical applications as well.</p>
+    <p class="cue"><span class="time">[63:15]</span>It turns out creative teams, you can actually</p>
+    <p class="cue"><span class="time">[63:16]</span>think of all sorts of things that could change the data</p>
+    <p class="cue"><span class="time">[63:19]</span>or things that could go wrong.</p>
+    <p class="cue"><span class="time">[63:20]</span>And that then lets you try to design a set of dashboards</p>
+    <p class="cue"><span class="time">[63:25]</span>or metrics to put in place to monitor whether or not</p>
+    <p class="cue"><span class="time">[63:29]</span>any of these things that you think might go wrong</p>
+    <p class="cue"><span class="time">[63:31]</span>actually do go wrong.</p>
+    <p class="cue"><span class="time">[63:32]</span>So we may put in place dashboards [? light-- ?]</p>
+    <p class="cue"><span class="time">[63:38]</span>it turns out re-authentication is a common thing.</p>
+    <p class="cue"><span class="time">[63:41]</span>How often does the user need to authenticate twice</p>
+    <p class="cue"><span class="time">[63:43]</span>before they let through?</p>
+    <p class="cue"><span class="time">[63:44]</span>That&#x27;s actually a sign of user frustration.</p>
+    <p class="cue"><span class="time">[63:46]</span>So let&#x27;s build a dashboard to do that.</p>
+    <p class="cue"><span class="time">[63:48]</span>How often does a user have to try twice?</p>
+    <p class="cue"><span class="time">[63:50]</span>Because it probably means something</p>
+    <p class="cue"><span class="time">[63:52]</span>went wrong the first time.</p>
+    <p class="cue"><span class="time">[63:53]</span>How often do you accept versus reject the user?</p>
+    <p class="cue"><span class="time">[63:57]</span>And what is the latency of the system?</p>
+    <p class="cue"><span class="time">[63:59]</span>And I find that just as it&#x27;s difficult to know in advance</p>
+    <p class="cue"><span class="time">[64:03]</span>what&#x27;s in your data, it&#x27;s actually</p>
+    <p class="cue"><span class="time">[64:05]</span>difficult to know in advance what dashboard</p>
+    <p class="cue"><span class="time">[64:07]</span>will be the most useful.</p>
+    <p class="cue"><span class="time">[64:09]</span>And so the best practice I tend to recommend</p>
+    <p class="cue"><span class="time">[64:12]</span>is brainstorm a lot of things that go wrong,</p>
+    <p class="cue"><span class="time">[64:15]</span>brainstorm a lot of metrics, and then just create</p>
+    <p class="cue"><span class="time">[64:19]</span>very rich dashboards where this is time,</p>
+    <p class="cue"><span class="time">[64:23]</span>latency, re-authentication.</p>
+    <p class="cue"><span class="time">[64:28]</span>Time, the number of zeros versus ones.</p>
+    <p class="cue"><span class="time">[64:34]</span>And then draw plots over time to see how these rates trend over</p>
+    <p class="cue"><span class="time">[64:42]</span>time.</p>
+    <p class="cue"><span class="time">[64:43]</span>And if you&#x27;re able to have a lot of dashboards and sample</p>
+    <p class="cue"><span class="time">[64:47]</span>and just look at some of the data</p>
+    <p class="cue"><span class="time">[64:49]</span>for where you suspect it may be making a mistake,</p>
+    <p class="cue"><span class="time">[64:52]</span>that often is then a good way for you</p>
+    <p class="cue"><span class="time">[64:54]</span>to have a higher chance of spotting</p>
+    <p class="cue"><span class="time">[64:58]</span>when there might be a problem.</p>
+    <p class="cue"><span class="time">[65:00]</span>And in the times that built large dashboards</p>
+    <p class="cue"><span class="time">[65:04]</span>with 20, 30 metrics, I found that it&#x27;s surprisingly difficult</p>
+    <p class="cue"><span class="time">[65:09]</span>to know in advance which dashboards</p>
+    <p class="cue"><span class="time">[65:11]</span>will turn out to be useful.</p>
+    <p class="cue"><span class="time">[65:13]</span>I think in exploratory data analysis, in data science,</p>
+    <p class="cue"><span class="time">[65:17]</span>again, because we often don&#x27;t know what&#x27;s in the data</p>
+    <p class="cue"><span class="time">[65:19]</span>or what the data will give us in the future,</p>
+    <p class="cue"><span class="time">[65:21]</span>we just frankly plot a lot of stuff,</p>
+    <p class="cue"><span class="time">[65:24]</span>and then go and figure out from there what is interesting.</p>
+    <p class="cue"><span class="time">[65:26]</span>So the cost of plotting something in a Jupyter Notebook</p>
+    <p class="cue"><span class="time">[65:30]</span>is fairly low.</p>
+    <p class="cue"><span class="time">[65:31]</span>So let&#x27;s just plot a lot of stuff, have a lot of dashboards.</p>
+    <p class="cue"><span class="time">[65:33]</span>And if you end up with, 30, 50, 100 dashboards tracking</p>
+    <p class="cue"><span class="time">[65:39]</span>these metrics over time, then hopefully,</p>
+    <p class="cue"><span class="time">[65:41]</span>in a few days or a few weeks, you</p>
+    <p class="cue"><span class="time">[65:43]</span>figure out that a lot of them are really boring.</p>
+    <p class="cue"><span class="time">[65:45]</span>So we figure out that, well, latency is just not a thing</p>
+    <p class="cue"><span class="time">[65:48]</span>because the cloud-hosted deployment is just</p>
+    <p class="cue"><span class="time">[65:50]</span>very constant.</p>
+    <p class="cue"><span class="time">[65:51]</span>So well, let&#x27;s get rid of that because that&#x27;s</p>
+    <p class="cue"><span class="time">[65:53]</span>just a very boring plot.</p>
+    <p class="cue"><span class="time">[65:54]</span>I&#x27;m just not worried about that.</p>
+    <p class="cue"><span class="time">[65:55]</span>And so often, plot a lot of things</p>
+    <p class="cue"><span class="time">[65:57]</span>and then prune back to then have a smaller number of metrics</p>
+    <p class="cue"><span class="time">[66:00]</span>and we track and monitor for the long term.</p>
+    <p class="cue"><span class="time">[66:05]</span>And then eventually, when you get</p>
+    <p class="cue"><span class="time">[66:06]</span>a sense of just being the normal range for some metric,</p>
+    <p class="cue"><span class="time">[66:12]</span>you can then also put in place upper and lower alarms.</p>
+    <p class="cue"><span class="time">[66:17]</span>So that if it ever goes above or below certain bounds,</p>
+    <p class="cue"><span class="time">[66:21]</span>they&#x27;ll trigger an alarm, like go pay someone</p>
+    <p class="cue"><span class="time">[66:23]</span>to take a look to figure out if something&#x27;s gone wrong.</p>
+    <p class="cue"><span class="time">[66:26]</span>That makes sense?</p>
+    <p class="cue"><span class="time">[66:28]</span>And so unfortunately, just because you train a model a lot</p>
+    <p class="cue"><span class="time">[66:33]</span>of time in a real world production setting,</p>
+    <p class="cue"><span class="time">[66:34]</span>it doesn&#x27;t mean you&#x27;re done.</p>
+    <p class="cue"><span class="time">[66:36]</span>Because you deploy it, and then the world</p>
+    <p class="cue"><span class="time">[66:38]</span>will give you surprising data.</p>
+    <p class="cue"><span class="time">[66:40]</span>And having a plan to monitor what happens</p>
+    <p class="cue"><span class="time">[66:44]</span>as well as to maintain the model,</p>
+    <p class="cue"><span class="time">[66:46]</span>meaning get new data, update the system</p>
+    <p class="cue"><span class="time">[66:49]</span>to fix problems as they arise, that</p>
+    <p class="cue"><span class="time">[66:52]</span>is often an important part of the practicalities of deploying</p>
+    <p class="cue"><span class="time">[66:57]</span>a machine learning system as well.</p>
+  </section>
+</article>
+</body>
+</html>

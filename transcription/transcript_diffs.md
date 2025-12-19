@@ -1,0 +1,3265 @@
+# Transcript comparison report
+## Stanford CS230 ｜ Autumn 2025 ｜ Lecture 10： What’s Going On Inside My Model？.en-US.srt
+- Status: DIFFER
+```diff
+--- Stanford CS230 ｜ Autumn 2025 ｜ Lecture 10： What’s Going On Inside My Model？.en-US.srt
++++ Stanford CS230 ｜ Autumn 2025 ｜ Lecture 10： What’s Going On Inside My Model？.en-US.html
+@@ -1,2050 +1,2053 @@
+-Welcome to lecture 9 already.
+-I hope everybody had a good fall break.
+-Today, we're going to talk about neural networks,
+-both convolutional neural networks and transformers.
+-And we're going to unpack it to see what's going on inside.
+-This lecture used to be called neural network interpretability,
+-but I've broadened the scope because there is a section now
+-where we talk more about frontier models.
+-And the interpretability or visualization methods
+-have not quite been figured out for most models
+-that you play with out there.
+-So think about this one as research areas,
+-what we know from convolutions, and what
+-we're trying to figure out for frontier models.
+-We're going to start with a very packed agenda with a case
+-study where I'm going to ask you a question
+-and let you brainstorm a little bit all together
+-on how you would try to understand what's happening
+-inside of a frontier model.
+-In the second section, we're going
+-to look at the example of convolutions
+-specifically and try to interpret everything
+-possible about convolution.
+-Meaning, we're going to look at input/output relationship.
+-We're going to look at a specific neuron
+-inside and try to interpret it.
+-We're going to look also at a specific feature maps
+-and try to understand what they do.
+-I will present many methods to do that.
+-Those methods are real, and they've
+-been used for convolutions.
+-But again, they're not the methods
+-that you might see frontier labs use for today's language
+-or vision, large models.
+-However, they're going to bring you
+-the skills that will allow you to understand
+-the methods for frontier models as researchers
+-are trying to figure them out.
+-The second half of the lecture is
+-going to focus more on the modern representation analysis.
+-We're going to talk about scaling laws, capability
+-benchmarking, data diagnostics, and then I'll
+-end on a few closing remarks.
+-Are we ready for this one?
+-Lots of visualizations in this lecture.
+-So first question for you all.
+-Let's say the case study is, you are a model trainer,
+-and you're working on a 200 billion parameters model
+-at a frontier lab.
+-And overnight, a new checkpoint passes training sanity check,
+-but a few issues arise.
+-Things like the model is getting worse on reasoning benchmarks,
+-some safety evals are failing, and there's
+-a weird spike in, let's say, latency for tool use
+-when you actually use this model for an agentic workflow.
+-Your VP is wondering what's happening, and they ask,
+-what is going on?
+-And what are you going to look at first?
+-So what I want you to discuss for a minute
+-or so think about it first, and I'll open up,
+-is what are the type of evidences that you would look,
+-want to inspect before even touching the code
+-or retraining the model?
+-What are the things that you want to look at?
+-Jumping.
+-There's no single answer.
+-So I want to everything you're going to look at OK.
+-So error analysis.
+-You said, I will look at the reasoning benchmarks
+-and find the examples where the model is failing.
+-Specifically, try to find patterns
+-in order to pinpoint what the issue might be.
+-And then same thing on the safety
+-evals where you want to see what type of safety issues
+-are arising.
+-Is it everywhere?
+-Is it specific to something?
+-Yeah, I agree.
+-Error analysis in general.
+-What else?
+-Remember you're the model trainer.
+-So you're training this model.
+-You're supposed to be watching certain things when
+-you're training.
+-What can be interesting?
+-Yeah.
+-With sanity checks, you mean the loss in frequency.
+-And all of this, right, it starts passing.
+-Yeah.
+-Let's say not necessarily passing,
+-but those are great examples.
+-So you're mentioning, yeah, as you're the model trainer,
+-you would be watching the training loss.
+-And you want to see.
+-What are you going to look for in that training loss?
+-Convergence.
+-OK.
+-Convergence.
+-You probably want to make sure that it's smooth.
+-You don't want big spikes.
+-How about the validation loss?
+-What is your expectation on the validation loss?
+-Should go up.
+-Yeah, should probably follow the same curve as the training loss,
+-but is likely slightly higher because you're probably
+-performing slightly less well on the validation set
+-than on the training set.
+-If you're seeing spikes, it might
+-mean there are some issues.
+-What else are you looking at?
+-Yeah.
+-Take a look at this round of training data
+-see how it's performing.
+-So this batch, you mean?
+-Yeah, so you're looking at this round of training data,
+-maybe the last round of data that we trained on,
+-there were some issues in that data.
+-Maybe that data was probably poisoned or biased
+-toward a certain category of data that we're failing on.
+-You're totally right.
+-Yeah.
+-Maybe that specific checkpoint is doing poorly compared
+-to the previous checkpoint.
+-And so you pinpoint where the issue arises
+-during the training.
+-What else are you looking at?
+-Yeah.
+-I'm worried about the overnight thing.
+-It's pretty fast.
+-I wonder if this is in line with a hardware issue there.
+-OK.
+-Because it's overnight and it seemed
+-everything was good up to yesterday
+-and now there's an issue, maybe you're
+-saying there's a hardware issue.
+-Yeah, we could check actually is--
+-yeah, latency has been pointed out.
+-So maybe the hardware has failed.
+-Yeah, you're right.
+-What else?
+-So a lot of the answers are global answers.
+-You're looking at the model in general.
+-You're not looking at specific portions of the model.
+-What would if you were to inspect the model more precisely
+-from the inside?
+-And this one's a language model.
+-So you can think about the fact that it's a language model.
+-Yeah.
+-I mean, it's something I would do is just recently
+-examine differential equations, look at what has happened
+-over the past 10 points before this one
+-to see the model getting to perform better or was
+-it not, just to see if there was hardware issue
+-or there would be a problem.
+-Yeah, you're right.
+-You want to look at different checkpoints
+-and see where did we fail and might
+-be able to trace back to that moment
+-and figure out what the issue was?
+-So, for example, maybe your initialization was actually
+-pretty good and the first checkpoints were doing well,
+-but suddenly at some points, the model
+-saturated in a certain way.
+-Maybe you're seeing exploding gradients or vanishing
+-gradients in certain moments, and you want to pinpoint that.
+-Yeah.
+-What else?
+-We're adding so many methods right now,
+-but I want to hear what else you have for language models.
+-What other things can you visualize
+-for language models that might mean something's going wrong?
+-Yeah.
+-And if you really want to go deep into it,
+-you can actually plot the attention maps
+-The attention maps.
+-Yeah, yeah.
+-Fair enough.
+-You've learned about transformers
+-in the online videos, the attention maps, which
+-are representative of the relationship
+-between different tokens.
+-They might not make sense to you.
+-You might actually be plotting certain attention maps
+-and be like, this token has nothing to do with that one,
+-but the model seems to think it has.
+-And you might be able to identify certain issues
+-with the attention maps.
+-What else beyond the attention maps?
+-What?
+-Yeah.
+-I don't know myself, but running a sensitivity analysis
+-might be helpful to see where with what
+-parameters are [INAUDIBLE]
+-So you mean-- tell me more about the sensitivity analysis.
+-What would you fix, for example, and what would you change?
+-Probably the parameters.
+-Honestly, right now I don't what parameters to touch
+-and how to that, but it seems logical to access the analysis
+-so you realize what is happening.
+-How the parameters actually [INAUDIBLE]
+-OK.
+-Yeah.
+-But I like the idea of sensitivity analysis.
+-You might try to figure out which
+-hyper parameter went wrong.
+-Is there something wrong with our optimizer?
+-Is our learning rate schedule poorly tuned?
+-Maybe scaling laws.
+-That we can play with compute.
+-We can play with data.
+-We can play with model size.
+-And one of those might be going wrong.
+-Maybe an analysis would allow us to identify the model is fine.
+-It just needs to be trained longer
+-or the model is actually too small for the amount
+-of data we're giving it.
+-That type of stuff would come with either doing a sensitivity
+-analysis or comparing what we're doing to the scaling laws
+-that we from other models.
+-We're going to look into that.
+-OK.
+-Any other ideas?
+-I have a question.
+-So these 200 billion parameters, where does the number come from?
+-Probably these parameters, we don't need them.
+-Might be.
+-So you're saying I gave you 200 billion parameters, which
+-is a very large model even as of today.
+-It might be overparameterized.
+-That's a good question because it
+-depends on what it's been trained on, how much data
+-we're feeding it, how much compute.
+-It's all relative to each other.
+-But yeah, it's a large model.
+-So I would expect a lot of compute
+-and a lot of data along with it.
+-In fact, a lot of these models might be
+-built as a mixture of experts.
+-You've heard about mixture of experts.
+-One thing that could happen is that some of the experts
+-are failing, and you might be inspecting if experts
+-are in fact failing or the routing module is always
+-selecting the same expert because it's just
+-found an expert that is really good and generalized
+-and the other experts are not being used.
+-That might be another issue as well
+-that might be related to the model capacity.
+-Because if the model is not using all its experts,
+-it's probably not actually operating as a 200 billion
+-parameter model.
+-It's operating as a smaller model.
+-So generally, this is to motivate the lecture.
+-We're going to look into all of these together today.
+-And we'll start with convolutions
+-because they're very visual.
+-For the convolutional part, we're going to go super deep.
+-But then for the frontier models,
+-I'm just going to get broader and give you
+-the areas of research.
+-So the answer to the question I asked typically
+-would fall under four buckets, every solution
+-that we looked into together.
+-One is training and scaling.
+-So people are looking at loss curves at things gradients,
+-learning rates, mixture of experts, routing, scaling laws.
+-We're going to talk about all these.
+-The second category is representation
+-and internal aspect of the model.
+-You mentioned. attention heads and maps, embeddings,
+-nobody mentioned embeddings but you could actually
+-visualize embeddings and see, does it
+-make sense to you or these tokens close to each other
+-as you would expect?
+-Meaning the model's mental understanding of language
+-is correct.
+-And then neuron level behaviors.
+-Although that's really hard with a large model.
+-And nobody has quite figured it out yet.
+-And then the other category might be data and distribution.
+-Maybe the actual benchmark that we're looking at
+-has been contaminated.
+-Meaning the model either it's doing too well on that benchmark
+-or it doesn't mean anything, or it's
+-doing poorly for a certain reason
+-because the data distribution used in the test set
+-is completely different from the training or validation set.
+-And then it might be failing at different levels.
+-You can run benchmarks on the language model.
+-You can run benchmarks on the agentic workflow that
+-is using that language model.
+-And because you want the language model
+-to be used in agentic workflow, those
+-are two levels that you need to inspect.
+-So, for example, when a frontier lab
+-says our model is doing really well for tool use,
+-what they mean is the language model
+-has been tested on upstream tasks in a workflow,
+-and it's actually good at tool use against their benchmarks.
+-So those are different levels of capability analysis.
+-So let's talk about convolutions.
+-We're going to dive deep inside convolutions.
+-And then we'll go back up and look at frontier models.
+-So first case study for convolutions.
+-Let's say that you have built an animal classifier for a zoo.
+-And they are very reluctant to use your model
+-without any human supervising because they
+-don't understand the decision making process of the model.
+-How can you alleviate their concerns?
+-How can you give them intuition about the decision making
+-process of the model so that they
+-feel like the models doing things
+-that feel natural and human?
+-Just to simplify, let's say you have
+-a convolutional neural network, and there's a softmax layer,
+-and it's supposed to identify animals.
+-So the number of classes or many animals.
+-Yeah.
+-If you were to write a quick Python
+-code to give them some intuition, how would you do it?
+-Yeah.
+-Thanks very much.
+-First, with the softmax is how we're
+-going to eventually get at the end result,
+-probabilities what the animal is.
+-And then the next thing I will explain is how with the CNN,
+-each layer of our CNN is getting more in depth,
+-I guess, features of the image of the animals are showing.
+-And then maybe if I have time, I can try and use different images
+-and try to figure out what each layer [INAUDIBLE]
+-OK.
+-Good.
+-So just to recap, the zoo is not I native.
+-So you have to explain certain things.
+-You're going to tell them what softmax is.
+-So we're going to have a probability for each animal
+-classes.
+-That's how it works.
+-And on top of that, you also mentioned
+-you might talk about convolutions
+-and say here are how features are identified,
+-here is how a filter scans through the image.
+-And we're expecting this to learn.
+-So you're going to educate them first.
+-That's totally right.
+-The second thing you mentioned is maybe
+-you run a data set search.
+-So you can try to build their intuition
+-by showing them animal pictures and showing
+-that the model is doing well.
+-And yeah, I agree those are good approaches.
+-We're going to see how to do a proper data set
+-search large scale.
+-But what else can you do that's going to give a little bit
+-more confidence?
+-Because this is explanation, but it's not proof
+-that the model is looking at the right place systematically.
+-Yeah.
+-You display some of the hurdles and demonstrate [INAUDIBLE],
+-and show all the small features that [INAUDIBLE].
+-So you say, ideally, you would give them
+-intuition at a filter level.
+-This filter we know it's responsible for finding
+-the legs of an animal.
+-That's what you're saying.
+-So how would you do that?
+-Well, maybe I don't know enough but it's not supposed
+-to bring out the [INAUDIBLE]
+-Good intuition.
+-You're asking, is it as simple as just printing out
+-the weights that are identified or the feature map
+-that results of that filter?
+-Unfortunately, not usually, because that
+-might be true for the first layer.
+-But as you get deeper, things mix up
+-so much that if you were just to print the filter,
+-it wouldn't make any sense.
+-Pretty much.
+-But there are other methods that we're going to see.
+-So your intuition is right.
+-We're going to try to give them that.
+-Something simpler, input/output relationship.
+-How would you show that the output is actually
+-related to the right portions of the inputs for this dog,
+-for example?
+-Yeah.
+-Recall a confusion matrix.
+-[INAUDIBLE]
+-Confusion matrix across a lot of data.
+-You would find true positives, false, et cetera.
+-Yeah.
+-Correct.
+-Something else.
+-You have a critical layer of your network
+-and then you show how it completes over different layers
+-to show how from the first layer is taken.
+-That doesn't give us [INAUDIBLE]
+-So similar to what he said, you want
+-to give them intuition from the inner workings of the network.
+-And you're saying, how about we mask
+... (truncated)
+```
+
+## Stanford CS230 ｜ Autumn 2025 ｜ Lecture 1： Introduction to Deep Learning.en-US.srt
+- Status: DIFFER
+```diff
+--- Stanford CS230 ｜ Autumn 2025 ｜ Lecture 1： Introduction to Deep Learning.en-US.srt
++++ Stanford CS230 ｜ Autumn 2025 ｜ Lecture 1： Introduction to Deep Learning.en-US.html
+@@ -1,1242 +1,1245 @@
+-What I want to do today is give an overview of this class.
+-I'm actually curious before we get started.
+-This is now September 2025.
+-How many of you just started at Stanford?
+-Raise your hand.
+-Wow.
+-Cool.
+-Awesome.
+-So others, pay attention to who just raised their hands
+-and do say hi to them and help welcome
+-all of the people that just joined
+-Stanford in whatever program.
+-CS230 is a class that we offer in the flipped classroom format.
+-And what that means is that instead of listening
+-to me or Kian, my co-instructor that you meet next week,
+-instead of listening to us lecture at you for an hour, hour
+-20 minutes, or whatever, we'll actually
+-ask you to watch a lot of the video
+-lectures online so that we can then
+-make use of the precious in-classroom time for much
+-richer, deeper discussions.
+-So both today and for the entire quarter,
+-I would really warmly welcome anyone raising questions,
+-raise your hand.
+-And in fact, I find that instead of you sitting there--
+-oh, and even though with a longer session schedule
+-by the registrar, we'll use usually
+-only up to an hour and 20 minutes for this course.
+-And the goal is to--
+-it turns out that a lot of Stanford students
+-were watching the lectures on Seagull,
+-on the online videos anyway.
+-So rather than us delivering that same lecture year
+-after year, we put a lot more effort
+-to put very high quality lecture videos online
+-and we'll ask you to just watch that online, which people are
+-doing anyway, but just highly edited for offline watching
+-and spend a classroom time doing the things that
+-make sense for us to get together in-person to.
+-So because you haven't watched any of the lectures yet,
+-or I assume most of you have not,
+-today we'll even maybe have a slightly shorter session
+-to introduce the class, talk about logistics, and so on.
+-As many of you know, deep learning
+-is one of the latest, hottest trends technologies
+-of computer science and AI.
+-If we look at, say our PhD admissions or even master's
+-admissions, a very large fraction
+-of all students that come to Stanford
+-or applying to come to Stanford want to work on AI.
+-I'm not sure if I'm allowed to say the numbers,
+-but they are extremely high, as you can imagine.
+-And so my goal and my co-instructor Kian's goal,
+-our collective goal, is through this quarter
+-to help you get to near or at pretty much state of the art
+-with regard to deep learning and make sure that all of you
+-walk away from this class highly skilled at applying
+-deep learning.
+-And so it turns out that a lot of progress
+-in AI over the last, I don't know,
+-decade, maybe 10, 15 years, was made by scaling.
+-And one of the reasons why deep learning was so successful
+-was because it's good at absorbing a lot of data.
+-So if I draw a figure where on the x-axis
+-I plot the amount of data we have for a problem,
+-then using more traditional machine learning algorithms, so
+-logistic regression, maybe decision trees,
+-but using all the generations of AI machine learning algorithms,
+-as you gave it more and more data,
+-the performance or the accuracy of the more
+-traditional algorithms would plateau.
+-It was as if--
+-So take speech recognition.
+-With all the generations of algorithms,
+-even as you fed it more and more data, hundreds and thousands
+-and tens of thousands of hours of speech data,
+-the accuracy would often plateau and it
+-was as if the older generations of algorithms
+-didn't what to do with all the data that we now have.
+-But what we start to find about 10, 15 years ago
+-was that if you train a small neural network, also known
+-as a small deep learning model, its performance would maybe
+-get better and better.
+-And if you train a medium-sized one,
+-and if you train a very large neural network,
+-the performance just keeps getting better and better.
+-And I think the reason that deep learning has dominated the AI
+-scene for the last 10, 15 years is
+-because there is a recipe for training
+-very large neural networks that we could then
+-shove a lot of data into the results
+-in exceptional performance.
+-So I think we started to see this because of, frankly,
+-some Stanford research papers about 15 years ago when
+-we did the first early work on using CUDA programming
+-and GPUs to scale up deep learning.
+-Oh, by the way, actually, it's one fun fact.
+-My first GPU machine used to train neural networks
+-using CUDA, which is a controversial thing at the time.
+-It was built by a Stanford undergrad in his dorm room.
+-His name was Ian Goodfellow.
+-But I think that compute server, built in the Stanford
+-undergrad dorm room, allowed us at Stanford
+-to lay the early foundations of using CUDA, at that time
+-a modern language for training GPUs
+-to train large neural networks.
+-And then obviously, that influenced a lot of people
+-and helped scaling up deep learning take off.
+-So I tell that story because sometimes the work
+-that some of you can do in a dorm room or graduate student
+-housing or whatever, or in a lab at Stanford,
+-looking back over some number of years,
+-it can really have a huge impact.
+-And maybe in this class, some of you
+-will do work as impactful as that someday as well.
+-But so what you start to find was
+-that as we train larger and larger neural networks,
+-they could soak up lots of data and drive
+-exceptional performance.
+-And then there was a research paper out of Baidu,
+-which showed that as you scale up neural networks, as you scale
+-up deep learning algorithms, the performance gains are actually
+-quite predictable.
+-So you can forecast, if you buy this many GPUs,
+-throw this compute and this much data at it,
+-what would the performance be?
+-And then later, OpenAI popularized the idea
+-with a really influential paper on scaling laws.
+-And that predictability of how deep learning gets better
+-in performance then drove a lot of the investments
+-in data centers and building very large AI models
+-with lots of data.
+-And so let's see.
+-In terms of where this class sits, so in computer science,
+-all of us build on each other's work.
+-A lot of the way that computer science and AI has made progress
+-is we build on top of other ideas
+-that are, in turn, build on top of other ideas
+-that in turn build on top of other ideas.
+-So maybe I want to give you a little map to show you maybe
+-where deep learning sits.
+-So I think there are--
+-machine learning is built on top of computer science.
+-So I think it's actually helpful to learn CS fundamentals.
+-And even though I use and I suspect
+-vast majority use AI-assisted coding,
+-be it tools like Cloud Code or Gemini CLI, or OpenAI
+-Codex, or Cursor, or Windsurf, or whatever,
+-I find that people that know CS fundamentals, that really
+-understand computer science, that really understand how
+-computers work, rather than I'm going to vi code this,
+-when you understand CS fundamentals,
+-you get things to work much better.
+-But on top of CS fundamentals, there's
+-a set of machine learning skills.
+-So how do you build algorithms that can learn from data?
+-And then deep learning is a special type
+-of machine learning.
+-Well, that's really the most effective type of machine
+-learning, as far as I can tell, in which
+-we train neural networks, we train
+-certain types of algorithms to learn
+-from large amounts of data.
+-So far in the last 10 minutes, you've
+-probably heard me use the words deep learning
+-and neural networks.
+-And I think today those two terms
+-are almost interchangeable.
+-Some purists will insist on some technical differences.
+-For all practical purposes, they mean the same thing.
+-But what happened was the term neural networks had been around
+-for decades, but around 10 or 15 years ago, a number of us
+-realized that deep learning, it was just a much better brand.
+-And so even though neural networks
+-have been around for decades, starting about 10, 15 years ago,
+-it was deep learning that took off,
+-because who doesn't want learning that is really deep?
+-It's just a good brand.
+-But you hear me use those terms interchangeably.
+-But deep learning algorithms, neural networks,
+-they give us a way to take advantage more and more and more
+-compute capacity so they can build very large AI
+-models with a lot of parameters to soak up
+-the large amounts of data to get more and more intelligent
+-or to make better and better predictions,
+-or to generate more and more accurate
+-outputs using the large amount of data that's available to us.
+-Ever since I was a teenager, my mom's
+-been trying to convince me to stop mumbling,
+-but now, many years later, I still struggle with that.
+-So I'll try my best.
+-So please, wave at me or let me if I start to drift lower again.
+-Yeah, all right.
+-I think my mother would be very happy to have
+-to practice like this now.
+-All right.
+-So CS fundamentals, machine learning, deep learning,
+-and then the recent generative AI revolution.
+-Generative AI-- sorry, bad handwriting.
+-Generative AI, which is mostly built
+-by a specific type of neural network
+-called the transformer neural network, which
+-you learn about in this class.
+-You actually learned what is the transformer architecture
+-later in this quarter as well, is in turn
+-built on top of deep learning.
+-So I assume all of you are regularly
+-prompting LLMs, large language models,
+-to help you get work done.
+-And what I find is that while I use LLMs all the time,
+-for a lot of applications, just prompting LLMs,
+-it doesn't cut it.
+-There are a lot of things that I cannot get to work just
+-by prompting an LLM.
+-And so I'll often have to go a layer deeper
+-into the deep learning layer of abstraction
+-and fill it with deep learning algorithms
+-in order to get certain things to work.
+-And in fact-- so what this class covers
+-is we'll try to make sure that you are expert,
+-near-expert in deep learning by the end of this class,
+-but we'll also dip a little bit into machine learning concepts.
+-We'll talk a lot about objective functions and tips and tricks
+-for optimizing parameters in efficient way.
+-And then we'll also actually reach up a little bit
+-to cover some GenAI.
+-In particular, we'll talk about what is the transformer network?
+-And then through this quarter, Kian and I
+-will also chat a little bit about the job landscape
+-as it relates to GenAI and deep learning,
+-and how deep learning is enabling certain types of AI
+-applications.
+-OK.
+-I have more to say about this, but let
+-me just pause for a second and see if you have any questions.
+-Yeah, go for it.
+-Did you say machine learning is a prerequisite to this course?
+-Oh, good question.
+-What I say?
+-Congratulations.
+-You've won the prize for the first question asked
+-in CS230 2035, so well done.
+-[APPLAUSE]
+-Yeah.
+-So is machine learning a prereq to this course?
+-Not really.
+-So I think two common entry points to AI at Stanford
+-are CS--
+-well, a few common entry points are CS129, CS229, and CS230.
+-If you don't know any machine learning,
+-this course may end up going a little bit fast,
+-may seem like it's going a little bit fast in the first,
+-I don't know, two or three weeks,
+-but some people do pick things up quickly that way.
+-And maybe actually--
+-So a few courses that you may hear about.
+-So 129 is a relatively easy entry point
+-into machine learning that tends to-- it takes a longer
+-time to go through the core concepts of machine learning.
+-Like, what's the optimization objective?
+-How do you implement gradient descent?
+-What is logistic regression?
+-What's a very basic neural network?
+-So this is a relatively applied easiest of this list.
+-CS229, which I'm also involved in co-teaching,
+-is much more mathematical and theoretical, very high-paced,
+-very intense, and very mathematical.
+-And this is less applied than 129 and 230,
+-but this will go over a lot more of the theory and the math
+-derivations behind machine learning algorithms.
+-So, for example, if you want to learn how to do calculus
+-not using real numbers, but calculus
+-using matrices and vectors, that's a bunch of, I don't know,
+-mildly complex math that's worth knowing.
+-CS229 goes over that.
+-CS230, this class, is relatively applied,
+-and it focuses just on deep learning.
+-So of all the machine learning-- there
+-are a lot of machine learning algorithms
+-out there, supervised learning, unsupervised
+-learning, a lot of machine learning algorithms out there.
+-And many, many of them are very useful
+-and so they're all worth learning about.
+-But of all the machine learning algorithms out there,
+-the one category that is most useful that's taking off
+-the most is deep learning, and this class focuses just on that,
+-but the other arm is also worth learning about.
+-So 129 is the easiest on-ramp.
+-But if you've done either 229 or 230,
+-I would probably skip 129 at that point.
+-But if you are getting started, there are multiple on-ramps.
+-Yeah.
+-If we take 229 and 230 together, do you think it's redundant?
+-Oh, yeah.
+-Can you take 229 and 230 together?
+-Yeah, thank you.
+-Prize for the second question.
+-All right.
+-If you want to clap, sure, go for it.
+-[APPLAUSE]
+-Yes, you can take CS230 and CS229 together.
+-We designed the two curricula to be relatively low in overlap.
+-So the very small amount of overlap between these two.
+-We won't clap for every single question, but go ahead.
+-Are you going to cover more recent deep learning algorithms
+-that are used in recent LLM developments,
+-like five or two more?
+-Yeah, so when we cover the recent LLM developments,
+-we will touch on the transformer neural network, but not
+-the latest LLM variations in this course.
+-I think a lot of it, it turns out
+-that when you go out to get a job, well, maybe,
+-if assuming you go and work in industry,
+-the number of people training LLMs is actually very small.
+-Some of those jobs tend to be incredibly well-paid
+-so we hear about very high salaries in the news media,
+-but the vast majority of application builders
+-end up sometimes working the GenAI level, not that
+-often training a transformer from scratch,
+-but then often using deep learning tools as well.
+-So maybe one example, something that many of my teams have done
+-is we have trained transformer models--
+-foundation models from scratch with relatively small ones
+-in, say, startups.
+-But one thing we do do quite a lot
+-is take a pre-trained transformer network
+-and then engineer our own data to further fine tune it.
+-Sorry if I'm using words you may not totally understand,
+-pre-trained, fine-tuned, you'll know what all those terms
+-are by the end of this quarter.
+-So those are things that we actually do day-to-day.
+-This is important for getting a bunch of products
+-to work so you will gain the foundations needed
+-to do the type of work in this course.
+-One thing we don't do is talk a lot
+-about how to train the largest cutting edge transformer
+-networks.
+-I think that is a very important skill set,
+-is relatively niche one for which
+-some people are getting paid really, really well,
+-but the number of people doing that in the world
+-is actually small, whereas the number of people
+-building applications with this set of skills is very large.
+-Do you have any courses that you cover that?
+-Do I have any courses covering that?
+-I think Percy Liang was thinking about doing something,
+-but I don't remember he's doing it this quarter.
+-Few people are thinking about doing something like that.
+-Yeah.
+-Go ahead.
+-This is a question about the course itself.
+-Do you know about what the portion of the course
+-is going to involve.
+-mathematical analysis and multiple coding?
+-So just repeating for the mic for the home viewers,
+-what portion is coding versus what proportion
+-is mathematical analysis?
+-This course is relatively math light.
+-Sorry, maybe that was too strong a statement,
+-but I think this course is very practical.
+-I remember many years back, I was
+-speaking with a mathematician and we're just chatting
+-and he was asking--
+-he was just talking about his career, why
+-he chose to be a mathematician.
+-And I still remember, he had stars in his eyes
+-when he told me that he chose his career path because he felt
+-his role is to pursue truth and beauty in the universe,
+-and that's why he became a mathematician.
+-In this course, I'm not going to do any truth and beauty stuff.
+-Truth and beauty is good, but you
+-find that I want to take a very practical approach to talking
+-about how to build applications and build software that works.
+-Yeah.
+-Cool.
+-Anything else?
+-All right.
+-Cool.
+-Awesome.
+-All right.
+-Thank you for all the questions.
+-Please keep them coming.
+-And feel free to interrupt me or Kian throughout this quarter as
+-well with questions.
+-Love it.
+-So just to flesh this out a little bit more,
+-this is what I see in terms of teams building
+-practical applications.
+-And I'm excited about applications
+-because with improving machine learning algorithms,
+-deep learning algorithms, GenAI algorithms,
+-there are a lot of applications that you can build now
+-that just were impossible or really inaccessible
+-to any person to build even a few years ago.
+-And so I find that when I prompt GenAI,
+-it works really well for a lot of text-based applications.
+-And there's work on multimodal LLMs, large multimodal models.
+-So making inroads into vision, making inroads into audio.
+-But really GenAI algorithms, especially transformer networks
+... (truncated)
+```
+
+## Stanford CS230 ｜ Autumn 2025 ｜ Lecture 2： Supervised, Self-Supervised, & Weakly Supervised Learning.en-US.srt
+- Status: DIFFER
+```diff
+--- Stanford CS230 ｜ Autumn 2025 ｜ Lecture 2： Supervised, Self-Supervised, & Weakly Supervised Learning.en-US.srt
++++ Stanford CS230 ｜ Autumn 2025 ｜ Lecture 2： Supervised, Self-Supervised, & Weakly Supervised Learning.en-US.html
+@@ -1,2325 +1,2328 @@
+-I'm Kian Katanforoosh and I am the co-creator and collector
+-with Andrew for this class, CS230.
+-And I will teach about half of the in-person lectures
+-this quarter.
+-Outside of Stanford, I work in industry.
+-I lead a company called Workera which uses AI to measure skills.
+-And with the history of CS230 students that
+-have started AI startups and companies, what I try to do,
+-usually, is to bring a lot of examples from industry.
+-So what you should expect from these in-class lectures
+-is not as much of the academic side of things, which
+-we learn anyway in the online videos,
+-but also the industry specific input.
+-And some of the topics that we'll cover this year together
+-includes decision-making in AI projects,
+-which we're going to see today.
+-I want you to come out of today's lecture feeling
+-like you had some fun, it was interactive.
+-And also you have a better way to make decisions in AI projects
+-because you've seen how deep-learning researchers,
+-engineers, and scientists make their decisions solving problems
+-in industry.
+-Other topics later in the quarter for in classroom time
+-include things like adversarial attacks and defenses.
+-We might have some time to cover it today.
+-Deep reinforcement learning, which
+-is really hot in the market right now,
+-and I think it's very important to about it.
+-And then all the stuff that is very practical,
+-like retrieval augmented generation,
+-AI agents, multi-agent system.
+-As we go deeper into the class, and you
+-get the baggage of neural networks,
+-we'll be able to cover even more fun topics.
+-So today's lecture is going to be structured
+-in three parts, maybe four depending
+-on whether we have time.
+-We'll start with a little recap of the week.
+-What you've learned online about neurons and layers
+-and deep neural networks.
+-Then we'll get into a set of supervised learning projects,
+-including a day and night simple vanilla classification,
+-the trigger word detection, which is actually
+-a project you're going to build at the end of the class
+-yourself.
+-And then face verification, which
+-we'll see also variation of how face verification
+-algorithms work.
+-In the third section, we'll focus
+-on self-supervised learning and weakly supervised learning.
+-Don't worry if you don't these terms.
+-We're going to learn them together.
+-And we'll talk a lot about embeddings
+-because embeddings are the connective tissue of many AI
+-systems online today, and it's important to know about them.
+-And finally, if we have time, we'll
+-also talk about adversarial attacks and defenses.
+-With more and more AI systems in the wild,
+-knowing how to defend them is very important,
+-and knowing how to attack them can also
+-teach you how to defend them.
+-So we'll cover that as well.
+-Sounds good?
+-Please interrupt me as we go through the lecture.
+-We want this to be very conversational as much as
+-possible.
+-So recap of the week is the core way
+-that AI learns from data in a traditional supervised learning
+-setup.
+-You can think of it as an input, such as this little image
+-of the confused cat and an output,
+-in this case, a number between 0 and 1
+-that represents the chance that there
+-might be a cat on the picture 1 or there
+-is no cat on the picture 0.
+-What the model is, and oftentimes you'll see
+-me refer to the model as two things.
+-There's an architecture which is essentially
+-the blueprint of the model, the skeleton and parameters.
+-It might be a few parameters, it might
+-be billions of parameters like the models
+-that OpenAI, DeepMind and others work on.
+-Outside of that--
+-And so when you think about AI models being deployed
+-in the wild, when you think about what's
+-happening with ChatGPT, you can really
+-come down to there's two files somewhere on the cloud, one that
+-describes the architecture of the model, one
+-that describes the parameters that
+-are part of this architecture.
+-And you keep calling to those two files,
+-and you get your inference or your output.
+-That's really what's happening behind the scenes.
+-Much more complicated than that, obviously.
+-But those are the two critical components of a neural network
+-architecture, and its parameters that are trained.
+-How does the model learn?
+-Is through a gradient descent optimization.
+-Meaning I send the picture of the cat through the model,
+-and the model, at the beginning, is not trained,
+-so it's probably wrong.
+-It tells me I think there is no cat, I think it's 0.
+-And then I use something called the loss function
+-to compare the ground truth.
+-There is a cat on the picture with the prediction
+-from the model at this point in time.
+-Those two numbers are far from each other.
+-That should be a penalty, which the loss function describes.
+-And then, in order to give feedback to the parameters,
+-we use this gradient descent update.
+-We do that many, many times.
+-What it means is that we take our parameters and we tell them,
+-hey, you should go a little bit more
+-to the right or a little bit more
+-to the left until that number, that
+-is the prediction for the cat, is closer to the ground truth.
+-We do that with batches of data, millions
+-of images of cats and images of anything
+-else, and we give that feedback repetitively to the model
+-until the parameters are calibrated
+-and the model is, in fact, finding the cat on this picture.
+-Nothing new here.
+-You've seen it in the videos.
+-Any question on that learning setup?
+-No.
+-OK, easy so far.
+-There's many things that can change in this setup,
+-and you'll see in the class.
+-First thing is the input.
+-The input does not have to be an image.
+-It can be text like when you chat with ChatGPT.
+-It can be audio, it can be video,
+-it can be structured data, it can be spreadsheets and numbers.
+-Those we'll see a variety of examples in the class
+-and how it influences the architecture.
+-The output again doesn't have to be 0 and 1.
+-This is an example of a classification.
+-You could turn this problem into a regression.
+-For example, if I was asking you, what's the age of the cat,
+-estimate the age of the cat.
+-That would be a regression task, not a classification task
+-anymore.
+-Later in the class, we'll also see generative tasks.
+-In fact, lecture 4 is going to focus on diffusion models
+-generative adversarial networks where the output, actually,
+-is much bigger than the input, typically.
+-So you can have a low resolution of a cat as input and the output
+-is a high-resolution of the same cat.
+-The output is bigger than the input, which can
+-be counterintuitive to people.
+-Other things that can change include the architecture.
+-You've learned about the vanilla multilayer perceptron
+-or the fully connected neural network.
+-That's what we're learning right now online together.
+-By the end of the class, you'll have many architectures
+-that you'll be familiar with from RNNs
+-and convolutional neural networks, transformer models.
+-All of these, at the, end of the day,
+-use the basis neural network that you're learning right now.
+-They're just stacked on top of each other differently.
+-The loss function is actually a big focus of today's class
+-and of the class in general.
+-The loss function, which is what gives the feedback to the model,
+-you were right or you were wrong, and what to do about it
+-is an art.
+-Designing good loss functions.
+-Great deep learning researchers are
+-very creative when it comes to designing loss functions.
+-And in fact, when we built the algorithm called YOLO,
+-it is called YOLO for you only look once,
+-not you only live once.
+-But YOLO has a very, difficult to understand at first loss
+-function.
+-And there's a reason why the loss function
+-was designed like that.
+-So by the end of this class, you'll
+-also have a better intuition on how do
+-we design great loss functions.
+-Other things I'm not going to cover right now,
+-the activation functions in your neural network, the optimizer
+-that you use for your gradient descent loop, and then the
+-hyperparameters that might come in when
+-you train your algorithms.
+-OK nothing new here.
+-This is the basic setup.
+-You've also learned this week about neurons.
+-The easiest way to think about a neuron
+-is the classic logistic regression algorithm.
+-Where I'm taking the image of the cat.
+-So an image in computer science with the way the machine reads
+-it is three channels.
+-RGB for the three colors red, green, blue.
+-And we take all these numbers.
+-We put them in a vector.
+-The vector is then fed into a neuron.
+-And the neuron has two components the linear part
+-W transpose X plus B. W being the weights
+-and B being the bias.
+-And then an activation function, in this case,
+-the sigmoid function, which is very handy because it takes
+-any number, and it puts it between 0 and 1
+-so that the output can look like a probability.
+-Classic setup.
+-And here the probability is 0.73 which is above 0.5.
+-Which tells me the model thinks there's a cat on the picture
+-because 1 is a cat 0 is no cat.
+-So question for you to get started.
+-How would you modify this binary classification
+-that detects cats in an algorithm that
+-would be able to detect multiple animals,
+-such as a cat, a dog, and a giraffe?
+-What do you need to change about this neural network?
+-Yeah.
+-OK, so you would change the output layer
+-to match to the number of animals you want to detect.
+-Yeah, correct?
+-Anyone wants to add anything else?
+-Yeah.
+-The data that goes in there.
+-The data that goes in there.
+-How would you change the data?
+-It has to be for the animal data.
+-OK very good.
+-Yeah, you need data from dogs and giraffes
+-and also maybe nature in general.
+-What else do we need not to forget?
+-Yeah.
+-Maybe you could add a neuron for each node,
+-and then your prediction would be whichever
+-output is the highest.
+-Yeah, OK.
+-Add 1 neuron per animal.
+-Those neurons will be independent from each other.
+-And each neuron would focus on one animal.
+-Yeah good point.
+-It's actually what we're going to do.
+-So yes, I think your suggestions were the right one.
+-We could multiply this output layer
+-to have three neurons instead of one.
+-All of them, because it's a fully connected neural net,
+-see the entire pixels flattened in the vector.
+-And then each of them will be focused on an animal.
+-The number one mistake that we see in projects
+-is that people add more data, but forget to adjust the labels.
+-So how do the labels need to be adjusted here?
+-It's not any more 0 and 1.
+-What type of labels do we need to train this?
+-Yeah.
+-The number of the number of range.
+-You know how we call that?
+-Or no.
+-OK.
+-So yeah.
+-Yeah.
+-Use vectors.
+-Vectors, yeah.
+-I think you're seeing the same thing, but.
+-Yeah So here you would use a one hot vector or a multi-hot.
+-One hot means you'll have a vector of size 3.
+-And if there is a cat on the picture
+-the label is going to be 0, 1 0 because the second neuron is
+-going to be responsible to detect cats.
+-In fact, that would be called a one hot vector.
+-Oftentimes you'll have multiple animals on the picture
+-because cats and dogs can appear together.
+-Cats and giraffes less so.
+-And dogs and giraffes, I've never
+-seen one in the same picture, but anyway.
+-You'll have a multi-hot vector if you
+-have a cat and a dog on the picture,
+-you'll probably label it as 110.
+-And the reason I'm mentioning that it
+-may sound silly, but in a lot of projects people
+-change their data.
+-They forget to change their labels,
+-and then they wonder why it doesn't work.
+-OK, cool.
+-Now in the class, we use a specific notation
+-with a superscript and subscript.
+-So when you see me refer to something like a 1 1,
+-the superscript in square brackets
+-indicates the layer that you're in.
+-So you're in the first layer.
+-The subscript refers to the index of the neuron, OK.
+-And a is for activation.
+-So a subscript three square bracket 1
+-is the output of the third neuron of the first layer, OK.
+-Again if I continue second layer would be written like that.
+-And then you'll get your probability.
+-The deeper the network is, the more capacity it has.
+-This is the word we use, capacity.
+-What it means is that if you send a million pictures of cats
+-and a million pictures of non cats to a shallow network,
+-it might not have the capacity to learn what's in the data set.
+-It's just not flexible enough.
+-The deeper the network, the more capacity it has.
+-So in fact, the network that is super deep.
+-Imagine a billion parameters transformer model
+-with one million pictures of cat and non-cat,
+-it will just overfit to those pictures.
+-Meaning it's not going to learn what a cat is,
+-it's just going to learn by heart those million
+-pictures because its capacity is way bigger than the data set
+-it's fed.
+-So it's very important to understand the amount
+-of data you're going to feed.
+-And the complexity, diversity of that data
+-will probably dictate the capacity
+-of the models you need to use.
+-Now, just to give you a little bit more intuition on what
+-happens inside those neural networks.
+-We take these relatively shallow network,
+-but call it three layers.
+-And we train it on a data set of facial images.
+-Ignore the task.
+-In face data sets, there's a lot of tasks you could do.
+-You could do a face verification,
+-you could do a face recognition, you could do face clustering,
+-things like that.
+-We'll talk about that later.
+-But let's say it's been trained really
+-well on understanding faces.
+-If you now unpack this network and you query each neuron
+-and look what's going on inside, what you'll notice
+-is that the first layers are going
+-to be better at encoding low-complexity features,
+-while the deeper networks are going to be better at encoding
+-higher complexity features.
+-So here's how it goes.
+-Nothing too complicated for now.
+-The neuron in the first layers, they're
+-looking at pixels because you're giving them him
+-directly the pixels.
+-So they're going to be good at stitching those pixels together.
+-And maybe the first neuron will be
+-good at detecting diagonal edge, the second neuron
+-will be good at vertical edges, and the third one
+-at horizontal edges, because they're just looking at pixels
+-and trying to make sense out of them.
+-Now you go one layer deeper in the middle of the network.
+-Those are not seeing pixels, they're
+-seeing the output of the first layer, which is already
+-slightly more complex.
+-So what you can expect the layers
+-in the middle of the network to give you
+-or to activate for is higher level features,
+-like an eye or a nose or an ear.
+-Because it turns out if you have a few edges,
+-you can start detecting circles.
+-And so you would see a neuron that
+-is really good at detecting circles, eyes.
+-The deeper you go in the network,
+-the more you get closer to the task itself, which in this case,
+-facial analysis.
+-Let's say you would see the last few neurons,
+-detect larger features of the face.
+-Because again, they're seeing higher complexity information.
+-Does that make sense?
+-This concept we call it encoding,
+-we'll also talk about embeddings.
+-It's very important because when you train neural networks,
+-you want to make sure first that they're
+-understanding what they're doing and that's one way to see it.
+-We'll have an entire lecture on interpreting and visualizing
+-neural networks later this quarter.
+-And on top of that you probably can
+-make use of some of those encodings and embeddings.
+-We'll see that later.
+-But why in the vector space the distances between those concepts
+-are important.
+-You can already imagine that for tasks like search searching
+-in a database, having a neural network able to encode
+-information in a very meaningful way,
+-can allow you to find concepts that
+-are close to each other and associate them with each other,
+-and concepts that are far from each other
+-and dissociate them from each other.
+-OK.
+-So this was the warm up for today.
+-How much time we spent.
+-OK, 15 minutes in the warm up.
+-That's good.
+-So we learned a few new words.
+-Model, architecture, parameters.
+-I didn't talk about it, but feature engineering
+-versus feature learning, that's the core concept
+-in deep learning is feature engineering
+-is what we used to do before deep learning.
+-Which is you might actually build an algorithm that
+-is good at detecting eyes.
+-It's just a good at scanning eyes.
+-You manually build it.
+-And then you build another one that
+-is good at detecting a mouth.
+-And then you put them together to detect faces.
+-We don't do that anymore.
+-We do end-to-end learning.
+-Meaning we let the data speak for itself and train the model.
+-This is called feature learning.
+... (truncated)
+```
+
+## Stanford CS230 ｜ Autumn 2025 ｜ Lecture 3： Full Cycle of a DL project.en-US.srt
+- Status: DIFFER
+```diff
+--- Stanford CS230 ｜ Autumn 2025 ｜ Lecture 3： Full Cycle of a DL project.en-US.srt
++++ Stanford CS230 ｜ Autumn 2025 ｜ Lecture 3： Full Cycle of a DL project.en-US.html
+@@ -1,1387 +1,1390 @@
+-So what I'd like to do today is chat with you
+-about the full cycle of a deep learning project.
+-And as I promised in the first lecture,
+-rather than me talking at you for an hour and 20 minutes
+-or whatever, we'd love for this to be much more interactive.
+-And so what I'm going to do is illustrate this with an example,
+-but also ask you a bunch of questions
+-along the way about what you would do if you are
+-the one working on the project.
+-I'm going to use as an illustrative example.
+-So plan for this to be quite interactive
+-and please interrupt any time and ask questions.
+-Since I think that's why I want to do this in person
+-here at Stanford.
+-So one of the reasons why developing machine
+-learning or deep learning or other types
+-of AI projects, including AI projects using large language
+-models or agentic AI workflows or whatever is that AI projects
+-are different than traditional software engineering projects.
+-So one of the biggest differences between AI projects
+-of the many different flavors--
+-supervised learning, OM based, generative
+-AI based is that in traditional software projects,
+-you write code, and you control your code.
+-Write whatever code you want.
+-Compile it.
+-Your code does what you tell it to.
+-But AI projects involve both code as well as data
+-that you train your algorithm on.
+-And you almost never know what strange and wonderful things
+-there are in your data.
+-For example, if you're working on a face recognition
+-application-- that's a running example I'm going to use today--
+-then as you're just getting started on the project,
+-it's really difficult to in advance
+-what you find in the data.
+-Is the lighting of the face good?
+-Do you struggle with people with very long hair or people
+-with short hair?
+-Do people making weird facial expressions
+-make your system struggle?
+-Do people wearing glasses make your systems struggle?
+-So data is so rich that a lot of time,
+-you can't predict in advance what your AI
+-system is going to do, not because you
+-don't control the code.
+-You can write whatever neural network
+-or whatever code you want.
+-But you don't what's in the data.
+-And this is why, unlike traditional software
+-engineering, machine learning development
+-is a much more iterative process where you just
+-have to build something, see how it works, and then
+-through a process, discover, almost discover
+-what is in the data, and therefore
+-what you should be doing to change your code to make
+-your overall system perform.
+-And this is also true not just for-- this
+-is true not just for deep learning based systems.
+-This is also true for modern large language models.
+-There's been a lot of hype buzz about how LLMs, Large Language
+-Models, are hard to control.
+-I think there's a lot of excessive hype about that kind
+-of fear mongering.
+-There's a little bit of that.
+-But one of the reasons why none of us
+-know in advance what LLMs do is because it
+-was trained on a lot of data, more data
+-than any human could possibly look at.
+-And we just don't know with precision
+-what is in all that data that the arm was trained on.
+-And so because we know the data, we
+-can't really look at all the massive tens
+-of trillions of tokens of data was trained on.
+-It's hard to know exactly how large language model will
+-perform, which is why building agentic AI applications
+-or building large language models based applications
+-is also very empirical or very experimental.
+-Meaning you just have to build something,
+-then see where it goes well, see where it goes poorly,
+-and then use that to fix problems.
+-And that's how you drive progress.
+-That makes sense?
+-So, because you control your code, but you don't really know.
+-It's hard to control the data.
+-And this is true, both for the data
+-you have stored in your hard disk,
+-you can have terabytes of data stored in my hard disk.
+-I don't really know what's in my hard disk.
+-And the thing you really don't control is what data the world
+-will give you in the future.
+-So when you deploy a system in the world,
+-say, face recognition, which we should talk about.
+-Will people wear a thick, heavy scarf
+-that covers part of their face when it's winter?
+-We just don't know.
+-There are all these things in data that will surprise you.
+-And you don't even control your past data
+-that's already a hard disk.
+-You certainly can't control your future data.
+-So it turns out that a lot of machine learning classes
+-talk about building models.
+-And you learn a lot from the online videos
+-about how to build powerful deep learning models.
+-But it turns out that building the overall machine learning
+-system or a deep learning system has a lot more work
+-than just training models.
+-But if you look a lot of causes, there's
+-actually a very strong focus on modeling
+-because I think that's what academia has focused on.
+-We can train models, evaluate models,
+-publish papers on models.
+-And so you find that a lot of causes
+-focus on training a good deep learning model.
+-And that is absolutely important.
+-But because we know how to evaluate models,
+-different research groups can benchmark different models.
+-There's a lot of academic research work on that.
+-That's reflected a lot of causes.
+-But this is just a small part of what
+-you need to do if you want to build an effective deep learning
+-system.
+-And what I want to do today is go
+-outside the small box of models to give you
+-a broader view of what it feels like to develop a deep learning
+-or AI or machine learning system.
+-And this is what it often--
+-this is what building a deep learning system
+-would be like, which is, first, specify the problem,
+-figure out what we're actually working on.
+-The running example I want to use today
+-will be to build a face recognition system, or face rec
+-system for security, for deciding when to unlock a door.
+-And [INAUDIBLE] [? talked ?] about some face recognition,
+-which I abbreviate face rec architectures,
+-last week as well.
+-But specific application I want to talk about
+-is something I've worked on.
+-Actually, I built one of the commercial systems that--
+-For this, if this is a door and this is-- well,
+-you or a friend or maybe someone that you don't want to let
+-in, approaching, if you have a little camera--
+-sorry, bad drawing-- take a picture
+-of whoever's approaching the door
+-and decide whether or not to unlock the door.
+-So face recognition to decide who
+-is authorized to enter a restricted location,
+-like a corporate office building or your house or whatever.
+-And actually, one common use case that one of my teams built
+-was a key card, swipe key cards.
+-So sometimes, key cards get stolen.
+-And so one of the systems we deploy fairly large office
+-complexes was if you swipe a key card,
+-we also just take a picture that is then soon
+-discarded to make sure that the key card is
+-held by the person whose face is shown on the key card.
+-So it makes it harder if someone to steal
+-a key card to gain unauthorized access to an office complex.
+-So I'm going to use this as the motivating example for today.
+-And after specifying a problem, typical process is then--
+-sometimes, the open source model can download.
+-But let's say for today that the open source model is not
+-good enough.
+-You want to train your own model.
+-The typical process, we get data, design the model,
+-train the model.
+-And then we will iterate through these steps
+-a bunch of times until the model looks like it's
+-performing well enough.
+-And then after that, we have to deploy it and monitor
+-and maintain the model.
+-So I'm actually going to talk a bunch about multiple
+-of these steps today because I want you to come away
+-with a feel for when you're working
+-on a real machine learning application,
+-what the important steps you will face on.
+-And so as I alluded, machine learning development
+-is very iterative process.
+-So for these three steps, we often drive a rapid development
+-loop where we--
+-oops, sorry-- design the model, train it, analyze the results,
+-and then may be designed to update the model or the data
+-or something and iterate around this loop
+-many times before you are satisfied.
+-And just one more detail.
+-It turns out that for face recognition,
+-the very common architecture, which
+-you learn in detail about later in the online videos,
+-is a neural network called a Siamese network.
+-And what that does is a neural network that
+-takes as input two pictures.
+-And two pictures get fed to a neural network
+-or a deep learning algorithm.
+-And it's a job of a deep learning algorithm to tell us,
+-are these two pictures the same person or different persons?
+-Because if you're trying to set up this system, say,
+-for your house, and maybe you have a few family members
+-or roommates you want to let in.
+-Then it'd be quite annoying if you
+-have to retrain a neural network for every single home.
+-So the most common way to do face recognition
+-is of a neural network that inputs two pictures.
+-And the job of the neural network is to tell me,
+-are these two pictures the same person?
+-And then the way you set up the system is to input
+-a few registration pictures.
+-So take a picture of yourself.
+-Take a picture of your roommate.
+-Take a picture any family members you want to have access.
+-So then, when someone comes, it can quickly
+-check if the person that just showed up
+-is one of the people that's authorized.
+-And then let them in.
+-And then the corporate key card swipe example
+-is someone swipes a card and my card says,
+-this is Andrew's card.
+-Then I'll quickly pull up my registration picture
+-to double check if I am, if I seem
+-to be the same person as the Andrew that was registered.
+-So this is a typical neural network architecture.
+-So, I have a question for you.
+-One thing I'd like to do today is
+-walk you through a number of scenarios
+-and invite you to think about what decision you would
+-make if you are the CTO of a startup building
+-these technologies.
+-So my question for you is, if you're the CTO of a startup,
+-building the next face recognition system,
+-and if your lawyers have said you
+-aren't allowed to download data from the internet.
+-So let's not download data for this application.
+-How would you go about getting data to train this system?
+-So what you need is a bunch of pictures
+-of people to train a neural network to say,
+-are they the same person or not.
+-So maybe take a few minutes to think about it,
+-and then I'll see if people raise hands and give
+-some answers.
+-And one specific question I have as well
+-is, how long would you take to collect data before you
+-start training a model?
+-So I think, well, we need to get data.
+-We design the model, I guess, and then
+-you need to train model.
+-So what does the timeline look for you?
+-We'll specify the problem.
+-We design the model.
+-How many hours or days or weeks would you is spent to get data
+-and how before you start running your gradient descent?
+-I see a hand up.
+-Sure, go ahead.
+-Are we [INAUDIBLE] everyone around the world,
+-or are we specifically like Bay Area or America [INAUDIBLE],
+-or it's like this [? wide range ?] [INAUDIBLE]?
+-Let me leave it a bit more open-ended.
+-Say you just graduated from Stanford.
+-And you're CTO of a three-person startup building this thing
+-that, eventually, hopefully, you sell all around the world.
+-But your goals are just get started
+-with the three of you working out of Palo Alto, California.
+-And do it as your real self, with the resources
+-that you have.
+-Anyone want to venture an answer?
+-How would you get data to train a neural network?
+-Go for it.
+-[INAUDIBLE]
+-Yeah, cool, video streaming service.
+-By video streaming service, you're
+-thinking like Netflix and Hulu?
+-Are you thinking security videos?
+-Like Zoom.
+-Like Zoom.
+-I see.
+-Cool.
+-Like a video.
+-People [INAUDIBLE] video.
+-I see.
+-Cool, cool, cool.
+-Video streaming service.
+-How long do you think it'll take to do that?
+-A couple of months.
+-[INAUDIBLE]
+-Yeah, cool.
+-Cool.
+-Thank you.
+-Creative idea.
+-Any other ideas?
+-How would you go about getting data?
+-Go ahead.
+-[INAUDIBLE] [? work ?] with a three-person startup.
+-I've had a larger company.
+-I would put a camera [INAUDIBLE] the camera [? up ?]
+-[? also the ?] [? start ?] and just ask the employees if they
+-would like to participate in the collection and take pictures
+-of [INAUDIBLE].
+-[? So ?] the [? employees ?] that are after them.
+-We might not be generalizable, but [INAUDIBLE].
+-Cool, awesome.
+-Stick a camera there.
+-Let people opt in to get their picture taken.
+-Cool.
+-I think I saw a hand up.
+-Go for it.
+-[INAUDIBLE]
+-Sorry.
+-[INAUDIBLE]
+-I see.
+-Cool.
+-How would you get users?
+-[INAUDIBLE]
+-I see.
+-Cool.
+-Yeah, by your own people mean like, grab some friends
+-and ask them.
+-They'll give you their LinkedIn photo,
+-give you some pictures from your camera roll.
+-Yeah, cool.
+-I like that.
+-That's fast.
+-I like that.
+-Any other ideas?
+-Go ahead.
+-[INAUDIBLE]
+-I see.
+-Interesting.
+-Yeah, ask Stanford to send an email.
+-Cool.
+-I love Stanford.
+-Stanford is a wonderful institution.
+-Awesome.
+-That's going to take a while, I think.
+-[LAUGHTER]
+-Creative idea.
+-I like the creative ideas.
+-So let me share with you one guiding principle
+-for how I would encourage you to approach this problem of data
+-collection.
+-I appreciate all the creative ideas, actually.
+-One of the frameworks I often use to decide how I collect data
+-is speed.
+-Because I find that--
+-actually, especially in building a startup.
+-In my opinion, one of the strongest
+-predictors for whether a startup will succeed, and also,
+-whether a small, innovative project in a large corporation--
+-you can be a giant corporation.
+-But if a team of three, work on a small, innovative project,
+-a big company, I find that one of the biggest predictors
+-for the chance of success is just
+-the speed of execution, the sheer speed of getting
+-stuff done.
+-And so when I'm sitting with a team
+-and brainstorming different tactics,
+-I will gravitate toward the tactics that let
+-me get a data set very quickly.
+-And quickly usually means one or two days,
+-even if it ends up with a inferior, smaller, lower quality
+-data sets or whatever.
+-Because I don't really know what problems I'll see in my data.
+-And the quicker I can get the data set, create a model,
+-see where it goes wrong, the quicker I
+-can then discover what's wrong with my data and fix it.
+-True story.
+-Chatting with a CEO that told me-- he actually had spent
+-I think it was over $100 million.
+-Definitely more than tens of million dollars.
+-Spent a lot of money buying a company for its data.
+-And then he actually said, hey, Andrew, I spend all this money
+-to get all this data.
+-Can you help me figure out how to monetize this,
+-how to make money off of this?
+-And I look and goes, boy, I wish I hadn't done that.
+-And what I find is that the value of data
+-is just so difficult to know in advance.
+-What's important and what's not important about data?
+-So for a lot of these tactics, for example,
+-I think student IDs is an interesting one.
+-But our student ID photos are weird in some way.
+-Or are they too expressionless or people smiling too much
+-in student IDs.
+-I actually have no idea.
+-Actually, my Stanford ID, I look really weird in my Stanford ID.
+-And I actually the idea of seeking a camera
+-and just letting people come up and opt in and take a picture
+-if you can do it quickly.
+-And I think in a big company or even in a small startup--
+-it's important to respect user privacy or individual privacy.
+-But if you can stick a camera in some place that doesn't--
+-what's the word-- invade people's privacy
+-that don't want to be any part of this, but let people opt in,
+-take the pictures of permission.
+-If you can do that in days, I find that to be valuable.
+-One of the things I found--
+-quite a few of my projects found that Stanford students,
+-our community here is pretty cosmopolitan with people
+-from all around the world.
+-We're not fully representative of the world's distribution
+-of people, but we actually do have people
+-from all around the world.
+... (truncated)
+```
+
+## Stanford CS230 ｜ Autumn 2025 ｜ Lecture 4： Adversarial Robustness and Generative Models.en-US.srt
+- Status: DIFFER
+```diff
+--- Stanford CS230 ｜ Autumn 2025 ｜ Lecture 4： Adversarial Robustness and Generative Models.en-US.srt
++++ Stanford CS230 ｜ Autumn 2025 ｜ Lecture 4： Adversarial Robustness and Generative Models.en-US.html
+@@ -1,2180 +1,2183 @@
+-Welcome to CS230, Lecture 4.
+-Thank you for coming in person or joining online.
+-Today's lecture is one of my favorite.
+-It's a fun one.
+-There's a lot of visuals that we look at.
+-And we'll cover a lot of modern methods as well.
+-A lot of the content is brand-new.
+-The focus areas for us today is going to be two topics--
+-adversarial robustness and generative modeling.
+-Adversarial robustness is an important topic today
+-because there are more and more AI models in the wild.
+-You're using dozens of them on a daily basis.
+-And the more algorithms are being
+-used, the more they're prone to attacks,
+-and the more we have to be careful and build defenses
+-proactively, which is what makes this research
+-field of adversarial attacks and defenses very prolific.
+-The other topic we'll cover is generative models,
+-which, as you may have seen in the news,
+-is really, really hot right now.
+-You have video generation now becoming
+-a reality, image generation, which you're all already used
+-to, and, of course, text generation,
+-code generation, which we all use regularly.
+-There's a lot of heat in that space.
+-So we're going to try to break down
+-what are the types of algorithms that power products like
+-Sora or Veo and so on.
+-Are you excited for this?
+-So let's keep it interactive as always.
+-We'll start with adversarial robustness.
+-It should probably take us 30 to 45 minutes.
+-And then we'll keep the latter part
+-focused on generative models with a focus on GANs, Generative
+-Adversarial Networks.
+-Even if it's called adversarial, it is not really connected
+-to adversarial attacks.
+-It's a different problem.
+-And then diffusion models, which are,
+-I would say, the most popular type
+-or family of algorithm for today's image
+-and video generation products.
+-So let's start with adversarial robustness
+-with an open question for you all--
+-can you tell me examples of attacks on AI models?
+-Are you worried about anything when you use AI?
+-Yes.
+-Prompt injection.
+-Prompt injection, what is that?
+-You sneak [INAUDIBLE] into a prompt or a copy-paste.
+-But that's something [INAUDIBLE].
+-Yeah.
+-So we'll talk about prompt injections,
+-but you essentially try to fool the LLM,
+-let's say, by giving it an instruction that
+-might bypass another instruction that the builder of the model,
+-the user of the model wanted you to use in the first place.
+-It might create dangerous situations
+-where you might steal information,
+-such as passwords or PII data.
+-What else?
+-Yeah.
+-Huh?
+-Lan what?
+-[INAUDIBLE]
+-Oh, [INAUDIBLE].
+-What is that?
+-It's like a data poisoning for AI art.
+-So I believe it takes some image.
+-And for example, the image is of a cat,
+-but it gives the image some features of the dog.
+-So it tries to trick the model to think
+-learning the features of the dog [INAUDIBLE].
+-I see.
+-Great one.
+-A type of data poisoning attack, where
+-you're trying to fool the model by inserting
+-certain pixels or certain traits that might confuse the model
+-and in turn allow someone to bypass the algorithm,
+-for example.
+-Yeah, you're right.
+-What else?
+-What are use cases where a model being attacked
+-can be very high-risk?
+-Yeah.
+-[INAUDIBLE]
+-Yeah, so LLMs are trained on the wild.
+-There's a lot of data online.
+-It might be actually trained on banking numbers, Social Security
+-numbers.
+-If someone can reverse-engineer the training data
+-and find this information, it puts the company
+-that's building that LLM at risk, for sure,
+-and the users as well.
+-Anyone wants to add anything else?
+-There are a lot of reasons as well.
+-If you think of autonomous driving,
+-a car is trained to detect stop signs.
+-And if someone maliciously tries to modify the algorithm so
+-that it doesn't see the stop sign,
+-it may create a crash and potentially harm someone.
+-Those are a lot of examples.
+-We're going to cover that.
+-I would say that in the space of adversarial attacks,
+-we've had three waves over the last 10 years
+-where in 2013, Christian Szegedy, with a great paper
+-on intriguing properties of neural networks,
+-essentially tells us that small perturbations, let's
+-say to an image, can fool a computer vision model.
+-You might not actually see the perturbation,
+-but the model, which looks at pixels as numbers,
+-sees the perturbation.
+-And even imperceptible perturbation
+-can wildly change the output of the model.
+-And this is very dangerous.
+-Those are called adversarial attacks
+-and adversarial examples.
+-And you can think of them as optical illusions
+-for neural networks.
+-A few years later, as training models was more common,
+-more people were training models,
+-and in fact, most importantly, a lot of scraping happened online,
+-so models were scraping the web, another type of attack,
+-which you mentioned, became prominent backdoor attacks
+-or data poisoning attacks, which is, as an attacker,
+-you might actually hide certain things online.
+-And you know that a large foundation model provider
+-will at some point send a bot that's
+-going to read that data, collect it, put it in a training set.
+-You essentially created an entry point for your attack
+-later on when that model will be in production.
+-And then more recently, prompt injections.
+-We all use prompts very commonly.
+-And there's a lot of malicious prompt injection or jailbreaking
+-attacks that can happen to override what the model was
+-intended to do originally.
+-And we'll also talk about these attacks.
+-All of them are relevant, and it's a research area,
+-but it's important to know at a high level
+-how these attacks work.
+-One thing that is special about this space, I would say,
+-is that for every new defense, there's a new attack.
+-And for every new attack, there's a new defense.
+-So it's sort of defenses and attacks
+-competing with each other.
+-And you'll find, frankly, that in the AI space,
+-including in the Gates Department here at Stanford,
+-a lot of the people who are coming up with attacks
+-are the same that are coming up with defenses.
+-But it matters.
+-One thing to note is the progression of these attacks is
+-that originally, if you look 2014-2018 period,
+-a lot of the attacks were using the inputs.
+-And as AI agents now work with instruction, with context,
+-with retrieval pipelines, there is a lot more entry points
+-to perform an attack.
+-So models are more vulnerable.
+-We'll talk about retrieval augmented generation
+-in a lecture in two to three weeks, maybe three weeks.
+-And you'll see that when you connect an agent to a database
+-that you might not know there's a lot of risks involved in that.
+-It might be reading a document that can maliciously
+-attack your agent.
+-So let's try to come up with a first attack,
+-an adversarial example in the image space.
+-So my problem for you, and we're going to do it like last week,
+-more interactive two weeks ago, given a network that
+-is pretrained on ImageNet--
+-so remember ImageNet has a bunch of classes, a lot of images.
+-So it can detect pretty much all the common objects, people
+-that you can imagine would be in a picture.
+-Can you find an input image that will be classified as an iguana?
+-So what I'm asking you is, you have that neural network.
+-It's pretrained.
+-And I want you to find an image.
+-But instead of you take an image of a cat,
+-of course, if you give it to the model,
+-it's going to say, hey, I think it's a cat.
+-What I'm asking you is, how do you find an image such
+-that the output is iguana?
+-So how do you do that?
+-Yes.
+-Take a picture of an iguana, give it to the model,
+-and it's likely to find an iguana.
+-That's a fair solution.
+-What else?
+-Although you wouldn't even be guaranteed that
+-it finds the iguana.
+-Probably it would, but it depends
+-on the model performance.
+-How can you be guaranteed that it's going
+-to predict it as an iguana?
+-Yeah, you want to try again?
+-[INAUDIBLE]
+-So assuming you have access to the training set of the model,
+-you can find pictures labeled as iguanas.
+-And it's likely that because it's
+-been trained on that data set, it will in fact predict it
+-as an iguana.
+-That's also true.
+-Now, let's say you don't have access to the model parameters.
+-Yeah?
+-[INAUDIBLE]
+-I see.
+-So you send a bunch of pictures and you hid it
+-until you find that the prediction is iguana.
+-And then you say, that's the picture.
+-Yeah, correct.
+-So that's sort of an optimization
+-problem you're posing, which is what we're going to do.
+-So remember two weeks ago, I told
+-you designing loss functions is an important skill, maybe
+-an art in neural networks.
+-Here's an example of you coming up
+-with a loss function that would allow
+-you to forge an attack on pretty much any model.
+-So here's what we're going to do.
+-We're going to rephrase what we want in simple words.
+-We want to find x, the input, such that y
+-hat of x is equal to the label for iguana.
+-So the prediction is as close as possible to y iguana.
+-If you had to do that in terms of a loss function,
+-what would it look like?
+-A loss function you want to minimize, let's say.
+-Yeah.
+-Mean squared error between what and what?
+-[INAUDIBLE]
+-Yeah, y hat and y iguana.
+-Good.
+-Yeah, I agree.
+-You could put an L2 distance between y hat given
+-the parameters, the biases, the weights and biases, and y
+-iguana.
+-And if you minimize that, then you would get x to lead to y hat
+-equals y iguana, or as close as possible to it.
+-So there is one difference here with what
+-we've seen in the past, which is that, we are not touching
+-the parameters of the network.
+-We're starting from an image x.
+-We're sending that image in the network.
+-We're computing the defined loss function.
+-And then we're computing the gradients of L
+-with respect to the input pixels.
+-So you know in gradient descent, you're
+-used to the training process where you push the parameters
+-to the right or to the left.
+-Here you're doing the same thing in the pixel space.
+-The model is completely fixed.
+-It's already pretrained.
+-And if you do that many times with gradient descent,
+-you should end up with an image that is going
+-to be predicted as iguana.
+-Does that make sense to everyone?
+-Yeah.
+-So now the question is, will the forged image x
+-look like an iguana or not?
+-Who thinks it will look like an iguana?
+-Who thinks it will not?
+-Someone wants to say why you think it will not
+-look like an iguana?
+-Yeah.
+-[INAUDIBLE]
+-You think the chance is low.
+-You're not convinced that pushing pixels
+-in a certain direction will lead to a continuous set of colors
+-that would look like an iguana?
+-That's a good intuition.
+-[INAUDIBLE] that involves more than 100%
+-of the space of all possible images.
+-[INAUDIBLE]
+-All of these images that [INAUDIBLE].
+-I see.
+-So you're saying there is more images that
+-are classified as iguana by the model
+-than there are iguana images.
+-Possible, yeah.
+-That's also a good intuition.
+-Exactly.
+-Yeah.
+-[INAUDIBLE]
+-I took a picture of a sheep skin.
+-And it's like, yeah, that's OK.
+-I see, I see.
+-Yeah.
+-So you're saying we might see some patterns that
+-are like an iguana, but it's unlikely the picture will
+-look like an iguana as a whole.
+-Yeah.
+-So a good example.
+-For example, possibly the picture we're going to see
+-is more green than not, let's say.
+-Maybe, that's possible.
+-So you're right, it is highly unlikely
+-that the forged image will look like an iguana.
+-And the reason is all of what you mentioned.
+-Let's imagine the space of possible input images
+-to the network.
+-It turns out this space is way bigger than the space
+-that us humans look at.
+-We never look at the randomness of images in the wild.
+-We look at actually a fairly small distribution of patterns
+-from our eyes.
+-So let's say this is the space of possible input images.
+-This space is very large.
+-The space of real images, what we come up
+-as humans when we look at the world,
+-is much smaller than that.
+-And the blue space is this size, because the model
+-can take anything as an input.
+-256 pixels on a 32 by 32 by 3 channels is gigantic.
+-It's way more than the number of atoms in the universe.
+-So it is very likely that because of the way
+-we defined our optimization problem, that's our image
+-will fall in the green space, the space of images
+-that are classified as iguana.
+-And yes, there is an overlap between the green
+-and the red space.
+-Those are the iguanas that are following the real distribution.
+-But the space is much bigger, as you were saying.
+-And that's why it's unlikely that we'll end up there.
+-So this is more likely what we'll see,
+-does not look at all like an iguana.
+-Does that make sense?
+-So now we're going to go one step
+-further because it's nice to be able to forge an attack.
+-But if it looks random, it looks random to humans.
+-So you're looking at a stop sign that's been forged,
+-it doesn't look at all like a stop sign,
+-someone will just take it down.
+-So a smarter attacker is going to try
+-to come up with an image that also looks
+-like something to the human.
+-And that might be more problematic.
+-Let's say a stop sign still looks like a stop sign,
+-but it's not predicted as a stop sign.
+-That becomes way more dangerous.
+-So how do we modify the previous setup in order to do that?
+-Given a network pretrained on ImageNet,
+-find an input image that is displaying a cat.
+-But instead of predicting it as a cat,
+-the model now predicts it as an iguana
+-because the image has been tempered.
+-So how do we change our initial pipeline?
+-Yeah, in the back.
+-[INAUDIBLE]
+-Yeah, that's probably a good idea.
+-You might start with an image of a cat.
+-And because your starting point is a cat,
+-you might be tempering some pixels,
+-but it will still look like a cat.
+-Yeah, you're right.
+-That's a good idea.
+-What else?
+-Other ideas?
+-Yeah.
+-[INAUDIBLE] often do that.
+-In your loss function, you have to do lots of [INAUDIBLE].
+-Yeah.
+-So you would also modify the optimization targets.
+-Yeah, you're right.
+-That's exactly what we'll do.
+-Both techniques are correct.
+-So we'll take our initial setup, and we'll modify it slightly.
+-So if I rephrase what we want-- we
+-want to find x such as y hat of x equals y of iguana,
+-but we also want x to be close to an image x hat.
+-If I define the loss function, I will
+-keep my initial term of the L2 distance between the prediction
+-targets, and I will also add another constraint, which
+-you can think of as a regularization term which
+-keeps x close to the x cats picture that you've chosen.
+-And now you have two targets that
+-are optimized at the same time.
+-So if you do that enough times should end up with a picture
+-that looks like your x cats target.
+-You might even as you said, want to start the optimization.
+-Rather than starting with a completely random image,
+-you start from the x cat, and you temper it.
+-And that might be faster, actually.
+-Does that make sense to everyone?
+-So this is a more difficult attack
+-to deal with because it might look to you a cat still,
+-but to the model, it doesn't look like a cat anymore.
+-And oftentimes you might see that some of the pixels
+-have been pushed to the side.
+-So these are examples of adversarial examples
+-that you can forge.
+-Where are we on this map in the new setup?
+-Well, we are right now in a different space.
+-We are in the space of images that look real to human
+-and are classified as iguana, but they're not real.
+-So we're right here.
+-We're at the crossroad of the green and the purple space.
+-They look real to us, but they're not actually real.
+-And they're classified as an iguana.
+-Super.
+-Let's look at a concrete example from 2017,
+-where this group of researchers took an image
+-and tempered it and run-- is running a model on a phone.
+... (truncated)
+```
+
+## Stanford CS230 ｜ Autumn 2025 ｜ Lecture 5： Deep Reinforcement Learning.en-US.srt
+- Status: DIFFER
+```diff
+--- Stanford CS230 ｜ Autumn 2025 ｜ Lecture 5： Deep Reinforcement Learning.en-US.srt
++++ Stanford CS230 ｜ Autumn 2025 ｜ Lecture 5： Deep Reinforcement Learning.en-US.html
+@@ -1,2276 +1,2279 @@
+-Welcome to our fifth lecture in person for Stanford
+-deep learning CS230.
+-Today's lecture is going to be about deep reinforcement
+-learning.
+-I actually switched the original plan
+-of talking about neural network interpretability and LLM
+-visualization, simply because you haven't
+-had the chance to study attention maps,
+-convolutional neural networks.
+-And so it would have been an overkill to do that week five.
+-So we're going to talk about neural network interpretability
+-and visualization in a later lecture actually.
+-But today, our focus will be on deep reinforcement learning,
+-which is probably my favorite lecture of the class.
+-I feel like I say that every week, but it's OK, I like it.
+-The agenda is pretty packed.
+-We're going to start with deep reinforcement learning, which
+-you can think of as the marriage between deep learning
+-and reinforcement learning.
+-Together, the baby is called deep reinforcement learning.
+-And we're going to see how reinforcement learning works
+-and how neural networks can play a part in building
+-reinforcement learning agent.
+-In the second half of the class, we
+-will focus on a very specific concept called reinforcement
+-learning from human feedback that you might have heard of.
+-It's one of the core concepts that
+-really made the difference between what
+-you might have remembered as GPT 2 and ChatGPT.
+-That's the leap.
+-That's really the technique that has democratized access
+-to LLM because of the performance improvements
+-and the alignment with humans.
+-So we're going to see what is this concept of RLHF
+-and how does it work, and why does it
+-allow us to align a language model to human preferences.
+-Ready to go.
+-As always, let's try to make it interactive.
+-So the motivation behind deep reinforcement
+-learning-- and as usual, you're going
+-to have all the most important papers that
+-are covered in the class listed at the bottom of each slide.
+-Reinforcement learning has grown in popularity.
+-One of the very popular papers, called Human Level Control
+-through Deep Reinforcement Learning,
+-is the work from DeepMind, has showed us
+-that a single algorithm/training method
+-can allow us to train AI that can play many, many Atari games
+-better than humans.
+-Single algorithm, over 40, 50 games
+-where it exceeds human capability, which
+-is quite impressive when you thought about the fact
+-that machine learning used to be niche,
+-and you would have to train a really niche algorithm
+-to perform different tasks.
+-Here's an algorithm that can just learn every Atari game.
+-A little later, you might have heard of AlphaGo.
+-AlphaGo is an algorithm that was developed
+-to beat and exceed human performance in the game of Go.
+-We'll talk about it a little more.
+-The game of Go is a very complex game.
+-Some would argue way more complex than chess
+-from a decision making standpoint
+-and from the possibilities that can happen on the board.
+-And so it actually got solved in 2017, again by the DeepMind team
+-and David Silver's lab.
+-Later on-- and again, another great paper from DeepMind
+-had showed us that reinforcement learning can also
+-be used for strategy game.
+-That might be a touch more complex than chess or Go.
+-That might actually involve multiple players
+-playing with each other or against each other.
+-Some of you might have played StarCraft, for example.
+-That's an example of a game where
+-it requires a lot of long-term thinking, short-term thinking.
+-Another one is DOTA.
+-Some of you might have played DOTA or league
+-of legends, where you have a team playing
+-against another team.
+-Those are examples of games that involve multiple agents playing
+-collaboratively.
+-And it's pretty hard to develop systems
+-that can play with each other against multiple opponents.
+-And finally, most recently, this is
+-2022, so alongside the release of ChatGPT,
+-this paper that introduces the concept of reinforcement
+-learning with human feedback applied to aligning language
+-models with human preferences.
+-And we'll talk about that later.
+-So all this to say that reinforcement learning allowed
+-us to exceed human performance in a variety of tasks.
+-The first one I want us to think about is the game of Go.
+-So let's say that you were asked to solve the game of Go
+-with classic supervised learning.
+-Everything we've seen together so far, labeled data,
+-how would you solve the game of Go
+-with classic supervised learning?
+-What data would you collect?
+-What would be the label, et cetera?
+-Yes?
+-[INAUDIBLE] data that's the current [INAUDIBLE].
+-OK, good point.
+-Yeah, you look at history of plenty of games,
+-hopefully from good players.
+-You want the algorithm to work.
+-And you look at x as the input being
+-the current state of the board and y
+-as the next state of the board.
+-And this would tell you what move was selected,
+-and you learn the move essentially.
+-And hopefully, if you do that across many, many games,
+-you might see the agent become more attuned to the game
+-and develop better strategies.
+-So really hopefully it's a professional player.
+-What are the disadvantages of that or the shortcomings
+-that you can anticipate?
+-Yes?
+-So the two space types of moves that the players use maybe
+-[INAUDIBLE] some other set of moves that [INAUDIBLE].
+-Yeah, great point.
+-You might not see the entire space
+-of possible states of the board, which is what you said.
+-So you might miss out on a lot of different strategies.
+-So the game of Go is actually a game
+-with two players, one player that
+-uses the black stones and one player that
+-uses the White stones.
+-And iteratively, they're going to place
+-those stones on the grid, a 13 by 13 grid
+-that you can see on screen with the goal of surrounding
+-their opponents.
+-So you're constantly trying to surround
+-the stones of the opponent, and the opponent
+-is trying to surround your stones.
+-And so you can imagine that for every intersection on the grid,
+-there is multiple possibilities, either there's a black stone
+-or a white stone or nothing.
+-And on a 13 by 13 grid, you can imagine how many possibilities
+-of a board state there are.
+-It's impossible to capture all of that with historical moves
+-from professional players.
+-You will just never cover that.
+-The same thing could be said in chess as well.
+-You know that even the professional players can
+-plan x number of steps in advance,
+-but nobody knows where the game takes you.
+-And in the late stages of the games or the end games,
+-players always find themselves playing a different game.
+-And that's part of the magic of being good at chess.
+-So yeah, that's a problem.
+-What's another problem or shortcoming
+-beyond the fact that we can't observe possibly all the states?
+-Yes?
+-You also can't anticipate what that action would lead to
+-in the future.
+-You might not make the best decision.
+-Correct.
+-If I repeat what you said, well, first, you don't even
+-know if this was a good move.
+-So maybe it was not even a good move.
+-And you're learning something that was not a good move,
+-and you're labeling it as a good move.
+-And second, you're actually only getting partial information,
+-meaning you don't have the information of what's
+-in the person's mind and what strategy they're
+-trying to execute.
+-So your store-- you're looking at a single example
+-among a long-term strategy.
+-And you can't expect the model to guess what's
+-the long-term strategy, because it was just trained on x and y
+-and matching the inputs to a possible output.
+-So you don't really have any concept
+-of a strategy at that point.
+-It looks one off at every decisions of the model.
+-Those are really good points.
+-The other one is the ground truth might be ill-defined.
+-What I mean by that is even the best humans in the world
+-do not play their best game every day,
+-and even their best game is not the ground truth.
+-And that creates an issue because you're essentially
+-training against a target that is off by a certain margin.
+-You're never going to get better than the best human,
+-and the best human is not the best possible--
+-executing the best possible strategy at every point.
+-So you could argue, what if we get a panel of experts
+-that we're monitoring, and those are
+-the best players in the world.
+-Even with a panel of experts that decides every move,
+-you still have an ill-defined ground truth.
+-So that's a big issue.
+-Too many states in the game, you mentioned.
+-And we will likely not generalize,
+-which is what you said, meaning we're
+-looking at one off situations.
+-We're not looking at entire strategies.
+-And so when we face a board state
+-that we've never seen before, because the model was not
+-trained on strategy, it will get stuck.
+-Yeah.
+-OK.
+-And this is an example of a perfect application
+-for reinforcement learning, because reinforcement
+-learning is all about delayed labels
+-and making sequences of good decisions.
+-So if you had to remember in one sentence what's RL,
+-RL is making good sequences of decisions-- sequences
+-of good decisions.
+-Sorry.
+-And do that automatically.
+-Another way to look at it is the difference
+-between classic supervised learning in RL is--
+-in classic supervised learning, you teach by example.
+-In reinforcement learning, you teach
+-by experience, which is also a different concept.
+-You're not just showing cats and non-cats to a model,
+-you're actually letting the model experience an environment
+-until it figures out what were the best decisions it
+-made and learns from them.
+-Some examples of reinforcement learning applications,
+-I'm going to mention them.
+-We have gaming, of course, that we already covered.
+-What are other applications of AI where we need
+-good sequences of decisions?
+-Yes?
+-Autonomous driving.
+-Autonomous driving.
+-Yeah, correct.
+-I mean, in driving, you could argue RL could work,
+-and there's some RL going on.
+-But what you mean, I think, is you
+-have some of a dynamic planning algorithm that
+-allows you to strategize.
+-If you see a red light ahead, you
+-might start slowing down over time.
+-But maybe it will turn green, so you might not
+-slow down completely.
+-This is an example of a strategy that you need, of course.
+-Yeah?
+-Robotic controlling.
+-Robotic controlling.
+-That's a great example, also related to autonomous driving.
+-But imagine you want to teach your robot to move from point A
+-to point B, the number of good decisions
+-that the robot needs to make in terms of moving each
+-of their joints is tremendous.
+-It's actually super unlikely that a robot
+-would move from A to B if it's not
+-trained to make good sequences of decisions.
+-What else?
+-The biggest one nobody mentioned yet.
+-It's not a great application.
+-I don't like it, but it happens to be the biggest
+-one of reinforcement learning.
+-Yeah?
+-[INAUDIBLE] where they suggest [INAUDIBLE].
+-Yeah, advertisement.
+-Yeah, marketing.
+-You're right.
+-So yeah, we talked about robotics.
+-Advertisement is another example.
+-Advertisement is a long game.
+-Companies are showing you multiple ads before you buy.
+-And in fact, the reason reinforcement learning
+-is important is because they're planning a strategy that
+-might lead a buyer to execute a purchase over time,
+-and it requires a long-term thinking.
+-So there's a lot of reinforcement learning applied
+-to marketing, advertisement, real-time bidding processes, et
+-cetera.
+-OK.
+-Clear on what RL is and how it differs
+-from classic supervised learning?
+-OK.
+-So let's put some vocabulary around that concept.
+-In reinforcement learning, you have an agent and the agent
+-interacts with an environment.
+-As the agent interacts with the environment,
+-the agent will perform certain actions
+-that we will denote at, where t is the time step.
+-And the environment will show you
+-states that transition from time step t to time step t plus 1.
+-So subject to an action at, an environment
+-may transition from st to st plus 1.
+-You can think of the game of Go.
+-I take the action of putting my black stone on a certain grid
+-intersection, and the environment has changed.
+-It moved from-- the state has changed.
+-It moved from state at time step t to time step t plus 1,
+-where my stone is on the grid.
+-After that state update happens, there's two things
+-that the agent observes.
+-The agent observes an observation
+-that we will note ot and a reward rt.
+-OK.
+-So those are the vocabulary words.
+-And of course, the goal of the agent
+-will be to maximize the rewards.
+-One thing to about the observation--
+-we'll talk about it a little more.
+-The observation sometimes is equal to the states.
+-Can someone guess why we might need two concepts instead
+-of a single concept?
+-Why is it important to have a state and an observation?
+-Yes?
+-[INAUDIBLE]
+-Yes, correct.
+-So in some cases, the environment
+-may not be fully transparent to the user.
+-And so for example, in chess or in Go,
+-the observation is actually equal to the state.
+-You see everything on your board.
+-All the information is available to you.
+-If you play League of Legends or StarCraft,
+-you know the concept of--
+-I think in English, it's called a cloud or a fog.
+-I think it's the fog.
+-You only see certain parts of the map
+-until you have explored everything,
+-or until your friends are visiting
+-the other parts of the map.
+-And so the observation is actually
+-less information than the states of the environment.
+-OK.
+-And then the last piece of vocabulary is the transition.
+-When I refer to a transition, I'll
+-refer of the process of getting from state t
+-to state t plus 1, which means we're in state t,
+-the agent takes an action at, it observes ot and a reward rt,
+-and it transitions to the next state st plus 1.
+-Question?
+-Regarding [INAUDIBLE], are there any [INAUDIBLE]
+-the state is too large to [INAUDIBLE]?
+-Wait.
+-What do you mean?
+-You mean, is there-- are there examples of environment where
+-the state is so large that the--
+-Either the environment is too large or [INAUDIBLE].
+-Yeah, possibly.
+-For computational reasons?
+-Yeah.
+-Yeah, you might have games--
+-I mean, look at open World Games.
+-Truly, you could argue--
+-I don't know.
+-There are some games where you might press start
+-and you see the entire environment.
+-But who cares of what's happening 20,000 kilometers West
+-of you if you're in a certain location.
+-That might not influence your strategy.
+-So you might actually put some trust circle or some circle
+-in which you observe, which you think
+-has 99% of the information you need, possibly
+-for computational reasons.
+-That's a good point.
+-OK.
+-Let's get to a practical example of a reinforcement learning
+-algorithm and develop it together.
+-This example is called recycling is good because recycling
+-is good, but also because it's a simple example illustrative
+-of reinforcement learning.
+-So let's say we have a small environment with five states.
+-There is a starting state marked in brown, which is state 2.
+-It's our initial state.
+-And then on the right side--
+-sorry.
+-On the left side, you have state 1, which is a garbage.
+-And it's great to get to the garbage
+-because you're going to be able to put in the garbage
+-the stuff that you have in your hands.
+-You're trying to throw away some garbage.
+-And the garbage can happens to be there.
+-And so we would expect there to be a reward.
+-On the other side, if you actually go to the right,
+-you might pass by state 3, which is empty.
+-You might pass by state 4, where there is a chocolate
+-packaging that is left on the ground that you can pick up,
+-and it's good to pick it up.
+-And then on stage 5--
+-state 5, you have the recycle bin,
+-which is more valuable than the garbage can
+-because you can recycle and you should
+-get better rewards for that.
+-So that's our game.
+-In this game, we define a reward that
+-is associated with the type of behaviors
+-that we want the agents to learn.
+-And the reward is as follows.
+-That's just one example.
+-Plus 2 for throwing your garbage in the normal can,
+-plus 1 for picking up the chocolate packaging,
+-and plus 10 if you manage to make it to the recycle bin.
+-Is it clear?
+-Now, the goal will be--
+-and that's the case in reinforcement learning often
+-time to maximize the return.
+-We'll define formally the return.
+-But think about it as maximize the amount of rewards
+-that you get as you go through this journey,
+-and you make your decisions.
+... (truncated)
+```
+
+## Stanford CS230 ｜ Autumn 2025 ｜ Lecture 6： AI Project Strategy.en-US.srt
+- Status: DIFFER
+```diff
+--- Stanford CS230 ｜ Autumn 2025 ｜ Lecture 6： AI Project Strategy.en-US.srt
++++ Stanford CS230 ｜ Autumn 2025 ｜ Lecture 6： AI Project Strategy.en-US.html
+@@ -1,1608 +1,1611 @@
+-So what I want to do today is continue our discussion
+-on AI project strategy.
+-So if you're building a deep learning system for some tasks.
+-And today, for the first part of today,
+-I'm going to use a speech recognition
+-voice-activated device example.
+-And then for the second half, we're
+-going to use a kind of AI deep researcher example.
+-But what I want to do is walk you
+-through a couple concrete examples of projects
+-you might work on, and let you understand what it feels
+-like to be in the thick of building an AI system,
+-making day to day decisions on what to do next.
+-I think as you've heard me say before, understanding
+-the algorithms is important.
+-So in this class, you learn a lot
+-from the online videos about the deep learning algorithms,
+-how to build pipelines.
+-But even beyond understanding how the algorithms work,
+-what really drives performance is a team's ability
+-to have an efficient development process.
+-How do you tune hyperparameters?
+-How do you collect data?
+-When you try something and it doesn't
+-work the first time, which it often doesn't, what
+-do you do next?
+-Your skill in making those decisions is what often makes
+-a massive, literally 10X difference in productivity.
+-And as I was reflecting, I was preparing
+-for what to say to you today.
+-I was reflecting on quite a few projects where that 10X
+-difference in productivity is really not an exaggeration.
+-Maybe more than 10X.
+-But I've literally seen many teams
+-in many well-known companies with good brands
+-spend a year working on a project
+-that I will see a more skilled team execute in a month.
+-So these differences in skill are real.
+-And one of the challenges for people learning this
+-is if you work for some company, maybe
+-you work on a different project every year or two.
+-So it takes you two years or a year of your life
+-to gain experience on one more project.
+-And then after, I don't know, 10 years,
+-you've finally seen 10 projects and are pretty experienced.
+-But what I want to do is, in today's class,
+-walk you through a few concrete examples of projects
+-that are similar to one kind of simplified versions of stuff
+-that I've seen myself to try to accelerate
+-your hands on experience looking at these projects
+-and thinking through if you are the one in the hot seat,
+-building a system, and it works or doesn't work,
+-or there's a problem or whatever,
+-making those decisions for what you would do.
+-So try to get you through that today with a couple of examples,
+-rather than you having to spend years, and years of your life
+-to finally see a small number of examples of how
+-these projects can be driven.
+-So the first, the two motivating examples I want to use today
+-is building a voice-activated device.
+-In my house, I have an Amazon Echo, where
+-I have a lot of them, actually.
+-And I think it's a delightful experience.
+-But those devices like that, Amazon Echo or Google Home,
+-or the Apple Siri and HomePod, they
+-require quite a bit of setup.
+-They require some setup.
+-They connect to Wi-Fi.
+-Figure a way to connect to your phone.
+-Actually, for a long time, even though I built smart speakers,
+-for a long time in my house, I had one light bulb connected
+-to my home Wi-Fi internet.
+-Because it's just so much of a hassle to set things up.
+-I think now I have two light bulbs connected in my house.
+-I guess, I should connect more stuff.
+-So for this example, I want to talk about
+-if you are part of a startup, building a new product that
+-makes it much easier to get these voice control
+-devices without the user needing to do this whole Wi-Fi setup
+-process.
+-So I'm not very good at drawing.
+-But if you could go to some store and buy a desk lamp
+-and the desk lamp already has a name,
+-I'll just call this lamp, Robert.
+-And you could just take it, plug it into electricity,
+-plunk it on your desk, and then say, Robert, turn on.
+-And then it turns on.
+-Say, Robert, turn off.
+-It turns off without needing to be connected to the internet.
+-So this is a cloud access and all that.
+-Then that would give users a easier set of experience.
+-There's a project that my friends and I actually
+-discussed a few years ago that we thought would actually
+-be a decent startup idea.
+-We decided not to do it because there are too
+-many other ideas that were even more excited about.
+-But we felt that actually like a reasonable startup
+-idea to build a little IC circuit,
+-little integrated circuit, to sell to say,
+-lamp manufacturers and other device manufacturers
+-to make it really easy if say, some company
+-sells lamps to build little things so they
+-can very quickly make their devices voice-enabled.
+-And if you have a few pre-built names,
+-maybe give the users a choice.
+-You can call your lamp Robert, or Lana, or I don't know,
+-or Johnny or I don't know, Alice or whatever.
+-Have a little switch, then users could just buy a lamp,
+-put it down, and then immediately
+-have it be voice control without needing
+-to worry about how do you get this onto my Wi-Fi network.
+-And if my internet is down, then my whole house
+-stays dark as well.
+-Bizarre things like that.
+-And I actually did once have an--
+-I was building a lot of voice assistants.
+-I actually set up my office to have
+-a lot of voice control devices.
+-So had different names and different lamps.
+-Standing desk, it has name as well.
+-So I'd say-- I forget what my desk name was.
+-Jonathan, go higher or whatever.
+-And then my standing desk would go up and down.
+-It's actually pretty cool.
+-So what I want you-- so just for today's illustration, probably
+-we should give the different devices,
+-different names because you can't have every device
+-in your house called Robert.
+-Otherwise, you say, Robert, turn on, the whole house illuminates.
+-And then Robert, turn off.
+-Whole house is plunged into darkness.
+-So we found out you do need different devices
+-to have different names.
+-But just for today, I'm going to use,
+-as illustration, the task of training a neural network
+-or building a system that detects when someone says,
+-Robert, turn on.
+-And you need Robert, turn on, Robert, turn off.
+-If you have a choice that needs to be Lana, turn on, Lana,
+-turn off, a variety of handful of options of names.
+-But just for simplicity, I'm going
+-to worry only about detecting the phrase Robert, turn on.
+-And what do we do for this?
+-You can rinse and repeat to get the turn off command
+-and a handful of other names to make it
+-user selectable, what name do you want to give this thing.
+-OK.
+-So this is something that I'll need to run
+-on device, small IC circuits.
+-And I'm going to ask you a question.
+-When you've graduated from CS230,
+-or maybe when you graduate from Stanford,
+-if you are the CTO of a startup responsible for building this,
+-what would you do?
+-So called out.
+-So imagine you just graduated from CS230
+-or graduated from Stanford, and you are the CTO of a startup,
+-and you want to build this lamp that can turn on when anyone
+-says, Robert, turn on.
+-How would you approach this problem?
+-And I know this is an incredibly open ended question.
+-And it turns out life is incredibly open-ended.
+-You graduate from CS230, you have to decide what to do.
+-So if this is what you're doing, raise your hand
+-or call out if you want to build this product.
+-What's the first thing you do?
+-How would you think about it?
+-Go for it.
+-[INAUDIBLE] speech-to-text model [INAUDIBLE]
+-the actual word of the lamp [INAUDIBLE].
+-Yeah.
+-Cool.
+-Yeah.
+-Right.
+-So get some open source speech-to-text model
+-or something, and then see if you can run.
+-Yeah, that'd be a good start.
+-Anything else?
+-Yeah, go ahead.
+-[INAUDIBLE] three models.
+-[INAUDIBLE] just going on to the second one.
+-[INAUDIBLE] the third one would try to [INAUDIBLE].
+-Three models, one that detects Robert and one that--
+-The first one, detects the sound.
+-I see.
+-The second one, detects the word Robert.
+-The third one tries to understand
+-the sentence [INAUDIBLE].
+-I see.
+-Cool.
+-OK.
+-So the three models to detect Robert,
+-understand, read sentence, or detected the sound.
+-Cool.
+-Go for it.
+-Sorry.
+-Say it again.
+-[INAUDIBLE] Robert.
+-Then let's say you want to explain [INAUDIBLE]
+-then you have repeat the same process for [INAUDIBLE].
+-So instead, what you could do is take a model that takes--
+-given [INAUDIBLE] and see, trying
+-to identify one or two policies.
+-OK.
+-Obviously, it's like a Siamese network.
+-We actually teach a Siamese network
+-in this class, where some people inputs two audio files
+-and decide the same word.
+-So you can more easily generalize to new words
+-than Robert.
+-Cool.
+-That's actually interesting.
+-Yeah, go for it.
+-I don't know how to [INAUDIBLE] but I
+-think that maybe people are going to install some plugin.
+-And have a [INAUDIBLE] so I think it's silly.
+-[INAUDIBLE] like turn it off, turn on.
+-Sorry.
+-You mean just connect up your device to Siri?
+-Yes.
+-[INAUDIBLE] neural network on my iPhone.
+-And the iPhone will send the [INAUDIBLE]
+-the signal to [INAUDIBLE] turn on.
+-I see.
+-OK, cool.
+-Yeah.
+-That sounds interesting.
+-It sounds like a different product than this
+-if we need to connect to your cell phone and all that, though.
+-Yeah.
+-Cool.
+-All right.
+-So let me just--
+-lots of interesting ideas.
+-Let me just make some observations.
+-So I find that when building software products,
+-there's actually lots of good ideas
+-or lots of reasonable things you could try.
+-But as you heard me mention a few weeks ago,
+-I think one of the strongest predictors
+-for the odds of your building something compelling is speed.
+-So I find that of all of these ideas,
+-I think some are better than others, but it doesn't--
+-but whether the idea is, a bit better, a little bit worse,
+-it is important, but it's actually
+-secondary to how quickly you can just get something built.
+-So if you're actually the CTO of a startup like this,
+-I would encourage you to look and say, all right,
+-what can we build today, or what can we build maybe in a week,
+-and try out any of these architecture choices
+-and build it and see what happens.
+-Because even if what you build is a little bit less good,
+-you can find out all in two days,
+-you can course correct very quickly.
+-I've actually built a lot of smart speakers.
+-So I have maybe first hand experience of this.
+-And I'll just share some things that I
+-happen to know that there's no reason you wouldn't know.
+-But it turns out that--
+-let's see, at least today, general purpose, speech
+-recognition is still a little bit heavyweight.
+-It takes quite a lot of processing power.
+-It's a bit expensive to run on an edge device
+-if you want to make this just a few dollars.
+-But it turns out that if you look at the smart speakers,
+-there's usually--
+-if you want to train a neural network just
+-to detect one phrase, be it a phrase like OK, Google, or hey,
+-Siri or Alexa or whatever, and the smart speaker trigger words,
+-that can be done with a fairly small neural network.
+-Although to your point, if we want
+-to do different neural networks, different words,
+-we would need to swap out different neural networks
+-and rinse and repeat that.
+-But if you have only a small handful of names, phrases
+-1 to 10, I think they'll be OK.
+-And then one other piece of advice
+-I would give if you're embarking on this,
+-is the first thing I would do, actually,
+-if I was working on this for the first time is actually
+-a literature search.
+-And it turns out that--
+-I think we're fortunate that the AI world has
+-a ton of open source software and a ton of open research
+-papers.
+-Some are surprisingly, despite smart speakers having
+-been around for a long time, they're
+-still, to this day, isn't a single architecture
+-that everyone's agreed on, on the best way to do this.
+-If you look at the literature, there's still actually
+-a diversity of opinions on how to do this type of wake word
+-or trigger word.
+-We use those terms.
+-So when you say something like, OK, Google or hey, Siri
+-or Alexa.
+-That's sometimes called a wake word
+-because it wakes up the device or that triggers the device
+-circuit activity.
+-So somewhat surprisingly, even though we
+-have smart speakers for a long time
+-now, for a lot more than a decade,
+-there's still isn't a single agreed on unified architecture
+-that the community has agreed on,
+-on what's the best algorithm to do this.
+-But I feel like if you are embarking
+-on this the first time, the number one
+-boost in your speed of learning, it could
+-be implementing something.
+-But I would say doing a literature search
+-and try open source software would
+-be the even faster accelerator.
+-And I want to give you a few tips for that real quick.
+-So today, if this is--
+-there are a lot of research articles and blog posts
+-and GitHub repos on many topics, certainly wake word detection.
+-And what I find is that if this is research paper one, research
+-paper two, research paper three, research paper four, I find it
+-people will spend a lot of time reading research paper
+-one until you're done.
+-This is 0% complete.
+-This is 100% complete.
+-And then spend a lot of time reading research paper two,
+-spend a lot of time reading research paper three,
+-and I just recommend you not do that.
+-Instead, when I'm doing a literature search, what it often
+-feels like is do a few web searches
+-for a handful of resources, skim all of them, 0% complete,
+-100% complete.
+-Based on your initial reading, you
+-may decide to go back to paper three
+-and spend more time to really read and understand that,
+-but that'll help you find additional references.
+-You can skim.
+-And maybe you find a paper seven that's really seminal.
+-Spend a lot of effort.
+-But this is what doing a very broad survey of the literature
+-will feel like, where you really put in the time
+-to finish only a very small number of resources,
+-but spend a lot more time skipping around and giving
+-a cursory level, understanding of a broader set of papers,
+-which can also point you to the more useful resources
+-to focus attention on.
+-And just one of the things I've seen among Stanford students,
+-there's one other thing that I find people tend to underuse,
+-which is trying to talk to experts.
+-So if you are actually a CTO of a startup,
+-trying to build this for the first time,
+-I feel like, yeah, we all want to do our own work
+-and not bother other people, which is good.
+-But I just encourage you to consider if after you've
+-done your own work, if reach out to an expert,
+-can really accelerate your learning.
+-So something I've often done is I will do my own work.
+-I don't want to call random experts
+-to try to bother them before I've at least done my work.
+-But if you've-- sometimes, I'm reading a paper,
+-I'm really struggling to understand it.
+-And I find that instead of me struggling for another like four
+-hours, if I send the authors a respectful email, and say, hey,
+-I read your paper.
+-Try to understand this.
+-I'm still confused.
+-Can you help me out?
+-Can you explain this to me?
+-A lot of the time, including when I was less well known.
+-But I think a lot of people, if they
+-see that you're doing your work and not just reaching out
+-to them before you've even done anything, a lot of-- not
+-everyone, but a lot of research authors
+-would actually be quite understanding
+-and try to help you out.
+-And so I find that for a lot of projects
+-I did, finding that one expert--
+-sometimes a Stanford professor, actually, we
+-have a lot of speech faculty in the Stanford faculty as well.
+-But when I had problems with my speech recognition system,
+-sometimes I call Dan Jurafsky, whatever.
+-And then a half hour conversation or even a 10 minute
+-conversation really accelerates what I've been able to do.
+-So I just encourage you to--
+-it takes you like 10 minutes to send an email,
+-and maybe there's a 50% chance you chance to respond.
+-I don't know.
+-Not 100% chance.
+-But sometimes that tends to be really high ROI.
+-And then what I think you find is
+-that if you do a literature search,
+-you will likely discover that most
+-of the robust enterprise-grade smart speaker systems, all
+-have a specialized system trained to detect the wake word
+-or trigger word.
+-And again, there's a variety of architectures.
+-You probably come up with some good neural network
+-architectures for this.
+-And it turns out that there is no data set on the internet
+-with lots of people saying, Robert, turn on.
+-That's just not a thing.
+-So if you decide that the names are Robert and Lenard,
+-and I don't know, Jeremy, and Alicia, or whatever.
+... (truncated)
+```
+
+## Stanford CS230 ｜ Autumn 2025 ｜ Lecture 8： Agents, Prompts, and RAG.en-US.srt
+- Status: DIFFER
+```diff
+--- Stanford CS230 ｜ Autumn 2025 ｜ Lecture 8： Agents, Prompts, and RAG.en-US.srt
++++ Stanford CS230 ｜ Autumn 2025 ｜ Lecture 8： Agents, Prompts, and RAG.en-US.html
+@@ -1,2314 +1,2317 @@
+-Hi, everyone.
+-Welcome to another lecture for CS230 Deep Learning.
+-Today, we're going to talk about enhancing large language model
+-applications.
+-And I call this lecture Beyond LLM.
+-It has a lot of newer content.
+-And the idea behind this lecture is
+-we started to learn about neurons,
+-and then we learned about layers,
+-and then we learned about deep neural networks,
+-and then we learned a little bit about how to structure projects
+-in C3.
+-And now we're going one level beyond into, what would it
+-look if you were building agentic AI systems at work,
+-in a startup, in a company?
+-And it's probably one of the more practical lectures.
+-Again, the goal is not to build a product
+-end to end in the next hour or so,
+-but rather to tell you all the techniques
+-that AI engineers have cracked, figured out, are exploring,
+-so that after the class, you have the breadth of view
+-of different prompting techniques,
+-different agentic workflows, multi-agent systems, evals.
+-And then when you want to dive deeper,
+-you have the baggage to dive deeper and learn faster
+-about it.
+-Let's try to make it as interactive as possible, as
+-usual.
+-When we look at the agenda, the agenda
+-is going to start with the core idea behind challenges
+-and opportunities for augmenting LLMs.
+-So we start from a base model.
+-How do we maximize the performance of that base model?
+-Then we'll dive deep into the first line of optimization,
+-which is prompting methods, and we'll see a variety of them.
+-Then we'll go slightly deeper.
+-If we were to get our hands under the hood
+-and do some fine tuning, what would it look like?
+-I'm not a fan of fine tuning, and I talk a lot about that,
+-but I'll explain why I try to avoid fine tuning as much as
+-possible.
+-And then we'll do a section 4 on Retrieval-Augmented Generation,
+-or RAG, which you've probably heard of in the news.
+-Maybe some of you have played with RAGs.
+-We're going to unpack what a RAG is
+-and how it works and then the different methods within RAGs.
+-And then we'll talk about agentic AI workflows.
+-I'll define it.
+-Andrew Ng is one of the first ones
+-to have called this trend agenetic AI workflows.
+-And so we look at the definition that Andrew
+-gives to agentic workflows, and then we'll
+-start seeing examples.
+-The section 6 is very practical.
+-It's a case study where we will think about an agentic workflow,
+-and I'll ask you to measure if the agent actually works,
+-and we brainstorm how we can measure
+-if an agentic workflow is working
+-the way you want it to work.
+-There's plenty of methods called evals that solve that problem.
+-And then we'll look briefly at multi-agent workflow.
+-And then we can have a open-ended discussion
+-where I share some thoughts on what's next in AI.
+-And I'm looking forward to hearing from you all,
+-as well, on that one.
+-So let's get started with the problem of augmenting LLMs.
+-So open-ended question for you--
+-you are all familiar with pre-trained models
+-like GPT 3.5 Turbo or GPT 4.0.
+-What's the limitation of using just a base model?
+-What are the typical issues that might
+-arise as you're using a vanilla pre-trained model?
+-Yes.
+-It lacks some domain knowledge.
+-Lacks some domain knowledge.
+-You're perfectly right.
+-We had a group of students a few years ago.
+-It was not LLM related, but they were building an autonomous
+-farming device or vehicle that had a camera underneath, taking
+-pictures of crops to determine if the crop is
+-sick or not, if it should be thrown away,
+-if it should be used or not.
+-And that data set is not a data set you find out there.
+-And the base model or pre-trained computer vision
+-model would lack that knowledge, of course.
+-What else?
+-Yes.
+-[INAUDIBLE] pictures are very dark [INAUDIBLE]
+-OK, maybe the-- you're saying--
+-so just to repeat for people online,
+-you're saying the model might have been trained
+-on high-quality data, but the data in the wild
+-is actually not that high quality.
+-And in fact, yes, the distribution of the real world
+-might differ, as we've seen with GANs, from the training set,
+-and that might create an issue with pre-trained models.
+-Although pre-trained LLMs are getting better
+-at handling all sorts of data inputs.
+-Yes.
+-Lacks current information.
+-Lack what?
+-Current information.
+-Lacks current information.
+-The LLM is not up to date.
+-And in fact, you're right.
+-Imagine you have to retrain from scratch your LLM
+-every couple of months.
+-One story that I found funny--
+-it's from probably three years ago or maybe more five years
+-ago, where during his first presidency,
+-President Trump one day tweeted, "Covfefe."
+-You remember that tweet or no?
+-Just "Covfefe."
+-And it was probably a typo or it was in his pocket.
+-I don't know.
+-But that word did not exist.
+-The LLMs, in fact, that Twitter was running at the time
+-could not recognize that word.
+-And so the recommender system sort of went wild,
+-because suddenly everybody was making fun of that tweet using
+-the word "Covfefe," and the LLM was so confused on, what does
+-that mean?
+-Where should we show it?
+-To whom should we show it?
+-And this is an example of a-- nowadays,
+-especially on social media, there's so many new trends,
+-and it's very hard to retrain an LLM to match the new trend
+-and understand the new words out there.
+-I mean, you oftentimes hear Gen Z words like "rizz" or "mid"
+-or whatever.
+-I don't know all of them.
+-But you probably want to find a way that
+-can allow the LLM to understand those trends without retraining
+-the LLM from scratch.
+-What else?
+-It's trained to have a breadth of knowledge.
+-And if you wanted to do something specialized,
+-that might limit [INAUDIBLE].
+-Yeah, it might be trained on a breadth of knowledge,
+-but it might fail or not perform adequately
+-on a narrow task that is very well defined.
+-Think about enterprise applications that--
+-yeah, enterprise application.
+-You need high precision, high fidelity, low latency.
+-And maybe the model is not great at that specific thing.
+-It might do fine, but just not good enough.
+-And you might want to augment it in a certain way.
+-Yeah.
+-Maybe it has [INAUDIBLE] so it makes the model
+-a lot heavier, a lot slower.
+-[INAUDIBLE]
+-So maybe it has a lot of broad domain knowledge that might not
+-be needed for your application.
+-And so you're using a massive, heavy model
+-when you actually are only using 2% of the model capability.
+-You're perfectly right.
+-You might not need all of it.
+-So you might find ways to prune, quantize the model, modify it.
+-All of these are good points.
+-I'm going to add a few more, as well.
+-LLMs are very difficult to control.
+-Your last point is actually an example of that.
+-You want to control the LLM to use a part of its knowledge,
+-but it's not--
+-it's, in fact, getting confused.
+-We've seen that in history.
+-In 2016, Microsoft created a notorious Twitter
+-bot that learned from users, and it quickly became a racist jerk.
+-Microsoft ended up removing the bot 16 hours after launching it.
+-The community was really fast at determining
+-that this was a racist bot.
+-And you can empathize with Microsoft in the sense
+-that it is actually hard to control an LLM.
+-They might have done a better job to qualify before launching,
+-but it is really hard to control an LLM.
+-Even more recently, this is a tweet
+-from Sam Altman last November, where
+-there was this debate between Elon Musk and Sam
+-Altman on whose LLM is the left wing propaganda
+-machine or the right wing propaganda machine,
+-and they were hating on each other's LLMs.
+-But that tells you, at the end of the day,
+-that even those two teams, Grok and OpenAI, which are probably
+-the best funded team with a lot of talent,
+-are not doing a great job at controlling their LLMs.
+-And from time to time, if you hang out on X,
+-you might see screenshots of users interacting with LLMs
+-and the LLM saying something really controversial
+-or racist or something that would not be considered great
+-by social standards, I guess.
+-And that tells you that the model is really hard to control.
+-The second aspect of it is something
+-that you mentioned earlier.
+-LLMs may underperform in your task,
+-and that might include specific knowledge gaps,
+-such as medical diagnosis.
+-If you're doing medical diagnosis,
+-you would rather have an LLM that is specialized for that
+-and is great at it and, in fact, something
+-that we haven't mentioned as a group, has sources.
+-So the answer is sourced specifically.
+-You have a hard time believing something
+-unless you have the actual source of the research that
+-backs it up.
+-Inconsistencies in style and format--
+-so imagine you're building a legal AI agentic workflow.
+-Legal has a very specific way to write and read,
+-where every word counts.
+-If you're negotiating a large contract,
+-every word on that contract might mean something else
+-when it comes to the court.
+-And so it's very important that you use
+-an LLM that is very good at it.
+-The precision matters.
+-And then task-specific understanding,
+-such as doing a classification on a niche field,
+-here I pulled an example where-- let's say a biotech product is
+-trying to use an LLM to categorize
+-user reviews into positive, neutral, or negative.
+-Maybe for that company, something
+-that would be considered a negative review typically
+-is actually considered a neutral review
+-because the NPS of that industry tends
+-to be way lower than other industries, let's say.
+-That's a task-specific understanding,
+-and the LLM needs to be aligned to what
+-the company believes is the categorization that it wants.
+-We will see an example of how to solve that problem in a second.
+-And then limited context handling--
+-a lot of AI applications, especially in the enterprise,
+-have required data that has a lot of context.
+-Just to give you a simple example,
+-knowledge management is an important space
+-that enterprises buy a lot of knowledge management tool.
+-When you go on your drive and you have all your documents,
+-ideally, you could have an LLM running on top of that drive.
+-You can ask any question, and it will read immediately
+-thousands of documents and answer, what was
+-our Q4 performance in sales?
+-It was x dollars.
+-It finds it super quickly.
+-In practice, because LLMs do not have a large enough context,
+-you cannot use a standalone vanilla pre-trained LLM to solve
+-that problem.
+-You will have to augment it.
+-Does that make sense?
+-The other aspect around context windows is they are, in fact,
+-limited.
+-If you look at the context windows of the models
+-from the last five years, even the best models
+-today will range in context, window, or number of tokens
+-it can take as input, somewhere in the hundreds of thousands
+-of tokens max.
+-Just to give you a sense, 200,000 tokens is roughly two
+-books.
+-So that's how much you can upload
+-and it can read, pretty much.
+-And you can imagine that when you're
+-dealing with video understanding or heavier data
+-files, that is, of course, an issue.
+-So you might have to chunk it.
+-You might have to embed it.
+-You might have to find other ways
+-to get the LLM to handle larger contexts.
+-The attention mechanism is also powerful, but problematic,
+-because it does not do a great job at attending
+-in very large contexts.
+-There is actually an interesting problem
+-called needle in a haystack.
+-It's an AI problem where--
+-or call it a benchmark--
+-where, in order to test if your LLM is good at putting attention
+-on a very specific fact within a large corpus,
+-researchers might randomly insert
+-in about one sentence that outlines
+-a certain fact, such as Arun and Max
+-are having coffee at Blue Bottle,
+-in the middle of the Bible, let's say,
+-or some very long text.
+-And then you ask the LLM, what were Arun and Max having
+-at Blue Bottle?
+-And you see if it remembers that it was coffee.
+-It's actually a complex problem, not because the question
+-is complex, but because you're asking the model
+-to find a fact within a very large corpus,
+-and that's complicated.
+-So, again, this is a limiting factor for LLMs.
+-We'll talk about RAG in a second.
+-But I want to preview--
+-there is debates around whether RAG
+-is the right long-term approach for AI systems.
+-So as a high-level idea, a RAG is a mechanism, if you will,
+-that embeds documents that an LLM can retrieve and then
+-add as context to its initial prompt and answer a question.
+-It has lots of application.
+-Knowledge management is an example.
+-So imagine you have your drive again.
+-But every document is compressed in representation,
+-and the LLM has access to that lower
+-dimensional representation.
+-The debates that this tweet from [INAUDIBLE] outlines
+-is, in theory, if we have infinite compute,
+-then RAG is useless.
+-Because you can just read a massive corpus immediately
+-and answer your question.
+-But even in that case, latency might be an issue.
+-Imagine the time it takes for an AI
+-to read all your drive every single time you ask a question.
+-It doesn't make sense.
+-So RAG has other advantages beyond even the accuracy.
+-On top of that, the sourcing matters, as well.
+-So it might-- RAG allows you to source.
+-We'll talk about all that later.
+-But there's always this debate in the community
+-whether a certain method is actually future proof.
+-Because in practice, as compute power doubles every year,
+-let's say, some of the methods we're learning right now
+-might not be relevant three years from now.
+-We don't know, essentially.
+-And the analogy that he makes on context windows
+-and why RAG approaches might be relevant even a long time
+-from now is search.
+-When you search on a search engine,
+-you still find sources of information.
+-And in fact, in the background, there
+-is very detailed traversal algorithms
+-that rank and find the specific links that might be the best
+-to present you versus if you had to read-- imagine you had
+-to read the entire web every single time you're doing
+-a search query, without being able to narrow
+-to a certain portion of the space.
+-That might, again, not be reasonable.
+-OK, when we're thinking of improving LLMs,
+-the easiest way we think of it is two dimensions.
+-One dimension is we are going to improve the foundation
+-model itself.
+-So, for example, we move from GPT 3.5 Turbo, to GPT 4,
+-to GPT 4.0, to GPT 5.
+-Each of that is supposed to improve the base model.
+-GPT 5 is another debate because it's packaging other models
+-within itself.
+-But if you're thinking about 3.5, 4, and 4.0,
+-that's really what it is.
+-The pre-trained model improves.
+-And so you should see your performance
+-improve on your tasks.
+-But the other dimension is we can actually engineer--
+-leverage the LLM in a way that makes it better.
+-So you can prompt simply GPT 4.0.
+-You can change some prompts and improve the prompt,
+-and it will improve the performance.
+-It's shown.
+-You can even put a RAG around it.
+-You can put an agentic workflow around it.
+-You can even put a multi-agent system around it.
+-And that is another dimension for you to improve performance.
+-So that's how I want you to think about it-- which
+-LLM I'm using, and then how can I maximize
+-the performance of that LLM?
+-This lecture is about the vertical axis.
+-Those are the methods that we will see together.
+-Sounds good for the introduction.
+-So let's move to prompt engineering.
+-I'm going to start with an interesting study just
+-to motivate why prompt engineering matters.
+-There is a study from HBS, UPenn,
+-as well as Harvard Business School, and--
+-well, there is also involved Wharton--
+-that took a subset of BCG consultants,
+-individual contributors, split them into three groups.
+-One group had no access to AI.
+-One group had access to--
+-I think it was GPT 4.
+-And then one group had access to the LLM,
+-but also a training on how to prompt better.
+-And then they observed the performance of these consultants
+-across a wide variety of tasks.
+-There's a few things that they noticed
+-that I thought was interesting.
+-One is something they called the jagged frontier,
+-meaning that certain tasks that consultants are doing fall
+-beyond the jagged frontier, meaning AI is not good enough.
+-It's not improving human performance.
+-In fact, it's actually making it worse.
+-And some tasks are within the frontier,
+-meaning that AI is actually significantly improving
+-the performance, the speed, the quality of the consultant.
+-Many tasks fell within and many tasks fell without,
+-and they shared their insights.
+-But the TLDR is--
+-there is a frontier within which AI is absolutely helping
+-and one where they call out this behavior, or falling asleep
+-at the wheel, where people relied on AI on a task that
+-was beyond the frontier.
+-And in fact, it ended up going worse
+-because the human was not reviewing the outputs carefully
+-enough.
+-They did note that the group that was trained
+-was the best, better than the group that was not trained
+... (truncated)
+```
+

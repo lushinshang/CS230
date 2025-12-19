@@ -1,0 +1,1267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Stanford CS230 ｜ Autumn 2025 ｜ Lecture 1： Introduction to Deep Learning.en-US.html</title>
+  <style>
+    body{font-family:Inter, system-ui, -apple-system, Arial, sans-serif;line-height:1.6;padding:1rem;max-width:900px;margin:0 auto;color:#111}
+    .meta{color:#666;font-size:0.95rem;margin-bottom:0.5rem}
+    article{background:#fff;border-radius:8px;padding:1rem 1.2rem;box-shadow:0 6px 18px rgba(10,20,30,0.05)}
+    p.cue{margin:0 0 0.6rem}
+    span.time{color:#666;margin-right:8px;font-size:0.95rem}
+  </style>
+</head>
+<body>
+<article lang="en">
+  <header>
+    <h1>Stanford CS230 ｜ Autumn 2025 ｜ Lecture 1： Introduction to Deep Learning</h1>
+    <p class="meta">Source: Stanford CS230 ｜ Autumn 2025 ｜ Lecture 1： Introduction to Deep Learning.en-US.srt</p>
+  </header>
+  <section class="transcript">
+    <p class="cue"><span class="time">[00:05]</span>What I want to do today is give an overview of this class.</p>
+    <p class="cue"><span class="time">[00:10]</span>I&#x27;m actually curious before we get started.</p>
+    <p class="cue"><span class="time">[00:14]</span>This is now September 2025.</p>
+    <p class="cue"><span class="time">[00:18]</span>How many of you just started at Stanford?</p>
+    <p class="cue"><span class="time">[00:21]</span>Raise your hand.</p>
+    <p class="cue"><span class="time">[00:22]</span>Wow.</p>
+    <p class="cue"><span class="time">[00:23]</span>Cool.</p>
+    <p class="cue"><span class="time">[00:23]</span>Awesome.</p>
+    <p class="cue"><span class="time">[00:24]</span>So others, pay attention to who just raised their hands</p>
+    <p class="cue"><span class="time">[00:26]</span>and do say hi to them and help welcome</p>
+    <p class="cue"><span class="time">[00:30]</span>all of the people that just joined</p>
+    <p class="cue"><span class="time">[00:31]</span>Stanford in whatever program.</p>
+    <p class="cue"><span class="time">[00:35]</span>CS230 is a class that we offer in the flipped classroom format.</p>
+    <p class="cue"><span class="time">[00:40]</span>And what that means is that instead of listening</p>
+    <p class="cue"><span class="time">[00:43]</span>to me or Kian, my co-instructor that you meet next week,</p>
+    <p class="cue"><span class="time">[00:48]</span>instead of listening to us lecture at you for an hour, hour</p>
+    <p class="cue"><span class="time">[00:51]</span>20 minutes, or whatever, we&#x27;ll actually</p>
+    <p class="cue"><span class="time">[00:54]</span>ask you to watch a lot of the video</p>
+    <p class="cue"><span class="time">[00:56]</span>lectures online so that we can then</p>
+    <p class="cue"><span class="time">[00:58]</span>make use of the precious in-classroom time for much</p>
+    <p class="cue"><span class="time">[01:02]</span>richer, deeper discussions.</p>
+    <p class="cue"><span class="time">[01:04]</span>So both today and for the entire quarter,</p>
+    <p class="cue"><span class="time">[01:08]</span>I would really warmly welcome anyone raising questions,</p>
+    <p class="cue"><span class="time">[01:11]</span>raise your hand.</p>
+    <p class="cue"><span class="time">[01:12]</span>And in fact, I find that instead of you sitting there--</p>
+    <p class="cue"><span class="time">[01:17]</span>oh, and even though with a longer session schedule</p>
+    <p class="cue"><span class="time">[01:19]</span>by the registrar, we&#x27;ll use usually</p>
+    <p class="cue"><span class="time">[01:22]</span>only up to an hour and 20 minutes for this course.</p>
+    <p class="cue"><span class="time">[01:26]</span>And the goal is to--</p>
+    <p class="cue"><span class="time">[01:28]</span>it turns out that a lot of Stanford students</p>
+    <p class="cue"><span class="time">[01:30]</span>were watching the lectures on Seagull,</p>
+    <p class="cue"><span class="time">[01:34]</span>on the online videos anyway.</p>
+    <p class="cue"><span class="time">[01:36]</span>So rather than us delivering that same lecture year</p>
+    <p class="cue"><span class="time">[01:40]</span>after year, we put a lot more effort</p>
+    <p class="cue"><span class="time">[01:42]</span>to put very high quality lecture videos online</p>
+    <p class="cue"><span class="time">[01:46]</span>and we&#x27;ll ask you to just watch that online, which people are</p>
+    <p class="cue"><span class="time">[01:48]</span>doing anyway, but just highly edited for offline watching</p>
+    <p class="cue"><span class="time">[01:52]</span>and spend a classroom time doing the things that</p>
+    <p class="cue"><span class="time">[01:55]</span>make sense for us to get together in-person to.</p>
+    <p class="cue"><span class="time">[01:59]</span>So because you haven&#x27;t watched any of the lectures yet,</p>
+    <p class="cue"><span class="time">[02:02]</span>or I assume most of you have not,</p>
+    <p class="cue"><span class="time">[02:03]</span>today we&#x27;ll even maybe have a slightly shorter session</p>
+    <p class="cue"><span class="time">[02:06]</span>to introduce the class, talk about logistics, and so on.</p>
+    <p class="cue"><span class="time">[02:12]</span>As many of you know, deep learning</p>
+    <p class="cue"><span class="time">[02:14]</span>is one of the latest, hottest trends technologies</p>
+    <p class="cue"><span class="time">[02:18]</span>of computer science and AI.</p>
+    <p class="cue"><span class="time">[02:20]</span>If we look at, say our PhD admissions or even master&#x27;s</p>
+    <p class="cue"><span class="time">[02:25]</span>admissions, a very large fraction</p>
+    <p class="cue"><span class="time">[02:27]</span>of all students that come to Stanford</p>
+    <p class="cue"><span class="time">[02:29]</span>or applying to come to Stanford want to work on AI.</p>
+    <p class="cue"><span class="time">[02:31]</span>I&#x27;m not sure if I&#x27;m allowed to say the numbers,</p>
+    <p class="cue"><span class="time">[02:33]</span>but they are extremely high, as you can imagine.</p>
+    <p class="cue"><span class="time">[02:38]</span>And so my goal and my co-instructor Kian&#x27;s goal,</p>
+    <p class="cue"><span class="time">[02:42]</span>our collective goal, is through this quarter</p>
+    <p class="cue"><span class="time">[02:45]</span>to help you get to near or at pretty much state of the art</p>
+    <p class="cue"><span class="time">[02:50]</span>with regard to deep learning and make sure that all of you</p>
+    <p class="cue"><span class="time">[02:54]</span>walk away from this class highly skilled at applying</p>
+    <p class="cue"><span class="time">[02:58]</span>deep learning.</p>
+    <p class="cue"><span class="time">[03:00]</span>And so it turns out that a lot of progress</p>
+    <p class="cue"><span class="time">[03:04]</span>in AI over the last, I don&#x27;t know,</p>
+    <p class="cue"><span class="time">[03:07]</span>decade, maybe 10, 15 years, was made by scaling.</p>
+    <p class="cue"><span class="time">[03:12]</span>And one of the reasons why deep learning was so successful</p>
+    <p class="cue"><span class="time">[03:15]</span>was because it&#x27;s good at absorbing a lot of data.</p>
+    <p class="cue"><span class="time">[03:18]</span>So if I draw a figure where on the x-axis</p>
+    <p class="cue"><span class="time">[03:25]</span>I plot the amount of data we have for a problem,</p>
+    <p class="cue"><span class="time">[03:32]</span>then using more traditional machine learning algorithms, so</p>
+    <p class="cue"><span class="time">[03:36]</span>logistic regression, maybe decision trees,</p>
+    <p class="cue"><span class="time">[03:38]</span>but using all the generations of AI machine learning algorithms,</p>
+    <p class="cue"><span class="time">[03:46]</span>as you gave it more and more data,</p>
+    <p class="cue"><span class="time">[03:48]</span>the performance or the accuracy of the more</p>
+    <p class="cue"><span class="time">[03:50]</span>traditional algorithms would plateau.</p>
+    <p class="cue"><span class="time">[03:52]</span>It was as if--</p>
+    <p class="cue"><span class="time">[03:53]</span>So take speech recognition.</p>
+    <p class="cue"><span class="time">[03:55]</span>With all the generations of algorithms,</p>
+    <p class="cue"><span class="time">[03:57]</span>even as you fed it more and more data, hundreds and thousands</p>
+    <p class="cue"><span class="time">[04:00]</span>and tens of thousands of hours of speech data,</p>
+    <p class="cue"><span class="time">[04:03]</span>the accuracy would often plateau and it</p>
+    <p class="cue"><span class="time">[04:07]</span>was as if the older generations of algorithms</p>
+    <p class="cue"><span class="time">[04:09]</span>didn&#x27;t what to do with all the data that we now have.</p>
+    <p class="cue"><span class="time">[04:13]</span>But what we start to find about 10, 15 years ago</p>
+    <p class="cue"><span class="time">[04:18]</span>was that if you train a small neural network, also known</p>
+    <p class="cue"><span class="time">[04:24]</span>as a small deep learning model, its performance would maybe</p>
+    <p class="cue"><span class="time">[04:28]</span>get better and better.</p>
+    <p class="cue"><span class="time">[04:30]</span>And if you train a medium-sized one,</p>
+    <p class="cue"><span class="time">[04:32]</span>and if you train a very large neural network,</p>
+    <p class="cue"><span class="time">[04:36]</span>the performance just keeps getting better and better.</p>
+    <p class="cue"><span class="time">[04:39]</span>And I think the reason that deep learning has dominated the AI</p>
+    <p class="cue"><span class="time">[04:43]</span>scene for the last 10, 15 years is</p>
+    <p class="cue"><span class="time">[04:45]</span>because there is a recipe for training</p>
+    <p class="cue"><span class="time">[04:48]</span>very large neural networks that we could then</p>
+    <p class="cue"><span class="time">[04:52]</span>shove a lot of data into the results</p>
+    <p class="cue"><span class="time">[04:54]</span>in exceptional performance.</p>
+    <p class="cue"><span class="time">[04:56]</span>So I think we started to see this because of, frankly,</p>
+    <p class="cue"><span class="time">[05:01]</span>some Stanford research papers about 15 years ago when</p>
+    <p class="cue"><span class="time">[05:05]</span>we did the first early work on using CUDA programming</p>
+    <p class="cue"><span class="time">[05:09]</span>and GPUs to scale up deep learning.</p>
+    <p class="cue"><span class="time">[05:11]</span>Oh, by the way, actually, it&#x27;s one fun fact.</p>
+    <p class="cue"><span class="time">[05:15]</span>My first GPU machine used to train neural networks</p>
+    <p class="cue"><span class="time">[05:20]</span>using CUDA, which is a controversial thing at the time.</p>
+    <p class="cue"><span class="time">[05:23]</span>It was built by a Stanford undergrad in his dorm room.</p>
+    <p class="cue"><span class="time">[05:25]</span>His name was Ian Goodfellow.</p>
+    <p class="cue"><span class="time">[05:27]</span>But I think that compute server, built in the Stanford</p>
+    <p class="cue"><span class="time">[05:30]</span>undergrad dorm room, allowed us at Stanford</p>
+    <p class="cue"><span class="time">[05:33]</span>to lay the early foundations of using CUDA, at that time</p>
+    <p class="cue"><span class="time">[05:38]</span>a modern language for training GPUs</p>
+    <p class="cue"><span class="time">[05:40]</span>to train large neural networks.</p>
+    <p class="cue"><span class="time">[05:42]</span>And then obviously, that influenced a lot of people</p>
+    <p class="cue"><span class="time">[05:44]</span>and helped scaling up deep learning take off.</p>
+    <p class="cue"><span class="time">[05:47]</span>So I tell that story because sometimes the work</p>
+    <p class="cue"><span class="time">[05:51]</span>that some of you can do in a dorm room or graduate student</p>
+    <p class="cue"><span class="time">[05:54]</span>housing or whatever, or in a lab at Stanford,</p>
+    <p class="cue"><span class="time">[05:58]</span>looking back over some number of years,</p>
+    <p class="cue"><span class="time">[06:00]</span>it can really have a huge impact.</p>
+    <p class="cue"><span class="time">[06:02]</span>And maybe in this class, some of you</p>
+    <p class="cue"><span class="time">[06:03]</span>will do work as impactful as that someday as well.</p>
+    <p class="cue"><span class="time">[06:08]</span>But so what you start to find was</p>
+    <p class="cue"><span class="time">[06:11]</span>that as we train larger and larger neural networks,</p>
+    <p class="cue"><span class="time">[06:14]</span>they could soak up lots of data and drive</p>
+    <p class="cue"><span class="time">[06:16]</span>exceptional performance.</p>
+    <p class="cue"><span class="time">[06:18]</span>And then there was a research paper out of Baidu,</p>
+    <p class="cue"><span class="time">[06:21]</span>which showed that as you scale up neural networks, as you scale</p>
+    <p class="cue"><span class="time">[06:25]</span>up deep learning algorithms, the performance gains are actually</p>
+    <p class="cue"><span class="time">[06:28]</span>quite predictable.</p>
+    <p class="cue"><span class="time">[06:28]</span>So you can forecast, if you buy this many GPUs,</p>
+    <p class="cue"><span class="time">[06:31]</span>throw this compute and this much data at it,</p>
+    <p class="cue"><span class="time">[06:34]</span>what would the performance be?</p>
+    <p class="cue"><span class="time">[06:36]</span>And then later, OpenAI popularized the idea</p>
+    <p class="cue"><span class="time">[06:39]</span>with a really influential paper on scaling laws.</p>
+    <p class="cue"><span class="time">[06:42]</span>And that predictability of how deep learning gets better</p>
+    <p class="cue"><span class="time">[06:46]</span>in performance then drove a lot of the investments</p>
+    <p class="cue"><span class="time">[06:50]</span>in data centers and building very large AI models</p>
+    <p class="cue"><span class="time">[06:53]</span>with lots of data.</p>
+    <p class="cue"><span class="time">[06:56]</span>And so let&#x27;s see.</p>
+    <p class="cue"><span class="time">[06:59]</span>In terms of where this class sits, so in computer science,</p>
+    <p class="cue"><span class="time">[07:03]</span>all of us build on each other&#x27;s work.</p>
+    <p class="cue"><span class="time">[07:06]</span>A lot of the way that computer science and AI has made progress</p>
+    <p class="cue"><span class="time">[07:09]</span>is we build on top of other ideas</p>
+    <p class="cue"><span class="time">[07:12]</span>that are, in turn, build on top of other ideas</p>
+    <p class="cue"><span class="time">[07:14]</span>that in turn build on top of other ideas.</p>
+    <p class="cue"><span class="time">[07:16]</span>So maybe I want to give you a little map to show you maybe</p>
+    <p class="cue"><span class="time">[07:20]</span>where deep learning sits.</p>
+    <p class="cue"><span class="time">[07:24]</span>So I think there are--</p>
+    <p class="cue"><span class="time">[07:30]</span>machine learning is built on top of computer science.</p>
+    <p class="cue"><span class="time">[07:32]</span>So I think it&#x27;s actually helpful to learn CS fundamentals.</p>
+    <p class="cue"><span class="time">[07:35]</span>And even though I use and I suspect</p>
+    <p class="cue"><span class="time">[07:38]</span>vast majority use AI-assisted coding,</p>
+    <p class="cue"><span class="time">[07:40]</span>be it tools like Cloud Code or Gemini CLI, or OpenAI</p>
+    <p class="cue"><span class="time">[07:43]</span>Codex, or Cursor, or Windsurf, or whatever,</p>
+    <p class="cue"><span class="time">[07:46]</span>I find that people that know CS fundamentals, that really</p>
+    <p class="cue"><span class="time">[07:50]</span>understand computer science, that really understand how</p>
+    <p class="cue"><span class="time">[07:52]</span>computers work, rather than I&#x27;m going to vi code this,</p>
+    <p class="cue"><span class="time">[07:55]</span>when you understand CS fundamentals,</p>
+    <p class="cue"><span class="time">[07:56]</span>you get things to work much better.</p>
+    <p class="cue"><span class="time">[07:59]</span>But on top of CS fundamentals, there&#x27;s</p>
+    <p class="cue"><span class="time">[08:02]</span>a set of machine learning skills.</p>
+    <p class="cue"><span class="time">[08:10]</span>So how do you build algorithms that can learn from data?</p>
+    <p class="cue"><span class="time">[08:15]</span>And then deep learning is a special type</p>
+    <p class="cue"><span class="time">[08:18]</span>of machine learning.</p>
+    <p class="cue"><span class="time">[08:20]</span>Well, that&#x27;s really the most effective type of machine</p>
+    <p class="cue"><span class="time">[08:22]</span>learning, as far as I can tell, in which</p>
+    <p class="cue"><span class="time">[08:24]</span>we train neural networks, we train</p>
+    <p class="cue"><span class="time">[08:26]</span>certain types of algorithms to learn</p>
+    <p class="cue"><span class="time">[08:28]</span>from large amounts of data.</p>
+    <p class="cue"><span class="time">[08:30]</span>So far in the last 10 minutes, you&#x27;ve</p>
+    <p class="cue"><span class="time">[08:32]</span>probably heard me use the words deep learning</p>
+    <p class="cue"><span class="time">[08:34]</span>and neural networks.</p>
+    <p class="cue"><span class="time">[08:36]</span>And I think today those two terms</p>
+    <p class="cue"><span class="time">[08:37]</span>are almost interchangeable.</p>
+    <p class="cue"><span class="time">[08:40]</span>Some purists will insist on some technical differences.</p>
+    <p class="cue"><span class="time">[08:43]</span>For all practical purposes, they mean the same thing.</p>
+    <p class="cue"><span class="time">[08:45]</span>But what happened was the term neural networks had been around</p>
+    <p class="cue"><span class="time">[08:48]</span>for decades, but around 10 or 15 years ago, a number of us</p>
+    <p class="cue"><span class="time">[08:53]</span>realized that deep learning, it was just a much better brand.</p>
+    <p class="cue"><span class="time">[08:59]</span>And so even though neural networks</p>
+    <p class="cue"><span class="time">[09:01]</span>have been around for decades, starting about 10, 15 years ago,</p>
+    <p class="cue"><span class="time">[09:05]</span>it was deep learning that took off,</p>
+    <p class="cue"><span class="time">[09:07]</span>because who doesn&#x27;t want learning that is really deep?</p>
+    <p class="cue"><span class="time">[09:12]</span>It&#x27;s just a good brand.</p>
+    <p class="cue"><span class="time">[09:15]</span>But you hear me use those terms interchangeably.</p>
+    <p class="cue"><span class="time">[09:17]</span>But deep learning algorithms, neural networks,</p>
+    <p class="cue"><span class="time">[09:21]</span>they give us a way to take advantage more and more and more</p>
+    <p class="cue"><span class="time">[09:24]</span>compute capacity so they can build very large AI</p>
+    <p class="cue"><span class="time">[09:28]</span>models with a lot of parameters to soak up</p>
+    <p class="cue"><span class="time">[09:30]</span>the large amounts of data to get more and more intelligent</p>
+    <p class="cue"><span class="time">[09:33]</span>or to make better and better predictions,</p>
+    <p class="cue"><span class="time">[09:35]</span>or to generate more and more accurate</p>
+    <p class="cue"><span class="time">[09:36]</span>outputs using the large amount of data that&#x27;s available to us.</p>
+    <p class="cue"><span class="time">[09:41]</span>Ever since I was a teenager, my mom&#x27;s</p>
+    <p class="cue"><span class="time">[09:44]</span>been trying to convince me to stop mumbling,</p>
+    <p class="cue"><span class="time">[09:48]</span>but now, many years later, I still struggle with that.</p>
+    <p class="cue"><span class="time">[09:50]</span>So I&#x27;ll try my best.</p>
+    <p class="cue"><span class="time">[09:52]</span>So please, wave at me or let me if I start to drift lower again.</p>
+    <p class="cue"><span class="time">[09:58]</span>Yeah, all right.</p>
+    <p class="cue"><span class="time">[09:59]</span>I think my mother would be very happy to have</p>
+    <p class="cue"><span class="time">[10:02]</span>to practice like this now.</p>
+    <p class="cue"><span class="time">[10:06]</span>All right.</p>
+    <p class="cue"><span class="time">[10:08]</span>So CS fundamentals, machine learning, deep learning,</p>
+    <p class="cue"><span class="time">[10:11]</span>and then the recent generative AI revolution.</p>
+    <p class="cue"><span class="time">[10:17]</span>Generative AI-- sorry, bad handwriting.</p>
+    <p class="cue"><span class="time">[10:21]</span>Generative AI, which is mostly built</p>
+    <p class="cue"><span class="time">[10:26]</span>by a specific type of neural network</p>
+    <p class="cue"><span class="time">[10:28]</span>called the transformer neural network, which</p>
+    <p class="cue"><span class="time">[10:30]</span>you learn about in this class.</p>
+    <p class="cue"><span class="time">[10:31]</span>You actually learned what is the transformer architecture</p>
+    <p class="cue"><span class="time">[10:34]</span>later in this quarter as well, is in turn</p>
+    <p class="cue"><span class="time">[10:37]</span>built on top of deep learning.</p>
+    <p class="cue"><span class="time">[10:40]</span>So I assume all of you are regularly</p>
+    <p class="cue"><span class="time">[10:43]</span>prompting LLMs, large language models,</p>
+    <p class="cue"><span class="time">[10:45]</span>to help you get work done.</p>
+    <p class="cue"><span class="time">[10:47]</span>And what I find is that while I use LLMs all the time,</p>
+    <p class="cue"><span class="time">[10:52]</span>for a lot of applications, just prompting LLMs,</p>
+    <p class="cue"><span class="time">[10:55]</span>it doesn&#x27;t cut it.</p>
+    <p class="cue"><span class="time">[10:56]</span>There are a lot of things that I cannot get to work just</p>
+    <p class="cue"><span class="time">[10:58]</span>by prompting an LLM.</p>
+    <p class="cue"><span class="time">[11:00]</span>And so I&#x27;ll often have to go a layer deeper</p>
+    <p class="cue"><span class="time">[11:03]</span>into the deep learning layer of abstraction</p>
+    <p class="cue"><span class="time">[11:05]</span>and fill it with deep learning algorithms</p>
+    <p class="cue"><span class="time">[11:07]</span>in order to get certain things to work.</p>
+    <p class="cue"><span class="time">[11:09]</span>And in fact-- so what this class covers</p>
+    <p class="cue"><span class="time">[11:12]</span>is we&#x27;ll try to make sure that you are expert,</p>
+    <p class="cue"><span class="time">[11:17]</span>near-expert in deep learning by the end of this class,</p>
+    <p class="cue"><span class="time">[11:20]</span>but we&#x27;ll also dip a little bit into machine learning concepts.</p>
+    <p class="cue"><span class="time">[11:25]</span>We&#x27;ll talk a lot about objective functions and tips and tricks</p>
+    <p class="cue"><span class="time">[11:29]</span>for optimizing parameters in efficient way.</p>
+    <p class="cue"><span class="time">[11:32]</span>And then we&#x27;ll also actually reach up a little bit</p>
+    <p class="cue"><span class="time">[11:34]</span>to cover some GenAI.</p>
+    <p class="cue"><span class="time">[11:36]</span>In particular, we&#x27;ll talk about what is the transformer network?</p>
+    <p class="cue"><span class="time">[11:39]</span>And then through this quarter, Kian and I</p>
+    <p class="cue"><span class="time">[11:41]</span>will also chat a little bit about the job landscape</p>
+    <p class="cue"><span class="time">[11:45]</span>as it relates to GenAI and deep learning,</p>
+    <p class="cue"><span class="time">[11:48]</span>and how deep learning is enabling certain types of AI</p>
+    <p class="cue"><span class="time">[11:52]</span>applications.</p>
+    <p class="cue"><span class="time">[11:54]</span>OK.</p>
+    <p class="cue"><span class="time">[11:56]</span>I have more to say about this, but let</p>
+    <p class="cue"><span class="time">[11:58]</span>me just pause for a second and see if you have any questions.</p>
+    <p class="cue"><span class="time">[12:02]</span>Yeah, go for it.</p>
+    <p class="cue"><span class="time">[12:03]</span>Did you say machine learning is a prerequisite to this course?</p>
+    <p class="cue"><span class="time">[12:06]</span>Oh, good question.</p>
+    <p class="cue"><span class="time">[12:07]</span>What I say?</p>
+    <p class="cue"><span class="time">[12:09]</span>Congratulations.</p>
+    <p class="cue"><span class="time">[12:10]</span>You&#x27;ve won the prize for the first question asked</p>
+    <p class="cue"><span class="time">[12:12]</span>in CS230 2035, so well done.</p>
+    <p class="cue"><span class="time">[12:14]</span>[APPLAUSE]</p>
+    <p class="cue"><span class="time">[12:19]</span>Yeah.</p>
+    <p class="cue"><span class="time">[12:20]</span>So is machine learning a prereq to this course?</p>
+    <p class="cue"><span class="time">[12:22]</span>Not really.</p>
+    <p class="cue"><span class="time">[12:24]</span>So I think two common entry points to AI at Stanford</p>
+    <p class="cue"><span class="time">[12:28]</span>are CS--</p>
+    <p class="cue"><span class="time">[12:30]</span>well, a few common entry points are CS129, CS229, and CS230.</p>
+    <p class="cue"><span class="time">[12:36]</span>If you don&#x27;t know any machine learning,</p>
+    <p class="cue"><span class="time">[12:38]</span>this course may end up going a little bit fast,</p>
+    <p class="cue"><span class="time">[12:41]</span>may seem like it&#x27;s going a little bit fast in the first,</p>
+    <p class="cue"><span class="time">[12:43]</span>I don&#x27;t know, two or three weeks,</p>
+    <p class="cue"><span class="time">[12:45]</span>but some people do pick things up quickly that way.</p>
+    <p class="cue"><span class="time">[12:49]</span>And maybe actually--</p>
+    <p class="cue"><span class="time">[12:52]</span>So a few courses that you may hear about.</p>
+    <p class="cue"><span class="time">[12:59]</span>So 129 is a relatively easy entry point</p>
+    <p class="cue"><span class="time">[13:03]</span>into machine learning that tends to-- it takes a longer</p>
+    <p class="cue"><span class="time">[13:07]</span>time to go through the core concepts of machine learning.</p>
+    <p class="cue"><span class="time">[13:10]</span>Like, what&#x27;s the optimization objective?</p>
+    <p class="cue"><span class="time">[13:12]</span>How do you implement gradient descent?</p>
+    <p class="cue"><span class="time">[13:13]</span>What is logistic regression?</p>
+    <p class="cue"><span class="time">[13:15]</span>What&#x27;s a very basic neural network?</p>
+    <p class="cue"><span class="time">[13:17]</span>So this is a relatively applied easiest of this list.</p>
+    <p class="cue"><span class="time">[13:23]</span>CS229, which I&#x27;m also involved in co-teaching,</p>
+    <p class="cue"><span class="time">[13:26]</span>is much more mathematical and theoretical, very high-paced,</p>
+    <p class="cue"><span class="time">[13:30]</span>very intense, and very mathematical.</p>
+    <p class="cue"><span class="time">[13:32]</span>And this is less applied than 129 and 230,</p>
+    <p class="cue"><span class="time">[13:36]</span>but this will go over a lot more of the theory and the math</p>
+    <p class="cue"><span class="time">[13:40]</span>derivations behind machine learning algorithms.</p>
+    <p class="cue"><span class="time">[13:43]</span>So, for example, if you want to learn how to do calculus</p>
+    <p class="cue"><span class="time">[13:46]</span>not using real numbers, but calculus</p>
+    <p class="cue"><span class="time">[13:49]</span>using matrices and vectors, that&#x27;s a bunch of, I don&#x27;t know,</p>
+    <p class="cue"><span class="time">[13:53]</span>mildly complex math that&#x27;s worth knowing.</p>
+    <p class="cue"><span class="time">[13:56]</span>CS229 goes over that.</p>
+    <p class="cue"><span class="time">[13:58]</span>CS230, this class, is relatively applied,</p>
+    <p class="cue"><span class="time">[14:01]</span>and it focuses just on deep learning.</p>
+    <p class="cue"><span class="time">[14:04]</span>So of all the machine learning-- there</p>
+    <p class="cue"><span class="time">[14:05]</span>are a lot of machine learning algorithms</p>
+    <p class="cue"><span class="time">[14:07]</span>out there, supervised learning, unsupervised</p>
+    <p class="cue"><span class="time">[14:08]</span>learning, a lot of machine learning algorithms out there.</p>
+    <p class="cue"><span class="time">[14:11]</span>And many, many of them are very useful</p>
+    <p class="cue"><span class="time">[14:14]</span>and so they&#x27;re all worth learning about.</p>
+    <p class="cue"><span class="time">[14:16]</span>But of all the machine learning algorithms out there,</p>
+    <p class="cue"><span class="time">[14:18]</span>the one category that is most useful that&#x27;s taking off</p>
+    <p class="cue"><span class="time">[14:22]</span>the most is deep learning, and this class focuses just on that,</p>
+    <p class="cue"><span class="time">[14:25]</span>but the other arm is also worth learning about.</p>
+    <p class="cue"><span class="time">[14:28]</span>So 129 is the easiest on-ramp.</p>
+    <p class="cue"><span class="time">[14:31]</span>But if you&#x27;ve done either 229 or 230,</p>
+    <p class="cue"><span class="time">[14:34]</span>I would probably skip 129 at that point.</p>
+    <p class="cue"><span class="time">[14:36]</span>But if you are getting started, there are multiple on-ramps.</p>
+    <p class="cue"><span class="time">[14:39]</span>Yeah.</p>
+    <p class="cue"><span class="time">[14:40]</span>If we take 229 and 230 together, do you think it&#x27;s redundant?</p>
+    <p class="cue"><span class="time">[14:43]</span>Oh, yeah.</p>
+    <p class="cue"><span class="time">[14:44]</span>Can you take 229 and 230 together?</p>
+    <p class="cue"><span class="time">[14:47]</span>Yeah, thank you.</p>
+    <p class="cue"><span class="time">[14:48]</span>Prize for the second question.</p>
+    <p class="cue"><span class="time">[14:50]</span>All right.</p>
+    <p class="cue"><span class="time">[14:51]</span>If you want to clap, sure, go for it.</p>
+    <p class="cue"><span class="time">[14:52]</span>[APPLAUSE]</p>
+    <p class="cue"><span class="time">[14:56]</span>Yes, you can take CS230 and CS229 together.</p>
+    <p class="cue"><span class="time">[15:00]</span>We designed the two curricula to be relatively low in overlap.</p>
+    <p class="cue"><span class="time">[15:05]</span>So the very small amount of overlap between these two.</p>
+    <p class="cue"><span class="time">[15:10]</span>We won&#x27;t clap for every single question, but go ahead.</p>
+    <p class="cue"><span class="time">[15:13]</span>Are you going to cover more recent deep learning algorithms</p>
+    <p class="cue"><span class="time">[15:17]</span>that are used in recent LLM developments,</p>
+    <p class="cue"><span class="time">[15:20]</span>like five or two more?</p>
+    <p class="cue"><span class="time">[15:23]</span>Yeah, so when we cover the recent LLM developments,</p>
+    <p class="cue"><span class="time">[15:27]</span>we will touch on the transformer neural network, but not</p>
+    <p class="cue"><span class="time">[15:33]</span>the latest LLM variations in this course.</p>
+    <p class="cue"><span class="time">[15:38]</span>I think a lot of it, it turns out</p>
+    <p class="cue"><span class="time">[15:40]</span>that when you go out to get a job, well, maybe,</p>
+    <p class="cue"><span class="time">[15:43]</span>if assuming you go and work in industry,</p>
+    <p class="cue"><span class="time">[15:46]</span>the number of people training LLMs is actually very small.</p>
+    <p class="cue"><span class="time">[15:50]</span>Some of those jobs tend to be incredibly well-paid</p>
+    <p class="cue"><span class="time">[15:52]</span>so we hear about very high salaries in the news media,</p>
+    <p class="cue"><span class="time">[15:56]</span>but the vast majority of application builders</p>
+    <p class="cue"><span class="time">[15:59]</span>end up sometimes working the GenAI level, not that</p>
+    <p class="cue"><span class="time">[16:03]</span>often training a transformer from scratch,</p>
+    <p class="cue"><span class="time">[16:06]</span>but then often using deep learning tools as well.</p>
+    <p class="cue"><span class="time">[16:09]</span>So maybe one example, something that many of my teams have done</p>
+    <p class="cue"><span class="time">[16:13]</span>is we have trained transformer models--</p>
+    <p class="cue"><span class="time">[16:17]</span>foundation models from scratch with relatively small ones</p>
+    <p class="cue"><span class="time">[16:19]</span>in, say, startups.</p>
+    <p class="cue"><span class="time">[16:21]</span>But one thing we do do quite a lot</p>
+    <p class="cue"><span class="time">[16:23]</span>is take a pre-trained transformer network</p>
+    <p class="cue"><span class="time">[16:27]</span>and then engineer our own data to further fine tune it.</p>
+    <p class="cue"><span class="time">[16:31]</span>Sorry if I&#x27;m using words you may not totally understand,</p>
+    <p class="cue"><span class="time">[16:34]</span>pre-trained, fine-tuned, you&#x27;ll know what all those terms</p>
+    <p class="cue"><span class="time">[16:36]</span>are by the end of this quarter.</p>
+    <p class="cue"><span class="time">[16:37]</span>So those are things that we actually do day-to-day.</p>
+    <p class="cue"><span class="time">[16:41]</span>This is important for getting a bunch of products</p>
+    <p class="cue"><span class="time">[16:43]</span>to work so you will gain the foundations needed</p>
+    <p class="cue"><span class="time">[16:45]</span>to do the type of work in this course.</p>
+    <p class="cue"><span class="time">[16:49]</span>One thing we don&#x27;t do is talk a lot</p>
+    <p class="cue"><span class="time">[16:51]</span>about how to train the largest cutting edge transformer</p>
+    <p class="cue"><span class="time">[16:55]</span>networks.</p>
+    <p class="cue"><span class="time">[16:55]</span>I think that is a very important skill set,</p>
+    <p class="cue"><span class="time">[16:58]</span>is relatively niche one for which</p>
+    <p class="cue"><span class="time">[17:00]</span>some people are getting paid really, really well,</p>
+    <p class="cue"><span class="time">[17:02]</span>but the number of people doing that in the world</p>
+    <p class="cue"><span class="time">[17:04]</span>is actually small, whereas the number of people</p>
+    <p class="cue"><span class="time">[17:07]</span>building applications with this set of skills is very large.</p>
+    <p class="cue"><span class="time">[17:12]</span>Do you have any courses that you cover that?</p>
+    <p class="cue"><span class="time">[17:16]</span>Do I have any courses covering that?</p>
+    <p class="cue"><span class="time">[17:17]</span>I think Percy Liang was thinking about doing something,</p>
+    <p class="cue"><span class="time">[17:19]</span>but I don&#x27;t remember he&#x27;s doing it this quarter.</p>
+    <p class="cue"><span class="time">[17:22]</span>Few people are thinking about doing something like that.</p>
+    <p class="cue"><span class="time">[17:25]</span>Yeah.</p>
+    <p class="cue"><span class="time">[17:25]</span>Go ahead.</p>
+    <p class="cue"><span class="time">[17:27]</span>This is a question about the course itself.</p>
+    <p class="cue"><span class="time">[17:30]</span>Do you know about what the portion of the course</p>
+    <p class="cue"><span class="time">[17:33]</span>is going to involve.</p>
+    <p class="cue"><span class="time">[17:34]</span>mathematical analysis and multiple coding?</p>
+    <p class="cue"><span class="time">[17:38]</span>So just repeating for the mic for the home viewers,</p>
+    <p class="cue"><span class="time">[17:43]</span>what portion is coding versus what proportion</p>
+    <p class="cue"><span class="time">[17:45]</span>is mathematical analysis?</p>
+    <p class="cue"><span class="time">[17:48]</span>This course is relatively math light.</p>
+    <p class="cue"><span class="time">[17:52]</span>Sorry, maybe that was too strong a statement,</p>
+    <p class="cue"><span class="time">[17:54]</span>but I think this course is very practical.</p>
+    <p class="cue"><span class="time">[17:57]</span>I remember many years back, I was</p>
+    <p class="cue"><span class="time">[18:00]</span>speaking with a mathematician and we&#x27;re just chatting</p>
+    <p class="cue"><span class="time">[18:05]</span>and he was asking--</p>
+    <p class="cue"><span class="time">[18:06]</span>he was just talking about his career, why</p>
+    <p class="cue"><span class="time">[18:08]</span>he chose to be a mathematician.</p>
+    <p class="cue"><span class="time">[18:10]</span>And I still remember, he had stars in his eyes</p>
+    <p class="cue"><span class="time">[18:18]</span>when he told me that he chose his career path because he felt</p>
+    <p class="cue"><span class="time">[18:21]</span>his role is to pursue truth and beauty in the universe,</p>
+    <p class="cue"><span class="time">[18:25]</span>and that&#x27;s why he became a mathematician.</p>
+    <p class="cue"><span class="time">[18:28]</span>In this course, I&#x27;m not going to do any truth and beauty stuff.</p>
+    <p class="cue"><span class="time">[18:35]</span>Truth and beauty is good, but you</p>
+    <p class="cue"><span class="time">[18:36]</span>find that I want to take a very practical approach to talking</p>
+    <p class="cue"><span class="time">[18:41]</span>about how to build applications and build software that works.</p>
+    <p class="cue"><span class="time">[18:45]</span>Yeah.</p>
+    <p class="cue"><span class="time">[18:46]</span>Cool.</p>
+    <p class="cue"><span class="time">[18:47]</span>Anything else?</p>
+    <p class="cue"><span class="time">[18:49]</span>All right.</p>
+    <p class="cue"><span class="time">[18:50]</span>Cool.</p>
+    <p class="cue"><span class="time">[18:50]</span>Awesome.</p>
+    <p class="cue"><span class="time">[18:51]</span>All right.</p>
+    <p class="cue"><span class="time">[18:51]</span>Thank you for all the questions.</p>
+    <p class="cue"><span class="time">[18:53]</span>Please keep them coming.</p>
+    <p class="cue"><span class="time">[18:54]</span>And feel free to interrupt me or Kian throughout this quarter as</p>
+    <p class="cue"><span class="time">[18:56]</span>well with questions.</p>
+    <p class="cue"><span class="time">[18:57]</span>Love it.</p>
+    <p class="cue"><span class="time">[19:00]</span>So just to flesh this out a little bit more,</p>
+    <p class="cue"><span class="time">[19:04]</span>this is what I see in terms of teams building</p>
+    <p class="cue"><span class="time">[19:08]</span>practical applications.</p>
+    <p class="cue"><span class="time">[19:09]</span>And I&#x27;m excited about applications</p>
+    <p class="cue"><span class="time">[19:11]</span>because with improving machine learning algorithms,</p>
+    <p class="cue"><span class="time">[19:14]</span>deep learning algorithms, GenAI algorithms,</p>
+    <p class="cue"><span class="time">[19:16]</span>there are a lot of applications that you can build now</p>
+    <p class="cue"><span class="time">[19:19]</span>that just were impossible or really inaccessible</p>
+    <p class="cue"><span class="time">[19:25]</span>to any person to build even a few years ago.</p>
+    <p class="cue"><span class="time">[19:31]</span>And so I find that when I prompt GenAI,</p>
+    <p class="cue"><span class="time">[19:34]</span>it works really well for a lot of text-based applications.</p>
+    <p class="cue"><span class="time">[19:40]</span>And there&#x27;s work on multimodal LLMs, large multimodal models.</p>
+    <p class="cue"><span class="time">[19:44]</span>So making inroads into vision, making inroads into audio.</p>
+    <p class="cue"><span class="time">[19:48]</span>But really GenAI algorithms, especially transformer networks</p>
+    <p class="cue"><span class="time">[19:51]</span>trained to output text, like ChatGPT, Claude, Gemini,</p>
+    <p class="cue"><span class="time">[19:54]</span>and so on, really fantastic for text-based applications.</p>
+    <p class="cue"><span class="time">[19:59]</span>And I find myself regularly working with deep learning</p>
+    <p class="cue"><span class="time">[20:05]</span>algorithms directly when I&#x27;m working with audio data, image</p>
+    <p class="cue"><span class="time">[20:13]</span>and video data, and then also a lot of structured data.</p>
+    <p class="cue"><span class="time">[20:23]</span>Sorry, my handwriting is awful.</p>
+    <p class="cue"><span class="time">[20:27]</span>So structured data refers to large tables of numbers,</p>
+    <p class="cue"><span class="time">[20:32]</span>like giant Excel or Google Sheets spreadsheets.</p>
+    <p class="cue"><span class="time">[20:35]</span>So that&#x27;s structured data.</p>
+    <p class="cue"><span class="time">[20:36]</span>Unstructured data refers to text, audio, images, maybe</p>
+    <p class="cue"><span class="time">[20:39]</span>video.</p>
+    <p class="cue"><span class="time">[20:41]</span>And because a lot of GenAI, large language models,</p>
+    <p class="cue"><span class="time">[20:44]</span>like ChatGPT, had grown up being text in text</p>
+    <p class="cue"><span class="time">[20:47]</span>out kinds of machines, they are remarkable for a lot of text</p>
+    <p class="cue"><span class="time">[20:52]</span>processing applications.</p>
+    <p class="cue"><span class="time">[20:54]</span>But for other types of data, I end up</p>
+    <p class="cue"><span class="time">[20:56]</span>often dipping down directly to use various deep learning</p>
+    <p class="cue"><span class="time">[21:00]</span>algorithms.</p>
+    <p class="cue"><span class="time">[21:02]</span>And then it turns out that for text-based data, if all you do</p>
+    <p class="cue"><span class="time">[21:06]</span>is prompting, you could usually go quite far.</p>
+    <p class="cue"><span class="time">[21:09]</span>So a lot of applications are built by prompting LLMs.</p>
+    <p class="cue"><span class="time">[21:13]</span>But I&#x27;ve been on quite a few teams where</p>
+    <p class="cue"><span class="time">[21:17]</span>after fiddling with the prompts for a month,</p>
+    <p class="cue"><span class="time">[21:20]</span>you just can&#x27;t get the performance to be better</p>
+    <p class="cue"><span class="time">[21:23]</span>just by tuning the prompts.</p>
+    <p class="cue"><span class="time">[21:25]</span>Or another good problem to have, it turns out use of GenAI tools</p>
+    <p class="cue"><span class="time">[21:29]</span>are relatively inexpensive when you&#x27;re prototyping.</p>
+    <p class="cue"><span class="time">[21:33]</span>It&#x27;s like a few dollars per million tokens,</p>
+    <p class="cue"><span class="time">[21:35]</span>so you can do a lot.</p>
+    <p class="cue"><span class="time">[21:36]</span>But sometimes, if you&#x27;re lucky enough</p>
+    <p class="cue"><span class="time">[21:39]</span>to be on a product that hits product market</p>
+    <p class="cue"><span class="time">[21:43]</span>fit and a lot of users want to use,</p>
+    <p class="cue"><span class="time">[21:46]</span>multiple times I&#x27;ve been on teams</p>
+    <p class="cue"><span class="time">[21:47]</span>where we basically did not care about our large language model</p>
+    <p class="cue"><span class="time">[21:52]</span>bill.</p>
+    <p class="cue"><span class="time">[21:52]</span>It was like, whatever, $20 a month or $100 a month was fine.</p>
+    <p class="cue"><span class="time">[21:56]</span>But when more and more users start using it, then</p>
+    <p class="cue"><span class="time">[22:00]</span>to your team&#x27;s positive surprise,</p>
+    <p class="cue"><span class="time">[22:02]</span>your AI bill really starts to skyrocket.</p>
+    <p class="cue"><span class="time">[22:05]</span>And then at some point, you look at how much</p>
+    <p class="cue"><span class="time">[22:07]</span>you&#x27;re paying for your AI bill for the large language</p>
+    <p class="cue"><span class="time">[22:10]</span>models and to bend the cost curve back down, often</p>
+    <p class="cue"><span class="time">[22:14]</span>a lot of the techniques in deep learning become very relevant as</p>
+    <p class="cue"><span class="time">[22:17]</span>well.</p>
+    <p class="cue"><span class="time">[22:17]</span>So I&#x27;m thinking just some of our bills were really breathtaking.</p>
+    <p class="cue"><span class="time">[22:22]</span>I don&#x27;t want to say the numbers, but just definitely</p>
+    <p class="cue"><span class="time">[22:24]</span>more than we want to pay.</p>
+    <p class="cue"><span class="time">[22:25]</span>As much as we love the companies providing LLMs,</p>
+    <p class="cue"><span class="time">[22:29]</span>our bills that we&#x27;re paying them were significantly larger</p>
+    <p class="cue"><span class="time">[22:31]</span>than I wanted to pay.</p>
+    <p class="cue"><span class="time">[22:34]</span>And then knowing how to use deep learning to fine-tune smaller</p>
+    <p class="cue"><span class="time">[22:37]</span>models, that was really the critical skill</p>
+    <p class="cue"><span class="time">[22:39]</span>set that just bend the cost curve back</p>
+    <p class="cue"><span class="time">[22:41]</span>and just made the whole thing affordable to keep</p>
+    <p class="cue"><span class="time">[22:44]</span>on providing the service.</p>
+    <p class="cue"><span class="time">[22:45]</span>So yeah.</p>
+    <p class="cue"><span class="time">[22:50]</span>So that&#x27;s what-- so that&#x27;s the skill</p>
+    <p class="cue"><span class="time">[22:51]</span>set I hope you get from this course.</p>
+    <p class="cue"><span class="time">[22:54]</span>All right.</p>
+    <p class="cue"><span class="time">[22:56]</span>Let&#x27;s see.</p>
+    <p class="cue"><span class="time">[23:00]</span>All right.</p>
+    <p class="cue"><span class="time">[23:04]</span>And to give a--</p>
+    <p class="cue"><span class="time">[23:08]</span>oh.</p>
+    <p class="cue"><span class="time">[23:11]</span>Sorry, let me use this one.</p>
+    <p class="cue"><span class="time">[23:21]</span>So to give a quick overview, this course,</p>
+    <p class="cue"><span class="time">[23:26]</span>the online materials is broken down into five modules.</p>
+    <p class="cue"><span class="time">[23:29]</span>So just to give you an overview of the five of them.</p>
+    <p class="cue"><span class="time">[23:32]</span>First one is on the basics of neural networks, NN,</p>
+    <p class="cue"><span class="time">[23:35]</span>Neural Networks, and DL, Deep Learning.</p>
+    <p class="cue"><span class="time">[23:39]</span>So you learn how to build a neural network or deep learning</p>
+    <p class="cue"><span class="time">[23:42]</span>algorithm from scratch in Python.</p>
+    <p class="cue"><span class="time">[23:45]</span>I find that sometimes if you use the frameworks, like TensorFlow</p>
+    <p class="cue"><span class="time">[23:48]</span>or PyTorch, it hides a lot of the details.</p>
+    <p class="cue"><span class="time">[23:50]</span>So we actually work through how to build a basic neural network</p>
+    <p class="cue"><span class="time">[23:53]</span>and how to build a basic deep learning algorithm just</p>
+    <p class="cue"><span class="time">[23:56]</span>in raw Python so you really understand it.</p>
+    <p class="cue"><span class="time">[24:00]</span>And then the second module, the second mini course</p>
+    <p class="cue"><span class="time">[24:04]</span>will be on how to improve, how to tune your neural networks.</p>
+    <p class="cue"><span class="time">[24:10]</span>So you may have heard that when you&#x27;re</p>
+    <p class="cue"><span class="time">[24:11]</span>training a neural network, there are a lot of parameters</p>
+    <p class="cue"><span class="time">[24:14]</span>or we call them hyperparameters.</p>
+    <p class="cue"><span class="time">[24:16]</span>Hyperparameters are parameters that control the parameters.</p>
+    <p class="cue"><span class="time">[24:18]</span>So the weights of parameters, hyperparameters</p>
+    <p class="cue"><span class="time">[24:21]</span>are things like the learning rate</p>
+    <p class="cue"><span class="time">[24:22]</span>or what&#x27;s the size of the neural network.</p>
+    <p class="cue"><span class="time">[24:24]</span>And so there are actually a lot of hyperparameters</p>
+    <p class="cue"><span class="time">[24:27]</span>that we end up tuning and try to give you</p>
+    <p class="cue"><span class="time">[24:30]</span>a sense of what are the most important ones</p>
+    <p class="cue"><span class="time">[24:32]</span>and practical skills for tuning them.</p>
+    <p class="cue"><span class="time">[24:35]</span>It turns out that if you look at my PhD students,</p>
+    <p class="cue"><span class="time">[24:41]</span>I think every one of them that--</p>
+    <p class="cue"><span class="time">[24:43]</span>well, I think probably every one of them,</p>
+    <p class="cue"><span class="time">[24:46]</span>definitely every one that-- every PhD student that I know</p>
+    <p class="cue"><span class="time">[24:49]</span>that became great, I think at some point wound up up at 2:00</p>
+    <p class="cue"><span class="time">[24:54]</span>AM tuning hyperparameters.</p>
+    <p class="cue"><span class="time">[24:57]</span>And I still have very clear recollections of being</p>
+    <p class="cue"><span class="time">[25:01]</span>in the office, 2:00 AM, 3:00 AM fiddling with parameters to try</p>
+    <p class="cue"><span class="time">[25:05]</span>to get it to work.</p>
+    <p class="cue"><span class="time">[25:06]</span>And it turns out that, literally, your skill at tuning</p>
+    <p class="cue"><span class="time">[25:09]</span>hyperparameters, it really makes a difference.</p>
+    <p class="cue"><span class="time">[25:11]</span>So there was some evenings that I knew my skill at tuning</p>
+    <p class="cue"><span class="time">[25:15]</span>hyperparameters, frankly, it made the difference between</p>
+    <p class="cue"><span class="time">[25:18]</span>whether I went home to sleep at 3:00 AM versus when I went home</p>
+    <p class="cue"><span class="time">[25:21]</span>to sleep at 7:00 AM.</p>
+    <p class="cue"><span class="time">[25:22]</span>Maybe there&#x27;s not-- maybe don&#x27;t do what I do.</p>
+    <p class="cue"><span class="time">[25:24]</span>I&#x27;m not encouraging this behavior,</p>
+    <p class="cue"><span class="time">[25:26]</span>but this is just my personal experiences.</p>
+    <p class="cue"><span class="time">[25:29]</span>But it really makes a big difference, your practical skill</p>
+    <p class="cue"><span class="time">[25:31]</span>at how quickly you can figure out</p>
+    <p class="cue"><span class="time">[25:33]</span>the recipe to get these neural networks to train.</p>
+    <p class="cue"><span class="time">[25:40]</span>And related to that is--</p>
+    <p class="cue"><span class="time">[25:54]</span>one thing we chat a lot about in this course</p>
+    <p class="cue"><span class="time">[25:56]</span>is strategies for building machine learning projects.</p>
+    <p class="cue"><span class="time">[26:00]</span>So it turns out that if you build a complex system, let&#x27;s</p>
+    <p class="cue"><span class="time">[26:03]</span>say you build-- this one example we&#x27;ll</p>
+    <p class="cue"><span class="time">[26:05]</span>go through later this quarter.</p>
+    <p class="cue"><span class="time">[26:06]</span>Say you want to build a system that recognizes your face,</p>
+    <p class="cue"><span class="time">[26:10]</span>a camera that recognizes your face, your friend&#x27;s face,</p>
+    <p class="cue"><span class="time">[26:13]</span>unlock a door, security, safety, or whatever.</p>
+    <p class="cue"><span class="time">[26:15]</span>So something like that.</p>
+    <p class="cue"><span class="time">[26:17]</span>I&#x27;ve worked on something like that,</p>
+    <p class="cue"><span class="time">[26:18]</span>Kian&#x27;s worked on some of that.</p>
+    <p class="cue"><span class="time">[26:20]</span>These are complex systems with multiple components.</p>
+    <p class="cue"><span class="time">[26:23]</span>There&#x27;s a camera.</p>
+    <p class="cue"><span class="time">[26:24]</span>Do you subtract-- clean up the image?</p>
+    <p class="cue"><span class="time">[26:27]</span>Do you cut out the face?</p>
+    <p class="cue"><span class="time">[26:28]</span>How do you register the face?</p>
+    <p class="cue"><span class="time">[26:30]</span>How do you compare a face?</p>
+    <p class="cue"><span class="time">[26:31]</span>How do you decide to take another picture before you</p>
+    <p class="cue"><span class="time">[26:33]</span>unlock the door or just--</p>
+    <p class="cue"><span class="time">[26:36]</span>or someone trying to fake--</p>
+    <p class="cue"><span class="time">[26:38]</span>or hold up a picture printed on a piece of paper.</p>
+    <p class="cue"><span class="time">[26:41]</span>There are actually a lot of decisions.</p>
+    <p class="cue"><span class="time">[26:42]</span>And so what I found is that the biggest</p>
+    <p class="cue"><span class="time">[26:46]</span>difference between a team that knows how to drive forward</p>
+    <p class="cue"><span class="time">[26:50]</span>a project like this well and get it</p>
+    <p class="cue"><span class="time">[26:52]</span>done in days rather than weeks, or weeks rather</p>
+    <p class="cue"><span class="time">[26:55]</span>than many months, is the ability to drive a disciplined</p>
+    <p class="cue"><span class="time">[26:59]</span>development process.</p>
+    <p class="cue"><span class="time">[27:00]</span>It turns out when you have a complex system,</p>
+    <p class="cue"><span class="time">[27:03]</span>less experienced teams will often almost pick things</p>
+    <p class="cue"><span class="time">[27:06]</span>at random to work on.</p>
+    <p class="cue"><span class="time">[27:07]</span>They&#x27;ll read one research paper and say, oh, I</p>
+    <p class="cue"><span class="time">[27:10]</span>read the research paper we should get more data, well,</p>
+    <p class="cue"><span class="time">[27:13]</span>because some newspapers said AI needs lots of data.</p>
+    <p class="cue"><span class="time">[27:16]</span>So let&#x27;s go spend six months to collect more data.</p>
+    <p class="cue"><span class="time">[27:19]</span>Turns out, a of the time collecting more data</p>
+    <p class="cue"><span class="time">[27:22]</span>does not help your application.</p>
+    <p class="cue"><span class="time">[27:25]</span>But sometimes it&#x27;s a huge help.</p>
+    <p class="cue"><span class="time">[27:27]</span>So given your application, how do you decide,</p>
+    <p class="cue"><span class="time">[27:30]</span>should you spend more time collecting data?</p>
+    <p class="cue"><span class="time">[27:32]</span>Maybe you should buy more GPUs.</p>
+    <p class="cue"><span class="time">[27:33]</span>I actually definitely know people that read in the news,</p>
+    <p class="cue"><span class="time">[27:37]</span>a lot of GPUs are helpful.</p>
+    <p class="cue"><span class="time">[27:38]</span>And then I&#x27;ve literally met fairly senior business leaders</p>
+    <p class="cue"><span class="time">[27:42]</span>that have spent a very large amount of money buying</p>
+    <p class="cue"><span class="time">[27:47]</span>GPUs and then--</p>
+    <p class="cue"><span class="time">[27:50]</span>some funny stories.</p>
+    <p class="cue"><span class="time">[27:52]</span>And then I go talk to them and say, what are you</p>
+    <p class="cue"><span class="time">[27:54]</span>doing with these GPUs?</p>
+    <p class="cue"><span class="time">[27:55]</span>And then sometimes--</p>
+    <p class="cue"><span class="time">[27:57]</span>There was one meeting I was in where literally</p>
+    <p class="cue"><span class="time">[28:00]</span>a very large family-run business had bought a lot of GPUs</p>
+    <p class="cue"><span class="time">[28:05]</span>and the CTO then pointed to his nephew, who&#x27;s a current college</p>
+    <p class="cue"><span class="time">[28:13]</span>student undergrad and said, oh, my nephew knows AI.</p>
+    <p class="cue"><span class="time">[28:17]</span>I&#x27;m giving him this very large budget in GPUs</p>
+    <p class="cue"><span class="time">[28:20]</span>and I think he&#x27;ll do AI for me.</p>
+    <p class="cue"><span class="time">[28:22]</span>But so I think that knowing how to make these decisions</p>
+    <p class="cue"><span class="time">[28:26]</span>and not just buying into the hype</p>
+    <p class="cue"><span class="time">[28:28]</span>that you read about in the newspapers is really important.</p>
+    <p class="cue"><span class="time">[28:31]</span>And one thing I hope to do in this course is share with you</p>
+    <p class="cue"><span class="time">[28:35]</span>what driving a disciplined development process looks like,</p>
+    <p class="cue"><span class="time">[28:38]</span>because this is one of the things that really makes a 10x</p>
+    <p class="cue"><span class="time">[28:41]</span>difference in the speed with which you can get something</p>
+    <p class="cue"><span class="time">[28:43]</span>to work.</p>
+    <p class="cue"><span class="time">[28:44]</span>I&#x27;ve literally seen teams take six months or 10 months</p>
+    <p class="cue"><span class="time">[28:49]</span>pursuing an approach that experienced engineers would</p>
+    <p class="cue"><span class="time">[28:52]</span>go in and go, you know what?</p>
+    <p class="cue"><span class="time">[28:54]</span>I could have told you six months ago</p>
+    <p class="cue"><span class="time">[28:56]</span>that spending all this time collecting data,</p>
+    <p class="cue"><span class="time">[28:58]</span>this was not going to get your application to where</p>
+    <p class="cue"><span class="time">[29:00]</span>you want it to go.</p>
+    <p class="cue"><span class="time">[29:02]</span>But so how do you examine an application</p>
+    <p class="cue"><span class="time">[29:05]</span>and figure the diagnostics to figure out</p>
+    <p class="cue"><span class="time">[29:07]</span>what are the productive things you do for your application?</p>
+    <p class="cue"><span class="time">[29:09]</span>We&#x27;ll actually spend a lot of time on that.</p>
+    <p class="cue"><span class="time">[29:11]</span>And in fact, I&#x27;m excited about doing some simulation exercises</p>
+    <p class="cue"><span class="time">[29:16]</span>in this classroom with you later this quarter,</p>
+    <p class="cue"><span class="time">[29:18]</span>where I&#x27;ll invite you later this quarter to say,</p>
+    <p class="cue"><span class="time">[29:24]</span>in this scenario, what would you do,</p>
+    <p class="cue"><span class="time">[29:27]</span>and see if you could make decisions</p>
+    <p class="cue"><span class="time">[29:29]</span>in a more systematic way.</p>
+    <p class="cue"><span class="time">[29:36]</span>Then course four we&#x27;ll talk about convolutional networks.</p>
+    <p class="cue"><span class="time">[29:41]</span>Very useful for computer vision applications.</p>
+    <p class="cue"><span class="time">[29:45]</span>And then-- so ConvNets are specialized models</p>
+    <p class="cue"><span class="time">[29:52]</span>used mostly for vision applications,</p>
+    <p class="cue"><span class="time">[29:54]</span>dealing with images.</p>
+    <p class="cue"><span class="time">[29:56]</span>And then we&#x27;ll talk finally about sequence models.</p>
+    <p class="cue"><span class="time">[30:00]</span>So sequences could be time series or sequences of texts,</p>
+    <p class="cue"><span class="time">[30:04]</span>like words.</p>
+    <p class="cue"><span class="time">[30:04]</span>So I&#x27;ll touch on the transformer network</p>
+    <p class="cue"><span class="time">[30:07]</span>that power law the GenAI revolution.</p>
+    <p class="cue"><span class="time">[30:12]</span>And so throughout learning-- through learning</p>
+    <p class="cue"><span class="time">[30:15]</span>all of these things, I hope that you all</p>
+    <p class="cue"><span class="time">[30:18]</span>gain a large tool chest that will</p>
+    <p class="cue"><span class="time">[30:22]</span>enable you to tackle an almost bewildering range</p>
+    <p class="cue"><span class="time">[30:25]</span>of applications.</p>
+    <p class="cue"><span class="time">[30:27]</span>I think one of the things I&#x27;ve most</p>
+    <p class="cue"><span class="time">[30:28]</span>enjoyed as an AI person is it turns out</p>
+    <p class="cue"><span class="time">[30:31]</span>when you work in AI, there are so</p>
+    <p class="cue"><span class="time">[30:33]</span>many other teams that have data and that could use our help.</p>
+    <p class="cue"><span class="time">[30:40]</span>So I feel like as an AI person, I somehow bizarrely</p>
+    <p class="cue"><span class="time">[30:44]</span>had the right to play in building autonomous helicopters</p>
+    <p class="cue"><span class="time">[30:49]</span>or helping companies, I don&#x27;t know, place more relevant ads.</p>
+    <p class="cue"><span class="time">[30:53]</span>Maybe not the most inspiring thing I&#x27;ve</p>
+    <p class="cue"><span class="time">[30:54]</span>worked on, but certainly very lucrative for some companies.</p>
+    <p class="cue"><span class="time">[30:57]</span>Or improve web search rankings or improve safety,</p>
+    <p class="cue"><span class="time">[31:01]</span>get rid of the negative toxic results that you may not want,</p>
+    <p class="cue"><span class="time">[31:04]</span>search results to come back on, or improve e-commerce retailing,</p>
+    <p class="cue"><span class="time">[31:08]</span>or improve speech recognition, or help</p>
+    <p class="cue"><span class="time">[31:11]</span>ships be more fuel efficient.</p>
+    <p class="cue"><span class="time">[31:13]</span>All these are real examples.</p>
+    <p class="cue"><span class="time">[31:15]</span>Or fight fraud, which is actually really exciting</p>
+    <p class="cue"><span class="time">[31:18]</span>when you&#x27;re fighting financial fraud, which is obviously</p>
+    <p class="cue"><span class="time">[31:21]</span>a bad thing but when you&#x27;re fighting fraud,</p>
+    <p class="cue"><span class="time">[31:25]</span>sometimes you wake up in the morning and your team&#x27;s alerted</p>
+    <p class="cue"><span class="time">[31:27]</span>you that there&#x27;s a new scam, and then</p>
+    <p class="cue"><span class="time">[31:29]</span>you just have to go and fight them and build algorithms</p>
+    <p class="cue"><span class="time">[31:32]</span>in real-time and you know that every hour you</p>
+    <p class="cue"><span class="time">[31:33]</span>take, more money actually leaves the financial system.</p>
+    <p class="cue"><span class="time">[31:37]</span>So it&#x27;s kind of awful that there&#x27;s financial fraud,</p>
+    <p class="cue"><span class="time">[31:39]</span>but it&#x27;s actually one of the most exhilarating things</p>
+    <p class="cue"><span class="time">[31:41]</span>I&#x27;ve worked on, because literally every hour you</p>
+    <p class="cue"><span class="time">[31:44]</span>are slower to formulate a response,</p>
+    <p class="cue"><span class="time">[31:47]</span>you know more dollars are leaking out every hour.</p>
+    <p class="cue"><span class="time">[31:51]</span>Anyway, so somehow when you have this two sets of deep learning,</p>
+    <p class="cue"><span class="time">[31:56]</span>you just have a bewildering right to play or ability</p>
+    <p class="cue"><span class="time">[31:59]</span>to play in a huge range of applications</p>
+    <p class="cue"><span class="time">[32:04]</span>that could use your help.</p>
+    <p class="cue"><span class="time">[32:05]</span>And I think on campus too, there&#x27;s</p>
+    <p class="cue"><span class="time">[32:08]</span>so many departments across campus,</p>
+    <p class="cue"><span class="time">[32:13]</span>in the sciences, engineering, humanities, business that</p>
+    <p class="cue"><span class="time">[32:17]</span>have interesting data where your skill set will let you,</p>
+    <p class="cue"><span class="time">[32:20]</span>if you choose, collaborate with them to do interesting projects.</p>
+    <p class="cue"><span class="time">[32:24]</span>And I find, for example, bizarrely some</p>
+    <p class="cue"><span class="time">[32:28]</span>of my PhD students are working on climate science.</p>
+    <p class="cue"><span class="time">[32:30]</span>It&#x27;s like, what do I know about climate science?</p>
+    <p class="cue"><span class="time">[32:32]</span>I wish I knew more.</p>
+    <p class="cue"><span class="time">[32:33]</span>But using machine learning tools,</p>
+    <p class="cue"><span class="time">[32:37]</span>we could actually work on climate modeling</p>
+    <p class="cue"><span class="time">[32:39]</span>and geoengineering and just play in all</p>
+    <p class="cue"><span class="time">[32:41]</span>of these hopefully important and interesting places.</p>
+    <p class="cue"><span class="time">[32:48]</span>So I hope that you have that skill set as well</p>
+    <p class="cue"><span class="time">[32:50]</span>by the end of this quarter.</p>
+    <p class="cue"><span class="time">[32:51]</span>Yeah.</p>
+    <p class="cue"><span class="time">[32:52]</span>Do you have enough data for neural network versus it&#x27;s</p>
+    <p class="cue"><span class="time">[32:56]</span>better suited for other like machine learning?</p>
+    <p class="cue"><span class="time">[33:00]</span>Yeah.</p>
+    <p class="cue"><span class="time">[33:00]</span>So how do you know if you&#x27;re enough-- how</p>
+    <p class="cue"><span class="time">[33:02]</span>do you know if you have enough data for a neural network?</p>
+    <p class="cue"><span class="time">[33:06]</span>It turns out to be really difficult to know.</p>
+    <p class="cue"><span class="time">[33:09]</span>So if it&#x27;s an application that others have worked on</p>
+    <p class="cue"><span class="time">[33:12]</span>or that you&#x27;ve worked on before, then you may have a sense.</p>
+    <p class="cue"><span class="time">[33:15]</span>So for example, because I worked on face recognition,</p>
+    <p class="cue"><span class="time">[33:21]</span>I have a sense, if you want to train a face recognition system</p>
+    <p class="cue"><span class="time">[33:23]</span>from scratch, having 50,000 images,</p>
+    <p class="cue"><span class="time">[33:25]</span>50,000 unique faces is pretty good.</p>
+    <p class="cue"><span class="time">[33:29]</span>So if you worked on it or if you read</p>
+    <p class="cue"><span class="time">[33:30]</span>the research literature for something people have worked on,</p>
+    <p class="cue"><span class="time">[33:33]</span>that would give you a good sense for how much data could</p>
+    <p class="cue"><span class="time">[33:37]</span>be enough to get you started.</p>
+    <p class="cue"><span class="time">[33:39]</span>But then for greenfield brand new project</p>
+    <p class="cue"><span class="time">[33:43]</span>that no one in the world has worked on before,</p>
+    <p class="cue"><span class="time">[33:46]</span>if you can&#x27;t find parallel projects that are comparable,</p>
+    <p class="cue"><span class="time">[33:49]</span>it could be really hard to tell.</p>
+    <p class="cue"><span class="time">[33:51]</span>And so common advice for completely greenfield-- sorry,</p>
+    <p class="cue"><span class="time">[33:55]</span>greenfield I mean a brand new project,</p>
+    <p class="cue"><span class="time">[33:57]</span>just to more than things--</p>
+    <p class="cue"><span class="time">[33:58]</span>So for example, if someone has invented a new medical device</p>
+    <p class="cue"><span class="time">[34:02]</span>and no one has collected this type of blood specimen data</p>
+    <p class="cue"><span class="time">[34:05]</span>before, it&#x27;s really hard to tell.</p>
+    <p class="cue"><span class="time">[34:07]</span>And in that case, the most common advice</p>
+    <p class="cue"><span class="time">[34:09]</span>is get a little bit of data and just try training a model.</p>
+    <p class="cue"><span class="time">[34:13]</span>And the degree to which your initial model works or does not</p>
+    <p class="cue"><span class="time">[34:17]</span>work, that will help you hone your perspective</p>
+    <p class="cue"><span class="time">[34:19]</span>on how much data may be needed.</p>
+    <p class="cue"><span class="time">[34:21]</span>And you may be surprised, maybe 100 data points is all you need.</p>
+    <p class="cue"><span class="time">[34:25]</span>Sometimes we&#x27;ve been surprised by that.</p>
+    <p class="cue"><span class="time">[34:27]</span>And then sometimes we&#x27;ve also worked on applications where</p>
+    <p class="cue"><span class="time">[34:31]</span>100 billion data points later, we&#x27;re</p>
+    <p class="cue"><span class="time">[34:33]</span>still trying to get a lot more data.</p>
+    <p class="cue"><span class="time">[34:36]</span>And I find it really difficult to tell.</p>
+    <p class="cue"><span class="time">[34:39]</span>OK.</p>
+    <p class="cue"><span class="time">[34:39]</span>Good questions.</p>
+    <p class="cue"><span class="time">[34:41]</span>Anything else?</p>
+    <p class="cue"><span class="time">[34:43]</span>So this is a good time for me to pause and take questions</p>
+    <p class="cue"><span class="time">[34:46]</span>because--</p>
+    <p class="cue"><span class="time">[34:47]</span>so what I&#x27;m going to do is--</p>
+    <p class="cue"><span class="time">[34:51]</span>what I&#x27;m going to do after this is switch</p>
+    <p class="cue"><span class="time">[34:55]</span>tracks and talk a little bit about exciting trends in AI,</p>
+    <p class="cue"><span class="time">[35:00]</span>recent trends in AI that I&#x27;m excited about</p>
+    <p class="cue"><span class="time">[35:02]</span>and how I view the AI landscape.</p>
+    <p class="cue"><span class="time">[35:04]</span>So this is actually a good breakpoint</p>
+    <p class="cue"><span class="time">[35:06]</span>to see if people have other questions before I</p>
+    <p class="cue"><span class="time">[35:09]</span>talk about some trends in AI.</p>
+    <p class="cue"><span class="time">[35:11]</span>Anything else?</p>
+    <p class="cue"><span class="time">[35:13]</span>Yeah, please.</p>
+    <p class="cue"><span class="time">[35:14]</span>When you were differentiating between AI</p>
+    <p class="cue"><span class="time">[35:17]</span>and deep learning for those different tasks,</p>
+    <p class="cue"><span class="time">[35:20]</span>what were like the distinguishing features</p>
+    <p class="cue"><span class="time">[35:22]</span>of GenAI?</p>
+    <p class="cue"><span class="time">[35:22]</span>Was it this transformer versus non-transformer or how would</p>
+    <p class="cue"><span class="time">[35:26]</span>you describe the difference?</p>
+    <p class="cue"><span class="time">[35:28]</span>So I guess-- let&#x27;s see.</p>
+    <p class="cue"><span class="time">[35:32]</span>many of these terms are blurry and fuzz a little bit</p>
+    <p class="cue"><span class="time">[35:36]</span>into each other.</p>
+    <p class="cue"><span class="time">[35:37]</span>But when I refer to generative AI,</p>
+    <p class="cue"><span class="time">[35:41]</span>generative AI is this body of work</p>
+    <p class="cue"><span class="time">[35:44]</span>that generates texts and sometimes also images,</p>
+    <p class="cue"><span class="time">[35:49]</span>sometimes also audio, using deep learning algorithms</p>
+    <p class="cue"><span class="time">[35:53]</span>in certain ways.</p>
+    <p class="cue"><span class="time">[35:54]</span>So I think GenAI refers to this body of work with most</p>
+    <p class="cue"><span class="time">[35:58]</span>of the center of gravity on generating text, maybe also</p>
+    <p class="cue"><span class="time">[36:01]</span>images, and the text generation algorithms have been mostly</p>
+    <p class="cue"><span class="time">[36:05]</span>implemented using transformer neural networks trained</p>
+    <p class="cue"><span class="time">[36:08]</span>on large amounts of data scraped off the internet and elsewhere.</p>
+    <p class="cue"><span class="time">[36:12]</span>So when I refer to Gen AI, I guess</p>
+    <p class="cue"><span class="time">[36:15]</span>that&#x27;s one particular application of deep learning</p>
+    <p class="cue"><span class="time">[36:18]</span>models that has given us large language</p>
+    <p class="cue"><span class="time">[36:21]</span>models, like ChatGPT and Claude, and Gemini,</p>
+    <p class="cue"><span class="time">[36:23]</span>and Meta Llama, and so on.</p>
+    <p class="cue"><span class="time">[36:26]</span>Does that make sense?</p>
+    <p class="cue"><span class="time">[36:27]</span>Yeah, cool.</p>
+    <p class="cue"><span class="time">[36:29]</span>Great.</p>
+    <p class="cue"><span class="time">[36:30]</span>Anything else?</p>
+    <p class="cue"><span class="time">[36:34]</span>Cool.</p>
+    <p class="cue"><span class="time">[36:35]</span>All right.</p>
+    <p class="cue"><span class="time">[36:36]</span>So let me-- can we go to the slides, please?</p>
+    <p class="cue"><span class="time">[36:40]</span>One of the nice things about this clause is Kian</p>
+    <p class="cue"><span class="time">[36:42]</span>and I can occasionally just share with you</p>
+    <p class="cue"><span class="time">[36:45]</span>things we&#x27;re seeing in the broader world.</p>
+    <p class="cue"><span class="time">[36:49]</span>Hey, while we&#x27;re doing that, I&#x27;m actually curious.</p>
+    <p class="cue"><span class="time">[36:51]</span>How many of you use a specialized AI-assisted coding</p>
+    <p class="cue"><span class="time">[36:56]</span>tool, like Qodo, Cursor, Gem CLI, Codex, [INAUDIBLE],</p>
+    <p class="cue"><span class="time">[36:59]</span>Windsurf?</p>
+    <p class="cue"><span class="time">[37:01]</span>Awesome.</p>
+    <p class="cue"><span class="time">[37:01]</span>Almost everyone, but not everyone.</p>
+    <p class="cue"><span class="time">[37:03]</span>Interesting.</p>
+    <p class="cue"><span class="time">[37:05]</span>Interesting.</p>
+    <p class="cue"><span class="time">[37:06]</span>Oh, I thought-- interesting.</p>
+    <p class="cue"><span class="time">[37:07]</span>OK, cool.</p>
+    <p class="cue"><span class="time">[37:08]</span>So yeah, one of the most exciting things</p>
+    <p class="cue"><span class="time">[37:11]</span>has happened in programming is AI-assisted coding.</p>
+    <p class="cue"><span class="time">[37:15]</span>And I feel like I personally hope I never, ever</p>
+    <p class="cue"><span class="time">[37:19]</span>have to go back to coding by hand.</p>
+    <p class="cue"><span class="time">[37:23]</span>It&#x27;s just-- it&#x27;s actually interesting.</p>
+    <p class="cue"><span class="time">[37:25]</span>I often work in coffee shops on the weekend.</p>
+    <p class="cue"><span class="time">[37:28]</span>And a few weekends ago, I was sitting in a coffee shop</p>
+    <p class="cue"><span class="time">[37:31]</span>and sitting next to me was someone that was coding by hand</p>
+    <p class="cue"><span class="time">[37:35]</span>and it looked so strange.</p>
+    <p class="cue"><span class="time">[37:36]</span>I just asked them, what are you doing?</p>
+    <p class="cue"><span class="time">[37:39]</span>Well, in a respectful way.</p>
+    <p class="cue"><span class="time">[37:42]</span>And it turned out that they&#x27;re doing a homework</p>
+    <p class="cue"><span class="time">[37:46]</span>from some other university that required the code by hand.</p>
+    <p class="cue"><span class="time">[37:49]</span>But one of the things I find exciting</p>
+    <p class="cue"><span class="time">[37:51]</span>is that individual programmer productivity is much higher</p>
+    <p class="cue"><span class="time">[37:57]</span>than it ever used to be.</p>
+    <p class="cue"><span class="time">[37:59]</span>And maybe I want to share with you just one thing, what I see.</p>
+    <p class="cue"><span class="time">[38:03]</span>So I find that in the software work that I do,</p>
+    <p class="cue"><span class="time">[38:06]</span>I maybe categorize it into two buckets.</p>
+    <p class="cue"><span class="time">[38:08]</span>One is building quick and dirty prototypes</p>
+    <p class="cue"><span class="time">[38:11]</span>to see if something works, and then sometimes I</p>
+    <p class="cue"><span class="time">[38:14]</span>write production grade, enterprise grade,</p>
+    <p class="cue"><span class="time">[38:17]</span>robust, reliable software that has a scale.</p>
+    <p class="cue"><span class="time">[38:20]</span>And I find that&#x27;s where AI-assisted coding has</p>
+    <p class="cue"><span class="time">[38:23]</span>made the biggest difference, is building</p>
+    <p class="cue"><span class="time">[38:24]</span>the quick and dirty prototypes.</p>
+    <p class="cue"><span class="time">[38:26]</span>Whereas I think actually literally</p>
+    <p class="cue"><span class="time">[38:28]</span>one of my collaborators used one of the agent</p>
+    <p class="cue"><span class="time">[38:31]</span>decoders that I named, but I won&#x27;t say which one,</p>
+    <p class="cue"><span class="time">[38:33]</span>but literally this morning he sent me a Slack message saying,</p>
+    <p class="cue"><span class="time">[38:37]</span>sorry, this agent decoder had a database migration error</p>
+    <p class="cue"><span class="time">[38:41]</span>and we just wiped out all of the database records,</p>
+    <p class="cue"><span class="time">[38:45]</span>fortunately for a test application with five users.</p>
+    <p class="cue"><span class="time">[38:48]</span>But it did happen.</p>
+    <p class="cue"><span class="time">[38:50]</span>So I find it--</p>
+    <p class="cue"><span class="time">[38:51]</span>oh, great.</p>
+    <p class="cue"><span class="time">[38:52]</span>Thank you.</p>
+    <p class="cue"><span class="time">[38:53]</span>So I find that my use of the agent</p>
+    <p class="cue"><span class="time">[38:56]</span>decoders for the production grade software</p>
+    <p class="cue"><span class="time">[38:58]</span>is more careful, whereas for building</p>
+    <p class="cue"><span class="time">[39:01]</span>quick and dirty prototypes, it--</p>
+    <p class="cue"><span class="time">[39:04]</span>so long as you&#x27;re not shipping software</p>
+    <p class="cue"><span class="time">[39:05]</span>in an irresponsible way, quick and dirty prototypes</p>
+    <p class="cue"><span class="time">[39:10]</span>have a lot fewer dependencies.</p>
+    <p class="cue"><span class="time">[39:12]</span>You actually don&#x27;t need to integrate with legacy data</p>
+    <p class="cue"><span class="time">[39:14]</span>infrastructure.</p>
+    <p class="cue"><span class="time">[39:15]</span>And then I&#x27;m going to say something</p>
+    <p class="cue"><span class="time">[39:18]</span>that feels like something I&#x27;m not supposed to say,</p>
+    <p class="cue"><span class="time">[39:21]</span>but I&#x27;ll say it anyway, which is I</p>
+    <p class="cue"><span class="time">[39:25]</span>find that when I am running code,</p>
+    <p class="cue"><span class="time">[39:30]</span>I find that people often worry about safety</p>
+    <p class="cue"><span class="time">[39:33]</span>and reliability of software or security of software.</p>
+    <p class="cue"><span class="time">[39:37]</span>So one thing I often say to my teams</p>
+    <p class="cue"><span class="time">[39:39]</span>is if you&#x27;re building a prototype that</p>
+    <p class="cue"><span class="time">[39:42]</span>only runs on your own laptop and doesn&#x27;t</p>
+    <p class="cue"><span class="time">[39:45]</span>use any sensitive information, so there&#x27;s</p>
+    <p class="cue"><span class="time">[39:47]</span>no risk to sensitive information,</p>
+    <p class="cue"><span class="time">[39:48]</span>then unless you are planning to maliciously hack</p>
+    <p class="cue"><span class="time">[39:52]</span>into your own laptop, the security requirements</p>
+    <p class="cue"><span class="time">[39:56]</span>can be lower.</p>
+    <p class="cue"><span class="time">[39:57]</span>And so I find that when building quick and dirty prototypes,</p>
+    <p class="cue"><span class="time">[40:03]</span>having a sandbox environment that lets you operate within it</p>
+    <p class="cue"><span class="time">[40:06]</span>quickly means that you can just make a lot of decisions</p>
+    <p class="cue"><span class="time">[40:08]</span>faster without worrying as much about scalability or security</p>
+    <p class="cue"><span class="time">[40:11]</span>or reliability, so long as the sandbox environment means</p>
+    <p class="cue"><span class="time">[40:14]</span>this stuff isn&#x27;t going to get out there, or leak information,</p>
+    <p class="cue"><span class="time">[40:17]</span>or create a security loophole.</p>
+    <p class="cue"><span class="time">[40:19]</span>So that&#x27;s part of what lets us move much faster.</p>
+    <p class="cue"><span class="time">[40:24]</span>And so I find that because of the speed of prototyping,</p>
+    <p class="cue"><span class="time">[40:28]</span>so long as you can do so in a responsible way</p>
+    <p class="cue"><span class="time">[40:31]</span>to pursue innovative ideas, my teams</p>
+    <p class="cue"><span class="time">[40:34]</span>will increasingly try 20 things and see what sticks.</p>
+    <p class="cue"><span class="time">[40:38]</span>And because-- and I know that a lot of teams</p>
+    <p class="cue"><span class="time">[40:42]</span>are lamenting that many proof of concepts never</p>
+    <p class="cue"><span class="time">[40:45]</span>make it into production.</p>
+    <p class="cue"><span class="time">[40:46]</span>You try something and it doesn&#x27;t work.</p>
+    <p class="cue"><span class="time">[40:48]</span>And some teams are feeling angst about that.</p>
+    <p class="cue"><span class="time">[40:51]</span>I actually have a different view.</p>
+    <p class="cue"><span class="time">[40:53]</span>I think if the cost of a proof of concept</p>
+    <p class="cue"><span class="time">[40:55]</span>is low enough, then who cares if you have to do 20 of them</p>
+    <p class="cue"><span class="time">[40:59]</span>and that&#x27;s the price for finding the one or two</p>
+    <p class="cue"><span class="time">[41:02]</span>things that works really well.</p>
+    <p class="cue"><span class="time">[41:04]</span>So one thing you hear about in this course</p>
+    <p class="cue"><span class="time">[41:06]</span>is both when you&#x27;re building a machine learning application,</p>
+    <p class="cue"><span class="time">[41:10]</span>you usually don&#x27;t know what&#x27;s going to happen.</p>
+    <p class="cue"><span class="time">[41:14]</span>And there&#x27;s a specific reason for that.</p>
+    <p class="cue"><span class="time">[41:16]</span>The reason is the output of a machine learning algorithm,</p>
+    <p class="cue"><span class="time">[41:19]</span>it depends both on the code you write</p>
+    <p class="cue"><span class="time">[41:22]</span>as well as on the data you&#x27;re training on.</p>
+    <p class="cue"><span class="time">[41:24]</span>And while you control the code 100%,</p>
+    <p class="cue"><span class="time">[41:28]</span>you don&#x27;t really know usually what&#x27;s really in the data,</p>
+    <p class="cue"><span class="time">[41:33]</span>in the weird and wonderful data that the world has given you.</p>
+    <p class="cue"><span class="time">[41:37]</span>So, for example, worked on speech recognition a lot</p>
+    <p class="cue"><span class="time">[41:40]</span>in multiple companies, in multiple contexts.</p>
+    <p class="cue"><span class="time">[41:42]</span>And even now when I work on speech recognition,</p>
+    <p class="cue"><span class="time">[41:45]</span>I&#x27;m still sometimes a little bit surprised</p>
+    <p class="cue"><span class="time">[41:48]</span>that, oh, this data has people of a certain accent more</p>
+    <p class="cue"><span class="time">[41:52]</span>than I realize, or people somehow speak faster,</p>
+    <p class="cue"><span class="time">[41:56]</span>or, boy, there&#x27;s a lot of background noise</p>
+    <p class="cue"><span class="time">[41:58]</span>when people use it in a car.</p>
+    <p class="cue"><span class="time">[42:00]</span>So even though I worked on speech recognition</p>
+    <p class="cue"><span class="time">[42:02]</span>multiple times--</p>
+    <p class="cue"><span class="time">[42:03]</span>oh, and actually one recent example or application,</p>
+    <p class="cue"><span class="time">[42:06]</span>I was actually surprised by the number of background speakers.</p>
+    <p class="cue"><span class="time">[42:08]</span>They talked to us, they come and talk to a different person,</p>
+    <p class="cue"><span class="time">[42:11]</span>then they talk to us and then we get confused.</p>
+    <p class="cue"><span class="time">[42:14]</span>So I find that the data that the world gives us</p>
+    <p class="cue"><span class="time">[42:17]</span>is often weird and wonderful.</p>
+    <p class="cue"><span class="time">[42:19]</span>And so it is only by building a system that you then</p>
+    <p class="cue"><span class="time">[42:24]</span>start to discover these things in the data that</p>
+    <p class="cue"><span class="time">[42:27]</span>lets you make progress.</p>
+    <p class="cue"><span class="time">[42:30]</span>And with a lot of software applications</p>
+    <p class="cue"><span class="time">[42:32]</span>as well, separate from machine learning applications,</p>
+    <p class="cue"><span class="time">[42:34]</span>a lot of what I end up having to discover</p>
+    <p class="cue"><span class="time">[42:37]</span>is what do users actually want?</p>
+    <p class="cue"><span class="time">[42:40]</span>So again, I control my code 100%.</p>
+    <p class="cue"><span class="time">[42:42]</span>I can write whatever code I want.</p>
+    <p class="cue"><span class="time">[42:43]</span>I control that.</p>
+    <p class="cue"><span class="time">[42:45]</span>But you don&#x27;t get to control how your users will</p>
+    <p class="cue"><span class="time">[42:47]</span>react to your system.</p>
+    <p class="cue"><span class="time">[42:49]</span>And I find that our ability to build quick and dirty prototypes</p>
+    <p class="cue"><span class="time">[42:53]</span>rapidly, both to discover what&#x27;s in the data</p>
+    <p class="cue"><span class="time">[42:57]</span>and also to particular users to see if they like it, that allows</p>
+    <p class="cue"><span class="time">[43:00]</span>us to drive faster feedback loops than</p>
+    <p class="cue"><span class="time">[43:02]</span>was ever possible before to then help</p>
+    <p class="cue"><span class="time">[43:06]</span>us build more and more valuable software.</p>
+    <p class="cue"><span class="time">[43:10]</span>And I think--</p>
+    <p class="cue"><span class="time">[43:13]</span>I know that the mantra move fast and break things got a bad rep</p>
+    <p class="cue"><span class="time">[43:18]</span>because it broke things.</p>
+    <p class="cue"><span class="time">[43:21]</span>And I find that some teams took away</p>
+    <p class="cue"><span class="time">[43:25]</span>from this that we should not move fast,</p>
+    <p class="cue"><span class="time">[43:27]</span>but I think that&#x27;s a mistake.</p>
+    <p class="cue"><span class="time">[43:29]</span>So what I usually tell my teams is move fast and be responsible.</p>
+    <p class="cue"><span class="time">[43:33]</span>And despite all the hype about AI extinction risk or AI--</p>
+    <p class="cue"><span class="time">[43:38]</span>all that somewhat bizarre hype in my opinion,</p>
+    <p class="cue"><span class="time">[43:42]</span>I find that when teams move really fast,</p>
+    <p class="cue"><span class="time">[43:44]</span>we can then implement things, test it out</p>
+    <p class="cue"><span class="time">[43:47]</span>in a responsible way, and much more quickly identify problems</p>
+    <p class="cue"><span class="time">[43:50]</span>and fix them.</p>
+    <p class="cue"><span class="time">[43:50]</span>So I find that a lot of most responsible teams I know, teams</p>
+    <p class="cue"><span class="time">[43:54]</span>able to really get stuff to work really quickly, they</p>
+    <p class="cue"><span class="time">[43:57]</span>tend to be some of the fastest moving teams, because it&#x27;s</p>
+    <p class="cue"><span class="time">[43:59]</span>that speed of execution that lets you finally implement</p>
+    <p class="cue"><span class="time">[44:02]</span>it, figure out what&#x27;s in your data,</p>
+    <p class="cue"><span class="time">[44:04]</span>figure out what your users want, and that&#x27;s the best</p>
+    <p class="cue"><span class="time">[44:06]</span>way to figure out what could actually</p>
+    <p class="cue"><span class="time">[44:08]</span>go wrong to then make sure things don&#x27;t actually go wrong.</p>
+    <p class="cue"><span class="time">[44:12]</span>Ans somewhat related to that is AI coding assistance.</p>
+    <p class="cue"><span class="time">[44:21]</span>And I assume almost everyone or everyone in this class</p>
+    <p class="cue"><span class="time">[44:25]</span>knows how to code.</p>
+    <p class="cue"><span class="time">[44:28]</span>If you are where you haven&#x27;t learned to code yet,</p>
+    <p class="cue"><span class="time">[44:31]</span>you probably might not want to take this class yet.</p>
+    <p class="cue"><span class="time">[44:33]</span>But I find that there have been people, including</p>
+    <p class="cue"><span class="time">[44:37]</span>very senior business leaders, advising others</p>
+    <p class="cue"><span class="time">[44:40]</span>to not learn to code in the grounds</p>
+    <p class="cue"><span class="time">[44:41]</span>that AI will automate it.</p>
+    <p class="cue"><span class="time">[44:43]</span>And I want to share this with you,</p>
+    <p class="cue"><span class="time">[44:45]</span>not because I think you need to learn to code,</p>
+    <p class="cue"><span class="time">[44:47]</span>but because I hope you help me spread the word.</p>
+    <p class="cue"><span class="time">[44:49]</span>Go to all of your friends and other departments to tell them</p>
+    <p class="cue"><span class="time">[44:52]</span>this advice do not learn to code I</p>
+    <p class="cue"><span class="time">[44:54]</span>think we&#x27;ll look back on this as some of the worst career</p>
+    <p class="cue"><span class="time">[44:57]</span>advice ever given.</p>
+    <p class="cue"><span class="time">[44:59]</span>And the reason is, when coding becomes easier,</p>
+    <p class="cue"><span class="time">[45:02]</span>more people should do it rather than fewer.</p>
+    <p class="cue"><span class="time">[45:05]</span>So when humanity went from punch cards to keyboard and terminal,</p>
+    <p class="cue"><span class="time">[45:09]</span>that made coding easier, and so more people learn to code.</p>
+    <p class="cue"><span class="time">[45:14]</span>When we went from assembly language to modern--</p>
+    <p class="cue"><span class="time">[45:16]</span>well, at that time, modern programming languages,</p>
+    <p class="cue"><span class="time">[45:19]</span>that made coding easier, more people learn to code.</p>
+    <p class="cue"><span class="time">[45:22]</span>I went back, I actually found these papers on when--</p>
+    <p class="cue"><span class="time">[45:26]</span>these articles on when COBOL, very old school programming</p>
+    <p class="cue"><span class="time">[45:29]</span>language, was invented, and there were actually</p>
+    <p class="cue"><span class="time">[45:32]</span>people that said, oh, wow, now we have the COBOL programming</p>
+    <p class="cue"><span class="time">[45:35]</span>language.</p>
+    <p class="cue"><span class="time">[45:36]</span>Coding is so easy.</p>
+    <p class="cue"><span class="time">[45:37]</span>Who needs programmers anymore?</p>
+    <p class="cue"><span class="time">[45:39]</span>And obviously, the opposite happened.</p>
+    <p class="cue"><span class="time">[45:43]</span>Went from text editors to IDEs and then AI-assisted coding.</p>
+    <p class="cue"><span class="time">[45:48]</span>As coding becomes easier, people should code a lot more.</p>
+    <p class="cue"><span class="time">[45:52]</span>A lot more people should learn to code.</p>
+    <p class="cue"><span class="time">[45:54]</span>And the other thing I&#x27;m seeing is, just</p>
+    <p class="cue"><span class="time">[45:58]</span>something that&#x27;s been on people&#x27;s minds,</p>
+    <p class="cue"><span class="time">[45:59]</span>I know that unemployment of recent computer science</p>
+    <p class="cue"><span class="time">[46:04]</span>graduates has ticked up to higher than it&#x27;s been compared</p>
+    <p class="cue"><span class="time">[46:07]</span>to, I think, the last decade.</p>
+    <p class="cue"><span class="time">[46:10]</span>And so I know that to people learning CS, that</p>
+    <p class="cue"><span class="time">[46:12]</span>has caused some consternation.</p>
+    <p class="cue"><span class="time">[46:15]</span>So I&#x27;m going to share my view on that.</p>
+    <p class="cue"><span class="time">[46:16]</span>So it turns out that what I see in Silicon Valley</p>
+    <p class="cue"><span class="time">[46:21]</span>and beyond Silicon Valley is we just</p>
+    <p class="cue"><span class="time">[46:23]</span>can&#x27;t find enough people with these skills.</p>
+    <p class="cue"><span class="time">[46:26]</span>I know many businesses that would--</p>
+    <p class="cue"><span class="time">[46:29]</span>I know large businesses that would love to hire 1,000 people</p>
+    <p class="cue"><span class="time">[46:33]</span>with skills in GenAI and deep learning and machine learning,</p>
+    <p class="cue"><span class="time">[46:36]</span>but they are struggling to find people with these skills.</p>
+    <p class="cue"><span class="time">[46:40]</span>Conversely, there are still universities with curricula</p>
+    <p class="cue"><span class="time">[46:46]</span>that has not changed since--</p>
+    <p class="cue"><span class="time">[46:48]</span>has not changed much for the last,</p>
+    <p class="cue"><span class="time">[46:51]</span>I don&#x27;t know, since 2002, before the rise of GenAI.</p>
+    <p class="cue"><span class="time">[46:54]</span>And so I do see that many new CS grads, not from Stanford,</p>
+    <p class="cue"><span class="time">[47:00]</span>but from around the country, are struggling with finding jobs</p>
+    <p class="cue"><span class="time">[47:05]</span>because, unfortunately, that older non-AI</p>
+    <p class="cue"><span class="time">[47:08]</span>enabled skill set that is not as much in demand.</p>
+    <p class="cue"><span class="time">[47:13]</span>And maybe just for myself, today I will not hire someone--</p>
+    <p class="cue"><span class="time">[47:17]</span>I will not hire a software engineer that doesn&#x27;t how</p>
+    <p class="cue"><span class="time">[47:19]</span>to use AI to help them with coding.</p>
+    <p class="cue"><span class="time">[47:20]</span>It just doesn&#x27;t make sense.</p>
+    <p class="cue"><span class="time">[47:22]</span>Same reason why I just won&#x27;t hire</p>
+    <p class="cue"><span class="time">[47:24]</span>someone that uses a punch card, keyboard, and terminal.</p>
+    <p class="cue"><span class="time">[47:27]</span>And I think when the world evolved from punch card</p>
+    <p class="cue"><span class="time">[47:29]</span>to keyboard and terminal, people still</p>
+    <p class="cue"><span class="time">[47:32]</span>had punch card jobs for a while, but eventually</p>
+    <p class="cue"><span class="time">[47:34]</span>the punch card jobs just went away.</p>
+    <p class="cue"><span class="time">[47:36]</span>It just doesn&#x27;t make sense anymore.</p>
+    <p class="cue"><span class="time">[47:38]</span>So today, there are still coding by hand jobs around.</p>
+    <p class="cue"><span class="time">[47:41]</span>Maybe some specialties, some very low level</p>
+    <p class="cue"><span class="time">[47:44]</span>coding where AI is not very good.</p>
+    <p class="cue"><span class="time">[47:45]</span>It turns out AI is not very good at some types of GPU</p>
+    <p class="cue"><span class="time">[47:47]</span>programming.</p>
+    <p class="cue"><span class="time">[47:48]</span>There are some niches where coding by hand</p>
+    <p class="cue"><span class="time">[47:50]</span>actually still makes sense.</p>
+    <p class="cue"><span class="time">[47:52]</span>But for building applications--</p>
+    <p class="cue"><span class="time">[47:57]</span>So I actually-- I remember just a few months ago now,</p>
+    <p class="cue"><span class="time">[48:00]</span>many months ago now, where I interviewed two engineers</p>
+    <p class="cue"><span class="time">[48:03]</span>back to back.</p>
+    <p class="cue"><span class="time">[48:05]</span>One had not yet graduated from college,</p>
+    <p class="cue"><span class="time">[48:08]</span>but was highly on top of GenAI coding.</p>
+    <p class="cue"><span class="time">[48:11]</span>So spoke with that candidate, knew how to use AI,</p>
+    <p class="cue"><span class="time">[48:14]</span>built programs and could sell them quickly.</p>
+    <p class="cue"><span class="time">[48:16]</span>Right after that, I also interviewed someone</p>
+    <p class="cue"><span class="time">[48:18]</span>with 10 years of experience as a full stack engineer,</p>
+    <p class="cue"><span class="time">[48:21]</span>but whose skill set was exactly the same as their 2002 skill</p>
+    <p class="cue"><span class="time">[48:25]</span>set.</p>
+    <p class="cue"><span class="time">[48:25]</span>Had not tried out any AI-assisted coding.</p>
+    <p class="cue"><span class="time">[48:28]</span>Really good skills, full stack engineer</p>
+    <p class="cue"><span class="time">[48:30]</span>with 10 years of experience.</p>
+    <p class="cue"><span class="time">[48:32]</span>And it was actually really clear to me,</p>
+    <p class="cue"><span class="time">[48:34]</span>I picked the fresh college grad where he had not--</p>
+    <p class="cue"><span class="time">[48:37]</span>he was about to graduate, over someone</p>
+    <p class="cue"><span class="time">[48:39]</span>with 10 years of experience.</p>
+    <p class="cue"><span class="time">[48:41]</span>So I think making sure you master these skills are</p>
+    <p class="cue"><span class="time">[48:45]</span>really important.</p>
+    <p class="cue"><span class="time">[48:46]</span>And what I&#x27;m seeing is there is a very large gap that businesses</p>
+    <p class="cue"><span class="time">[48:52]</span>are having a hard time filling for people with these skills.</p>
+    <p class="cue"><span class="time">[48:59]</span>But the demand for the 2022 skill</p>
+    <p class="cue"><span class="time">[49:03]</span>set, software engineering, full site engineering skill set,</p>
+    <p class="cue"><span class="time">[49:06]</span>that is not there.</p>
+    <p class="cue"><span class="time">[49:10]</span>So I think--</p>
+    <p class="cue"><span class="time">[49:12]</span>And then in terms of AI-assisted coding,</p>
+    <p class="cue"><span class="time">[49:17]</span>I find that CS fundamentals really are important.</p>
+    <p class="cue"><span class="time">[49:21]</span>So in addition-- so I know I hired someone,</p>
+    <p class="cue"><span class="time">[49:24]</span>a fresh college grad over someone 10 years experience.</p>
+    <p class="cue"><span class="time">[49:27]</span>True story.</p>
+    <p class="cue"><span class="time">[49:27]</span>There&#x27;s actually one other part to this story, which</p>
+    <p class="cue"><span class="time">[49:30]</span>is with respect to all of the above, the graduate</p>
+    <p class="cue"><span class="time">[49:33]</span>from college, the best programmers I know are also not</p>
+    <p class="cue"><span class="time">[49:35]</span>fresh college grads.</p>
+    <p class="cue"><span class="time">[49:36]</span>No disrespect intended to fresh college grads.</p>
+    <p class="cue"><span class="time">[49:38]</span>Some are about to graduate from Stanford.</p>
+    <p class="cue"><span class="time">[49:40]</span>The best programmers I know are really</p>
+    <p class="cue"><span class="time">[49:42]</span>on top of AI-assisted coding and additionally deeply understand</p>
+    <p class="cue"><span class="time">[49:47]</span>computer science fundamentals.</p>
+    <p class="cue"><span class="time">[49:49]</span>So it turns out-- maybe I&#x27;ll illustrate</p>
+    <p class="cue"><span class="time">[49:52]</span>this with a quick story.</p>
+    <p class="cue"><span class="time">[49:54]</span>When I was teaching an online course,</p>
+    <p class="cue"><span class="time">[49:57]</span>my team wanted to generate background pictures</p>
+    <p class="cue"><span class="time">[49:59]</span>like this just for decoration.</p>
+    <p class="cue"><span class="time">[50:01]</span>So when I was working on this, this</p>
+    <p class="cue"><span class="time">[50:04]</span>is, of course, generative AI for everyone,</p>
+    <p class="cue"><span class="time">[50:06]</span>I was working with a collaborator, Tommy Nelson,</p>
+    <p class="cue"><span class="time">[50:08]</span>that understood art history.</p>
+    <p class="cue"><span class="time">[50:11]</span>And so my collaborator knew the language of art.</p>
+    <p class="cue"><span class="time">[50:14]</span>He knew the artistic genre, inspiration, the palette,</p>
+    <p class="cue"><span class="time">[50:17]</span>so he could prompt Midjourney AI image generation</p>
+    <p class="cue"><span class="time">[50:20]</span>with the language of art.</p>
+    <p class="cue"><span class="time">[50:22]</span>And so he could generate beautiful pictures like these.</p>
+    <p class="cue"><span class="time">[50:25]</span>In contrast, I don&#x27;t know art history.</p>
+    <p class="cue"><span class="time">[50:29]</span>I wish I did.</p>
+    <p class="cue"><span class="time">[50:30]</span>And so all I could do was go to Midjourney</p>
+    <p class="cue"><span class="time">[50:33]</span>or AI image generation and type, please</p>
+    <p class="cue"><span class="time">[50:36]</span>make pretty pictures of robots for me,</p>
+    <p class="cue"><span class="time">[50:39]</span>and I could never get the control that my collaborator</p>
+    <p class="cue"><span class="time">[50:43]</span>Tommy could to generate pictures like these,</p>
+    <p class="cue"><span class="time">[50:46]</span>which is why we use all of his pictures and none of mine.</p>
+    <p class="cue"><span class="time">[50:51]</span>And I&#x27;m seeing the same thing in computer science.</p>
+    <p class="cue"><span class="time">[50:56]</span>One of the most important skills for the future</p>
+    <p class="cue"><span class="time">[50:59]</span>is to understand how computers work and understand</p>
+    <p class="cue"><span class="time">[51:03]</span>how GenAI and deep learning and machine learning</p>
+    <p class="cue"><span class="time">[51:05]</span>work so that you can use the language of AI,</p>
+    <p class="cue"><span class="time">[51:09]</span>use the language of these tools to tell</p>
+    <p class="cue"><span class="time">[51:12]</span>a computer exactly what you want so the computer can do it</p>
+    <p class="cue"><span class="time">[51:16]</span>for you.</p>
+    <p class="cue"><span class="time">[51:17]</span>And there is actually a huge difference</p>
+    <p class="cue"><span class="time">[51:19]</span>in performance between someone that&#x27;s</p>
+    <p class="cue"><span class="time">[51:22]</span>learned to just prompt an LLM without understanding how</p>
+    <p class="cue"><span class="time">[51:25]</span>computers or how AI really works,</p>
+    <p class="cue"><span class="time">[51:28]</span>versus people that can look at the problem,</p>
+    <p class="cue"><span class="time">[51:29]</span>analyze it, and then with AI-assisted coding,</p>
+    <p class="cue"><span class="time">[51:32]</span>tell a computer how to take the next steps, which</p>
+    <p class="cue"><span class="time">[51:36]</span>is why I think that CS fundamentals is very valuable.</p>
+    <p class="cue"><span class="time">[51:41]</span>CS fundamentals, machine learning fundamentals,</p>
+    <p class="cue"><span class="time">[51:43]</span>deep learning fundamentals, I and my teams,</p>
+    <p class="cue"><span class="time">[51:46]</span>we use that knowledge like every day</p>
+    <p class="cue"><span class="time">[51:49]</span>in making pretty consequential decisions.</p>
+    <p class="cue"><span class="time">[51:53]</span>So I hope that you get that from this class</p>
+    <p class="cue"><span class="time">[51:56]</span>and the many other classes at Stanford as well.</p>
+    <p class="cue"><span class="time">[52:00]</span>All right.</p>
+    <p class="cue"><span class="time">[52:01]</span>All right.</p>
+    <p class="cue"><span class="time">[52:02]</span>I think I might leave the rest.</p>
+    <p class="cue"><span class="time">[52:04]</span>There&#x27;s more I could say on trends in AI,</p>
+    <p class="cue"><span class="time">[52:06]</span>but I find that AI-assisted-- oh,</p>
+    <p class="cue"><span class="time">[52:10]</span>but one thing I hope you do really, go to all your friends</p>
+    <p class="cue"><span class="time">[52:13]</span>in all the departments across campus</p>
+    <p class="cue"><span class="time">[52:16]</span>and encourage them to be a builder, because the other thing</p>
+    <p class="cue"><span class="time">[52:19]</span>I&#x27;m seeing is clearly for computer science professionals,</p>
+    <p class="cue"><span class="time">[52:23]</span>use AI-assisted coding, know CS fundamentals, build cool stuff.</p>
+    <p class="cue"><span class="time">[52:28]</span>But for other disciplines as well</p>
+    <p class="cue"><span class="time">[52:31]</span>that is not computer science or not AI,</p>
+    <p class="cue"><span class="time">[52:33]</span>I&#x27;m finding that the education professional or the climate</p>
+    <p class="cue"><span class="time">[52:38]</span>scientists, or the mechanical engineer that</p>
+    <p class="cue"><span class="time">[52:41]</span>wants to know how to build software</p>
+    <p class="cue"><span class="time">[52:45]</span>are just more productive and get a lot more done</p>
+    <p class="cue"><span class="time">[52:47]</span>and the barrier to entry to AI, to coding</p>
+    <p class="cue"><span class="time">[52:50]</span>is the lowest it&#x27;s ever been in our lives.</p>
+    <p class="cue"><span class="time">[52:53]</span>And so this is a good time, frankly, for--</p>
+    <p class="cue"><span class="time">[52:55]</span>I wish every single Stanford student</p>
+    <p class="cue"><span class="time">[52:59]</span>will learn to build software with AI assistance.</p>
+    <p class="cue"><span class="time">[53:02]</span>So I hope you go help your friends across campus</p>
+    <p class="cue"><span class="time">[53:06]</span>to master those skills as well.</p>
+    <p class="cue"><span class="time">[53:08]</span>OK.</p>
+    <p class="cue"><span class="time">[53:10]</span>Yeah.</p>
+    <p class="cue"><span class="time">[53:11]</span>Any other questions?</p>
+    <p class="cue"><span class="time">[53:13]</span>Yes, go ahead.</p>
+    <p class="cue"><span class="time">[53:15]</span>What do you say about the trend of someone</p>
+    <p class="cue"><span class="time">[53:19]</span>knowing [INAUDIBLE] but also [INAUDIBLE] AI?</p>
+    <p class="cue"><span class="time">[53:21]</span>I&#x27;ve had a lot of industry folks talking</p>
+    <p class="cue"><span class="time">[53:25]</span>about how they would rather hire someone</p>
+    <p class="cue"><span class="time">[53:28]</span>with 10 years of experience who knows just generative AI as is,</p>
+    <p class="cue"><span class="time">[53:33]</span>like just using coding, rather than a fresh undergrad that</p>
+    <p class="cue"><span class="time">[53:37]</span>does have that deep understanding of deep learning,</p>
+    <p class="cue"><span class="time">[53:40]</span>machine learning, and generative AI as fundamentals just</p>
+    <p class="cue"><span class="time">[53:44]</span>because they have more experience building.</p>
+    <p class="cue"><span class="time">[53:47]</span>Do you see that also?</p>
+    <p class="cue"><span class="time">[53:49]</span>Yeah.</p>
+    <p class="cue"><span class="time">[53:50]</span>So let me rank productivity, and I&#x27;ll give you four levels.</p>
+    <p class="cue"><span class="time">[53:53]</span>I think-- and again, and I say this</p>
+    <p class="cue"><span class="time">[53:55]</span>with a lot of respect for individuals.</p>
+    <p class="cue"><span class="time">[53:56]</span>So if I talk about productivity, it&#x27;s</p>
+    <p class="cue"><span class="time">[53:58]</span>not with any disrespect or any lack of affection for anyone</p>
+    <p class="cue"><span class="time">[54:01]</span>or for their work.</p>
+    <p class="cue"><span class="time">[54:02]</span>But I think least productive are people with no experience</p>
+    <p class="cue"><span class="time">[54:06]</span>and don&#x27;t know AI.</p>
+    <p class="cue"><span class="time">[54:08]</span>One step on top of that is people with less experience</p>
+    <p class="cue"><span class="time">[54:13]</span>but on a--</p>
+    <p class="cue"><span class="time">[54:14]</span>sorry, one step on top of that is</p>
+    <p class="cue"><span class="time">[54:17]</span>people with, say, a decade of experience but</p>
+    <p class="cue"><span class="time">[54:20]</span>that don&#x27;t know AI.</p>
+    <p class="cue"><span class="time">[54:23]</span>On top of that, I would rather take a fresh college grad that</p>
+    <p class="cue"><span class="time">[54:26]</span>does know AI, but then even more productive</p>
+    <p class="cue"><span class="time">[54:29]</span>is someone with a decade of experience</p>
+    <p class="cue"><span class="time">[54:31]</span>and also really on top of AI.</p>
+    <p class="cue"><span class="time">[54:34]</span>So I think between the two factors,</p>
+    <p class="cue"><span class="time">[54:36]</span>really harnessing AI is very important,</p>
+    <p class="cue"><span class="time">[54:39]</span>but experience is also important.</p>
+    <p class="cue"><span class="time">[54:41]</span>And so the best developers I know, we just work and we just</p>
+    <p class="cue"><span class="time">[54:46]</span>ship code like no one&#x27;s ever done,</p>
+    <p class="cue"><span class="time">[54:49]</span>I think, even two or three years ago,</p>
+    <p class="cue"><span class="time">[54:51]</span>are very experienced developers.</p>
+    <p class="cue"><span class="time">[54:52]</span>They&#x27;re also very on top of how they use the latest AI</p>
+    <p class="cue"><span class="time">[54:56]</span>technologies.</p>
+    <p class="cue"><span class="time">[54:59]</span>Yeah, please.</p>
+    <p class="cue"><span class="time">[55:00]</span>Oh, sorry.</p>
+    <p class="cue"><span class="time">[55:01]</span>And just one other thing about the job market.</p>
+    <p class="cue"><span class="time">[55:02]</span>I find that a lot of employers have not yet figured out</p>
+    <p class="cue"><span class="time">[55:05]</span>how to hire appropriately.</p>
+    <p class="cue"><span class="time">[55:06]</span>This has contributed-- frankly, a lot of employers,</p>
+    <p class="cue"><span class="time">[55:08]</span>if a company has no one that knows GenAI, how do they even</p>
+    <p class="cue"><span class="time">[55:11]</span>how to interview appropriately?</p>
+    <p class="cue"><span class="time">[55:12]</span>So that is a problem that we need to solve as well.</p>
+    <p class="cue"><span class="time">[55:15]</span>Go ahead.</p>
+    <p class="cue"><span class="time">[55:16]</span>What&#x27;s the value of taking classes that are</p>
+    <p class="cue"><span class="time">[55:20]</span>super into programming and--</p>
+    <p class="cue"><span class="time">[55:23]</span>like, for example, I&#x27;m thinking of classes</p>
+    <p class="cue"><span class="time">[55:25]</span>like C2107, 111 where we&#x27;re not encouraged to use tools</p>
+    <p class="cue"><span class="time">[55:30]</span>and we&#x27;re encouraged.</p>
+    <p class="cue"><span class="time">[55:32]</span>Is that to build the fundamentals,</p>
+    <p class="cue"><span class="time">[55:34]</span>and do you think that&#x27;s necessary still?</p>
+    <p class="cue"><span class="time">[55:36]</span>Yeah, boy.</p>
+    <p class="cue"><span class="time">[55:37]</span>So CS107, CS111 are great, so do take them</p>
+    <p class="cue"><span class="time">[55:42]</span>if you&#x27;re considering them.</p>
+    <p class="cue"><span class="time">[55:43]</span>I find that the fundamentals are important.</p>
+    <p class="cue"><span class="time">[55:49]</span>How do I put it?</p>
+    <p class="cue"><span class="time">[55:51]</span>Yeah, I&#x27;m not sure what else to say other than that.</p>
+    <p class="cue"><span class="time">[55:53]</span>I think honestly, Stanford we&#x27;re known for--</p>
+    <p class="cue"><span class="time">[55:57]</span>CS Department we&#x27;re known for really--</p>
+    <p class="cue"><span class="time">[56:00]</span>I know I&#x27;m biased, but I want to say probably the best entry</p>
+    <p class="cue"><span class="time">[56:03]</span>level CS program classes of any university in the world,</p>
+    <p class="cue"><span class="time">[56:05]</span>I&#x27;m pretty biased, so maybe I shouldn&#x27;t say that,</p>
+    <p class="cue"><span class="time">[56:07]</span>but I think the excellent course if you</p>
+    <p class="cue"><span class="time">[56:09]</span>want to learn the fundamentals and really solid way,</p>
+    <p class="cue"><span class="time">[56:12]</span>and the instructors are routinely</p>
+    <p class="cue"><span class="time">[56:14]</span>thinking about how to update the curriculum</p>
+    <p class="cue"><span class="time">[56:16]</span>and realities of GenAI.</p>
+    <p class="cue"><span class="time">[56:17]</span>So I think they do an excellent job with that mix.</p>
+    <p class="cue"><span class="time">[56:22]</span>Yes, please.</p>
+    <p class="cue"><span class="time">[56:23]</span>[INAUDIBLE] use GenAI compared to just [INAUDIBLE] Cursor</p>
+    <p class="cue"><span class="time">[56:29]</span>and type a prompt, so.</p>
+    <p class="cue"><span class="time">[56:32]</span>Yeah.</p>
+    <p class="cue"><span class="time">[56:32]</span>How do I find someone that really knows GenAI</p>
+    <p class="cue"><span class="time">[56:34]</span>compared to someone that just use a tool and types of prompts.</p>
+    <p class="cue"><span class="time">[56:36]</span>So I feel like in GenAI there are two buckets of skill.</p>
+    <p class="cue"><span class="time">[56:40]</span>And again, by the way, deep learning is not GenAI.</p>
+    <p class="cue"><span class="time">[56:43]</span>Deep learning is also a very valuable skill,</p>
+    <p class="cue"><span class="time">[56:44]</span>but this is about GenAI.</p>
+    <p class="cue"><span class="time">[56:45]</span>I think there are two things.</p>
+    <p class="cue"><span class="time">[56:46]</span>One is I find it really useful to know how</p>
+    <p class="cue"><span class="time">[56:50]</span>to use AI coding assistance.</p>
+    <p class="cue"><span class="time">[56:51]</span>That&#x27;s really valuable.</p>
+    <p class="cue"><span class="time">[56:54]</span>But having fundamental knowledge helps you do that.</p>
+    <p class="cue"><span class="time">[56:58]</span>And then the other thing is in GenAI,</p>
+    <p class="cue"><span class="time">[57:00]</span>there&#x27;s a number of emerging tools.</p>
+    <p class="cue"><span class="time">[57:01]</span>I&#x27;m going to toss out some buzzwords.</p>
+    <p class="cue"><span class="time">[57:03]</span>OK.</p>
+    <p class="cue"><span class="time">[57:03]</span>So if you don&#x27;t know what any of these words mean,</p>
+    <p class="cue"><span class="time">[57:05]</span>don&#x27;t worry about it.</p>
+    <p class="cue"><span class="time">[57:06]</span>But I think there are emerging tools, like RAG, Retrieval</p>
+    <p class="cue"><span class="time">[57:11]</span>Augmented Generation, or how to-- vector databases,</p>
+    <p class="cue"><span class="time">[57:14]</span>how to do evals and error analysis,</p>
+    <p class="cue"><span class="time">[57:16]</span>how to build guardrails, how to use knowledge graphs</p>
+    <p class="cue"><span class="time">[57:19]</span>and interface that with LLM, maybe how to do multimodal LLMs,</p>
+    <p class="cue"><span class="time">[57:23]</span>how to fine-tune the model.</p>
+    <p class="cue"><span class="time">[57:25]</span>What else?</p>
+    <p class="cue"><span class="time">[57:25]</span>I&#x27;m probably blanking on something.</p>
+    <p class="cue"><span class="time">[57:27]</span>Oh, how to build agentic workflows.</p>
+    <p class="cue"><span class="time">[57:29]</span>But I feel like there are these categories of new techniques</p>
+    <p class="cue"><span class="time">[57:32]</span>built on top of GenAI that are like a useful bag of tools</p>
+    <p class="cue"><span class="time">[57:37]</span>for building applications.</p>
+    <p class="cue"><span class="time">[57:40]</span>Well, frankly, when I&#x27;m interviewing candidates,</p>
+    <p class="cue"><span class="time">[57:42]</span>we still do a fair amount of, it is</p>
+    <p class="cue"><span class="time">[57:44]</span>very GenAI role, is these skills I tend to look for,</p>
+    <p class="cue"><span class="time">[57:48]</span>this set of tools as well as AI-assisted coding.</p>
+    <p class="cue"><span class="time">[57:51]</span>And then-- yeah.</p>
+    <p class="cue"><span class="time">[57:54]</span>Yeah, please.</p>
+    <p class="cue"><span class="time">[57:55]</span>I don&#x27;t know if this question is best close to you</p>
+    <p class="cue"><span class="time">[57:57]</span>or if I&#x27;m considering taking 229 and 230 at the same time,</p>
+    <p class="cue"><span class="time">[58:02]</span>both of those classes are final projects.</p>
+    <p class="cue"><span class="time">[58:04]</span>So how would you recommend thinking about ideas to pursue?</p>
+    <p class="cue"><span class="time">[58:09]</span>Yeah.</p>
+    <p class="cue"><span class="time">[58:09]</span>So let me just give one tip about CS courses</p>
+    <p class="cue"><span class="time">[58:12]</span>in general, not just 229 and CS230, which</p>
+    <p class="cue"><span class="time">[58:15]</span>is I encourage you to think of AI courses at Stanford a bit</p>
+    <p class="cue"><span class="time">[58:21]</span>like Pokemon.</p>
+    <p class="cue"><span class="time">[58:23]</span>You got to catch them all.</p>
+    <p class="cue"><span class="time">[58:26]</span>But in all seriousness, I think taking more CS courses in AI,</p>
+    <p class="cue"><span class="time">[58:30]</span>it is a good thing to do.</p>
+    <p class="cue"><span class="time">[58:31]</span>Definitely encourage you to take multiple courses.</p>
+    <p class="cue"><span class="time">[58:33]</span>I think in some years we&#x27;ve had students do joint projects,</p>
+    <p class="cue"><span class="time">[58:36]</span>where the standard is higher expectations for sure,</p>
+    <p class="cue"><span class="time">[58:39]</span>but that&#x27;s one option to look at.</p>
+    <p class="cue"><span class="time">[58:44]</span>Yeah.</p>
+    <p class="cue"><span class="time">[58:45]</span>All right.</p>
+    <p class="cue"><span class="time">[58:45]</span>Go for it.</p>
+    <p class="cue"><span class="time">[58:46]</span>[INAUDIBLE] so I guess [INAUDIBLE],</p>
+    <p class="cue"><span class="time">[58:50]</span>but what is the difference pedagogically between 229</p>
+    <p class="cue"><span class="time">[58:53]</span>and 230?</p>
+    <p class="cue"><span class="time">[58:54]</span>And what are the projects that can be overlapped?</p>
+    <p class="cue"><span class="time">[58:59]</span>So let&#x27;s see.</p>
+    <p class="cue"><span class="time">[59:00]</span>229 and 230 are very different courses.</p>
+    <p class="cue"><span class="time">[59:03]</span>229, well, in 229 we have live instructors</p>
+    <p class="cue"><span class="time">[59:08]</span>doing the lectures in-person rather than online content.</p>
+    <p class="cue"><span class="time">[59:10]</span>So it&#x27;s not the flipped classroom.</p>
+    <p class="cue"><span class="time">[59:12]</span>So in CS230, we have most of the materials</p>
+    <p class="cue"><span class="time">[59:15]</span>prepared in online videos, highly edited online videos.</p>
+    <p class="cue"><span class="time">[59:19]</span>And then I think the other biggest difference</p>
+    <p class="cue"><span class="time">[59:23]</span>is CS229 is more mathematical theoretical,</p>
+    <p class="cue"><span class="time">[59:27]</span>but it&#x27;s important math, whereas CS230 is more practical.</p>
+    <p class="cue"><span class="time">[59:32]</span>And so I don&#x27;t know if we do even want a single--</p>
+    <p class="cue"><span class="time">[59:35]</span>maybe we do one proof somewhere in the lectures,</p>
+    <p class="cue"><span class="time">[59:37]</span>but we just don&#x27;t do a lot of math in CS230.</p>
+    <p class="cue"><span class="time">[59:40]</span>And it&#x27;s very-- a lot of machine learning is very empirical.</p>
+    <p class="cue"><span class="time">[59:43]</span>You try and see what works, but have a disciplined approach</p>
+    <p class="cue"><span class="time">[59:46]</span>for exploring what works.</p>
+    <p class="cue"><span class="time">[59:47]</span>So we focus a lot more on that in CS230.</p>
+    <p class="cue"><span class="time">[59:50]</span>And oh, and 229 covers a lot more techniques.</p>
+    <p class="cue"><span class="time">[59:53]</span>So there are a lot of machine learning techniques, supervised</p>
+    <p class="cue"><span class="time">[59:56]</span>learning, unsupervised learning, decision trees, boosting,</p>
+    <p class="cue"><span class="time">[60:00]</span>K means clustering.</p>
+    <p class="cue"><span class="time">[60:02]</span>So CS229 covers a much broader survey</p>
+    <p class="cue"><span class="time">[60:05]</span>of a lot of machine learning techniques,</p>
+    <p class="cue"><span class="time">[60:07]</span>whereas CS230 is just one thing.</p>
+    <p class="cue"><span class="time">[60:09]</span>We go really deep into deep learning.</p>
+  </section>
+</article>
+</body>
+</html>
