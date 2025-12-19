@@ -1,0 +1,5928 @@
+1
+00:00:05,680 --> 00:00:10,880
+What I want to do today is
+give an overview of this class.
+
+2
+00:00:10,880 --> 00:00:14,000
+I'm actually curious
+before we get started.
+
+3
+00:00:14,000 --> 00:00:18,440
+This is now September 2025.
+
+4
+00:00:18,440 --> 00:00:21,760
+How many of you just
+started at Stanford?
+
+5
+00:00:21,760 --> 00:00:22,820
+Raise your hand.
+
+6
+00:00:22,820 --> 00:00:23,320
+Wow.
+
+7
+00:00:23,320 --> 00:00:23,620
+Cool.
+
+8
+00:00:23,620 --> 00:00:24,120
+Awesome.
+
+9
+00:00:24,120 --> 00:00:26,960
+So others, pay attention to
+who just raised their hands
+
+10
+00:00:26,960 --> 00:00:30,303
+and do say hi to
+them and help welcome
+
+11
+00:00:30,303 --> 00:00:31,720
+all of the people
+that just joined
+
+12
+00:00:31,720 --> 00:00:35,080
+Stanford in whatever program.
+
+13
+00:00:35,080 --> 00:00:40,600
+CS230 is a class that we offer
+in the flipped classroom format.
+
+14
+00:00:40,600 --> 00:00:43,320
+And what that means is
+that instead of listening
+
+15
+00:00:43,320 --> 00:00:48,360
+to me or Kian, my co-instructor
+that you meet next week,
+
+16
+00:00:48,360 --> 00:00:51,480
+instead of listening to us
+lecture at you for an hour, hour
+
+17
+00:00:51,480 --> 00:00:54,040
+20 minutes, or
+whatever, we'll actually
+
+18
+00:00:54,040 --> 00:00:56,160
+ask you to watch
+a lot of the video
+
+19
+00:00:56,160 --> 00:00:58,680
+lectures online so
+that we can then
+
+20
+00:00:58,680 --> 00:01:02,260
+make use of the precious
+in-classroom time for much
+
+21
+00:01:02,260 --> 00:01:04,480
+richer, deeper discussions.
+
+22
+00:01:04,480 --> 00:01:08,020
+So both today and for
+the entire quarter,
+
+23
+00:01:08,020 --> 00:01:11,980
+I would really warmly welcome
+anyone raising questions,
+
+24
+00:01:11,980 --> 00:01:12,880
+raise your hand.
+
+25
+00:01:12,880 --> 00:01:17,080
+And in fact, I find that
+instead of you sitting there--
+
+26
+00:01:17,080 --> 00:01:19,500
+oh, and even though with
+a longer session schedule
+
+27
+00:01:19,500 --> 00:01:22,060
+by the registrar,
+we'll use usually
+
+28
+00:01:22,060 --> 00:01:26,340
+only up to an hour and 20
+minutes for this course.
+
+29
+00:01:26,340 --> 00:01:28,020
+And the goal is to--
+
+30
+00:01:28,020 --> 00:01:30,540
+it turns out that a lot
+of Stanford students
+
+31
+00:01:30,540 --> 00:01:34,140
+were watching the
+lectures on Seagull,
+
+32
+00:01:34,140 --> 00:01:36,820
+on the online videos anyway.
+
+33
+00:01:36,820 --> 00:01:40,340
+So rather than us delivering
+that same lecture year
+
+34
+00:01:40,340 --> 00:01:42,740
+after year, we put
+a lot more effort
+
+35
+00:01:42,740 --> 00:01:46,118
+to put very high quality
+lecture videos online
+
+36
+00:01:46,118 --> 00:01:48,660
+and we'll ask you to just watch
+that online, which people are
+
+37
+00:01:48,660 --> 00:01:52,500
+doing anyway, but just highly
+edited for offline watching
+
+38
+00:01:52,500 --> 00:01:55,180
+and spend a classroom
+time doing the things that
+
+39
+00:01:55,180 --> 00:01:59,360
+make sense for us to get
+together in-person to.
+
+40
+00:01:59,360 --> 00:02:02,305
+So because you haven't watched
+any of the lectures yet,
+
+41
+00:02:02,305 --> 00:02:03,680
+or I assume most
+of you have not,
+
+42
+00:02:03,680 --> 00:02:06,800
+today we'll even maybe have
+a slightly shorter session
+
+43
+00:02:06,800 --> 00:02:12,245
+to introduce the class, talk
+about logistics, and so on.
+
+44
+00:02:12,245 --> 00:02:14,280
+As many of you
+know, deep learning
+
+45
+00:02:14,280 --> 00:02:18,240
+is one of the latest,
+hottest trends technologies
+
+46
+00:02:18,240 --> 00:02:20,760
+of computer science and AI.
+
+47
+00:02:20,760 --> 00:02:25,520
+If we look at, say our PhD
+admissions or even master's
+
+48
+00:02:25,520 --> 00:02:27,760
+admissions, a very
+large fraction
+
+49
+00:02:27,760 --> 00:02:29,560
+of all students that
+come to Stanford
+
+50
+00:02:29,560 --> 00:02:31,982
+or applying to come to
+Stanford want to work on AI.
+
+51
+00:02:31,982 --> 00:02:33,940
+I'm not sure if I'm
+allowed to say the numbers,
+
+52
+00:02:33,940 --> 00:02:38,560
+but they are extremely
+high, as you can imagine.
+
+53
+00:02:38,560 --> 00:02:42,780
+And so my goal and my
+co-instructor Kian's goal,
+
+54
+00:02:42,780 --> 00:02:45,640
+our collective goal,
+is through this quarter
+
+55
+00:02:45,640 --> 00:02:50,320
+to help you get to near or at
+pretty much state of the art
+
+56
+00:02:50,320 --> 00:02:54,360
+with regard to deep learning
+and make sure that all of you
+
+57
+00:02:54,360 --> 00:02:58,020
+walk away from this class
+highly skilled at applying
+
+58
+00:02:58,020 --> 00:03:00,380
+deep learning.
+
+59
+00:03:00,380 --> 00:03:04,620
+And so it turns out
+that a lot of progress
+
+60
+00:03:04,620 --> 00:03:07,500
+in AI over the
+last, I don't know,
+
+61
+00:03:07,500 --> 00:03:12,240
+decade, maybe 10, 15
+years, was made by scaling.
+
+62
+00:03:12,240 --> 00:03:15,100
+And one of the reasons why
+deep learning was so successful
+
+63
+00:03:15,100 --> 00:03:18,540
+was because it's good at
+absorbing a lot of data.
+
+64
+00:03:18,540 --> 00:03:25,660
+So if I draw a figure
+where on the x-axis
+
+65
+00:03:25,660 --> 00:03:32,500
+I plot the amount of data
+we have for a problem,
+
+66
+00:03:32,500 --> 00:03:36,020
+then using more traditional
+machine learning algorithms, so
+
+67
+00:03:36,020 --> 00:03:38,000
+logistic regression,
+maybe decision trees,
+
+68
+00:03:38,000 --> 00:03:46,340
+but using all the generations of
+AI machine learning algorithms,
+
+69
+00:03:46,340 --> 00:03:48,300
+as you gave it
+more and more data,
+
+70
+00:03:48,300 --> 00:03:50,500
+the performance or the
+accuracy of the more
+
+71
+00:03:50,500 --> 00:03:52,620
+traditional algorithms
+would plateau.
+
+72
+00:03:52,620 --> 00:03:53,700
+It was as if--
+
+73
+00:03:53,700 --> 00:03:55,530
+So take speech recognition.
+
+74
+00:03:55,530 --> 00:03:57,510
+With all the generations
+of algorithms,
+
+75
+00:03:57,510 --> 00:04:00,850
+even as you fed it more and more
+data, hundreds and thousands
+
+76
+00:04:00,850 --> 00:04:03,730
+and tens of thousands
+of hours of speech data,
+
+77
+00:04:03,730 --> 00:04:07,090
+the accuracy would
+often plateau and it
+
+78
+00:04:07,090 --> 00:04:09,290
+was as if the older
+generations of algorithms
+
+79
+00:04:09,290 --> 00:04:13,730
+didn't what to do with all
+the data that we now have.
+
+80
+00:04:13,730 --> 00:04:18,170
+But what we start to find
+about 10, 15 years ago
+
+81
+00:04:18,170 --> 00:04:24,210
+was that if you train a small
+neural network, also known
+
+82
+00:04:24,210 --> 00:04:28,250
+as a small deep learning model,
+its performance would maybe
+
+83
+00:04:28,250 --> 00:04:30,090
+get better and better.
+
+84
+00:04:30,090 --> 00:04:32,730
+And if you train a
+medium-sized one,
+
+85
+00:04:32,730 --> 00:04:36,290
+and if you train a very
+large neural network,
+
+86
+00:04:36,290 --> 00:04:39,890
+the performance just keeps
+getting better and better.
+
+87
+00:04:39,890 --> 00:04:43,850
+And I think the reason that deep
+learning has dominated the AI
+
+88
+00:04:43,850 --> 00:04:45,930
+scene for the last
+10, 15 years is
+
+89
+00:04:45,930 --> 00:04:48,890
+because there is a
+recipe for training
+
+90
+00:04:48,890 --> 00:04:52,010
+very large neural networks
+that we could then
+
+91
+00:04:52,010 --> 00:04:54,590
+shove a lot of data
+into the results
+
+92
+00:04:54,590 --> 00:04:56,950
+in exceptional performance.
+
+93
+00:04:56,950 --> 00:05:01,530
+So I think we started to see
+this because of, frankly,
+
+94
+00:05:01,530 --> 00:05:05,270
+some Stanford research papers
+about 15 years ago when
+
+95
+00:05:05,270 --> 00:05:09,270
+we did the first early work
+on using CUDA programming
+
+96
+00:05:09,270 --> 00:05:11,430
+and GPUs to scale
+up deep learning.
+
+97
+00:05:11,430 --> 00:05:15,190
+Oh, by the way, actually,
+it's one fun fact.
+
+98
+00:05:15,190 --> 00:05:20,150
+My first GPU machine used
+to train neural networks
+
+99
+00:05:20,150 --> 00:05:23,170
+using CUDA, which is a
+controversial thing at the time.
+
+100
+00:05:23,170 --> 00:05:25,690
+It was built by a Stanford
+undergrad in his dorm room.
+
+101
+00:05:25,690 --> 00:05:27,270
+His name was Ian Goodfellow.
+
+102
+00:05:27,270 --> 00:05:30,430
+But I think that compute
+server, built in the Stanford
+
+103
+00:05:30,430 --> 00:05:33,990
+undergrad dorm room,
+allowed us at Stanford
+
+104
+00:05:33,990 --> 00:05:38,390
+to lay the early foundations
+of using CUDA, at that time
+
+105
+00:05:38,390 --> 00:05:40,310
+a modern language
+for training GPUs
+
+106
+00:05:40,310 --> 00:05:42,190
+to train large neural networks.
+
+107
+00:05:42,190 --> 00:05:44,830
+And then obviously, that
+influenced a lot of people
+
+108
+00:05:44,830 --> 00:05:47,330
+and helped scaling up
+deep learning take off.
+
+109
+00:05:47,330 --> 00:05:51,090
+So I tell that story
+because sometimes the work
+
+110
+00:05:51,090 --> 00:05:54,570
+that some of you can do in a
+dorm room or graduate student
+
+111
+00:05:54,570 --> 00:05:58,170
+housing or whatever, or
+in a lab at Stanford,
+
+112
+00:05:58,170 --> 00:06:00,670
+looking back over
+some number of years,
+
+113
+00:06:00,670 --> 00:06:02,190
+it can really have
+a huge impact.
+
+114
+00:06:02,190 --> 00:06:03,930
+And maybe in this
+class, some of you
+
+115
+00:06:03,930 --> 00:06:08,660
+will do work as impactful
+as that someday as well.
+
+116
+00:06:08,660 --> 00:06:11,370
+But so what you
+start to find was
+
+117
+00:06:11,370 --> 00:06:14,590
+that as we train larger
+and larger neural networks,
+
+118
+00:06:14,590 --> 00:06:16,930
+they could soak up
+lots of data and drive
+
+119
+00:06:16,930 --> 00:06:18,970
+exceptional performance.
+
+120
+00:06:18,970 --> 00:06:21,770
+And then there was a
+research paper out of Baidu,
+
+121
+00:06:21,770 --> 00:06:25,050
+which showed that as you scale
+up neural networks, as you scale
+
+122
+00:06:25,050 --> 00:06:28,010
+up deep learning algorithms, the
+performance gains are actually
+
+123
+00:06:28,010 --> 00:06:28,990
+quite predictable.
+
+124
+00:06:28,990 --> 00:06:31,950
+So you can forecast, if
+you buy this many GPUs,
+
+125
+00:06:31,950 --> 00:06:34,090
+throw this compute and
+this much data at it,
+
+126
+00:06:34,090 --> 00:06:36,130
+what would the performance be?
+
+127
+00:06:36,130 --> 00:06:39,090
+And then later, OpenAI
+popularized the idea
+
+128
+00:06:39,090 --> 00:06:42,890
+with a really influential
+paper on scaling laws.
+
+129
+00:06:42,890 --> 00:06:46,610
+And that predictability of
+how deep learning gets better
+
+130
+00:06:46,610 --> 00:06:50,070
+in performance then drove
+a lot of the investments
+
+131
+00:06:50,070 --> 00:06:53,310
+in data centers and building
+very large AI models
+
+132
+00:06:53,310 --> 00:06:56,430
+with lots of data.
+
+133
+00:06:56,430 --> 00:06:59,510
+And so let's see.
+
+134
+00:06:59,510 --> 00:07:03,970
+In terms of where this class
+sits, so in computer science,
+
+135
+00:07:03,970 --> 00:07:06,330
+all of us build on
+each other's work.
+
+136
+00:07:06,330 --> 00:07:09,950
+A lot of the way that computer
+science and AI has made progress
+
+137
+00:07:09,950 --> 00:07:12,110
+is we build on
+top of other ideas
+
+138
+00:07:12,110 --> 00:07:14,750
+that are, in turn, build
+on top of other ideas
+
+139
+00:07:14,750 --> 00:07:16,850
+that in turn build on
+top of other ideas.
+
+140
+00:07:16,850 --> 00:07:20,710
+So maybe I want to give you a
+little map to show you maybe
+
+141
+00:07:20,710 --> 00:07:24,070
+where deep learning sits.
+
+142
+00:07:24,070 --> 00:07:25,330
+So I think there are--
+
+143
+00:07:30,030 --> 00:07:32,690
+machine learning is built
+on top of computer science.
+
+144
+00:07:32,690 --> 00:07:35,890
+So I think it's actually helpful
+to learn CS fundamentals.
+
+145
+00:07:35,890 --> 00:07:38,230
+And even though I
+use and I suspect
+
+146
+00:07:38,230 --> 00:07:40,610
+vast majority use
+AI-assisted coding,
+
+147
+00:07:40,610 --> 00:07:43,870
+be it tools like Cloud Code
+or Gemini CLI, or OpenAI
+
+148
+00:07:43,870 --> 00:07:46,870
+Codex, or Cursor, or
+Windsurf, or whatever,
+
+149
+00:07:46,870 --> 00:07:50,158
+I find that people that know
+CS fundamentals, that really
+
+150
+00:07:50,158 --> 00:07:52,450
+understand computer science,
+that really understand how
+
+151
+00:07:52,450 --> 00:07:55,410
+computers work, rather than
+I'm going to vi code this,
+
+152
+00:07:55,410 --> 00:07:56,910
+when you understand
+CS fundamentals,
+
+153
+00:07:56,910 --> 00:07:59,450
+you get things to
+work much better.
+
+154
+00:07:59,450 --> 00:08:02,690
+But on top of CS
+fundamentals, there's
+
+155
+00:08:02,690 --> 00:08:06,320
+a set of machine
+learning skills.
+
+156
+00:08:10,170 --> 00:08:15,690
+So how do you build algorithms
+that can learn from data?
+
+157
+00:08:15,690 --> 00:08:18,810
+And then deep learning
+is a special type
+
+158
+00:08:18,810 --> 00:08:20,160
+of machine learning.
+
+159
+00:08:20,160 --> 00:08:22,410
+Well, that's really the most
+effective type of machine
+
+160
+00:08:22,410 --> 00:08:24,330
+learning, as far as
+I can tell, in which
+
+161
+00:08:24,330 --> 00:08:26,510
+we train neural
+networks, we train
+
+162
+00:08:26,510 --> 00:08:28,010
+certain types of
+algorithms to learn
+
+163
+00:08:28,010 --> 00:08:30,730
+from large amounts of data.
+
+164
+00:08:30,730 --> 00:08:32,330
+So far in the last
+10 minutes, you've
+
+165
+00:08:32,330 --> 00:08:34,530
+probably heard me use
+the words deep learning
+
+166
+00:08:34,530 --> 00:08:36,049
+and neural networks.
+
+167
+00:08:36,049 --> 00:08:37,970
+And I think today
+those two terms
+
+168
+00:08:37,970 --> 00:08:40,570
+are almost interchangeable.
+
+169
+00:08:40,570 --> 00:08:43,082
+Some purists will insist on
+some technical differences.
+
+170
+00:08:43,082 --> 00:08:45,290
+For all practical purposes,
+they mean the same thing.
+
+171
+00:08:45,290 --> 00:08:48,910
+But what happened was the term
+neural networks had been around
+
+172
+00:08:48,910 --> 00:08:53,510
+for decades, but around 10 or
+15 years ago, a number of us
+
+173
+00:08:53,510 --> 00:08:59,310
+realized that deep learning, it
+was just a much better brand.
+
+174
+00:08:59,310 --> 00:09:01,430
+And so even though
+neural networks
+
+175
+00:09:01,430 --> 00:09:05,170
+have been around for decades,
+starting about 10, 15 years ago,
+
+176
+00:09:05,170 --> 00:09:07,450
+it was deep learning
+that took off,
+
+177
+00:09:07,450 --> 00:09:12,670
+because who doesn't want
+learning that is really deep?
+
+178
+00:09:12,670 --> 00:09:15,230
+It's just a good brand.
+
+179
+00:09:15,230 --> 00:09:17,750
+But you hear me use those
+terms interchangeably.
+
+180
+00:09:17,750 --> 00:09:21,350
+But deep learning
+algorithms, neural networks,
+
+181
+00:09:21,350 --> 00:09:24,790
+they give us a way to take
+advantage more and more and more
+
+182
+00:09:24,790 --> 00:09:28,030
+compute capacity so they
+can build very large AI
+
+183
+00:09:28,030 --> 00:09:30,310
+models with a lot of
+parameters to soak up
+
+184
+00:09:30,310 --> 00:09:33,662
+the large amounts of data to
+get more and more intelligent
+
+185
+00:09:33,662 --> 00:09:35,370
+or to make better and
+better predictions,
+
+186
+00:09:35,370 --> 00:09:36,912
+or to generate more
+and more accurate
+
+187
+00:09:36,912 --> 00:09:41,190
+outputs using the large amount
+of data that's available to us.
+
+188
+00:09:41,190 --> 00:09:44,010
+Ever since I was a
+teenager, my mom's
+
+189
+00:09:44,010 --> 00:09:48,130
+been trying to convince
+me to stop mumbling,
+
+190
+00:09:48,130 --> 00:09:50,950
+but now, many years later,
+I still struggle with that.
+
+191
+00:09:50,950 --> 00:09:52,410
+So I'll try my best.
+
+192
+00:09:52,410 --> 00:09:58,563
+So please, wave at me or let me
+if I start to drift lower again.
+
+193
+00:09:58,563 --> 00:09:59,230
+Yeah, all right.
+
+194
+00:09:59,230 --> 00:10:02,490
+I think my mother would
+be very happy to have
+
+195
+00:10:02,490 --> 00:10:06,650
+to practice like this now.
+
+196
+00:10:06,650 --> 00:10:08,170
+All right.
+
+197
+00:10:08,170 --> 00:10:11,710
+So CS fundamentals, machine
+learning, deep learning,
+
+198
+00:10:11,710 --> 00:10:14,530
+and then the recent
+generative AI revolution.
+
+199
+00:10:17,610 --> 00:10:21,130
+Generative AI-- sorry,
+bad handwriting.
+
+200
+00:10:21,130 --> 00:10:26,250
+Generative AI, which
+is mostly built
+
+201
+00:10:26,250 --> 00:10:28,610
+by a specific type
+of neural network
+
+202
+00:10:28,610 --> 00:10:30,530
+called the transformer
+neural network, which
+
+203
+00:10:30,530 --> 00:10:31,780
+you learn about in this class.
+
+204
+00:10:31,780 --> 00:10:34,450
+You actually learned what is
+the transformer architecture
+
+205
+00:10:34,450 --> 00:10:37,370
+later in this quarter
+as well, is in turn
+
+206
+00:10:37,370 --> 00:10:40,370
+built on top of deep learning.
+
+207
+00:10:40,370 --> 00:10:43,390
+So I assume all of
+you are regularly
+
+208
+00:10:43,390 --> 00:10:45,510
+prompting LLMs, large
+language models,
+
+209
+00:10:45,510 --> 00:10:47,670
+to help you get work done.
+
+210
+00:10:47,670 --> 00:10:52,110
+And what I find is that while
+I use LLMs all the time,
+
+211
+00:10:52,110 --> 00:10:55,450
+for a lot of applications,
+just prompting LLMs,
+
+212
+00:10:55,450 --> 00:10:56,377
+it doesn't cut it.
+
+213
+00:10:56,377 --> 00:10:58,710
+There are a lot of things
+that I cannot get to work just
+
+214
+00:10:58,710 --> 00:11:00,550
+by prompting an LLM.
+
+215
+00:11:00,550 --> 00:11:03,510
+And so I'll often have
+to go a layer deeper
+
+216
+00:11:03,510 --> 00:11:05,802
+into the deep learning
+layer of abstraction
+
+217
+00:11:05,802 --> 00:11:07,510
+and fill it with deep
+learning algorithms
+
+218
+00:11:07,510 --> 00:11:09,910
+in order to get
+certain things to work.
+
+219
+00:11:09,910 --> 00:11:12,910
+And in fact-- so what
+this class covers
+
+220
+00:11:12,910 --> 00:11:17,590
+is we'll try to make
+sure that you are expert,
+
+221
+00:11:17,590 --> 00:11:20,590
+near-expert in deep learning
+by the end of this class,
+
+222
+00:11:20,590 --> 00:11:25,970
+but we'll also dip a little bit
+into machine learning concepts.
+
+223
+00:11:25,970 --> 00:11:29,390
+We'll talk a lot about objective
+functions and tips and tricks
+
+224
+00:11:29,390 --> 00:11:32,110
+for optimizing parameters
+in efficient way.
+
+225
+00:11:32,110 --> 00:11:34,950
+And then we'll also actually
+reach up a little bit
+
+226
+00:11:34,950 --> 00:11:36,743
+to cover some GenAI.
+
+227
+00:11:36,743 --> 00:11:39,410
+In particular, we'll talk about
+what is the transformer network?
+
+228
+00:11:39,410 --> 00:11:41,780
+And then through this
+quarter, Kian and I
+
+229
+00:11:41,780 --> 00:11:45,820
+will also chat a little
+bit about the job landscape
+
+230
+00:11:45,820 --> 00:11:48,240
+as it relates to GenAI
+and deep learning,
+
+231
+00:11:48,240 --> 00:11:52,780
+and how deep learning is
+enabling certain types of AI
+
+232
+00:11:52,780 --> 00:11:54,020
+applications.
+
+233
+00:11:54,020 --> 00:11:56,460
+OK.
+
+234
+00:11:56,460 --> 00:11:58,300
+I have more to say
+about this, but let
+
+235
+00:11:58,300 --> 00:12:02,220
+me just pause for a second and
+see if you have any questions.
+
+236
+00:12:02,220 --> 00:12:03,340
+Yeah, go for it.
+
+237
+00:12:03,340 --> 00:12:06,930
+Did you say machine learning is
+a prerequisite to this course?
+
+238
+00:12:06,930 --> 00:12:07,680
+Oh, good question.
+
+239
+00:12:07,680 --> 00:12:09,260
+What I say?
+
+240
+00:12:09,260 --> 00:12:10,058
+Congratulations.
+
+241
+00:12:10,058 --> 00:12:12,100
+You've won the prize for
+the first question asked
+
+242
+00:12:12,100 --> 00:12:14,800
+in CS230 2035, so well done.
+
+243
+00:12:14,800 --> 00:12:18,202
+[APPLAUSE]
+
+244
+00:12:19,660 --> 00:12:20,460
+Yeah.
+
+245
+00:12:20,460 --> 00:12:22,940
+So is machine learning
+a prereq to this course?
+
+246
+00:12:22,940 --> 00:12:24,000
+Not really.
+
+247
+00:12:24,000 --> 00:12:28,300
+So I think two common entry
+points to AI at Stanford
+
+248
+00:12:28,300 --> 00:12:30,400
+are CS--
+
+249
+00:12:30,400 --> 00:12:36,020
+well, a few common entry points
+are CS129, CS229, and CS230.
+
+250
+00:12:36,020 --> 00:12:38,220
+If you don't know
+any machine learning,
+
+251
+00:12:38,220 --> 00:12:41,240
+this course may end up
+going a little bit fast,
+
+252
+00:12:41,240 --> 00:12:43,800
+may seem like it's going a
+little bit fast in the first,
+
+253
+00:12:43,800 --> 00:12:45,540
+I don't know, two
+or three weeks,
+
+254
+00:12:45,540 --> 00:12:49,240
+but some people do pick
+things up quickly that way.
+
+255
+00:12:49,240 --> 00:12:52,200
+And maybe actually--
+
+256
+00:12:52,200 --> 00:12:54,470
+So a few courses that
+you may hear about.
+
+257
+00:12:59,280 --> 00:13:03,760
+So 129 is a relatively
+easy entry point
+
+258
+00:13:03,760 --> 00:13:07,760
+into machine learning that
+tends to-- it takes a longer
+
+259
+00:13:07,760 --> 00:13:10,633
+time to go through the core
+concepts of machine learning.
+
+260
+00:13:10,633 --> 00:13:12,300
+Like, what's the
+optimization objective?
+
+261
+00:13:12,300 --> 00:13:13,883
+How do you implement
+gradient descent?
+
+262
+00:13:13,883 --> 00:13:15,700
+What is logistic regression?
+
+263
+00:13:15,700 --> 00:13:17,260
+What's a very basic
+neural network?
+
+264
+00:13:17,260 --> 00:13:23,640
+So this is a relatively
+applied easiest of this list.
+
+265
+00:13:23,640 --> 00:13:26,560
+CS229, which I'm also
+involved in co-teaching,
+
+266
+00:13:26,560 --> 00:13:30,500
+is much more mathematical and
+theoretical, very high-paced,
+
+267
+00:13:30,500 --> 00:13:32,780
+very intense, and
+very mathematical.
+
+268
+00:13:32,780 --> 00:13:36,120
+And this is less applied
+than 129 and 230,
+
+269
+00:13:36,120 --> 00:13:40,500
+but this will go over a lot
+more of the theory and the math
+
+270
+00:13:40,500 --> 00:13:43,240
+derivations behind machine
+learning algorithms.
+
+271
+00:13:43,240 --> 00:13:46,820
+So, for example, if you want
+to learn how to do calculus
+
+272
+00:13:46,820 --> 00:13:49,300
+not using real
+numbers, but calculus
+
+273
+00:13:49,300 --> 00:13:53,380
+using matrices and vectors,
+that's a bunch of, I don't know,
+
+274
+00:13:53,380 --> 00:13:56,660
+mildly complex math
+that's worth knowing.
+
+275
+00:13:56,660 --> 00:13:58,580
+CS229 goes over that.
+
+276
+00:13:58,580 --> 00:14:01,780
+CS230, this class, is
+relatively applied,
+
+277
+00:14:01,780 --> 00:14:04,197
+and it focuses just
+on deep learning.
+
+278
+00:14:04,197 --> 00:14:05,780
+So of all the machine
+learning-- there
+
+279
+00:14:05,780 --> 00:14:07,100
+are a lot of machine
+learning algorithms
+
+280
+00:14:07,100 --> 00:14:08,940
+out there, supervised
+learning, unsupervised
+
+281
+00:14:08,940 --> 00:14:11,315
+learning, a lot of machine
+learning algorithms out there.
+
+282
+00:14:11,315 --> 00:14:14,360
+And many, many of
+them are very useful
+
+283
+00:14:14,360 --> 00:14:16,112
+and so they're all
+worth learning about.
+
+284
+00:14:16,112 --> 00:14:18,320
+But of all the machine
+learning algorithms out there,
+
+285
+00:14:18,320 --> 00:14:22,420
+the one category that is
+most useful that's taking off
+
+286
+00:14:22,420 --> 00:14:25,600
+the most is deep learning, and
+this class focuses just on that,
+
+287
+00:14:25,600 --> 00:14:28,280
+but the other arm is also
+worth learning about.
+
+288
+00:14:28,280 --> 00:14:31,980
+So 129 is the easiest on-ramp.
+
+289
+00:14:31,980 --> 00:14:34,360
+But if you've done
+either 229 or 230,
+
+290
+00:14:34,360 --> 00:14:36,580
+I would probably skip
+129 at that point.
+
+291
+00:14:36,580 --> 00:14:39,680
+But if you are getting started,
+there are multiple on-ramps.
+
+292
+00:14:39,680 --> 00:14:40,546
+Yeah.
+
+293
+00:14:40,546 --> 00:14:43,920
+If we take 229 and 230 together,
+do you think it's redundant?
+
+294
+00:14:43,920 --> 00:14:44,700
+Oh, yeah.
+
+295
+00:14:44,700 --> 00:14:47,340
+Can you take 229
+and 230 together?
+
+296
+00:14:47,340 --> 00:14:48,020
+Yeah, thank you.
+
+297
+00:14:48,020 --> 00:14:50,640
+Prize for the second question.
+
+298
+00:14:50,640 --> 00:14:51,140
+All right.
+
+299
+00:14:51,140 --> 00:14:52,740
+If you want to clap,
+sure, go for it.
+
+300
+00:14:52,740 --> 00:14:55,960
+[APPLAUSE]
+
+301
+00:14:56,880 --> 00:15:00,160
+Yes, you can take CS230
+and CS229 together.
+
+302
+00:15:00,160 --> 00:15:05,060
+We designed the two curricula
+to be relatively low in overlap.
+
+303
+00:15:05,060 --> 00:15:10,132
+So the very small amount of
+overlap between these two.
+
+304
+00:15:10,132 --> 00:15:13,720
+We won't clap for every
+single question, but go ahead.
+
+305
+00:15:13,720 --> 00:15:17,280
+Are you going to cover more
+recent deep learning algorithms
+
+306
+00:15:17,280 --> 00:15:20,800
+that are used in recent
+LLM developments,
+
+307
+00:15:20,800 --> 00:15:23,400
+like five or two more?
+
+308
+00:15:23,400 --> 00:15:27,760
+Yeah, so when we cover the
+recent LLM developments,
+
+309
+00:15:27,760 --> 00:15:33,240
+we will touch on the transformer
+neural network, but not
+
+310
+00:15:33,240 --> 00:15:38,340
+the latest LLM variations
+in this course.
+
+311
+00:15:38,340 --> 00:15:40,220
+I think a lot of
+it, it turns out
+
+312
+00:15:40,220 --> 00:15:43,180
+that when you go out to
+get a job, well, maybe,
+
+313
+00:15:43,180 --> 00:15:46,020
+if assuming you go
+and work in industry,
+
+314
+00:15:46,020 --> 00:15:50,620
+the number of people training
+LLMs is actually very small.
+
+315
+00:15:50,620 --> 00:15:52,960
+Some of those jobs tend
+to be incredibly well-paid
+
+316
+00:15:52,960 --> 00:15:56,060
+so we hear about very high
+salaries in the news media,
+
+317
+00:15:56,060 --> 00:15:59,100
+but the vast majority
+of application builders
+
+318
+00:15:59,100 --> 00:16:03,180
+end up sometimes working
+the GenAI level, not that
+
+319
+00:16:03,180 --> 00:16:06,380
+often training a
+transformer from scratch,
+
+320
+00:16:06,380 --> 00:16:09,800
+but then often using deep
+learning tools as well.
+
+321
+00:16:09,800 --> 00:16:13,980
+So maybe one example, something
+that many of my teams have done
+
+322
+00:16:13,980 --> 00:16:17,440
+is we have trained
+transformer models--
+
+323
+00:16:17,440 --> 00:16:19,940
+foundation models from scratch
+with relatively small ones
+
+324
+00:16:19,940 --> 00:16:21,720
+in, say, startups.
+
+325
+00:16:21,720 --> 00:16:23,460
+But one thing we
+do do quite a lot
+
+326
+00:16:23,460 --> 00:16:27,140
+is take a pre-trained
+transformer network
+
+327
+00:16:27,140 --> 00:16:31,920
+and then engineer our own
+data to further fine tune it.
+
+328
+00:16:31,920 --> 00:16:34,640
+Sorry if I'm using words you
+may not totally understand,
+
+329
+00:16:34,640 --> 00:16:36,440
+pre-trained, fine-tuned, you'll
+know what all those terms
+
+330
+00:16:36,440 --> 00:16:37,760
+are by the end of this quarter.
+
+331
+00:16:37,760 --> 00:16:41,398
+So those are things that
+we actually do day-to-day.
+
+332
+00:16:41,398 --> 00:16:43,440
+This is important for
+getting a bunch of products
+
+333
+00:16:43,440 --> 00:16:45,880
+to work so you will gain
+the foundations needed
+
+334
+00:16:45,880 --> 00:16:49,180
+to do the type of
+work in this course.
+
+335
+00:16:49,180 --> 00:16:51,520
+One thing we don't
+do is talk a lot
+
+336
+00:16:51,520 --> 00:16:55,200
+about how to train the largest
+cutting edge transformer
+
+337
+00:16:55,200 --> 00:16:55,900
+networks.
+
+338
+00:16:55,900 --> 00:16:58,360
+I think that is a very
+important skill set,
+
+339
+00:16:58,360 --> 00:17:00,320
+is relatively
+niche one for which
+
+340
+00:17:00,320 --> 00:17:02,720
+some people are getting
+paid really, really well,
+
+341
+00:17:02,720 --> 00:17:04,880
+but the number of people
+doing that in the world
+
+342
+00:17:04,880 --> 00:17:07,599
+is actually small, whereas
+the number of people
+
+343
+00:17:07,599 --> 00:17:12,339
+building applications with this
+set of skills is very large.
+
+344
+00:17:12,339 --> 00:17:16,119
+Do you have any courses
+that you cover that?
+
+345
+00:17:16,119 --> 00:17:17,619
+Do I have any courses
+covering that?
+
+346
+00:17:17,619 --> 00:17:19,980
+I think Percy Liang was
+thinking about doing something,
+
+347
+00:17:19,980 --> 00:17:22,359
+but I don't remember he's
+doing it this quarter.
+
+348
+00:17:22,359 --> 00:17:25,119
+Few people are thinking about
+doing something like that.
+
+349
+00:17:25,119 --> 00:17:25,760
+Yeah.
+
+350
+00:17:25,760 --> 00:17:27,640
+Go ahead.
+
+351
+00:17:27,640 --> 00:17:30,980
+This is a question
+about the course itself.
+
+352
+00:17:30,980 --> 00:17:33,100
+Do you know about what
+the portion of the course
+
+353
+00:17:33,100 --> 00:17:34,353
+is going to involve.
+
+354
+00:17:34,353 --> 00:17:38,180
+mathematical analysis
+and multiple coding?
+
+355
+00:17:38,180 --> 00:17:43,080
+So just repeating for the
+mic for the home viewers,
+
+356
+00:17:43,080 --> 00:17:45,860
+what portion is coding
+versus what proportion
+
+357
+00:17:45,860 --> 00:17:48,420
+is mathematical analysis?
+
+358
+00:17:48,420 --> 00:17:52,205
+This course is
+relatively math light.
+
+359
+00:17:52,205 --> 00:17:54,080
+Sorry, maybe that was
+too strong a statement,
+
+360
+00:17:54,080 --> 00:17:57,460
+but I think this course
+is very practical.
+
+361
+00:17:57,460 --> 00:18:00,100
+I remember many
+years back, I was
+
+362
+00:18:00,100 --> 00:18:05,860
+speaking with a mathematician
+and we're just chatting
+
+363
+00:18:05,860 --> 00:18:06,900
+and he was asking--
+
+364
+00:18:06,900 --> 00:18:08,620
+he was just talking
+about his career, why
+
+365
+00:18:08,620 --> 00:18:10,940
+he chose to be a mathematician.
+
+366
+00:18:10,940 --> 00:18:18,060
+And I still remember,
+he had stars in his eyes
+
+367
+00:18:18,060 --> 00:18:21,500
+when he told me that he chose
+his career path because he felt
+
+368
+00:18:21,500 --> 00:18:25,680
+his role is to pursue truth
+and beauty in the universe,
+
+369
+00:18:25,680 --> 00:18:28,840
+and that's why he
+became a mathematician.
+
+370
+00:18:28,840 --> 00:18:32,260
+In this course, I'm not going to
+do any truth and beauty stuff.
+
+371
+00:18:35,385 --> 00:18:36,760
+Truth and beauty
+is good, but you
+
+372
+00:18:36,760 --> 00:18:41,280
+find that I want to take a very
+practical approach to talking
+
+373
+00:18:41,280 --> 00:18:45,960
+about how to build applications
+and build software that works.
+
+374
+00:18:45,960 --> 00:18:46,480
+Yeah.
+
+375
+00:18:46,480 --> 00:18:47,520
+Cool.
+
+376
+00:18:47,520 --> 00:18:49,760
+Anything else?
+
+377
+00:18:49,760 --> 00:18:50,420
+All right.
+
+378
+00:18:50,420 --> 00:18:50,920
+Cool.
+
+379
+00:18:50,920 --> 00:18:51,420
+Awesome.
+
+380
+00:18:51,420 --> 00:18:51,967
+All right.
+
+381
+00:18:51,967 --> 00:18:53,300
+Thank you for all the questions.
+
+382
+00:18:53,300 --> 00:18:54,140
+Please keep them coming.
+
+383
+00:18:54,140 --> 00:18:56,807
+And feel free to interrupt me or
+Kian throughout this quarter as
+
+384
+00:18:56,807 --> 00:18:57,860
+well with questions.
+
+385
+00:18:57,860 --> 00:19:00,280
+Love it.
+
+386
+00:19:00,280 --> 00:19:04,240
+So just to flesh this
+out a little bit more,
+
+387
+00:19:04,240 --> 00:19:08,240
+this is what I see in
+terms of teams building
+
+388
+00:19:08,240 --> 00:19:09,943
+practical applications.
+
+389
+00:19:09,943 --> 00:19:11,360
+And I'm excited
+about applications
+
+390
+00:19:11,360 --> 00:19:14,740
+because with improving
+machine learning algorithms,
+
+391
+00:19:14,740 --> 00:19:16,720
+deep learning algorithms,
+GenAI algorithms,
+
+392
+00:19:16,720 --> 00:19:19,760
+there are a lot of applications
+that you can build now
+
+393
+00:19:19,760 --> 00:19:25,466
+that just were impossible
+or really inaccessible
+
+394
+00:19:25,466 --> 00:19:31,110
+to any person to build
+even a few years ago.
+
+395
+00:19:31,110 --> 00:19:34,830
+And so I find that
+when I prompt GenAI,
+
+396
+00:19:34,830 --> 00:19:40,710
+it works really well for a lot
+of text-based applications.
+
+397
+00:19:40,710 --> 00:19:44,290
+And there's work on multimodal
+LLMs, large multimodal models.
+
+398
+00:19:44,290 --> 00:19:48,090
+So making inroads into vision,
+making inroads into audio.
+
+399
+00:19:48,090 --> 00:19:51,270
+But really GenAI algorithms,
+especially transformer networks
+
+400
+00:19:51,270 --> 00:19:54,150
+trained to output text, like
+ChatGPT, Claude, Gemini,
+
+401
+00:19:54,150 --> 00:19:59,270
+and so on, really fantastic
+for text-based applications.
+
+402
+00:19:59,270 --> 00:20:05,390
+And I find myself regularly
+working with deep learning
+
+403
+00:20:05,390 --> 00:20:13,430
+algorithms directly when I'm
+working with audio data, image
+
+404
+00:20:13,430 --> 00:20:18,880
+and video data, and then also
+a lot of structured data.
+
+405
+00:20:23,190 --> 00:20:27,690
+Sorry, my handwriting is awful.
+
+406
+00:20:27,690 --> 00:20:32,370
+So structured data refers
+to large tables of numbers,
+
+407
+00:20:32,370 --> 00:20:35,410
+like giant Excel or Google
+Sheets spreadsheets.
+
+408
+00:20:35,410 --> 00:20:36,990
+So that's structured data.
+
+409
+00:20:36,990 --> 00:20:39,730
+Unstructured data refers to
+text, audio, images, maybe
+
+410
+00:20:39,730 --> 00:20:41,290
+video.
+
+411
+00:20:41,290 --> 00:20:44,610
+And because a lot of GenAI,
+large language models,
+
+412
+00:20:44,610 --> 00:20:47,930
+like ChatGPT, had grown
+up being text in text
+
+413
+00:20:47,930 --> 00:20:52,530
+out kinds of machines, they are
+remarkable for a lot of text
+
+414
+00:20:52,530 --> 00:20:54,190
+processing applications.
+
+415
+00:20:54,190 --> 00:20:56,690
+But for other types
+of data, I end up
+
+416
+00:20:56,690 --> 00:21:00,810
+often dipping down directly
+to use various deep learning
+
+417
+00:21:00,810 --> 00:21:02,850
+algorithms.
+
+418
+00:21:02,850 --> 00:21:06,850
+And then it turns out that for
+text-based data, if all you do
+
+419
+00:21:06,850 --> 00:21:09,830
+is prompting, you could
+usually go quite far.
+
+420
+00:21:09,830 --> 00:21:13,250
+So a lot of applications
+are built by prompting LLMs.
+
+421
+00:21:13,250 --> 00:21:17,850
+But I've been on quite
+a few teams where
+
+422
+00:21:17,850 --> 00:21:20,770
+after fiddling with the
+prompts for a month,
+
+423
+00:21:20,770 --> 00:21:23,330
+you just can't get the
+performance to be better
+
+424
+00:21:23,330 --> 00:21:25,550
+just by tuning the prompts.
+
+425
+00:21:25,550 --> 00:21:29,950
+Or another good problem to have,
+it turns out use of GenAI tools
+
+426
+00:21:29,950 --> 00:21:33,110
+are relatively inexpensive
+when you're prototyping.
+
+427
+00:21:33,110 --> 00:21:35,090
+It's like a few dollars
+per million tokens,
+
+428
+00:21:35,090 --> 00:21:36,710
+so you can do a lot.
+
+429
+00:21:36,710 --> 00:21:39,630
+But sometimes, if
+you're lucky enough
+
+430
+00:21:39,630 --> 00:21:43,670
+to be on a product that
+hits product market
+
+431
+00:21:43,670 --> 00:21:46,030
+fit and a lot of
+users want to use,
+
+432
+00:21:46,030 --> 00:21:47,510
+multiple times
+I've been on teams
+
+433
+00:21:47,510 --> 00:21:52,430
+where we basically did not care
+about our large language model
+
+434
+00:21:52,430 --> 00:21:52,990
+bill.
+
+435
+00:21:52,990 --> 00:21:56,910
+It was like, whatever, $20 a
+month or $100 a month was fine.
+
+436
+00:21:56,910 --> 00:22:00,310
+But when more and more
+users start using it, then
+
+437
+00:22:00,310 --> 00:22:02,970
+to your team's
+positive surprise,
+
+438
+00:22:02,970 --> 00:22:05,650
+your AI bill really
+starts to skyrocket.
+
+439
+00:22:05,650 --> 00:22:07,750
+And then at some point,
+you look at how much
+
+440
+00:22:07,750 --> 00:22:10,070
+you're paying for your AI
+bill for the large language
+
+441
+00:22:10,070 --> 00:22:14,470
+models and to bend the
+cost curve back down, often
+
+442
+00:22:14,470 --> 00:22:17,350
+a lot of the techniques in deep
+learning become very relevant as
+
+443
+00:22:17,350 --> 00:22:17,850
+well.
+
+444
+00:22:17,850 --> 00:22:22,003
+So I'm thinking just some of our
+bills were really breathtaking.
+
+445
+00:22:22,003 --> 00:22:24,170
+I don't want to say the
+numbers, but just definitely
+
+446
+00:22:24,170 --> 00:22:25,930
+more than we want to pay.
+
+447
+00:22:25,930 --> 00:22:29,090
+As much as we love the
+companies providing LLMs,
+
+448
+00:22:29,090 --> 00:22:31,770
+our bills that we're paying
+them were significantly larger
+
+449
+00:22:31,770 --> 00:22:34,410
+than I wanted to pay.
+
+450
+00:22:34,410 --> 00:22:37,330
+And then knowing how to use deep
+learning to fine-tune smaller
+
+451
+00:22:37,330 --> 00:22:39,410
+models, that was really
+the critical skill
+
+452
+00:22:39,410 --> 00:22:41,570
+set that just bend
+the cost curve back
+
+453
+00:22:41,570 --> 00:22:44,090
+and just made the whole
+thing affordable to keep
+
+454
+00:22:44,090 --> 00:22:45,810
+on providing the service.
+
+455
+00:22:45,810 --> 00:22:50,030
+So yeah.
+
+456
+00:22:50,030 --> 00:22:51,530
+So that's what--
+so that's the skill
+
+457
+00:22:51,530 --> 00:22:54,410
+set I hope you get
+from this course.
+
+458
+00:22:54,410 --> 00:22:56,130
+All right.
+
+459
+00:22:56,130 --> 00:22:56,870
+Let's see.
+
+460
+00:23:00,090 --> 00:23:00,790
+All right.
+
+461
+00:23:04,450 --> 00:23:08,410
+And to give a--
+
+462
+00:23:08,410 --> 00:23:11,050
+oh.
+
+463
+00:23:11,050 --> 00:23:12,350
+Sorry, let me use this one.
+
+464
+00:23:21,350 --> 00:23:26,170
+So to give a quick
+overview, this course,
+
+465
+00:23:26,170 --> 00:23:29,290
+the online materials is
+broken down into five modules.
+
+466
+00:23:29,290 --> 00:23:32,830
+So just to give you an
+overview of the five of them.
+
+467
+00:23:32,830 --> 00:23:35,510
+First one is on the basics
+of neural networks, NN,
+
+468
+00:23:35,510 --> 00:23:39,350
+Neural Networks, and
+DL, Deep Learning.
+
+469
+00:23:39,350 --> 00:23:42,550
+So you learn how to build a
+neural network or deep learning
+
+470
+00:23:42,550 --> 00:23:45,230
+algorithm from
+scratch in Python.
+
+471
+00:23:45,230 --> 00:23:48,350
+I find that sometimes if you use
+the frameworks, like TensorFlow
+
+472
+00:23:48,350 --> 00:23:50,330
+or PyTorch, it hides
+a lot of the details.
+
+473
+00:23:50,330 --> 00:23:53,750
+So we actually work through how
+to build a basic neural network
+
+474
+00:23:53,750 --> 00:23:56,590
+and how to build a basic
+deep learning algorithm just
+
+475
+00:23:56,590 --> 00:24:00,550
+in raw Python so you
+really understand it.
+
+476
+00:24:00,550 --> 00:24:04,710
+And then the second module,
+the second mini course
+
+477
+00:24:04,710 --> 00:24:10,010
+will be on how to improve, how
+to tune your neural networks.
+
+478
+00:24:10,010 --> 00:24:11,830
+So you may have heard
+that when you're
+
+479
+00:24:11,830 --> 00:24:14,850
+training a neural network,
+there are a lot of parameters
+
+480
+00:24:14,850 --> 00:24:16,410
+or we call them hyperparameters.
+
+481
+00:24:16,410 --> 00:24:18,870
+Hyperparameters are parameters
+that control the parameters.
+
+482
+00:24:18,870 --> 00:24:21,130
+So the weights of
+parameters, hyperparameters
+
+483
+00:24:21,130 --> 00:24:22,730
+are things like
+the learning rate
+
+484
+00:24:22,730 --> 00:24:24,790
+or what's the size of
+the neural network.
+
+485
+00:24:24,790 --> 00:24:27,370
+And so there are actually
+a lot of hyperparameters
+
+486
+00:24:27,370 --> 00:24:30,290
+that we end up tuning
+and try to give you
+
+487
+00:24:30,290 --> 00:24:32,290
+a sense of what are
+the most important ones
+
+488
+00:24:32,290 --> 00:24:35,690
+and practical skills
+for tuning them.
+
+489
+00:24:35,690 --> 00:24:41,050
+It turns out that if you
+look at my PhD students,
+
+490
+00:24:41,050 --> 00:24:43,510
+I think every one of them that--
+
+491
+00:24:43,510 --> 00:24:46,930
+well, I think probably
+every one of them,
+
+492
+00:24:46,930 --> 00:24:49,500
+definitely every one that--
+every PhD student that I know
+
+493
+00:24:49,500 --> 00:24:54,680
+that became great, I think at
+some point wound up up at 2:00
+
+494
+00:24:54,680 --> 00:24:57,950
+AM tuning hyperparameters.
+
+495
+00:24:57,950 --> 00:25:01,210
+And I still have very clear
+recollections of being
+
+496
+00:25:01,210 --> 00:25:05,370
+in the office, 2:00 AM, 3:00 AM
+fiddling with parameters to try
+
+497
+00:25:05,370 --> 00:25:06,410
+to get it to work.
+
+498
+00:25:06,410 --> 00:25:09,450
+And it turns out that,
+literally, your skill at tuning
+
+499
+00:25:09,450 --> 00:25:11,990
+hyperparameters, it
+really makes a difference.
+
+500
+00:25:11,990 --> 00:25:15,170
+So there was some evenings
+that I knew my skill at tuning
+
+501
+00:25:15,170 --> 00:25:18,350
+hyperparameters, frankly, it
+made the difference between
+
+502
+00:25:18,350 --> 00:25:21,110
+whether I went home to sleep at
+3:00 AM versus when I went home
+
+503
+00:25:21,110 --> 00:25:22,290
+to sleep at 7:00 AM.
+
+504
+00:25:22,290 --> 00:25:24,610
+Maybe there's not--
+maybe don't do what I do.
+
+505
+00:25:24,610 --> 00:25:26,750
+I'm not encouraging
+this behavior,
+
+506
+00:25:26,750 --> 00:25:29,210
+but this is just my
+personal experiences.
+
+507
+00:25:29,210 --> 00:25:31,910
+But it really makes a big
+difference, your practical skill
+
+508
+00:25:31,910 --> 00:25:33,790
+at how quickly
+you can figure out
+
+509
+00:25:33,790 --> 00:25:37,140
+the recipe to get these
+neural networks to train.
+
+510
+00:25:40,070 --> 00:25:45,660
+And related to that is--
+
+511
+00:25:54,230 --> 00:25:56,910
+one thing we chat a lot
+about in this course
+
+512
+00:25:56,910 --> 00:26:00,870
+is strategies for building
+machine learning projects.
+
+513
+00:26:00,870 --> 00:26:03,847
+So it turns out that if you
+build a complex system, let's
+
+514
+00:26:03,847 --> 00:26:05,430
+say you build-- this
+one example we'll
+
+515
+00:26:05,430 --> 00:26:06,730
+go through later this quarter.
+
+516
+00:26:06,730 --> 00:26:10,730
+Say you want to build a system
+that recognizes your face,
+
+517
+00:26:10,730 --> 00:26:13,050
+a camera that recognizes your
+face, your friend's face,
+
+518
+00:26:13,050 --> 00:26:15,470
+unlock a door, security,
+safety, or whatever.
+
+519
+00:26:15,470 --> 00:26:17,352
+So something like that.
+
+520
+00:26:17,352 --> 00:26:18,810
+I've worked on
+something like that,
+
+521
+00:26:18,810 --> 00:26:20,090
+Kian's worked on some of that.
+
+522
+00:26:20,090 --> 00:26:23,370
+These are complex systems
+with multiple components.
+
+523
+00:26:23,370 --> 00:26:24,740
+There's a camera.
+
+524
+00:26:24,740 --> 00:26:27,290
+Do you subtract--
+clean up the image?
+
+525
+00:26:27,290 --> 00:26:28,990
+Do you cut out the face?
+
+526
+00:26:28,990 --> 00:26:30,470
+How do you register the face?
+
+527
+00:26:30,470 --> 00:26:31,670
+How do you compare a face?
+
+528
+00:26:31,670 --> 00:26:33,970
+How do you decide to take
+another picture before you
+
+529
+00:26:33,970 --> 00:26:36,090
+unlock the door or just--
+
+530
+00:26:36,090 --> 00:26:38,130
+or someone trying to fake--
+
+531
+00:26:38,130 --> 00:26:41,030
+or hold up a picture
+printed on a piece of paper.
+
+532
+00:26:41,030 --> 00:26:42,970
+There are actually
+a lot of decisions.
+
+533
+00:26:42,970 --> 00:26:46,850
+And so what I found
+is that the biggest
+
+534
+00:26:46,850 --> 00:26:50,010
+difference between a team that
+knows how to drive forward
+
+535
+00:26:50,010 --> 00:26:52,210
+a project like this
+well and get it
+
+536
+00:26:52,210 --> 00:26:55,450
+done in days rather than
+weeks, or weeks rather
+
+537
+00:26:55,450 --> 00:26:59,370
+than many months, is the
+ability to drive a disciplined
+
+538
+00:26:59,370 --> 00:27:00,790
+development process.
+
+539
+00:27:00,790 --> 00:27:03,010
+It turns out when you
+have a complex system,
+
+540
+00:27:03,010 --> 00:27:06,170
+less experienced teams will
+often almost pick things
+
+541
+00:27:06,170 --> 00:27:07,810
+at random to work on.
+
+542
+00:27:07,810 --> 00:27:10,090
+They'll read one research
+paper and say, oh, I
+
+543
+00:27:10,090 --> 00:27:13,190
+read the research paper we
+should get more data, well,
+
+544
+00:27:13,190 --> 00:27:16,580
+because some newspapers
+said AI needs lots of data.
+
+545
+00:27:16,580 --> 00:27:19,520
+So let's go spend six
+months to collect more data.
+
+546
+00:27:19,520 --> 00:27:22,080
+Turns out, a of the time
+collecting more data
+
+547
+00:27:22,080 --> 00:27:25,400
+does not help your application.
+
+548
+00:27:25,400 --> 00:27:27,220
+But sometimes it's a huge help.
+
+549
+00:27:27,220 --> 00:27:30,340
+So given your application,
+how do you decide,
+
+550
+00:27:30,340 --> 00:27:32,280
+should you spend more
+time collecting data?
+
+551
+00:27:32,280 --> 00:27:33,740
+Maybe you should buy more GPUs.
+
+552
+00:27:33,740 --> 00:27:37,300
+I actually definitely know
+people that read in the news,
+
+553
+00:27:37,300 --> 00:27:38,680
+a lot of GPUs are helpful.
+
+554
+00:27:38,680 --> 00:27:42,920
+And then I've literally met
+fairly senior business leaders
+
+555
+00:27:42,920 --> 00:27:47,080
+that have spent a very
+large amount of money buying
+
+556
+00:27:47,080 --> 00:27:50,864
+GPUs and then--
+
+557
+00:27:50,864 --> 00:27:52,220
+some funny stories.
+
+558
+00:27:52,220 --> 00:27:54,320
+And then I go talk to
+them and say, what are you
+
+559
+00:27:54,320 --> 00:27:55,340
+doing with these GPUs?
+
+560
+00:27:55,340 --> 00:27:57,280
+And then sometimes--
+
+561
+00:27:57,280 --> 00:28:00,840
+There was one meeting I
+was in where literally
+
+562
+00:28:00,840 --> 00:28:05,720
+a very large family-run business
+had bought a lot of GPUs
+
+563
+00:28:05,720 --> 00:28:13,700
+and the CTO then pointed to his
+nephew, who's a current college
+
+564
+00:28:13,700 --> 00:28:17,380
+student undergrad and said,
+oh, my nephew knows AI.
+
+565
+00:28:17,380 --> 00:28:20,420
+I'm giving him this very
+large budget in GPUs
+
+566
+00:28:20,420 --> 00:28:22,526
+and I think he'll do AI for me.
+
+567
+00:28:22,526 --> 00:28:26,700
+But so I think that knowing
+how to make these decisions
+
+568
+00:28:26,700 --> 00:28:28,100
+and not just buying
+into the hype
+
+569
+00:28:28,100 --> 00:28:31,980
+that you read about in the
+newspapers is really important.
+
+570
+00:28:31,980 --> 00:28:35,540
+And one thing I hope to do in
+this course is share with you
+
+571
+00:28:35,540 --> 00:28:38,680
+what driving a disciplined
+development process looks like,
+
+572
+00:28:38,680 --> 00:28:41,300
+because this is one of the
+things that really makes a 10x
+
+573
+00:28:41,300 --> 00:28:43,900
+difference in the speed with
+which you can get something
+
+574
+00:28:43,900 --> 00:28:44,620
+to work.
+
+575
+00:28:44,620 --> 00:28:49,260
+I've literally seen teams
+take six months or 10 months
+
+576
+00:28:49,260 --> 00:28:52,660
+pursuing an approach that
+experienced engineers would
+
+577
+00:28:52,660 --> 00:28:54,920
+go in and go, you know what?
+
+578
+00:28:54,920 --> 00:28:56,420
+I could have told
+you six months ago
+
+579
+00:28:56,420 --> 00:28:58,375
+that spending all this
+time collecting data,
+
+580
+00:28:58,375 --> 00:29:00,500
+this was not going to get
+your application to where
+
+581
+00:29:00,500 --> 00:29:02,193
+you want it to go.
+
+582
+00:29:02,193 --> 00:29:05,420
+But so how do you
+examine an application
+
+583
+00:29:05,420 --> 00:29:07,180
+and figure the
+diagnostics to figure out
+
+584
+00:29:07,180 --> 00:29:09,638
+what are the productive things
+you do for your application?
+
+585
+00:29:09,638 --> 00:29:11,440
+We'll actually spend
+a lot of time on that.
+
+586
+00:29:11,440 --> 00:29:16,200
+And in fact, I'm excited about
+doing some simulation exercises
+
+587
+00:29:16,200 --> 00:29:18,640
+in this classroom with
+you later this quarter,
+
+588
+00:29:18,640 --> 00:29:24,480
+where I'll invite you
+later this quarter to say,
+
+589
+00:29:24,480 --> 00:29:27,160
+in this scenario,
+what would you do,
+
+590
+00:29:27,160 --> 00:29:29,840
+and see if you
+could make decisions
+
+591
+00:29:29,840 --> 00:29:31,560
+in a more systematic way.
+
+592
+00:29:36,080 --> 00:29:39,370
+Then course four we'll talk
+about convolutional networks.
+
+593
+00:29:41,960 --> 00:29:45,440
+Very useful for computer
+vision applications.
+
+594
+00:29:45,440 --> 00:29:52,000
+And then-- so ConvNets
+are specialized models
+
+595
+00:29:52,000 --> 00:29:54,720
+used mostly for
+vision applications,
+
+596
+00:29:54,720 --> 00:29:56,080
+dealing with images.
+
+597
+00:29:56,080 --> 00:30:00,480
+And then we'll talk finally
+about sequence models.
+
+598
+00:30:00,480 --> 00:30:04,320
+So sequences could be time
+series or sequences of texts,
+
+599
+00:30:04,320 --> 00:30:04,980
+like words.
+
+600
+00:30:04,980 --> 00:30:07,520
+So I'll touch on the
+transformer network
+
+601
+00:30:07,520 --> 00:30:12,590
+that power law the
+GenAI revolution.
+
+602
+00:30:12,590 --> 00:30:15,540
+And so throughout
+learning-- through learning
+
+603
+00:30:15,540 --> 00:30:18,580
+all of these things,
+I hope that you all
+
+604
+00:30:18,580 --> 00:30:22,020
+gain a large tool
+chest that will
+
+605
+00:30:22,020 --> 00:30:25,900
+enable you to tackle an
+almost bewildering range
+
+606
+00:30:25,900 --> 00:30:27,242
+of applications.
+
+607
+00:30:27,242 --> 00:30:28,700
+I think one of the
+things I've most
+
+608
+00:30:28,700 --> 00:30:31,700
+enjoyed as an AI
+person is it turns out
+
+609
+00:30:31,700 --> 00:30:33,820
+when you work in
+AI, there are so
+
+610
+00:30:33,820 --> 00:30:40,460
+many other teams that have data
+and that could use our help.
+
+611
+00:30:40,460 --> 00:30:44,620
+So I feel like as an AI
+person, I somehow bizarrely
+
+612
+00:30:44,620 --> 00:30:49,020
+had the right to play in
+building autonomous helicopters
+
+613
+00:30:49,020 --> 00:30:53,315
+or helping companies, I don't
+know, place more relevant ads.
+
+614
+00:30:53,315 --> 00:30:54,940
+Maybe not the most
+inspiring thing I've
+
+615
+00:30:54,940 --> 00:30:57,398
+worked on, but certainly very
+lucrative for some companies.
+
+616
+00:30:57,398 --> 00:31:01,420
+Or improve web search
+rankings or improve safety,
+
+617
+00:31:01,420 --> 00:31:04,540
+get rid of the negative toxic
+results that you may not want,
+
+618
+00:31:04,540 --> 00:31:08,700
+search results to come back on,
+or improve e-commerce retailing,
+
+619
+00:31:08,700 --> 00:31:11,600
+or improve speech
+recognition, or help
+
+620
+00:31:11,600 --> 00:31:13,846
+ships be more fuel efficient.
+
+621
+00:31:13,846 --> 00:31:15,720
+All these are real examples.
+
+622
+00:31:15,720 --> 00:31:18,000
+Or fight fraud, which is
+actually really exciting
+
+623
+00:31:18,000 --> 00:31:21,040
+when you're fighting financial
+fraud, which is obviously
+
+624
+00:31:21,040 --> 00:31:25,340
+a bad thing but when
+you're fighting fraud,
+
+625
+00:31:25,340 --> 00:31:27,920
+sometimes you wake up in the
+morning and your team's alerted
+
+626
+00:31:27,920 --> 00:31:29,708
+you that there's a
+new scam, and then
+
+627
+00:31:29,708 --> 00:31:32,000
+you just have to go and fight
+them and build algorithms
+
+628
+00:31:32,000 --> 00:31:33,875
+in real-time and you
+know that every hour you
+
+629
+00:31:33,875 --> 00:31:37,020
+take, more money actually
+leaves the financial system.
+
+630
+00:31:37,020 --> 00:31:39,320
+So it's kind of awful that
+there's financial fraud,
+
+631
+00:31:39,320 --> 00:31:41,528
+but it's actually one of
+the most exhilarating things
+
+632
+00:31:41,528 --> 00:31:44,080
+I've worked on, because
+literally every hour you
+
+633
+00:31:44,080 --> 00:31:47,260
+are slower to
+formulate a response,
+
+634
+00:31:47,260 --> 00:31:51,360
+you know more dollars are
+leaking out every hour.
+
+635
+00:31:51,360 --> 00:31:56,840
+Anyway, so somehow when you have
+this two sets of deep learning,
+
+636
+00:31:56,840 --> 00:31:59,800
+you just have a bewildering
+right to play or ability
+
+637
+00:31:59,800 --> 00:32:04,400
+to play in a huge
+range of applications
+
+638
+00:32:04,400 --> 00:32:05,720
+that could use your help.
+
+639
+00:32:05,720 --> 00:32:08,140
+And I think on
+campus too, there's
+
+640
+00:32:08,140 --> 00:32:13,140
+so many departments
+across campus,
+
+641
+00:32:13,140 --> 00:32:17,100
+in the sciences, engineering,
+humanities, business that
+
+642
+00:32:17,100 --> 00:32:20,560
+have interesting data where
+your skill set will let you,
+
+643
+00:32:20,560 --> 00:32:24,360
+if you choose, collaborate with
+them to do interesting projects.
+
+644
+00:32:24,360 --> 00:32:28,380
+And I find, for
+example, bizarrely some
+
+645
+00:32:28,380 --> 00:32:30,620
+of my PhD students are
+working on climate science.
+
+646
+00:32:30,620 --> 00:32:32,620
+It's like, what do I know
+about climate science?
+
+647
+00:32:32,620 --> 00:32:33,860
+I wish I knew more.
+
+648
+00:32:33,860 --> 00:32:37,300
+But using machine
+learning tools,
+
+649
+00:32:37,300 --> 00:32:39,140
+we could actually work
+on climate modeling
+
+650
+00:32:39,140 --> 00:32:41,980
+and geoengineering
+and just play in all
+
+651
+00:32:41,980 --> 00:32:48,080
+of these hopefully important
+and interesting places.
+
+652
+00:32:48,080 --> 00:32:50,380
+So I hope that you have
+that skill set as well
+
+653
+00:32:50,380 --> 00:32:51,800
+by the end of this quarter.
+
+654
+00:32:51,800 --> 00:32:52,900
+Yeah.
+
+655
+00:32:52,900 --> 00:32:56,300
+Do you have enough data for
+neural network versus it's
+
+656
+00:32:56,300 --> 00:33:00,060
+better suited for other
+like machine learning?
+
+657
+00:33:00,060 --> 00:33:00,712
+Yeah.
+
+658
+00:33:00,712 --> 00:33:02,420
+So how do you know if
+you're enough-- how
+
+659
+00:33:02,420 --> 00:33:06,000
+do you know if you have enough
+data for a neural network?
+
+660
+00:33:06,000 --> 00:33:09,480
+It turns out to be
+really difficult to know.
+
+661
+00:33:09,480 --> 00:33:12,600
+So if it's an application
+that others have worked on
+
+662
+00:33:12,600 --> 00:33:15,900
+or that you've worked on before,
+then you may have a sense.
+
+663
+00:33:15,900 --> 00:33:21,060
+So for example, because I
+worked on face recognition,
+
+664
+00:33:21,060 --> 00:33:23,840
+I have a sense, if you want to
+train a face recognition system
+
+665
+00:33:23,840 --> 00:33:25,900
+from scratch, having
+50,000 images,
+
+666
+00:33:25,900 --> 00:33:29,240
+50,000 unique faces
+is pretty good.
+
+667
+00:33:29,240 --> 00:33:30,800
+So if you worked on
+it or if you read
+
+668
+00:33:30,800 --> 00:33:33,980
+the research literature for
+something people have worked on,
+
+669
+00:33:33,980 --> 00:33:37,360
+that would give you a good
+sense for how much data could
+
+670
+00:33:37,360 --> 00:33:39,680
+be enough to get you started.
+
+671
+00:33:39,680 --> 00:33:43,440
+But then for greenfield
+brand new project
+
+672
+00:33:43,440 --> 00:33:46,120
+that no one in the world
+has worked on before,
+
+673
+00:33:46,120 --> 00:33:49,600
+if you can't find parallel
+projects that are comparable,
+
+674
+00:33:49,600 --> 00:33:51,140
+it could be really hard to tell.
+
+675
+00:33:51,140 --> 00:33:55,417
+And so common advice for
+completely greenfield-- sorry,
+
+676
+00:33:55,417 --> 00:33:57,000
+greenfield I mean a
+brand new project,
+
+677
+00:33:57,000 --> 00:33:58,400
+just to more than things--
+
+678
+00:33:58,400 --> 00:34:02,210
+So for example, if someone has
+invented a new medical device
+
+679
+00:34:02,210 --> 00:34:05,350
+and no one has collected this
+type of blood specimen data
+
+680
+00:34:05,350 --> 00:34:07,390
+before, it's really
+hard to tell.
+
+681
+00:34:07,390 --> 00:34:09,510
+And in that case, the
+most common advice
+
+682
+00:34:09,510 --> 00:34:13,949
+is get a little bit of data
+and just try training a model.
+
+683
+00:34:13,949 --> 00:34:17,429
+And the degree to which your
+initial model works or does not
+
+684
+00:34:17,429 --> 00:34:19,989
+work, that will help you
+hone your perspective
+
+685
+00:34:19,989 --> 00:34:21,770
+on how much data may be needed.
+
+686
+00:34:21,770 --> 00:34:25,830
+And you may be surprised, maybe
+100 data points is all you need.
+
+687
+00:34:25,830 --> 00:34:27,770
+Sometimes we've been
+surprised by that.
+
+688
+00:34:27,770 --> 00:34:31,442
+And then sometimes we've also
+worked on applications where
+
+689
+00:34:31,442 --> 00:34:33,270
+100 billion data
+points later, we're
+
+690
+00:34:33,270 --> 00:34:36,150
+still trying to get
+a lot more data.
+
+691
+00:34:36,150 --> 00:34:39,250
+And I find it really
+difficult to tell.
+
+692
+00:34:39,250 --> 00:34:39,750
+OK.
+
+693
+00:34:39,750 --> 00:34:41,070
+Good questions.
+
+694
+00:34:41,070 --> 00:34:43,710
+Anything else?
+
+695
+00:34:43,710 --> 00:34:46,270
+So this is a good time for me
+to pause and take questions
+
+696
+00:34:46,270 --> 00:34:47,670
+because--
+
+697
+00:34:47,670 --> 00:34:51,750
+so what I'm going to do is--
+
+698
+00:34:51,750 --> 00:34:55,270
+what I'm going to do
+after this is switch
+
+699
+00:34:55,270 --> 00:35:00,610
+tracks and talk a little bit
+about exciting trends in AI,
+
+700
+00:35:00,610 --> 00:35:02,530
+recent trends in AI
+that I'm excited about
+
+701
+00:35:02,530 --> 00:35:04,410
+and how I view the AI landscape.
+
+702
+00:35:04,410 --> 00:35:06,410
+So this is actually
+a good breakpoint
+
+703
+00:35:06,410 --> 00:35:09,290
+to see if people have
+other questions before I
+
+704
+00:35:09,290 --> 00:35:11,730
+talk about some trends in AI.
+
+705
+00:35:11,730 --> 00:35:13,370
+Anything else?
+
+706
+00:35:13,370 --> 00:35:14,770
+Yeah, please.
+
+707
+00:35:14,770 --> 00:35:17,130
+When you were
+differentiating between AI
+
+708
+00:35:17,130 --> 00:35:20,170
+and deep learning for
+those different tasks,
+
+709
+00:35:20,170 --> 00:35:22,250
+what were like the
+distinguishing features
+
+710
+00:35:22,250 --> 00:35:22,990
+of GenAI?
+
+711
+00:35:22,990 --> 00:35:26,250
+Was it this transformer versus
+non-transformer or how would
+
+712
+00:35:26,250 --> 00:35:28,610
+you describe the difference?
+
+713
+00:35:28,610 --> 00:35:32,330
+So I guess-- let's see.
+
+714
+00:35:32,330 --> 00:35:36,490
+many of these terms are
+blurry and fuzz a little bit
+
+715
+00:35:36,490 --> 00:35:37,630
+into each other.
+
+716
+00:35:37,630 --> 00:35:41,210
+But when I refer
+to generative AI,
+
+717
+00:35:41,210 --> 00:35:44,530
+generative AI is
+this body of work
+
+718
+00:35:44,530 --> 00:35:49,690
+that generates texts and
+sometimes also images,
+
+719
+00:35:49,690 --> 00:35:53,690
+sometimes also audio, using
+deep learning algorithms
+
+720
+00:35:53,690 --> 00:35:54,550
+in certain ways.
+
+721
+00:35:54,550 --> 00:35:58,350
+So I think GenAI refers to
+this body of work with most
+
+722
+00:35:58,350 --> 00:36:01,750
+of the center of gravity on
+generating text, maybe also
+
+723
+00:36:01,750 --> 00:36:05,630
+images, and the text generation
+algorithms have been mostly
+
+724
+00:36:05,630 --> 00:36:08,750
+implemented using transformer
+neural networks trained
+
+725
+00:36:08,750 --> 00:36:12,110
+on large amounts of data scraped
+off the internet and elsewhere.
+
+726
+00:36:12,110 --> 00:36:15,430
+So when I refer
+to Gen AI, I guess
+
+727
+00:36:15,430 --> 00:36:18,510
+that's one particular
+application of deep learning
+
+728
+00:36:18,510 --> 00:36:21,230
+models that has given
+us large language
+
+729
+00:36:21,230 --> 00:36:23,430
+models, like ChatGPT
+and Claude, and Gemini,
+
+730
+00:36:23,430 --> 00:36:26,110
+and Meta Llama, and so on.
+
+731
+00:36:26,110 --> 00:36:27,590
+Does that make sense?
+
+732
+00:36:27,590 --> 00:36:29,350
+Yeah, cool.
+
+733
+00:36:29,350 --> 00:36:30,210
+Great.
+
+734
+00:36:30,210 --> 00:36:30,970
+Anything else?
+
+735
+00:36:34,630 --> 00:36:35,190
+Cool.
+
+736
+00:36:35,190 --> 00:36:36,710
+All right.
+
+737
+00:36:36,710 --> 00:36:40,830
+So let me-- can we go
+to the slides, please?
+
+738
+00:36:40,830 --> 00:36:42,830
+One of the nice things
+about this clause is Kian
+
+739
+00:36:42,830 --> 00:36:45,550
+and I can occasionally
+just share with you
+
+740
+00:36:45,550 --> 00:36:49,030
+things we're seeing
+in the broader world.
+
+741
+00:36:49,030 --> 00:36:51,590
+Hey, while we're doing
+that, I'm actually curious.
+
+742
+00:36:51,590 --> 00:36:56,490
+How many of you use a
+specialized AI-assisted coding
+
+743
+00:36:56,490 --> 00:36:59,650
+tool, like Qodo, Cursor,
+Gem CLI, Codex, [INAUDIBLE],
+
+744
+00:36:59,650 --> 00:37:01,430
+Windsurf?
+
+745
+00:37:01,430 --> 00:37:01,930
+Awesome.
+
+746
+00:37:01,930 --> 00:37:03,590
+Almost everyone,
+but not everyone.
+
+747
+00:37:03,590 --> 00:37:05,890
+Interesting.
+
+748
+00:37:05,890 --> 00:37:06,510
+Interesting.
+
+749
+00:37:06,510 --> 00:37:07,830
+Oh, I thought-- interesting.
+
+750
+00:37:07,830 --> 00:37:08,970
+OK, cool.
+
+751
+00:37:08,970 --> 00:37:11,330
+So yeah, one of the
+most exciting things
+
+752
+00:37:11,330 --> 00:37:15,250
+has happened in programming
+is AI-assisted coding.
+
+753
+00:37:15,250 --> 00:37:19,810
+And I feel like I personally
+hope I never, ever
+
+754
+00:37:19,810 --> 00:37:23,115
+have to go back
+to coding by hand.
+
+755
+00:37:23,115 --> 00:37:25,730
+It's just-- it's
+actually interesting.
+
+756
+00:37:25,730 --> 00:37:28,490
+I often work in coffee
+shops on the weekend.
+
+757
+00:37:28,490 --> 00:37:31,290
+And a few weekends ago, I
+was sitting in a coffee shop
+
+758
+00:37:31,290 --> 00:37:35,610
+and sitting next to me was
+someone that was coding by hand
+
+759
+00:37:35,610 --> 00:37:36,950
+and it looked so strange.
+
+760
+00:37:36,950 --> 00:37:39,130
+I just asked them,
+what are you doing?
+
+761
+00:37:39,130 --> 00:37:42,490
+Well, in a respectful way.
+
+762
+00:37:42,490 --> 00:37:46,410
+And it turned out that
+they're doing a homework
+
+763
+00:37:46,410 --> 00:37:49,970
+from some other university
+that required the code by hand.
+
+764
+00:37:49,970 --> 00:37:51,850
+But one of the things
+I find exciting
+
+765
+00:37:51,850 --> 00:37:57,750
+is that individual programmer
+productivity is much higher
+
+766
+00:37:57,750 --> 00:37:59,710
+than it ever used to be.
+
+767
+00:37:59,710 --> 00:38:03,510
+And maybe I want to share with
+you just one thing, what I see.
+
+768
+00:38:03,510 --> 00:38:06,090
+So I find that in the
+software work that I do,
+
+769
+00:38:06,090 --> 00:38:08,450
+I maybe categorize
+it into two buckets.
+
+770
+00:38:08,450 --> 00:38:11,030
+One is building quick
+and dirty prototypes
+
+771
+00:38:11,030 --> 00:38:14,430
+to see if something works,
+and then sometimes I
+
+772
+00:38:14,430 --> 00:38:17,130
+write production grade,
+enterprise grade,
+
+773
+00:38:17,130 --> 00:38:20,830
+robust, reliable software
+that has a scale.
+
+774
+00:38:20,830 --> 00:38:23,230
+And I find that's where
+AI-assisted coding has
+
+775
+00:38:23,230 --> 00:38:24,910
+made the biggest
+difference, is building
+
+776
+00:38:24,910 --> 00:38:26,973
+the quick and dirty prototypes.
+
+777
+00:38:26,973 --> 00:38:28,390
+Whereas I think
+actually literally
+
+778
+00:38:28,390 --> 00:38:31,430
+one of my collaborators
+used one of the agent
+
+779
+00:38:31,430 --> 00:38:33,890
+decoders that I named,
+but I won't say which one,
+
+780
+00:38:33,890 --> 00:38:37,090
+but literally this morning he
+sent me a Slack message saying,
+
+781
+00:38:37,090 --> 00:38:41,310
+sorry, this agent decoder had
+a database migration error
+
+782
+00:38:41,310 --> 00:38:45,430
+and we just wiped out all
+of the database records,
+
+783
+00:38:45,430 --> 00:38:48,990
+fortunately for a test
+application with five users.
+
+784
+00:38:48,990 --> 00:38:50,170
+But it did happen.
+
+785
+00:38:50,170 --> 00:38:51,190
+So I find it--
+
+786
+00:38:51,190 --> 00:38:52,210
+oh, great.
+
+787
+00:38:52,210 --> 00:38:53,290
+Thank you.
+
+788
+00:38:53,290 --> 00:38:56,090
+So I find that my
+use of the agent
+
+789
+00:38:56,090 --> 00:38:58,730
+decoders for the
+production grade software
+
+790
+00:38:58,730 --> 00:39:01,450
+is more careful,
+whereas for building
+
+791
+00:39:01,450 --> 00:39:04,305
+quick and dirty prototypes, it--
+
+792
+00:39:04,305 --> 00:39:05,930
+so long as you're
+not shipping software
+
+793
+00:39:05,930 --> 00:39:10,250
+in an irresponsible way,
+quick and dirty prototypes
+
+794
+00:39:10,250 --> 00:39:12,362
+have a lot fewer dependencies.
+
+795
+00:39:12,362 --> 00:39:14,570
+You actually don't need to
+integrate with legacy data
+
+796
+00:39:14,570 --> 00:39:15,810
+infrastructure.
+
+797
+00:39:15,810 --> 00:39:18,530
+And then I'm going
+to say something
+
+798
+00:39:18,530 --> 00:39:21,230
+that feels like something
+I'm not supposed to say,
+
+799
+00:39:21,230 --> 00:39:25,050
+but I'll say it
+anyway, which is I
+
+800
+00:39:25,050 --> 00:39:30,030
+find that when I
+am running code,
+
+801
+00:39:30,030 --> 00:39:33,850
+I find that people
+often worry about safety
+
+802
+00:39:33,850 --> 00:39:37,650
+and reliability of software
+or security of software.
+
+803
+00:39:37,650 --> 00:39:39,290
+So one thing I often
+say to my teams
+
+804
+00:39:39,290 --> 00:39:42,330
+is if you're building
+a prototype that
+
+805
+00:39:42,330 --> 00:39:45,170
+only runs on your own
+laptop and doesn't
+
+806
+00:39:45,170 --> 00:39:47,010
+use any sensitive
+information, so there's
+
+807
+00:39:47,010 --> 00:39:48,850
+no risk to sensitive
+information,
+
+808
+00:39:48,850 --> 00:39:52,790
+then unless you are
+planning to maliciously hack
+
+809
+00:39:52,790 --> 00:39:56,270
+into your own laptop,
+the security requirements
+
+810
+00:39:56,270 --> 00:39:57,290
+can be lower.
+
+811
+00:39:57,290 --> 00:40:03,270
+And so I find that when building
+quick and dirty prototypes,
+
+812
+00:40:03,270 --> 00:40:06,110
+having a sandbox environment
+that lets you operate within it
+
+813
+00:40:06,110 --> 00:40:08,870
+quickly means that you can
+just make a lot of decisions
+
+814
+00:40:08,870 --> 00:40:11,910
+faster without worrying as much
+about scalability or security
+
+815
+00:40:11,910 --> 00:40:14,948
+or reliability, so long as
+the sandbox environment means
+
+816
+00:40:14,948 --> 00:40:17,490
+this stuff isn't going to get
+out there, or leak information,
+
+817
+00:40:17,490 --> 00:40:19,070
+or create a security loophole.
+
+818
+00:40:19,070 --> 00:40:24,270
+So that's part of what
+lets us move much faster.
+
+819
+00:40:24,270 --> 00:40:28,110
+And so I find that because
+of the speed of prototyping,
+
+820
+00:40:28,110 --> 00:40:31,790
+so long as you can do
+so in a responsible way
+
+821
+00:40:31,790 --> 00:40:34,030
+to pursue innovative
+ideas, my teams
+
+822
+00:40:34,030 --> 00:40:38,770
+will increasingly try 20
+things and see what sticks.
+
+823
+00:40:38,770 --> 00:40:42,390
+And because-- and I
+know that a lot of teams
+
+824
+00:40:42,390 --> 00:40:45,670
+are lamenting that many
+proof of concepts never
+
+825
+00:40:45,670 --> 00:40:46,787
+make it into production.
+
+826
+00:40:46,787 --> 00:40:48,370
+You try something
+and it doesn't work.
+
+827
+00:40:48,370 --> 00:40:51,610
+And some teams are
+feeling angst about that.
+
+828
+00:40:51,610 --> 00:40:53,450
+I actually have
+a different view.
+
+829
+00:40:53,450 --> 00:40:55,450
+I think if the cost
+of a proof of concept
+
+830
+00:40:55,450 --> 00:40:59,810
+is low enough, then who cares
+if you have to do 20 of them
+
+831
+00:40:59,810 --> 00:41:02,130
+and that's the price for
+finding the one or two
+
+832
+00:41:02,130 --> 00:41:04,610
+things that works really well.
+
+833
+00:41:04,610 --> 00:41:06,850
+So one thing you hear
+about in this course
+
+834
+00:41:06,850 --> 00:41:10,850
+is both when you're building a
+machine learning application,
+
+835
+00:41:10,850 --> 00:41:14,090
+you usually don't know
+what's going to happen.
+
+836
+00:41:14,090 --> 00:41:16,050
+And there's a specific
+reason for that.
+
+837
+00:41:16,050 --> 00:41:19,550
+The reason is the output of
+a machine learning algorithm,
+
+838
+00:41:19,550 --> 00:41:22,290
+it depends both on
+the code you write
+
+839
+00:41:22,290 --> 00:41:24,930
+as well as on the data
+you're training on.
+
+840
+00:41:24,930 --> 00:41:28,570
+And while you control
+the code 100%,
+
+841
+00:41:28,570 --> 00:41:33,550
+you don't really know usually
+what's really in the data,
+
+842
+00:41:33,550 --> 00:41:37,530
+in the weird and wonderful data
+that the world has given you.
+
+843
+00:41:37,530 --> 00:41:40,690
+So, for example, worked on
+speech recognition a lot
+
+844
+00:41:40,690 --> 00:41:42,970
+in multiple companies,
+in multiple contexts.
+
+845
+00:41:42,970 --> 00:41:45,890
+And even now when I work
+on speech recognition,
+
+846
+00:41:45,890 --> 00:41:48,560
+I'm still sometimes a
+little bit surprised
+
+847
+00:41:48,560 --> 00:41:52,320
+that, oh, this data has people
+of a certain accent more
+
+848
+00:41:52,320 --> 00:41:56,260
+than I realize, or people
+somehow speak faster,
+
+849
+00:41:56,260 --> 00:41:58,320
+or, boy, there's a lot
+of background noise
+
+850
+00:41:58,320 --> 00:42:00,240
+when people use it in a car.
+
+851
+00:42:00,240 --> 00:42:02,400
+So even though I worked
+on speech recognition
+
+852
+00:42:02,400 --> 00:42:03,720
+multiple times--
+
+853
+00:42:03,720 --> 00:42:06,377
+oh, and actually one recent
+example or application,
+
+854
+00:42:06,377 --> 00:42:08,960
+I was actually surprised by the
+number of background speakers.
+
+855
+00:42:08,960 --> 00:42:11,500
+They talked to us, they come
+and talk to a different person,
+
+856
+00:42:11,500 --> 00:42:14,440
+then they talk to us and
+then we get confused.
+
+857
+00:42:14,440 --> 00:42:17,080
+So I find that the data
+that the world gives us
+
+858
+00:42:17,080 --> 00:42:19,600
+is often weird and wonderful.
+
+859
+00:42:19,600 --> 00:42:24,520
+And so it is only by building
+a system that you then
+
+860
+00:42:24,520 --> 00:42:27,480
+start to discover these
+things in the data that
+
+861
+00:42:27,480 --> 00:42:30,320
+lets you make progress.
+
+862
+00:42:30,320 --> 00:42:32,240
+And with a lot of
+software applications
+
+863
+00:42:32,240 --> 00:42:34,800
+as well, separate from
+machine learning applications,
+
+864
+00:42:34,800 --> 00:42:37,200
+a lot of what I end
+up having to discover
+
+865
+00:42:37,200 --> 00:42:40,200
+is what do users actually want?
+
+866
+00:42:40,200 --> 00:42:42,205
+So again, I control
+my code 100%.
+
+867
+00:42:42,205 --> 00:42:43,580
+I can write whatever
+code I want.
+
+868
+00:42:43,580 --> 00:42:45,000
+I control that.
+
+869
+00:42:45,000 --> 00:42:47,420
+But you don't get to
+control how your users will
+
+870
+00:42:47,420 --> 00:42:49,220
+react to your system.
+
+871
+00:42:49,220 --> 00:42:53,260
+And I find that our ability to
+build quick and dirty prototypes
+
+872
+00:42:53,260 --> 00:42:57,220
+rapidly, both to discover
+what's in the data
+
+873
+00:42:57,220 --> 00:43:00,500
+and also to particular users to
+see if they like it, that allows
+
+874
+00:43:00,500 --> 00:43:02,980
+us to drive faster
+feedback loops than
+
+875
+00:43:02,980 --> 00:43:06,020
+was ever possible
+before to then help
+
+876
+00:43:06,020 --> 00:43:10,570
+us build more and more
+valuable software.
+
+877
+00:43:10,570 --> 00:43:13,580
+And I think--
+
+878
+00:43:13,580 --> 00:43:18,780
+I know that the mantra move fast
+and break things got a bad rep
+
+879
+00:43:18,780 --> 00:43:21,500
+because it broke things.
+
+880
+00:43:21,500 --> 00:43:25,020
+And I find that
+some teams took away
+
+881
+00:43:25,020 --> 00:43:27,940
+from this that we
+should not move fast,
+
+882
+00:43:27,940 --> 00:43:29,480
+but I think that's a mistake.
+
+883
+00:43:29,480 --> 00:43:33,180
+So what I usually tell my teams
+is move fast and be responsible.
+
+884
+00:43:33,180 --> 00:43:38,510
+And despite all the hype about
+AI extinction risk or AI--
+
+885
+00:43:38,510 --> 00:43:42,300
+all that somewhat bizarre
+hype in my opinion,
+
+886
+00:43:42,300 --> 00:43:44,980
+I find that when teams
+move really fast,
+
+887
+00:43:44,980 --> 00:43:47,280
+we can then implement
+things, test it out
+
+888
+00:43:47,280 --> 00:43:50,160
+in a responsible way, and much
+more quickly identify problems
+
+889
+00:43:50,160 --> 00:43:50,860
+and fix them.
+
+890
+00:43:50,860 --> 00:43:54,560
+So I find that a lot of most
+responsible teams I know, teams
+
+891
+00:43:54,560 --> 00:43:57,105
+able to really get stuff to
+work really quickly, they
+
+892
+00:43:57,105 --> 00:43:59,480
+tend to be some of the fastest
+moving teams, because it's
+
+893
+00:43:59,480 --> 00:44:02,800
+that speed of execution that
+lets you finally implement
+
+894
+00:44:02,800 --> 00:44:04,313
+it, figure out
+what's in your data,
+
+895
+00:44:04,313 --> 00:44:06,480
+figure out what your users
+want, and that's the best
+
+896
+00:44:06,480 --> 00:44:08,022
+way to figure out
+what could actually
+
+897
+00:44:08,022 --> 00:44:12,252
+go wrong to then make sure
+things don't actually go wrong.
+
+898
+00:44:12,252 --> 00:44:21,920
+Ans somewhat related to that
+is AI coding assistance.
+
+899
+00:44:21,920 --> 00:44:25,760
+And I assume almost everyone
+or everyone in this class
+
+900
+00:44:25,760 --> 00:44:28,280
+knows how to code.
+
+901
+00:44:28,280 --> 00:44:31,140
+If you are where you
+haven't learned to code yet,
+
+902
+00:44:31,140 --> 00:44:33,920
+you probably might not want
+to take this class yet.
+
+903
+00:44:33,920 --> 00:44:37,000
+But I find that there have
+been people, including
+
+904
+00:44:37,000 --> 00:44:40,382
+very senior business
+leaders, advising others
+
+905
+00:44:40,382 --> 00:44:41,840
+to not learn to
+code in the grounds
+
+906
+00:44:41,840 --> 00:44:43,740
+that AI will automate it.
+
+907
+00:44:43,740 --> 00:44:45,323
+And I want to share
+this with you,
+
+908
+00:44:45,323 --> 00:44:47,240
+not because I think you
+need to learn to code,
+
+909
+00:44:47,240 --> 00:44:49,400
+but because I hope you
+help me spread the word.
+
+910
+00:44:49,400 --> 00:44:52,140
+Go to all of your friends and
+other departments to tell them
+
+911
+00:44:52,140 --> 00:44:54,725
+this advice do not
+learn to code I
+
+912
+00:44:54,725 --> 00:44:57,100
+think we'll look back on this
+as some of the worst career
+
+913
+00:44:57,100 --> 00:44:59,660
+advice ever given.
+
+914
+00:44:59,660 --> 00:45:02,840
+And the reason is, when
+coding becomes easier,
+
+915
+00:45:02,840 --> 00:45:05,580
+more people should do
+it rather than fewer.
+
+916
+00:45:05,580 --> 00:45:09,500
+So when humanity went from punch
+cards to keyboard and terminal,
+
+917
+00:45:09,500 --> 00:45:14,380
+that made coding easier, and
+so more people learn to code.
+
+918
+00:45:14,380 --> 00:45:16,860
+When we went from assembly
+language to modern--
+
+919
+00:45:16,860 --> 00:45:19,620
+well, at that time, modern
+programming languages,
+
+920
+00:45:19,620 --> 00:45:22,060
+that made coding easier,
+more people learn to code.
+
+921
+00:45:22,060 --> 00:45:26,100
+I went back, I actually
+found these papers on when--
+
+922
+00:45:26,100 --> 00:45:29,220
+these articles on when COBOL,
+very old school programming
+
+923
+00:45:29,220 --> 00:45:32,740
+language, was invented,
+and there were actually
+
+924
+00:45:32,740 --> 00:45:35,740
+people that said, oh, wow, now
+we have the COBOL programming
+
+925
+00:45:35,740 --> 00:45:36,540
+language.
+
+926
+00:45:36,540 --> 00:45:37,720
+Coding is so easy.
+
+927
+00:45:37,720 --> 00:45:39,740
+Who needs programmers anymore?
+
+928
+00:45:39,740 --> 00:45:43,360
+And obviously, the
+opposite happened.
+
+929
+00:45:43,360 --> 00:45:48,200
+Went from text editors to IDEs
+and then AI-assisted coding.
+
+930
+00:45:48,200 --> 00:45:52,640
+As coding becomes easier,
+people should code a lot more.
+
+931
+00:45:52,640 --> 00:45:54,560
+A lot more people
+should learn to code.
+
+932
+00:45:54,560 --> 00:45:58,120
+And the other thing
+I'm seeing is, just
+
+933
+00:45:58,120 --> 00:45:59,880
+something that's been
+on people's minds,
+
+934
+00:45:59,880 --> 00:46:04,280
+I know that unemployment
+of recent computer science
+
+935
+00:46:04,280 --> 00:46:07,880
+graduates has ticked up to
+higher than it's been compared
+
+936
+00:46:07,880 --> 00:46:10,120
+to, I think, the last decade.
+
+937
+00:46:10,120 --> 00:46:12,720
+And so I know that to
+people learning CS, that
+
+938
+00:46:12,720 --> 00:46:15,277
+has caused some consternation.
+
+939
+00:46:15,277 --> 00:46:16,860
+So I'm going to share
+my view on that.
+
+940
+00:46:16,860 --> 00:46:21,200
+So it turns out that what
+I see in Silicon Valley
+
+941
+00:46:21,200 --> 00:46:23,600
+and beyond Silicon
+Valley is we just
+
+942
+00:46:23,600 --> 00:46:26,960
+can't find enough people
+with these skills.
+
+943
+00:46:26,960 --> 00:46:29,920
+I know many businesses
+that would--
+
+944
+00:46:29,920 --> 00:46:33,640
+I know large businesses that
+would love to hire 1,000 people
+
+945
+00:46:33,640 --> 00:46:36,840
+with skills in GenAI and deep
+learning and machine learning,
+
+946
+00:46:36,840 --> 00:46:40,660
+but they are struggling to
+find people with these skills.
+
+947
+00:46:40,660 --> 00:46:46,100
+Conversely, there are still
+universities with curricula
+
+948
+00:46:46,100 --> 00:46:48,580
+that has not changed since--
+
+949
+00:46:48,580 --> 00:46:51,140
+has not changed
+much for the last,
+
+950
+00:46:51,140 --> 00:46:54,740
+I don't know, since 2002,
+before the rise of GenAI.
+
+951
+00:46:54,740 --> 00:47:00,080
+And so I do see that many new
+CS grads, not from Stanford,
+
+952
+00:47:00,080 --> 00:47:05,100
+but from around the country,
+are struggling with finding jobs
+
+953
+00:47:05,100 --> 00:47:08,700
+because, unfortunately,
+that older non-AI
+
+954
+00:47:08,700 --> 00:47:13,960
+enabled skill set that
+is not as much in demand.
+
+955
+00:47:13,960 --> 00:47:17,173
+And maybe just for myself,
+today I will not hire someone--
+
+956
+00:47:17,173 --> 00:47:19,340
+I will not hire a software
+engineer that doesn't how
+
+957
+00:47:19,340 --> 00:47:20,798
+to use AI to help
+them with coding.
+
+958
+00:47:20,798 --> 00:47:22,540
+It just doesn't make sense.
+
+959
+00:47:22,540 --> 00:47:24,220
+Same reason why
+I just won't hire
+
+960
+00:47:24,220 --> 00:47:27,000
+someone that uses a punch
+card, keyboard, and terminal.
+
+961
+00:47:27,000 --> 00:47:29,900
+And I think when the world
+evolved from punch card
+
+962
+00:47:29,900 --> 00:47:32,260
+to keyboard and
+terminal, people still
+
+963
+00:47:32,260 --> 00:47:34,620
+had punch card jobs for
+a while, but eventually
+
+964
+00:47:34,620 --> 00:47:36,600
+the punch card jobs
+just went away.
+
+965
+00:47:36,600 --> 00:47:38,280
+It just doesn't
+make sense anymore.
+
+966
+00:47:38,280 --> 00:47:41,960
+So today, there are still
+coding by hand jobs around.
+
+967
+00:47:41,960 --> 00:47:44,285
+Maybe some specialties,
+some very low level
+
+968
+00:47:44,285 --> 00:47:45,660
+coding where AI
+is not very good.
+
+969
+00:47:45,660 --> 00:47:47,868
+It turns out AI is not very
+good at some types of GPU
+
+970
+00:47:47,868 --> 00:47:48,800
+programming.
+
+971
+00:47:48,800 --> 00:47:50,680
+There are some niches
+where coding by hand
+
+972
+00:47:50,680 --> 00:47:52,160
+actually still makes sense.
+
+973
+00:47:52,160 --> 00:47:53,972
+But for building applications--
+
+974
+00:47:57,480 --> 00:48:00,980
+So I actually-- I remember
+just a few months ago now,
+
+975
+00:48:00,980 --> 00:48:03,840
+many months ago now, where
+I interviewed two engineers
+
+976
+00:48:03,840 --> 00:48:05,160
+back to back.
+
+977
+00:48:05,160 --> 00:48:08,880
+One had not yet
+graduated from college,
+
+978
+00:48:08,880 --> 00:48:11,540
+but was highly on
+top of GenAI coding.
+
+979
+00:48:11,540 --> 00:48:14,200
+So spoke with that candidate,
+knew how to use AI,
+
+980
+00:48:14,200 --> 00:48:16,280
+built programs and
+could sell them quickly.
+
+981
+00:48:16,280 --> 00:48:18,920
+Right after that, I
+also interviewed someone
+
+982
+00:48:18,920 --> 00:48:21,920
+with 10 years of experience
+as a full stack engineer,
+
+983
+00:48:21,920 --> 00:48:25,460
+but whose skill set was exactly
+the same as their 2002 skill
+
+984
+00:48:25,460 --> 00:48:25,960
+set.
+
+985
+00:48:25,960 --> 00:48:28,360
+Had not tried out any
+AI-assisted coding.
+
+986
+00:48:28,360 --> 00:48:30,360
+Really good skills,
+full stack engineer
+
+987
+00:48:30,360 --> 00:48:32,240
+with 10 years of experience.
+
+988
+00:48:32,240 --> 00:48:34,040
+And it was actually
+really clear to me,
+
+989
+00:48:34,040 --> 00:48:37,300
+I picked the fresh college
+grad where he had not--
+
+990
+00:48:37,300 --> 00:48:39,380
+he was about to
+graduate, over someone
+
+991
+00:48:39,380 --> 00:48:41,180
+with 10 years of experience.
+
+992
+00:48:41,180 --> 00:48:45,220
+So I think making sure you
+master these skills are
+
+993
+00:48:45,220 --> 00:48:46,240
+really important.
+
+994
+00:48:46,240 --> 00:48:52,900
+And what I'm seeing is there is
+a very large gap that businesses
+
+995
+00:48:52,900 --> 00:48:59,100
+are having a hard time filling
+for people with these skills.
+
+996
+00:48:59,100 --> 00:49:03,140
+But the demand
+for the 2022 skill
+
+997
+00:49:03,140 --> 00:49:06,860
+set, software engineering, full
+site engineering skill set,
+
+998
+00:49:06,860 --> 00:49:10,452
+that is not there.
+
+999
+00:49:10,452 --> 00:49:12,300
+So I think--
+
+1000
+00:49:12,300 --> 00:49:17,420
+And then in terms of
+AI-assisted coding,
+
+1001
+00:49:17,420 --> 00:49:21,960
+I find that CS fundamentals
+really are important.
+
+1002
+00:49:21,960 --> 00:49:24,700
+So in addition-- so I
+know I hired someone,
+
+1003
+00:49:24,700 --> 00:49:27,100
+a fresh college grad over
+someone 10 years experience.
+
+1004
+00:49:27,100 --> 00:49:27,940
+True story.
+
+1005
+00:49:27,940 --> 00:49:30,260
+There's actually one other
+part to this story, which
+
+1006
+00:49:30,260 --> 00:49:33,020
+is with respect to all of
+the above, the graduate
+
+1007
+00:49:33,020 --> 00:49:35,650
+from college, the best
+programmers I know are also not
+
+1008
+00:49:35,650 --> 00:49:36,550
+fresh college grads.
+
+1009
+00:49:36,550 --> 00:49:38,630
+No disrespect intended
+to fresh college grads.
+
+1010
+00:49:38,630 --> 00:49:40,570
+Some are about to
+graduate from Stanford.
+
+1011
+00:49:40,570 --> 00:49:42,890
+The best programmers
+I know are really
+
+1012
+00:49:42,890 --> 00:49:47,770
+on top of AI-assisted coding and
+additionally deeply understand
+
+1013
+00:49:47,770 --> 00:49:49,970
+computer science fundamentals.
+
+1014
+00:49:49,970 --> 00:49:52,690
+So it turns out--
+maybe I'll illustrate
+
+1015
+00:49:52,690 --> 00:49:54,410
+this with a quick story.
+
+1016
+00:49:54,410 --> 00:49:57,010
+When I was teaching
+an online course,
+
+1017
+00:49:57,010 --> 00:49:59,290
+my team wanted to generate
+background pictures
+
+1018
+00:49:59,290 --> 00:50:01,810
+like this just for decoration.
+
+1019
+00:50:01,810 --> 00:50:04,490
+So when I was
+working on this, this
+
+1020
+00:50:04,490 --> 00:50:06,370
+is, of course, generative
+AI for everyone,
+
+1021
+00:50:06,370 --> 00:50:08,970
+I was working with a
+collaborator, Tommy Nelson,
+
+1022
+00:50:08,970 --> 00:50:11,050
+that understood art history.
+
+1023
+00:50:11,050 --> 00:50:14,870
+And so my collaborator
+knew the language of art.
+
+1024
+00:50:14,870 --> 00:50:17,630
+He knew the artistic genre,
+inspiration, the palette,
+
+1025
+00:50:17,630 --> 00:50:20,850
+so he could prompt Midjourney
+AI image generation
+
+1026
+00:50:20,850 --> 00:50:22,050
+with the language of art.
+
+1027
+00:50:22,050 --> 00:50:25,730
+And so he could generate
+beautiful pictures like these.
+
+1028
+00:50:25,730 --> 00:50:29,170
+In contrast, I don't
+know art history.
+
+1029
+00:50:29,170 --> 00:50:30,650
+I wish I did.
+
+1030
+00:50:30,650 --> 00:50:33,590
+And so all I could do
+was go to Midjourney
+
+1031
+00:50:33,590 --> 00:50:36,590
+or AI image generation
+and type, please
+
+1032
+00:50:36,590 --> 00:50:39,830
+make pretty pictures
+of robots for me,
+
+1033
+00:50:39,830 --> 00:50:43,870
+and I could never get the
+control that my collaborator
+
+1034
+00:50:43,870 --> 00:50:46,530
+Tommy could to generate
+pictures like these,
+
+1035
+00:50:46,530 --> 00:50:51,750
+which is why we use all of
+his pictures and none of mine.
+
+1036
+00:50:51,750 --> 00:50:54,340
+And I'm seeing the same
+thing in computer science.
+
+1037
+00:50:56,910 --> 00:50:59,590
+One of the most important
+skills for the future
+
+1038
+00:50:59,590 --> 00:51:03,790
+is to understand how
+computers work and understand
+
+1039
+00:51:03,790 --> 00:51:05,790
+how GenAI and deep learning
+and machine learning
+
+1040
+00:51:05,790 --> 00:51:09,410
+work so that you can
+use the language of AI,
+
+1041
+00:51:09,410 --> 00:51:12,830
+use the language of
+these tools to tell
+
+1042
+00:51:12,830 --> 00:51:16,390
+a computer exactly what you
+want so the computer can do it
+
+1043
+00:51:16,390 --> 00:51:17,470
+for you.
+
+1044
+00:51:17,470 --> 00:51:19,670
+And there is actually
+a huge difference
+
+1045
+00:51:19,670 --> 00:51:22,550
+in performance
+between someone that's
+
+1046
+00:51:22,550 --> 00:51:25,990
+learned to just prompt an
+LLM without understanding how
+
+1047
+00:51:25,990 --> 00:51:28,098
+computers or how
+AI really works,
+
+1048
+00:51:28,098 --> 00:51:29,890
+versus people that can
+look at the problem,
+
+1049
+00:51:29,890 --> 00:51:32,930
+analyze it, and then
+with AI-assisted coding,
+
+1050
+00:51:32,930 --> 00:51:36,210
+tell a computer how to
+take the next steps, which
+
+1051
+00:51:36,210 --> 00:51:41,590
+is why I think that CS
+fundamentals is very valuable.
+
+1052
+00:51:41,590 --> 00:51:43,550
+CS fundamentals, machine
+learning fundamentals,
+
+1053
+00:51:43,550 --> 00:51:46,830
+deep learning fundamentals,
+I and my teams,
+
+1054
+00:51:46,830 --> 00:51:49,570
+we use that knowledge
+like every day
+
+1055
+00:51:49,570 --> 00:51:53,970
+in making pretty
+consequential decisions.
+
+1056
+00:51:53,970 --> 00:51:56,930
+So I hope that you get
+that from this class
+
+1057
+00:51:56,930 --> 00:52:00,170
+and the many other classes
+at Stanford as well.
+
+1058
+00:52:00,170 --> 00:52:01,970
+All right.
+
+1059
+00:52:01,970 --> 00:52:02,470
+All right.
+
+1060
+00:52:02,470 --> 00:52:04,430
+I think I might leave the rest.
+
+1061
+00:52:04,430 --> 00:52:06,470
+There's more I could
+say on trends in AI,
+
+1062
+00:52:06,470 --> 00:52:10,670
+but I find that
+AI-assisted-- oh,
+
+1063
+00:52:10,670 --> 00:52:13,890
+but one thing I hope you do
+really, go to all your friends
+
+1064
+00:52:13,890 --> 00:52:16,170
+in all the departments
+across campus
+
+1065
+00:52:16,170 --> 00:52:19,330
+and encourage them to be a
+builder, because the other thing
+
+1066
+00:52:19,330 --> 00:52:23,250
+I'm seeing is clearly for
+computer science professionals,
+
+1067
+00:52:23,250 --> 00:52:28,370
+use AI-assisted coding, know CS
+fundamentals, build cool stuff.
+
+1068
+00:52:28,370 --> 00:52:31,270
+But for other
+disciplines as well
+
+1069
+00:52:31,270 --> 00:52:33,502
+that is not computer
+science or not AI,
+
+1070
+00:52:33,502 --> 00:52:38,470
+I'm finding that the education
+professional or the climate
+
+1071
+00:52:38,470 --> 00:52:41,750
+scientists, or the
+mechanical engineer that
+
+1072
+00:52:41,750 --> 00:52:45,110
+wants to know how
+to build software
+
+1073
+00:52:45,110 --> 00:52:47,670
+are just more productive
+and get a lot more done
+
+1074
+00:52:47,670 --> 00:52:50,630
+and the barrier to
+entry to AI, to coding
+
+1075
+00:52:50,630 --> 00:52:53,090
+is the lowest it's
+ever been in our lives.
+
+1076
+00:52:53,090 --> 00:52:55,550
+And so this is a good
+time, frankly, for--
+
+1077
+00:52:55,550 --> 00:52:59,430
+I wish every single
+Stanford student
+
+1078
+00:52:59,430 --> 00:53:02,230
+will learn to build
+software with AI assistance.
+
+1079
+00:53:02,230 --> 00:53:06,470
+So I hope you go help
+your friends across campus
+
+1080
+00:53:06,470 --> 00:53:08,630
+to master those skills as well.
+
+1081
+00:53:08,630 --> 00:53:10,750
+OK.
+
+1082
+00:53:10,750 --> 00:53:11,630
+Yeah.
+
+1083
+00:53:11,630 --> 00:53:13,830
+Any other questions?
+
+1084
+00:53:13,830 --> 00:53:15,350
+Yes, go ahead.
+
+1085
+00:53:15,350 --> 00:53:19,030
+What do you say about
+the trend of someone
+
+1086
+00:53:19,030 --> 00:53:21,990
+knowing [INAUDIBLE] but
+also [INAUDIBLE] AI?
+
+1087
+00:53:21,990 --> 00:53:25,670
+I've had a lot of
+industry folks talking
+
+1088
+00:53:25,670 --> 00:53:28,810
+about how they would
+rather hire someone
+
+1089
+00:53:28,810 --> 00:53:33,450
+with 10 years of experience who
+knows just generative AI as is,
+
+1090
+00:53:33,450 --> 00:53:37,250
+like just using coding, rather
+than a fresh undergrad that
+
+1091
+00:53:37,250 --> 00:53:40,810
+does have that deep
+understanding of deep learning,
+
+1092
+00:53:40,810 --> 00:53:44,530
+machine learning, and generative
+AI as fundamentals just
+
+1093
+00:53:44,530 --> 00:53:47,330
+because they have more
+experience building.
+
+1094
+00:53:47,330 --> 00:53:49,750
+Do you see that also?
+
+1095
+00:53:49,750 --> 00:53:50,250
+Yeah.
+
+1096
+00:53:50,250 --> 00:53:53,490
+So let me rank productivity,
+and I'll give you four levels.
+
+1097
+00:53:53,490 --> 00:53:55,407
+I think-- and again,
+and I say this
+
+1098
+00:53:55,407 --> 00:53:56,990
+with a lot of respect
+for individuals.
+
+1099
+00:53:56,990 --> 00:53:58,532
+So if I talk about
+productivity, it's
+
+1100
+00:53:58,532 --> 00:54:01,520
+not with any disrespect or any
+lack of affection for anyone
+
+1101
+00:54:01,520 --> 00:54:02,270
+or for their work.
+
+1102
+00:54:02,270 --> 00:54:06,050
+But I think least productive
+are people with no experience
+
+1103
+00:54:06,050 --> 00:54:08,930
+and don't know AI.
+
+1104
+00:54:08,930 --> 00:54:13,030
+One step on top of that is
+people with less experience
+
+1105
+00:54:13,030 --> 00:54:14,570
+but on a--
+
+1106
+00:54:14,570 --> 00:54:17,490
+sorry, one step
+on top of that is
+
+1107
+00:54:17,490 --> 00:54:20,370
+people with, say, a
+decade of experience but
+
+1108
+00:54:20,370 --> 00:54:23,170
+that don't know AI.
+
+1109
+00:54:23,170 --> 00:54:26,550
+On top of that, I would rather
+take a fresh college grad that
+
+1110
+00:54:26,550 --> 00:54:29,590
+does know AI, but then
+even more productive
+
+1111
+00:54:29,590 --> 00:54:31,950
+is someone with a
+decade of experience
+
+1112
+00:54:31,950 --> 00:54:34,310
+and also really on top of AI.
+
+1113
+00:54:34,310 --> 00:54:36,550
+So I think between
+the two factors,
+
+1114
+00:54:36,550 --> 00:54:39,810
+really harnessing AI
+is very important,
+
+1115
+00:54:39,810 --> 00:54:41,990
+but experience is
+also important.
+
+1116
+00:54:41,990 --> 00:54:46,590
+And so the best developers I
+know, we just work and we just
+
+1117
+00:54:46,590 --> 00:54:49,528
+ship code like no
+one's ever done,
+
+1118
+00:54:49,528 --> 00:54:51,070
+I think, even two
+or three years ago,
+
+1119
+00:54:51,070 --> 00:54:52,970
+are very experienced developers.
+
+1120
+00:54:52,970 --> 00:54:56,110
+They're also very on top of
+how they use the latest AI
+
+1121
+00:54:56,110 --> 00:54:57,010
+technologies.
+
+1122
+00:54:59,822 --> 00:55:00,570
+Yeah, please.
+
+1123
+00:55:00,570 --> 00:55:01,250
+Oh, sorry.
+
+1124
+00:55:01,250 --> 00:55:02,850
+And just one other thing
+about the job market.
+
+1125
+00:55:02,850 --> 00:55:05,142
+I find that a lot of employers
+have not yet figured out
+
+1126
+00:55:05,142 --> 00:55:06,510
+how to hire appropriately.
+
+1127
+00:55:06,510 --> 00:55:08,670
+This has contributed--
+frankly, a lot of employers,
+
+1128
+00:55:08,670 --> 00:55:11,270
+if a company has no one that
+knows GenAI, how do they even
+
+1129
+00:55:11,270 --> 00:55:12,810
+how to interview appropriately?
+
+1130
+00:55:12,810 --> 00:55:15,340
+So that is a problem that
+we need to solve as well.
+
+1131
+00:55:15,340 --> 00:55:16,510
+Go ahead.
+
+1132
+00:55:16,510 --> 00:55:20,190
+What's the value of
+taking classes that are
+
+1133
+00:55:20,190 --> 00:55:23,272
+super into programming and--
+
+1134
+00:55:23,272 --> 00:55:25,022
+like, for example, I'm
+thinking of classes
+
+1135
+00:55:25,022 --> 00:55:30,770
+like C2107, 111 where we're
+not encouraged to use tools
+
+1136
+00:55:30,770 --> 00:55:32,070
+and we're encouraged.
+
+1137
+00:55:32,070 --> 00:55:34,190
+Is that to build
+the fundamentals,
+
+1138
+00:55:34,190 --> 00:55:36,690
+and do you think
+that's necessary still?
+
+1139
+00:55:36,690 --> 00:55:37,730
+Yeah, boy.
+
+1140
+00:55:37,730 --> 00:55:42,450
+So CS107, CS111 are
+great, so do take them
+
+1141
+00:55:42,450 --> 00:55:43,970
+if you're considering them.
+
+1142
+00:55:43,970 --> 00:55:46,350
+I find that the
+fundamentals are important.
+
+1143
+00:55:49,730 --> 00:55:51,523
+How do I put it?
+
+1144
+00:55:51,523 --> 00:55:53,690
+Yeah, I'm not sure what
+else to say other than that.
+
+1145
+00:55:53,690 --> 00:55:57,610
+I think honestly,
+Stanford we're known for--
+
+1146
+00:55:57,610 --> 00:56:00,130
+CS Department we're
+known for really--
+
+1147
+00:56:00,130 --> 00:56:03,330
+I know I'm biased, but I want
+to say probably the best entry
+
+1148
+00:56:03,330 --> 00:56:05,910
+level CS program classes of
+any university in the world,
+
+1149
+00:56:05,910 --> 00:56:07,990
+I'm pretty biased, so
+maybe I shouldn't say that,
+
+1150
+00:56:07,990 --> 00:56:09,970
+but I think the
+excellent course if you
+
+1151
+00:56:09,970 --> 00:56:12,150
+want to learn the fundamentals
+and really solid way,
+
+1152
+00:56:12,150 --> 00:56:14,338
+and the instructors
+are routinely
+
+1153
+00:56:14,338 --> 00:56:16,130
+thinking about how to
+update the curriculum
+
+1154
+00:56:16,130 --> 00:56:17,870
+and realities of GenAI.
+
+1155
+00:56:17,870 --> 00:56:22,598
+So I think they do an
+excellent job with that mix.
+
+1156
+00:56:22,598 --> 00:56:23,954
+Yes, please.
+
+1157
+00:56:23,954 --> 00:56:29,730
+[INAUDIBLE] use GenAI compared
+to just [INAUDIBLE] Cursor
+
+1158
+00:56:29,730 --> 00:56:32,030
+and type a prompt, so.
+
+1159
+00:56:32,030 --> 00:56:32,530
+Yeah.
+
+1160
+00:56:32,530 --> 00:56:34,190
+How do I find someone
+that really knows GenAI
+
+1161
+00:56:34,190 --> 00:56:36,773
+compared to someone that just
+use a tool and types of prompts.
+
+1162
+00:56:36,773 --> 00:56:40,830
+So I feel like in GenAI there
+are two buckets of skill.
+
+1163
+00:56:40,830 --> 00:56:43,010
+And again, by the way,
+deep learning is not GenAI.
+
+1164
+00:56:43,010 --> 00:56:44,450
+Deep learning is also
+a very valuable skill,
+
+1165
+00:56:44,450 --> 00:56:45,510
+but this is about GenAI.
+
+1166
+00:56:45,510 --> 00:56:46,718
+I think there are two things.
+
+1167
+00:56:46,718 --> 00:56:50,270
+One is I find it really
+useful to know how
+
+1168
+00:56:50,270 --> 00:56:51,930
+to use AI coding assistance.
+
+1169
+00:56:51,930 --> 00:56:54,270
+That's really valuable.
+
+1170
+00:56:54,270 --> 00:56:58,610
+But having fundamental
+knowledge helps you do that.
+
+1171
+00:56:58,610 --> 00:57:00,290
+And then the other
+thing is in GenAI,
+
+1172
+00:57:00,290 --> 00:57:01,930
+there's a number
+of emerging tools.
+
+1173
+00:57:01,930 --> 00:57:03,190
+I'm going to toss
+out some buzzwords.
+
+1174
+00:57:03,190 --> 00:57:03,450
+OK.
+
+1175
+00:57:03,450 --> 00:57:05,533
+So if you don't know what
+any of these words mean,
+
+1176
+00:57:05,533 --> 00:57:06,490
+don't worry about it.
+
+1177
+00:57:06,490 --> 00:57:11,230
+But I think there are emerging
+tools, like RAG, Retrieval
+
+1178
+00:57:11,230 --> 00:57:14,090
+Augmented Generation, or
+how to-- vector databases,
+
+1179
+00:57:14,090 --> 00:57:16,130
+how to do evals
+and error analysis,
+
+1180
+00:57:16,130 --> 00:57:19,670
+how to build guardrails,
+how to use knowledge graphs
+
+1181
+00:57:19,670 --> 00:57:23,200
+and interface that with LLM,
+maybe how to do multimodal LLMs,
+
+1182
+00:57:23,200 --> 00:57:25,460
+how to fine-tune the model.
+
+1183
+00:57:25,460 --> 00:57:25,960
+What else?
+
+1184
+00:57:25,960 --> 00:57:27,418
+I'm probably blanking
+on something.
+
+1185
+00:57:27,418 --> 00:57:29,000
+Oh, how to build
+agentic workflows.
+
+1186
+00:57:29,000 --> 00:57:32,580
+But I feel like there are these
+categories of new techniques
+
+1187
+00:57:32,580 --> 00:57:37,700
+built on top of GenAI that
+are like a useful bag of tools
+
+1188
+00:57:37,700 --> 00:57:40,020
+for building applications.
+
+1189
+00:57:40,020 --> 00:57:42,060
+Well, frankly, when I'm
+interviewing candidates,
+
+1190
+00:57:42,060 --> 00:57:44,940
+we still do a fair
+amount of, it is
+
+1191
+00:57:44,940 --> 00:57:48,060
+very GenAI role, is these
+skills I tend to look for,
+
+1192
+00:57:48,060 --> 00:57:51,540
+this set of tools as well
+as AI-assisted coding.
+
+1193
+00:57:51,540 --> 00:57:54,580
+And then-- yeah.
+
+1194
+00:57:54,580 --> 00:57:55,417
+Yeah, please.
+
+1195
+00:57:55,417 --> 00:57:57,500
+I don't know if this
+question is best close to you
+
+1196
+00:57:57,500 --> 00:58:02,100
+or if I'm considering taking
+229 and 230 at the same time,
+
+1197
+00:58:02,100 --> 00:58:04,220
+both of those classes
+are final projects.
+
+1198
+00:58:04,220 --> 00:58:09,400
+So how would you recommend
+thinking about ideas to pursue?
+
+1199
+00:58:09,400 --> 00:58:09,900
+Yeah.
+
+1200
+00:58:09,900 --> 00:58:12,740
+So let me just give one
+tip about CS courses
+
+1201
+00:58:12,740 --> 00:58:15,900
+in general, not just
+229 and CS230, which
+
+1202
+00:58:15,900 --> 00:58:21,360
+is I encourage you to think of
+AI courses at Stanford a bit
+
+1203
+00:58:21,360 --> 00:58:23,320
+like Pokemon.
+
+1204
+00:58:23,320 --> 00:58:26,960
+You got to catch them all.
+
+1205
+00:58:26,960 --> 00:58:30,100
+But in all seriousness, I think
+taking more CS courses in AI,
+
+1206
+00:58:30,100 --> 00:58:31,220
+it is a good thing to do.
+
+1207
+00:58:31,220 --> 00:58:33,780
+Definitely encourage you
+to take multiple courses.
+
+1208
+00:58:33,780 --> 00:58:36,680
+I think in some years we've
+had students do joint projects,
+
+1209
+00:58:36,680 --> 00:58:39,880
+where the standard is higher
+expectations for sure,
+
+1210
+00:58:39,880 --> 00:58:44,280
+but that's one
+option to look at.
+
+1211
+00:58:44,280 --> 00:58:45,120
+Yeah.
+
+1212
+00:58:45,120 --> 00:58:45,700
+All right.
+
+1213
+00:58:45,700 --> 00:58:46,970
+Go for it.
+
+1214
+00:58:46,970 --> 00:58:50,260
+[INAUDIBLE] so I
+guess [INAUDIBLE],
+
+1215
+00:58:50,260 --> 00:58:53,960
+but what is the difference
+pedagogically between 229
+
+1216
+00:58:53,960 --> 00:58:54,980
+and 230?
+
+1217
+00:58:54,980 --> 00:58:59,160
+And what are the projects
+that can be overlapped?
+
+1218
+00:58:59,160 --> 00:59:00,120
+So let's see.
+
+1219
+00:59:00,120 --> 00:59:03,000
+229 and 230 are very
+different courses.
+
+1220
+00:59:03,000 --> 00:59:08,080
+229, well, in 229 we
+have live instructors
+
+1221
+00:59:08,080 --> 00:59:10,780
+doing the lectures in-person
+rather than online content.
+
+1222
+00:59:10,780 --> 00:59:12,220
+So it's not the
+flipped classroom.
+
+1223
+00:59:12,220 --> 00:59:15,880
+So in CS230, we have
+most of the materials
+
+1224
+00:59:15,880 --> 00:59:19,820
+prepared in online videos,
+highly edited online videos.
+
+1225
+00:59:19,820 --> 00:59:23,780
+And then I think the
+other biggest difference
+
+1226
+00:59:23,780 --> 00:59:27,540
+is CS229 is more
+mathematical theoretical,
+
+1227
+00:59:27,540 --> 00:59:32,120
+but it's important math,
+whereas CS230 is more practical.
+
+1228
+00:59:32,120 --> 00:59:35,140
+And so I don't know if we
+do even want a single--
+
+1229
+00:59:35,140 --> 00:59:37,640
+maybe we do one proof
+somewhere in the lectures,
+
+1230
+00:59:37,640 --> 00:59:40,880
+but we just don't do a
+lot of math in CS230.
+
+1231
+00:59:40,880 --> 00:59:43,480
+And it's very-- a lot of machine
+learning is very empirical.
+
+1232
+00:59:43,480 --> 00:59:46,260
+You try and see what works,
+but have a disciplined approach
+
+1233
+00:59:46,260 --> 00:59:47,480
+for exploring what works.
+
+1234
+00:59:47,480 --> 00:59:50,780
+So we focus a lot
+more on that in CS230.
+
+1235
+00:59:50,780 --> 00:59:53,680
+And oh, and 229 covers
+a lot more techniques.
+
+1236
+00:59:53,680 --> 00:59:56,260
+So there are a lot of machine
+learning techniques, supervised
+
+1237
+00:59:56,260 --> 01:00:00,860
+learning, unsupervised learning,
+decision trees, boosting,
+
+1238
+01:00:00,860 --> 01:00:02,180
+K means clustering.
+
+1239
+01:00:02,180 --> 01:00:05,140
+So CS229 covers a
+much broader survey
+
+1240
+01:00:05,140 --> 01:00:07,160
+of a lot of machine
+learning techniques,
+
+1241
+01:00:07,160 --> 01:00:09,580
+whereas CS230 is just one thing.
+
+1242
+01:00:09,580 --> 01:00:12,370
+We go really deep
+into deep learning.
+

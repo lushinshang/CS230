@@ -1,0 +1,229 @@
+/*
+  style.css — 全站通用骨架
+  設計風格：溫暖馬卡龍色系、圓角、柔和陰影、Noto Sans TC / Inter
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+TC:wght@300;400;700&display=swap');
+
+:root{
+  /* 基礎色票 — 馬卡龍 */
+  --bg: #fffaf5;           /* 米白 背景 */
+  --card: #ffffff;         /* 卡片背景 */
+  --accent-blue: #a8d8ff;  /* 粉藍 */
+  --accent-pink: #ffd6e0;  /* 淺粉紅 */
+  --accent-mint: #dff7e9;  /* 淡薄荷綠 */
+  --text: #2b2b2b;         /* 主要文字 */
+  --muted: #6b6b6b;        /* 次要文字 */
+  --muted-strong: #525252; /* 次要文字（高對比） */
+  --glass: rgba(255,255,255,0.6);
+
+  /* 介面量尺 */
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --spacing: 1rem;
+  --shadow-soft: 0 8px 24px rgba(16,24,40,0.08);
+  --shadow-stroke: 0 1px 0 rgba(0,0,0,0.04);
+
+  /* 斷點 */
+  --bp-sm: 480px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+
+  /* 字體微調 */
+  --h1-size: 1.8rem; /* 放大主要標題 */
+  --h2-size: 1.4rem; /* 次要標題 */
+  --btn-font-size: 0.9rem; /* 按鈕字體略微縮小 */
+}
+
+/* Reset / base */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family: 'Noto Sans TC', 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, 'Helvetica Neue', Arial;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+  font-size:16px;
+}
+
+img,svg{max-width:100%;height:auto;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+
+/* Container */
+.container{
+  width:100%;
+  margin-left:auto;margin-right:auto;
+  padding-left:1rem;padding-right:1rem;
+}
+@media (min-width:var(--bp-md)){
+  .container{max-width:720px}
+}
+@media (min-width:var(--bp-lg)){
+  .container{max-width:1100px}
+}
+
+/* Layout helpers */
+.center{display:flex;align-items:center;justify-content:center}
+.stack{display:flex;flex-direction:column;gap:var(--spacing)}
+.row{display:flex;gap:var(--spacing);align-items:center}
+
+/* Card */
+.card{
+  background:var(--card);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-soft);
+  padding:1rem;
+  border:1px solid rgba(14,21,30,0.03);
+}
+
+.rounded-xl{border-radius:var(--radius-lg)}
+.soft-shadow{box-shadow:var(--shadow-soft)}
+
+/* Header / Navbar */
+.site-header{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;padding:1rem 0;
+}
+.brand{
+  display:flex;align-items:center;gap:0.75rem;font-weight:700;font-size:1.1rem
+}
+.brand .logo{
+  width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--accent-blue),var(--accent-pink));
+  box-shadow:var(--shadow-soft);display:inline-flex;align-items:center;justify-content:center;color:white;font-weight:700
+}
+
+/* Hero */
+.hero{
+  padding:1.25rem;background:linear-gradient(180deg, rgba(255,255,255,0.6), transparent);
+  border-radius:calc(var(--radius-lg) + 4px);
+}
+.hero h1{margin:0;font-size:1.6rem}
+.hero p{margin:0;color:var(--muted)}
+
+/* Header banner (moved from inline styles) */
+.header-banner{background:var(--bg-elev, var(--card));border-radius:10px;padding:0.75rem 1rem;margin:0.75rem 0;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.header-banner .meta{display:flex;flex-direction:column}
+.header-banner .meta .muted{font-size:0.95rem;color:var(--muted-strong)}
+.header-banner .actions{display:flex;gap:0.5rem;align-items:center}
+
+@media (max-width:640px){
+  .header-banner{flex-direction:column;align-items:flex-start}
+  .header-banner .actions{width:100%;display:flex;justify-content:space-between}
+}
+
+/* Search */
+.search{
+  display:flex;gap:0.5rem;align-items:center;background:var(--glass);padding:0.5rem;border-radius:999px;border:1px solid rgba(0,0,0,0.03)
+}
+.search input{border:0;background:transparent;outline:none;padding:0.4rem 0;width:100%}
+
+/* Notes grid / list */
+.notes-grid{display:grid;gap:1rem}
+@media (min-width:var(--bp-md)){
+  .notes-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (min-width:1200px){
+  .notes-grid{grid-template-columns:repeat(3,1fr)}
+}
+
+.note-card{
+  display:flex;flex-direction:column;gap:0.5rem;padding:1rem;background:linear-gradient(180deg, var(--card), #fbfbfe);
+  border-radius:var(--radius-lg);box-shadow:var(--shadow-soft);
+  transition:transform 180ms ease, box-shadow 180ms ease;
+}
+.note-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(16,24,40,0.12)}
+.note-title{font-weight:600;font-size:1.05rem}
+.note-excerpt{color:var(--muted);font-size:0.95rem}
+.note-meta{display:flex;gap:0.5rem;align-items:center;color:var(--muted);font-size:0.85rem}
+
+/* 按鈕樣式 */
+.btn {
+  font-size: var(--btn-font-size);
+}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.55rem 0.9rem;border-radius:999px;border:0;cursor:pointer}
+.btn-primary{background:linear-gradient(90deg,var(--accent-blue),var(--accent-mint));color:#082032;font-weight:600;box-shadow:var(--shadow-soft)}
+.btn-ghost{background:transparent;border:1px solid rgba(14,21,30,0.06);color:var(--text)}
+
+/* Tags / chip */
+.tag{padding:0.25rem 0.5rem;border-radius:999px;background:var(--accent-pink);color:#70263a;font-size:0.8rem}
+
+/* Note content (單篇筆記) */
+.note-article{
+  background:var(--card);padding:1.25rem;border-radius:var(--radius-lg);box-shadow:var(--shadow-soft);
+}
+.note-article h2{margin-top:0}
+.note-article p{color:var(--text);margin:0 0 1rem 0}
+.note-article img{border-radius:12px}
+
+/* Code blocks */
+pre{background:#0b1020;color:#e6eef8;padding:1rem;border-radius:12px;overflow:auto;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace}
+
+/* Utilities */
+.muted{color:var(--muted)}
+.hide-mobile{display:none}
+@media (min-width:var(--bp-md)){
+  .hide-mobile{display:initial}
+}
+
+/* Single-line truncation utility for modules/materials */
+.single-line{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+
+/* Accessibility */
+a:focus,button:focus,input:focus,textarea:focus{outline:3px solid rgba(100,149,237,0.18);outline-offset:3px}
+
+/* Footer */
+.site-footer{padding:2rem 0;color:var(--muted);font-size:0.9rem}
+
+/* Small tweaks for compact mobile */
+@media (max-width:479px){
+  :root{--radius-lg:14px}
+  body{font-size:15px}
+  .hero h1{font-size:1.25rem}
+}
+
+/* Helpful comments: 使用方式示例
+   - 在 index.html 使用 .container 與 .notes-grid 建列表
+   - 每篇筆記使用 .note-article 包覆內容
+   - 若需更多變體（outline/secondary）可用 .btn + 額外類別擴充
+*/
+
+/* Badge: 課程編號 圓形標籤 */
+.badge{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  color:#072024;
+  background:linear-gradient(135deg,var(--accent-blue),var(--accent-pink));
+  box-shadow:0 8px 18px rgba(16,24,40,0.10);
+  font-size:1.05rem;
+}
+.badge--sm{width:36px;height:36px;font-size:0.95rem}
+.badge--sub{background:var(--accent-mint);color:#0b2b2a;font-weight:600;font-size:0.85rem}
+@media (max-width:600px){.badge{width:54px;height:54px;font-size:1.1rem}}
+
+/* Course list & link styles */
+.course-item{display:block;padding:0.75rem;margin-bottom:0.5rem;border-radius:12px;background:linear-gradient(180deg,var(--card),#fbfbfe);border:1px solid rgba(14,21,30,0.03);}
+.course-item .course-title{font-weight:700;margin-bottom:0.35rem;font-size:1.05rem}
+.course-links{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.35rem}
+.link-btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.45rem 0.75rem;border-radius:999px;border:0;cursor:pointer;font-weight:600}
+.link-yt{background:linear-gradient(90deg,var(--accent-pink),var(--accent-blue));color:#3d0017}
+.link-note{background:transparent;border:1px solid rgba(14,21,30,0.06);color:var(--text)}
+.link-slides{background:linear-gradient(90deg,var(--accent-blue),var(--accent-mint));color:#082032}
+.link-btn:focus{outline:3px solid rgba(100,149,237,0.12);outline-offset:3px}
+
+@media (max-width:480px){
+  .course-item{padding:0.6rem}
+  .link-btn{padding:0.4rem 0.6rem}
+}
+
+

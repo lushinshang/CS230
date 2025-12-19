@@ -1,0 +1,6540 @@
+1
+00:00:05,560 --> 00:00:09,720
+So what I'd like to do
+today is chat with you
+
+2
+00:00:09,720 --> 00:00:13,600
+about the full cycle of
+a deep learning project.
+
+3
+00:00:13,600 --> 00:00:16,120
+And as I promised in
+the first lecture,
+
+4
+00:00:16,120 --> 00:00:19,800
+rather than me talking at you
+for an hour and 20 minutes
+
+5
+00:00:19,800 --> 00:00:23,680
+or whatever, we'd love for this
+to be much more interactive.
+
+6
+00:00:23,680 --> 00:00:26,580
+And so what I'm going to do is
+illustrate this with an example,
+
+7
+00:00:26,580 --> 00:00:29,240
+but also ask you a
+bunch of questions
+
+8
+00:00:29,240 --> 00:00:32,479
+along the way about what
+you would do if you are
+
+9
+00:00:32,479 --> 00:00:34,140
+the one working on the project.
+
+10
+00:00:34,140 --> 00:00:36,820
+I'm going to use as an
+illustrative example.
+
+11
+00:00:36,820 --> 00:00:38,720
+So plan for this to
+be quite interactive
+
+12
+00:00:38,720 --> 00:00:40,860
+and please interrupt any
+time and ask questions.
+
+13
+00:00:40,860 --> 00:00:44,520
+Since I think that's why I
+want to do this in person
+
+14
+00:00:44,520 --> 00:00:47,400
+here at Stanford.
+
+15
+00:00:47,400 --> 00:00:51,840
+So one of the reasons
+why developing machine
+
+16
+00:00:51,840 --> 00:00:53,800
+learning or deep
+learning or other types
+
+17
+00:00:53,800 --> 00:00:57,200
+of AI projects, including AI
+projects using large language
+
+18
+00:00:57,200 --> 00:01:01,490
+models or agentic AI workflows
+or whatever is that AI projects
+
+19
+00:01:01,490 --> 00:01:04,970
+are different than traditional
+software engineering projects.
+
+20
+00:01:04,970 --> 00:01:08,370
+So one of the biggest
+differences between AI projects
+
+21
+00:01:08,370 --> 00:01:10,050
+of the many different flavors--
+
+22
+00:01:10,050 --> 00:01:13,850
+supervised learning,
+OM based, generative
+
+23
+00:01:13,850 --> 00:01:18,370
+AI based is that in
+traditional software projects,
+
+24
+00:01:18,370 --> 00:01:21,450
+you write code, and
+you control your code.
+
+25
+00:01:21,450 --> 00:01:22,930
+Write whatever code you want.
+
+26
+00:01:22,930 --> 00:01:23,750
+Compile it.
+
+27
+00:01:23,750 --> 00:01:26,410
+Your code does what
+you tell it to.
+
+28
+00:01:26,410 --> 00:01:34,250
+But AI projects involve
+both code as well as data
+
+29
+00:01:34,250 --> 00:01:36,210
+that you train
+your algorithm on.
+
+30
+00:01:36,210 --> 00:01:41,130
+And you almost never know what
+strange and wonderful things
+
+31
+00:01:41,130 --> 00:01:43,210
+there are in your data.
+
+32
+00:01:43,210 --> 00:01:45,450
+For example, if you're
+working on a face recognition
+
+33
+00:01:45,450 --> 00:01:48,490
+application-- that's a running
+example I'm going to use today--
+
+34
+00:01:48,490 --> 00:01:51,460
+then as you're just getting
+started on the project,
+
+35
+00:01:51,460 --> 00:01:55,210
+it's really difficult
+to in advance
+
+36
+00:01:55,210 --> 00:01:56,830
+what you find in the data.
+
+37
+00:01:56,830 --> 00:01:58,810
+Is the lighting
+of the face good?
+
+38
+00:01:58,810 --> 00:02:01,230
+Do you struggle with people
+with very long hair or people
+
+39
+00:02:01,230 --> 00:02:02,750
+with short hair?
+
+40
+00:02:02,750 --> 00:02:04,990
+Do people making weird
+facial expressions
+
+41
+00:02:04,990 --> 00:02:06,130
+make your system struggle?
+
+42
+00:02:06,130 --> 00:02:08,789
+Do people wearing glasses
+make your systems struggle?
+
+43
+00:02:08,789 --> 00:02:13,070
+So data is so rich
+that a lot of time,
+
+44
+00:02:13,070 --> 00:02:15,270
+you can't predict in
+advance what your AI
+
+45
+00:02:15,270 --> 00:02:17,430
+system is going to
+do, not because you
+
+46
+00:02:17,430 --> 00:02:18,568
+don't control the code.
+
+47
+00:02:18,568 --> 00:02:20,110
+You can write whatever
+neural network
+
+48
+00:02:20,110 --> 00:02:21,750
+or whatever code you want.
+
+49
+00:02:21,750 --> 00:02:23,950
+But you don't
+what's in the data.
+
+50
+00:02:23,950 --> 00:02:26,750
+And this is why, unlike
+traditional software
+
+51
+00:02:26,750 --> 00:02:30,150
+engineering, machine
+learning development
+
+52
+00:02:30,150 --> 00:02:32,990
+is a much more iterative
+process where you just
+
+53
+00:02:32,990 --> 00:02:36,070
+have to build something,
+see how it works, and then
+
+54
+00:02:36,070 --> 00:02:38,950
+through a process,
+discover, almost discover
+
+55
+00:02:38,950 --> 00:02:40,830
+what is in the
+data, and therefore
+
+56
+00:02:40,830 --> 00:02:43,150
+what you should be doing
+to change your code to make
+
+57
+00:02:43,150 --> 00:02:45,910
+your overall system perform.
+
+58
+00:02:45,910 --> 00:02:48,568
+And this is also true
+not just for-- this
+
+59
+00:02:48,568 --> 00:02:50,610
+is true not just for deep
+learning based systems.
+
+60
+00:02:50,610 --> 00:02:54,070
+This is also true for modern
+large language models.
+
+61
+00:02:54,070 --> 00:02:57,600
+There's been a lot of hype buzz
+about how LLMs, Large Language
+
+62
+00:02:57,600 --> 00:02:59,360
+Models, are hard to control.
+
+63
+00:02:59,360 --> 00:03:01,800
+I think there's a lot of
+excessive hype about that kind
+
+64
+00:03:01,800 --> 00:03:03,372
+of fear mongering.
+
+65
+00:03:03,372 --> 00:03:04,580
+There's a little bit of that.
+
+66
+00:03:04,580 --> 00:03:06,760
+But one of the
+reasons why none of us
+
+67
+00:03:06,760 --> 00:03:09,040
+know in advance what
+LLMs do is because it
+
+68
+00:03:09,040 --> 00:03:11,760
+was trained on a lot
+of data, more data
+
+69
+00:03:11,760 --> 00:03:13,580
+than any human could
+possibly look at.
+
+70
+00:03:13,580 --> 00:03:16,120
+And we just don't
+know with precision
+
+71
+00:03:16,120 --> 00:03:19,160
+what is in all that data
+that the arm was trained on.
+
+72
+00:03:19,160 --> 00:03:21,200
+And so because we
+know the data, we
+
+73
+00:03:21,200 --> 00:03:24,240
+can't really look at
+all the massive tens
+
+74
+00:03:24,240 --> 00:03:26,580
+of trillions of tokens
+of data was trained on.
+
+75
+00:03:26,580 --> 00:03:29,880
+It's hard to know exactly
+how large language model will
+
+76
+00:03:29,880 --> 00:03:34,073
+perform, which is why building
+agentic AI applications
+
+77
+00:03:34,073 --> 00:03:36,240
+or building large language
+models based applications
+
+78
+00:03:36,240 --> 00:03:40,080
+is also very empirical
+or very experimental.
+
+79
+00:03:40,080 --> 00:03:41,960
+Meaning you just have
+to build something,
+
+80
+00:03:41,960 --> 00:03:44,580
+then see where it goes well,
+see where it goes poorly,
+
+81
+00:03:44,580 --> 00:03:46,180
+and then use that
+to fix problems.
+
+82
+00:03:46,180 --> 00:03:48,160
+And that's how you
+drive progress.
+
+83
+00:03:48,160 --> 00:03:48,940
+That makes sense?
+
+84
+00:03:48,940 --> 00:03:52,000
+So, because you control your
+code, but you don't really know.
+
+85
+00:03:52,000 --> 00:03:54,260
+It's hard to control the data.
+
+86
+00:03:54,260 --> 00:03:56,250
+And this is true,
+both for the data
+
+87
+00:03:56,250 --> 00:03:57,670
+you have stored
+in your hard disk,
+
+88
+00:03:57,670 --> 00:04:00,630
+you can have terabytes of
+data stored in my hard disk.
+
+89
+00:04:00,630 --> 00:04:04,068
+I don't really know
+what's in my hard disk.
+
+90
+00:04:04,068 --> 00:04:06,610
+And the thing you really don't
+control is what data the world
+
+91
+00:04:06,610 --> 00:04:07,777
+will give you in the future.
+
+92
+00:04:07,777 --> 00:04:09,770
+So when you deploy a
+system in the world,
+
+93
+00:04:09,770 --> 00:04:12,190
+say, face recognition,
+which we should talk about.
+
+94
+00:04:12,190 --> 00:04:14,010
+Will people wear a
+thick, heavy scarf
+
+95
+00:04:14,010 --> 00:04:16,178
+that covers part of their
+face when it's winter?
+
+96
+00:04:16,178 --> 00:04:16,970
+We just don't know.
+
+97
+00:04:16,970 --> 00:04:20,070
+There are all these things in
+data that will surprise you.
+
+98
+00:04:20,070 --> 00:04:22,390
+And you don't even
+control your past data
+
+99
+00:04:22,390 --> 00:04:23,550
+that's already a hard disk.
+
+100
+00:04:23,550 --> 00:04:28,050
+You certainly can't
+control your future data.
+
+101
+00:04:28,050 --> 00:04:32,290
+So it turns out that a lot
+of machine learning classes
+
+102
+00:04:32,290 --> 00:04:36,290
+talk about building models.
+
+103
+00:04:36,290 --> 00:04:40,130
+And you learn a lot
+from the online videos
+
+104
+00:04:40,130 --> 00:04:43,730
+about how to build powerful
+deep learning models.
+
+105
+00:04:43,730 --> 00:04:48,170
+But it turns out that building
+the overall machine learning
+
+106
+00:04:48,170 --> 00:04:52,910
+system or a deep learning
+system has a lot more work
+
+107
+00:04:52,910 --> 00:04:54,790
+than just training models.
+
+108
+00:04:54,790 --> 00:04:57,430
+But if you look a lot
+of causes, there's
+
+109
+00:04:57,430 --> 00:05:00,130
+actually a very strong
+focus on modeling
+
+110
+00:05:00,130 --> 00:05:02,830
+because I think that's what
+academia has focused on.
+
+111
+00:05:02,830 --> 00:05:05,050
+We can train models,
+evaluate models,
+
+112
+00:05:05,050 --> 00:05:06,370
+publish papers on models.
+
+113
+00:05:06,370 --> 00:05:08,790
+And so you find
+that a lot of causes
+
+114
+00:05:08,790 --> 00:05:11,610
+focus on training a good
+deep learning model.
+
+115
+00:05:11,610 --> 00:05:13,830
+And that is
+absolutely important.
+
+116
+00:05:13,830 --> 00:05:16,435
+But because we know
+how to evaluate models,
+
+117
+00:05:16,435 --> 00:05:18,810
+different research groups can
+benchmark different models.
+
+118
+00:05:18,810 --> 00:05:20,810
+There's a lot of academic
+research work on that.
+
+119
+00:05:20,810 --> 00:05:22,310
+That's reflected
+a lot of causes.
+
+120
+00:05:22,310 --> 00:05:23,870
+But this is just a
+small part of what
+
+121
+00:05:23,870 --> 00:05:26,750
+you need to do if you want to
+build an effective deep learning
+
+122
+00:05:26,750 --> 00:05:27,710
+system.
+
+123
+00:05:27,710 --> 00:05:30,710
+And what I want
+to do today is go
+
+124
+00:05:30,710 --> 00:05:33,150
+outside the small box
+of models to give you
+
+125
+00:05:33,150 --> 00:05:37,270
+a broader view of what it feels
+like to develop a deep learning
+
+126
+00:05:37,270 --> 00:05:40,190
+or AI or machine
+learning system.
+
+127
+00:05:40,190 --> 00:05:44,270
+And this is what it often--
+
+128
+00:05:44,270 --> 00:05:47,990
+this is what building
+a deep learning system
+
+129
+00:05:47,990 --> 00:06:01,020
+would be like, which is,
+first, specify the problem,
+
+130
+00:06:01,020 --> 00:06:02,920
+figure out what we're
+actually working on.
+
+131
+00:06:02,920 --> 00:06:05,240
+The running example
+I want to use today
+
+132
+00:06:05,240 --> 00:06:08,400
+will be to build a face
+recognition system, or face rec
+
+133
+00:06:08,400 --> 00:06:12,620
+system for security, for
+deciding when to unlock a door.
+
+134
+00:06:12,620 --> 00:06:15,160
+And [INAUDIBLE] [? talked ?]
+about some face recognition,
+
+135
+00:06:15,160 --> 00:06:17,760
+which I abbreviate
+face rec architectures,
+
+136
+00:06:17,760 --> 00:06:19,000
+last week as well.
+
+137
+00:06:19,000 --> 00:06:21,080
+But specific application
+I want to talk about
+
+138
+00:06:21,080 --> 00:06:22,760
+is something I've worked on.
+
+139
+00:06:22,760 --> 00:06:27,400
+Actually, I built one of the
+commercial systems that--
+
+140
+00:06:27,400 --> 00:06:35,500
+For this, if this is a
+door and this is-- well,
+
+141
+00:06:35,500 --> 00:06:38,880
+you or a friend or maybe someone
+that you don't want to let
+
+142
+00:06:38,880 --> 00:06:41,460
+in, approaching, if you
+have a little camera--
+
+143
+00:06:41,460 --> 00:06:43,680
+sorry, bad drawing--
+take a picture
+
+144
+00:06:43,680 --> 00:06:45,360
+of whoever's
+approaching the door
+
+145
+00:06:45,360 --> 00:06:47,500
+and decide whether or
+not to unlock the door.
+
+146
+00:06:47,500 --> 00:06:49,660
+So face recognition
+to decide who
+
+147
+00:06:49,660 --> 00:06:52,240
+is authorized to enter
+a restricted location,
+
+148
+00:06:52,240 --> 00:06:56,300
+like a corporate office building
+or your house or whatever.
+
+149
+00:06:56,300 --> 00:07:00,500
+And actually, one common use
+case that one of my teams built
+
+150
+00:07:00,500 --> 00:07:02,940
+was a key card, swipe key cards.
+
+151
+00:07:02,940 --> 00:07:05,700
+So sometimes, key
+cards get stolen.
+
+152
+00:07:05,700 --> 00:07:08,660
+And so one of the systems we
+deploy fairly large office
+
+153
+00:07:08,660 --> 00:07:12,080
+complexes was if you
+swipe a key card,
+
+154
+00:07:12,080 --> 00:07:14,940
+we also just take a
+picture that is then soon
+
+155
+00:07:14,940 --> 00:07:17,540
+discarded to make sure
+that the key card is
+
+156
+00:07:17,540 --> 00:07:20,680
+held by the person whose face
+is shown on the key card.
+
+157
+00:07:20,680 --> 00:07:22,740
+So it makes it harder
+if someone to steal
+
+158
+00:07:22,740 --> 00:07:26,560
+a key card to gain unauthorized
+access to an office complex.
+
+159
+00:07:26,560 --> 00:07:32,660
+So I'm going to use this as the
+motivating example for today.
+
+160
+00:07:32,660 --> 00:07:41,140
+And after specifying a problem,
+typical process is then--
+
+161
+00:07:45,020 --> 00:07:47,240
+sometimes, the open
+source model can download.
+
+162
+00:07:47,240 --> 00:07:49,630
+But let's say for today that
+the open source model is not
+
+163
+00:07:49,630 --> 00:07:50,130
+good enough.
+
+164
+00:07:50,130 --> 00:07:51,670
+You want to train
+your own model.
+
+165
+00:07:51,670 --> 00:08:04,950
+The typical process, we
+get data, design the model,
+
+166
+00:08:04,950 --> 00:08:07,350
+train the model.
+
+167
+00:08:07,350 --> 00:08:11,590
+And then we will iterate
+through these steps
+
+168
+00:08:11,590 --> 00:08:14,030
+a bunch of times until
+the model looks like it's
+
+169
+00:08:14,030 --> 00:08:16,790
+performing well enough.
+
+170
+00:08:16,790 --> 00:08:36,150
+And then after that, we have
+to deploy it and monitor
+
+171
+00:08:36,150 --> 00:08:37,429
+and maintain the model.
+
+172
+00:08:37,429 --> 00:08:41,030
+So I'm actually going to
+talk a bunch about multiple
+
+173
+00:08:41,030 --> 00:08:44,350
+of these steps today because
+I want you to come away
+
+174
+00:08:44,350 --> 00:08:46,880
+with a feel for
+when you're working
+
+175
+00:08:46,880 --> 00:08:49,800
+on a real machine
+learning application,
+
+176
+00:08:49,800 --> 00:08:53,360
+what the important
+steps you will face on.
+
+177
+00:08:53,360 --> 00:08:59,600
+And so as I alluded,
+machine learning development
+
+178
+00:08:59,600 --> 00:09:00,980
+is very iterative process.
+
+179
+00:09:00,980 --> 00:09:06,960
+So for these three steps, we
+often drive a rapid development
+
+180
+00:09:06,960 --> 00:09:08,590
+loop where we--
+
+181
+00:09:16,520 --> 00:09:31,147
+oops, sorry-- design the model,
+train it, analyze the results,
+
+182
+00:09:31,147 --> 00:09:33,480
+and then may be designed to
+update the model or the data
+
+183
+00:09:33,480 --> 00:09:35,840
+or something and
+iterate around this loop
+
+184
+00:09:35,840 --> 00:09:40,000
+many times before
+you are satisfied.
+
+185
+00:09:40,000 --> 00:09:43,480
+And just one more detail.
+
+186
+00:09:43,480 --> 00:09:45,360
+It turns out that
+for face recognition,
+
+187
+00:09:45,360 --> 00:09:46,980
+the very common
+architecture, which
+
+188
+00:09:46,980 --> 00:09:50,340
+you learn in detail about
+later in the online videos,
+
+189
+00:09:50,340 --> 00:09:53,300
+is a neural network
+called a Siamese network.
+
+190
+00:09:53,300 --> 00:09:55,820
+And what that does is
+a neural network that
+
+191
+00:09:55,820 --> 00:09:57,750
+takes as input two pictures.
+
+192
+00:10:01,020 --> 00:10:03,300
+And two pictures get
+fed to a neural network
+
+193
+00:10:03,300 --> 00:10:05,940
+or a deep learning algorithm.
+
+194
+00:10:05,940 --> 00:10:08,940
+And it's a job of a deep
+learning algorithm to tell us,
+
+195
+00:10:08,940 --> 00:10:12,760
+are these two pictures the same
+person or different persons?
+
+196
+00:10:12,760 --> 00:10:16,080
+Because if you're trying
+to set up this system, say,
+
+197
+00:10:16,080 --> 00:10:19,220
+for your house, and maybe
+you have a few family members
+
+198
+00:10:19,220 --> 00:10:21,020
+or roommates you want to let in.
+
+199
+00:10:21,020 --> 00:10:24,020
+Then it'd be quite
+annoying if you
+
+200
+00:10:24,020 --> 00:10:26,680
+have to retrain a neural
+network for every single home.
+
+201
+00:10:26,680 --> 00:10:28,940
+So the most common way
+to do face recognition
+
+202
+00:10:28,940 --> 00:10:31,840
+is of a neural network
+that inputs two pictures.
+
+203
+00:10:31,840 --> 00:10:34,660
+And the job of the neural
+network is to tell me,
+
+204
+00:10:34,660 --> 00:10:37,460
+are these two pictures
+the same person?
+
+205
+00:10:37,460 --> 00:10:40,020
+And then the way you set
+up the system is to input
+
+206
+00:10:40,020 --> 00:10:41,600
+a few registration pictures.
+
+207
+00:10:41,600 --> 00:10:43,037
+So take a picture of yourself.
+
+208
+00:10:43,037 --> 00:10:44,370
+Take a picture of your roommate.
+
+209
+00:10:44,370 --> 00:10:47,950
+Take a picture any family
+members you want to have access.
+
+210
+00:10:47,950 --> 00:10:50,350
+So then, when someone
+comes, it can quickly
+
+211
+00:10:50,350 --> 00:10:52,670
+check if the person
+that just showed up
+
+212
+00:10:52,670 --> 00:10:54,710
+is one of the people
+that's authorized.
+
+213
+00:10:54,710 --> 00:10:56,030
+And then let them in.
+
+214
+00:10:56,030 --> 00:10:58,430
+And then the corporate
+key card swipe example
+
+215
+00:10:58,430 --> 00:11:00,810
+is someone swipes a
+card and my card says,
+
+216
+00:11:00,810 --> 00:11:02,010
+this is Andrew's card.
+
+217
+00:11:02,010 --> 00:11:04,510
+Then I'll quickly pull up
+my registration picture
+
+218
+00:11:04,510 --> 00:11:06,630
+to double check
+if I am, if I seem
+
+219
+00:11:06,630 --> 00:11:10,790
+to be the same person as the
+Andrew that was registered.
+
+220
+00:11:10,790 --> 00:11:16,750
+So this is a typical neural
+network architecture.
+
+221
+00:11:16,750 --> 00:11:20,030
+So, I have a question for you.
+
+222
+00:11:20,030 --> 00:11:24,270
+One thing I'd like
+to do today is
+
+223
+00:11:24,270 --> 00:11:26,110
+walk you through a
+number of scenarios
+
+224
+00:11:26,110 --> 00:11:29,070
+and invite you to think
+about what decision you would
+
+225
+00:11:29,070 --> 00:11:33,070
+make if you are the CTO
+of a startup building
+
+226
+00:11:33,070 --> 00:11:34,210
+these technologies.
+
+227
+00:11:34,210 --> 00:11:41,200
+So my question for you is, if
+you're the CTO of a startup,
+
+228
+00:11:41,200 --> 00:11:44,920
+building the next face
+recognition system,
+
+229
+00:11:44,920 --> 00:11:46,797
+and if your lawyers
+have said you
+
+230
+00:11:46,797 --> 00:11:48,880
+aren't allowed to download
+data from the internet.
+
+231
+00:11:48,880 --> 00:11:52,120
+So let's not download
+data for this application.
+
+232
+00:11:52,120 --> 00:11:55,060
+How would you go about getting
+data to train this system?
+
+233
+00:11:55,060 --> 00:11:57,520
+So what you need is
+a bunch of pictures
+
+234
+00:11:57,520 --> 00:12:03,480
+of people to train a
+neural network to say,
+
+235
+00:12:03,480 --> 00:12:06,320
+are they the same person or not.
+
+236
+00:12:06,320 --> 00:12:09,380
+So maybe take a few
+minutes to think about it,
+
+237
+00:12:09,380 --> 00:12:12,200
+and then I'll see if
+people raise hands and give
+
+238
+00:12:12,200 --> 00:12:13,100
+some answers.
+
+239
+00:12:13,100 --> 00:12:16,080
+And one specific
+question I have as well
+
+240
+00:12:16,080 --> 00:12:20,320
+is, how long would you take
+to collect data before you
+
+241
+00:12:20,320 --> 00:12:22,120
+start training a model?
+
+242
+00:12:22,120 --> 00:12:28,240
+So I think, well,
+we need to get data.
+
+243
+00:12:28,240 --> 00:12:30,240
+We design the model,
+I guess, and then
+
+244
+00:12:30,240 --> 00:12:31,520
+you need to train model.
+
+245
+00:12:31,520 --> 00:12:33,280
+So what does the
+timeline look for you?
+
+246
+00:12:33,280 --> 00:12:34,840
+We'll specify the problem.
+
+247
+00:12:34,840 --> 00:12:36,640
+We design the model.
+
+248
+00:12:36,640 --> 00:12:39,900
+How many hours or days or weeks
+would you is spent to get data
+
+249
+00:12:39,900 --> 00:12:45,300
+and how before you start
+running your gradient descent?
+
+250
+00:12:45,300 --> 00:12:47,440
+I see a hand up.
+
+251
+00:12:47,440 --> 00:12:48,900
+Sure, go ahead.
+
+252
+00:12:48,900 --> 00:12:52,220
+Are we [INAUDIBLE]
+everyone around the world,
+
+253
+00:12:52,220 --> 00:12:58,480
+or are we specifically like Bay
+Area or America [INAUDIBLE],
+
+254
+00:12:58,480 --> 00:13:02,940
+or it's like this
+[? wide range ?] [INAUDIBLE]?
+
+255
+00:13:02,940 --> 00:13:05,160
+Let me leave it a
+bit more open-ended.
+
+256
+00:13:05,160 --> 00:13:07,460
+Say you just graduated
+from Stanford.
+
+257
+00:13:07,460 --> 00:13:13,220
+And you're CTO of a three-person
+startup building this thing
+
+258
+00:13:13,220 --> 00:13:15,720
+that, eventually, hopefully,
+you sell all around the world.
+
+259
+00:13:15,720 --> 00:13:17,380
+But your goals are
+just get started
+
+260
+00:13:17,380 --> 00:13:22,500
+with the three of you working
+out of Palo Alto, California.
+
+261
+00:13:22,500 --> 00:13:25,580
+And do it as your real
+self, with the resources
+
+262
+00:13:25,580 --> 00:13:26,480
+that you have.
+
+263
+00:13:31,700 --> 00:13:33,700
+Anyone want to
+venture an answer?
+
+264
+00:13:33,700 --> 00:13:38,310
+How would you get data to
+train a neural network?
+
+265
+00:13:38,310 --> 00:13:39,460
+Go for it.
+
+266
+00:13:39,460 --> 00:13:42,904
+[INAUDIBLE]
+
+267
+00:14:02,230 --> 00:14:03,730
+Yeah, cool, video
+streaming service.
+
+268
+00:14:03,730 --> 00:14:05,147
+By video streaming
+service, you're
+
+269
+00:14:05,147 --> 00:14:07,290
+thinking like Netflix and Hulu?
+
+270
+00:14:07,290 --> 00:14:09,460
+Are you thinking
+security videos?
+
+271
+00:14:09,460 --> 00:14:11,250
+Like Zoom.
+
+272
+00:14:11,250 --> 00:14:11,790
+Like Zoom.
+
+273
+00:14:11,790 --> 00:14:12,290
+I see.
+
+274
+00:14:12,290 --> 00:14:12,790
+Cool.
+
+275
+00:14:12,790 --> 00:14:13,378
+Like a video.
+
+276
+00:14:13,378 --> 00:14:14,800
+People [INAUDIBLE] video.
+
+277
+00:14:14,800 --> 00:14:15,750
+I see.
+
+278
+00:14:15,750 --> 00:14:17,130
+Cool, cool, cool.
+
+279
+00:14:17,130 --> 00:14:18,130
+Video streaming service.
+
+280
+00:14:18,130 --> 00:14:21,470
+How long do you think
+it'll take to do that?
+
+281
+00:14:21,470 --> 00:14:22,340
+A couple of months.
+
+282
+00:14:22,340 --> 00:14:25,502
+[INAUDIBLE]
+
+283
+00:14:33,630 --> 00:14:34,730
+Yeah, cool.
+
+284
+00:14:34,730 --> 00:14:35,230
+Cool.
+
+285
+00:14:35,230 --> 00:14:35,960
+Thank you.
+
+286
+00:14:35,960 --> 00:14:37,000
+Creative idea.
+
+287
+00:14:37,000 --> 00:14:37,940
+Any other ideas?
+
+288
+00:14:37,940 --> 00:14:39,440
+How would you go
+about getting data?
+
+289
+00:14:39,440 --> 00:14:39,940
+Go ahead.
+
+290
+00:14:39,940 --> 00:14:42,400
+[INAUDIBLE] [? work ?] with
+a three-person startup.
+
+291
+00:14:42,400 --> 00:14:44,080
+I've had a larger company.
+
+292
+00:14:44,080 --> 00:14:47,140
+I would put a camera
+[INAUDIBLE] the camera [? up ?]
+
+293
+00:14:47,140 --> 00:14:50,800
+[? also the ?] [? start ?] and
+just ask the employees if they
+
+294
+00:14:50,800 --> 00:14:54,840
+would like to participate in
+the collection and take pictures
+
+295
+00:14:54,840 --> 00:14:57,255
+of [INAUDIBLE].
+
+296
+00:14:57,255 --> 00:15:00,120
+[? So ?] the [? employees ?]
+that are after them.
+
+297
+00:15:00,120 --> 00:15:03,292
+We might not be generalizable,
+but [INAUDIBLE].
+
+298
+00:15:06,280 --> 00:15:07,060
+Cool, awesome.
+
+299
+00:15:07,060 --> 00:15:08,280
+Stick a camera there.
+
+300
+00:15:08,280 --> 00:15:11,880
+Let people opt in to
+get their picture taken.
+
+301
+00:15:11,880 --> 00:15:12,960
+Cool.
+
+302
+00:15:12,960 --> 00:15:14,640
+I think I saw a hand up.
+
+303
+00:15:14,640 --> 00:15:15,260
+Go for it.
+
+304
+00:15:15,260 --> 00:15:18,240
+[INAUDIBLE]
+
+305
+00:15:18,640 --> 00:15:19,140
+Sorry.
+
+306
+00:15:19,140 --> 00:15:22,528
+[INAUDIBLE]
+
+307
+00:15:25,840 --> 00:15:26,340
+I see.
+
+308
+00:15:26,340 --> 00:15:27,440
+Cool.
+
+309
+00:15:27,440 --> 00:15:29,272
+How would you get users?
+
+310
+00:15:29,272 --> 00:15:32,716
+[INAUDIBLE]
+
+311
+00:15:37,830 --> 00:15:38,340
+I see.
+
+312
+00:15:38,340 --> 00:15:38,840
+Cool.
+
+313
+00:15:38,840 --> 00:15:41,820
+Yeah, by your own people
+mean like, grab some friends
+
+314
+00:15:41,820 --> 00:15:42,397
+and ask them.
+
+315
+00:15:42,397 --> 00:15:43,980
+They'll give you
+their LinkedIn photo,
+
+316
+00:15:43,980 --> 00:15:45,600
+give you some pictures
+from your camera roll.
+
+317
+00:15:45,600 --> 00:15:45,960
+Yeah, cool.
+
+318
+00:15:45,960 --> 00:15:46,460
+I like that.
+
+319
+00:15:46,460 --> 00:15:47,040
+That's fast.
+
+320
+00:15:47,040 --> 00:15:49,420
+I like that.
+
+321
+00:15:49,420 --> 00:15:51,332
+Any other ideas?
+
+322
+00:15:51,332 --> 00:15:52,300
+Go ahead.
+
+323
+00:15:52,300 --> 00:15:55,772
+[INAUDIBLE]
+
+324
+00:16:02,100 --> 00:16:02,600
+I see.
+
+325
+00:16:02,600 --> 00:16:03,100
+Interesting.
+
+326
+00:16:03,100 --> 00:16:05,420
+Yeah, ask Stanford
+to send an email.
+
+327
+00:16:05,420 --> 00:16:06,780
+Cool.
+
+328
+00:16:06,780 --> 00:16:08,260
+I love Stanford.
+
+329
+00:16:08,260 --> 00:16:10,520
+Stanford is a
+wonderful institution.
+
+330
+00:16:10,520 --> 00:16:11,020
+Awesome.
+
+331
+00:16:11,020 --> 00:16:12,800
+That's going to take
+a while, I think.
+
+332
+00:16:12,800 --> 00:16:14,090
+[LAUGHTER]
+
+333
+00:16:15,620 --> 00:16:16,360
+Creative idea.
+
+334
+00:16:16,360 --> 00:16:19,060
+I like the creative ideas.
+
+335
+00:16:19,060 --> 00:16:21,580
+So let me share with you
+one guiding principle
+
+336
+00:16:21,580 --> 00:16:25,020
+for how I would encourage you
+to approach this problem of data
+
+337
+00:16:25,020 --> 00:16:25,520
+collection.
+
+338
+00:16:25,520 --> 00:16:28,300
+I appreciate all the
+creative ideas, actually.
+
+339
+00:16:28,300 --> 00:16:33,230
+One of the frameworks I often
+use to decide how I collect data
+
+340
+00:16:33,230 --> 00:16:35,190
+is speed.
+
+341
+00:16:35,190 --> 00:16:38,750
+Because I find that--
+
+342
+00:16:38,750 --> 00:16:41,430
+actually, especially
+in building a startup.
+
+343
+00:16:41,430 --> 00:16:44,110
+In my opinion, one
+of the strongest
+
+344
+00:16:44,110 --> 00:16:47,830
+predictors for whether a
+startup will succeed, and also,
+
+345
+00:16:47,830 --> 00:16:51,110
+whether a small, innovative
+project in a large corporation--
+
+346
+00:16:51,110 --> 00:16:52,650
+you can be a giant corporation.
+
+347
+00:16:52,650 --> 00:16:56,130
+But if a team of three, work
+on a small, innovative project,
+
+348
+00:16:56,130 --> 00:16:59,510
+a big company, I find that
+one of the biggest predictors
+
+349
+00:16:59,510 --> 00:17:01,150
+for the chance of
+success is just
+
+350
+00:17:01,150 --> 00:17:04,430
+the speed of execution,
+the sheer speed of getting
+
+351
+00:17:04,430 --> 00:17:05,510
+stuff done.
+
+352
+00:17:05,510 --> 00:17:08,390
+And so when I'm
+sitting with a team
+
+353
+00:17:08,390 --> 00:17:10,470
+and brainstorming
+different tactics,
+
+354
+00:17:10,470 --> 00:17:13,430
+I will gravitate toward
+the tactics that let
+
+355
+00:17:13,430 --> 00:17:15,430
+me get a data set very quickly.
+
+356
+00:17:15,430 --> 00:17:19,589
+And quickly usually
+means one or two days,
+
+357
+00:17:19,589 --> 00:17:23,230
+even if it ends up with a
+inferior, smaller, lower quality
+
+358
+00:17:23,230 --> 00:17:25,670
+data sets or whatever.
+
+359
+00:17:25,670 --> 00:17:31,210
+Because I don't really know what
+problems I'll see in my data.
+
+360
+00:17:31,210 --> 00:17:35,310
+And the quicker I can get
+the data set, create a model,
+
+361
+00:17:35,310 --> 00:17:37,290
+see where it goes
+wrong, the quicker I
+
+362
+00:17:37,290 --> 00:17:42,610
+can then discover what's
+wrong with my data and fix it.
+
+363
+00:17:42,610 --> 00:17:43,610
+True story.
+
+364
+00:17:43,610 --> 00:17:50,330
+Chatting with a CEO that told
+me-- he actually had spent
+
+365
+00:17:50,330 --> 00:17:52,490
+I think it was
+over $100 million.
+
+366
+00:17:52,490 --> 00:17:54,430
+Definitely more than
+tens of million dollars.
+
+367
+00:17:54,430 --> 00:17:59,890
+Spent a lot of money buying
+a company for its data.
+
+368
+00:17:59,890 --> 00:18:02,650
+And then he actually said, hey,
+Andrew, I spend all this money
+
+369
+00:18:02,650 --> 00:18:04,570
+to get all this data.
+
+370
+00:18:04,570 --> 00:18:06,580
+Can you help me figure
+out how to monetize this,
+
+371
+00:18:06,580 --> 00:18:07,830
+how to make money off of this?
+
+372
+00:18:07,830 --> 00:18:12,970
+And I look and goes, boy,
+I wish I hadn't done that.
+
+373
+00:18:12,970 --> 00:18:16,850
+And what I find is
+that the value of data
+
+374
+00:18:16,850 --> 00:18:19,570
+is just so difficult
+to know in advance.
+
+375
+00:18:19,570 --> 00:18:22,490
+What's important and what's
+not important about data?
+
+376
+00:18:22,490 --> 00:18:25,950
+So for a lot of these
+tactics, for example,
+
+377
+00:18:25,950 --> 00:18:28,380
+I think student IDs
+is an interesting one.
+
+378
+00:18:28,380 --> 00:18:32,740
+But our student ID photos
+are weird in some way.
+
+379
+00:18:32,740 --> 00:18:35,840
+Or are they too expressionless
+or people smiling too much
+
+380
+00:18:35,840 --> 00:18:36,640
+in student IDs.
+
+381
+00:18:36,640 --> 00:18:37,900
+I actually have no idea.
+
+382
+00:18:37,900 --> 00:18:41,640
+Actually, my Stanford ID, I look
+really weird in my Stanford ID.
+
+383
+00:18:44,180 --> 00:18:51,060
+And I actually the idea
+of seeking a camera
+
+384
+00:18:51,060 --> 00:18:54,780
+and just letting people come up
+and opt in and take a picture
+
+385
+00:18:54,780 --> 00:18:56,980
+if you can do it quickly.
+
+386
+00:18:56,980 --> 00:19:00,580
+And I think in a big company
+or even in a small startup--
+
+387
+00:19:00,580 --> 00:19:03,660
+it's important to respect user
+privacy or individual privacy.
+
+388
+00:19:03,660 --> 00:19:08,780
+But if you can stick a camera
+in some place that doesn't--
+
+389
+00:19:08,780 --> 00:19:12,380
+what's the word--
+invade people's privacy
+
+390
+00:19:12,380 --> 00:19:14,967
+that don't want to be any part
+of this, but let people opt in,
+
+391
+00:19:14,967 --> 00:19:16,300
+take the pictures of permission.
+
+392
+00:19:16,300 --> 00:19:20,220
+If you can do that in days,
+I find that to be valuable.
+
+393
+00:19:20,220 --> 00:19:21,940
+One of the things I found--
+
+394
+00:19:21,940 --> 00:19:26,340
+quite a few of my projects
+found that Stanford students,
+
+395
+00:19:26,340 --> 00:19:29,150
+our community here is pretty
+cosmopolitan with people
+
+396
+00:19:29,150 --> 00:19:30,510
+from all around the world.
+
+397
+00:19:30,510 --> 00:19:33,282
+We're not fully representative
+of the world's distribution
+
+398
+00:19:33,282 --> 00:19:34,990
+of people, but we
+actually do have people
+
+399
+00:19:34,990 --> 00:19:36,073
+from all around the world.
+
+400
+00:19:36,073 --> 00:19:38,073
+A lot of Stanford people
+are actually very nice.
+
+401
+00:19:38,073 --> 00:19:39,830
+So one thing I've
+done multiple times is
+
+402
+00:19:39,830 --> 00:19:43,630
+when I need to collect data,
+we'll go to places on campus
+
+403
+00:19:43,630 --> 00:19:44,810
+with high foot traffic.
+
+404
+00:19:44,810 --> 00:19:47,088
+Turns out cafeterias have
+very high foot traffic.
+
+405
+00:19:47,088 --> 00:19:49,130
+And we just ask people,
+hey, work on the project.
+
+406
+00:19:49,130 --> 00:19:50,763
+Can I get a sample
+of your voice?
+
+407
+00:19:50,763 --> 00:19:51,930
+Can I take a picture of you?
+
+408
+00:19:51,930 --> 00:19:54,290
+And with the informed
+consent, tell people,
+
+409
+00:19:54,290 --> 00:19:55,590
+is it OK if I do this?
+
+410
+00:19:55,590 --> 00:19:59,070
+I've been delighted at
+how collaborative Stanford
+
+411
+00:19:59,070 --> 00:20:02,070
+students are.
+
+412
+00:20:02,070 --> 00:20:05,990
+And I find that one thing I've
+often done is gone to my teams
+
+413
+00:20:05,990 --> 00:20:09,750
+and said, we have two
+days to collect data.
+
+414
+00:20:09,750 --> 00:20:12,830
+It's 11:52 AM now.
+
+415
+00:20:12,830 --> 00:20:15,430
+Let's figure out
+what we can do by--
+
+416
+00:20:15,430 --> 00:20:16,370
+what day is it--
+
+417
+00:20:16,370 --> 00:20:17,030
+Tuesday.
+
+418
+00:20:17,030 --> 00:20:19,850
+Let's go ahead and do
+by Thursday, 11:52 AM.
+
+419
+00:20:19,850 --> 00:20:22,170
+So that gives us a 48
+hours and let's brainstorm.
+
+420
+00:20:22,170 --> 00:20:23,790
+How can we collect data?
+
+421
+00:20:23,790 --> 00:20:26,080
+And it's fine if the
+data isn't all there.
+
+422
+00:20:26,080 --> 00:20:28,250
+Find that the data low quality.
+
+423
+00:20:28,250 --> 00:20:33,610
+But that velocity lets us
+more quickly train the model,
+
+424
+00:20:33,610 --> 00:20:36,650
+figure out what's wrong with
+the data, and then jigger
+
+425
+00:20:36,650 --> 00:20:39,050
+or we tweak how we collect data.
+
+426
+00:20:39,050 --> 00:20:41,130
+So I find that there's
+some teams that
+
+427
+00:20:41,130 --> 00:20:45,670
+will ask, how can we collect
+the data we need and how long?
+
+428
+00:20:45,670 --> 00:20:47,390
+And then ask, how
+long will that take?
+
+429
+00:20:47,390 --> 00:20:50,650
+That usually leads to
+much slower execution.
+
+430
+00:20:50,650 --> 00:20:52,130
+I, instead, tend
+to go to my teams
+
+431
+00:20:52,130 --> 00:20:54,510
+and say, we have
+two days or one day
+
+432
+00:20:54,510 --> 00:20:57,530
+or maybe a week, some
+short time span like that,
+
+433
+00:20:57,530 --> 00:21:00,450
+and say, what's
+the most creative,
+
+434
+00:21:00,450 --> 00:21:02,690
+respectful, responsible,
+but creative way you
+
+435
+00:21:02,690 --> 00:21:05,770
+can use to collect data
+in a short time span?
+
+436
+00:21:05,770 --> 00:21:07,870
+And one of the ways to
+think about that, too,
+
+437
+00:21:07,870 --> 00:21:11,010
+is a training a model takes--
+
+438
+00:21:11,010 --> 00:21:13,130
+let's say it takes two days.
+
+439
+00:21:13,130 --> 00:21:15,170
+Maybe I should
+take more one day.
+
+440
+00:21:15,170 --> 00:21:17,370
+If you can train a model
+in a couple of days,
+
+441
+00:21:17,370 --> 00:21:23,090
+then I would not
+spend like two months
+
+442
+00:21:23,090 --> 00:21:25,580
+to find data to train a model.
+
+443
+00:21:25,580 --> 00:21:28,060
+Because then, this
+becomes a huge bottleneck.
+
+444
+00:21:28,060 --> 00:21:30,740
+Because you can train the
+model relatively quickly,
+
+445
+00:21:30,740 --> 00:21:35,220
+let's take a commensurate
+amount of time to design a model
+
+446
+00:21:35,220 --> 00:21:38,740
+or design the data
+as train a model.
+
+447
+00:21:38,740 --> 00:21:41,600
+And depending on how long
+it takes to train a model,
+
+448
+00:21:41,600 --> 00:21:45,260
+sometimes, training a model
+needs to run overnight.
+
+449
+00:21:45,260 --> 00:21:48,980
+I actually see teams sometimes
+take one day iteration
+
+450
+00:21:48,980 --> 00:21:49,880
+loops around this.
+
+451
+00:21:49,880 --> 00:21:51,780
+The fast moving
+teams I work with,
+
+452
+00:21:51,780 --> 00:21:53,420
+we often go around
+this loop once
+
+453
+00:21:53,420 --> 00:21:56,120
+per day for the smaller models.
+
+454
+00:21:56,120 --> 00:21:58,200
+If we're training a large
+AI foundation model,
+
+455
+00:21:58,200 --> 00:22:00,880
+sometimes, training a model
+takes weeks or even months,
+
+456
+00:22:00,880 --> 00:22:02,400
+then the process
+can be different.
+
+457
+00:22:02,400 --> 00:22:06,020
+If your model run is
+going to be two months,
+
+458
+00:22:06,020 --> 00:22:08,980
+then, yeah, maybe it makes sense
+to spend a couple of months
+
+459
+00:22:08,980 --> 00:22:10,383
+to get the data really right.
+
+460
+00:22:10,383 --> 00:22:12,300
+But for face recognition,
+you could train that
+
+461
+00:22:12,300 --> 00:22:15,140
+overnight, or actually, in a
+couple of hours quite easily.
+
+462
+00:22:15,140 --> 00:22:18,820
+So it makes sense not to
+spend massive amounts of time
+
+463
+00:22:18,820 --> 00:22:20,520
+before you go into
+train the model.
+
+464
+00:22:20,520 --> 00:22:22,110
+Does that make sense?
+
+465
+00:22:22,110 --> 00:22:28,277
+And the word empirical
+means experimental.
+
+466
+00:22:28,277 --> 00:22:30,110
+Sorry, I've used the
+word a few times today.
+
+467
+00:22:30,110 --> 00:22:36,190
+And I think we say that
+machine learning is
+
+468
+00:22:36,190 --> 00:22:37,890
+very empirical process.
+
+469
+00:22:37,890 --> 00:22:39,570
+Meaning, it's very
+experimental process.
+
+470
+00:22:39,570 --> 00:22:41,070
+You have to do it,
+see what happens,
+
+471
+00:22:41,070 --> 00:22:42,440
+then decide what to do next.
+
+472
+00:22:42,440 --> 00:22:45,710
+I know that sometimes, others
+have criticized our field
+
+473
+00:22:45,710 --> 00:22:47,370
+like we never what we're doing.
+
+474
+00:22:47,370 --> 00:22:49,090
+We just try stuff
+and see what works.
+
+475
+00:22:49,090 --> 00:22:52,550
+And there's a little
+bit of truth to that.
+
+476
+00:22:52,550 --> 00:22:56,130
+I think understanding neural
+networks, hyperparameters,
+
+477
+00:22:56,130 --> 00:22:58,210
+architecture that
+is really valuable.
+
+478
+00:22:58,210 --> 00:23:00,230
+So we don't just
+try stuff at random.
+
+479
+00:23:00,230 --> 00:23:02,130
+But because we don't
+what's in the data,
+
+480
+00:23:02,130 --> 00:23:05,310
+we do try a lot of things,
+and then drive a disciplined
+
+481
+00:23:05,310 --> 00:23:08,390
+process, understand what works
+and what doesn't, and then use
+
+482
+00:23:08,390 --> 00:23:10,870
+that to navigate forward.
+
+483
+00:23:10,870 --> 00:23:12,510
+Does that make sense?
+
+484
+00:23:12,510 --> 00:23:16,430
+And then I'll just say, there's
+one exception to the advice I'm
+
+485
+00:23:16,430 --> 00:23:21,050
+giving here, which is, if
+you're working on the project
+
+486
+00:23:21,050 --> 00:23:23,610
+that you have worked
+on many times before--
+
+487
+00:23:23,610 --> 00:23:26,790
+so, I've built a bunch of
+facial recognition systems,
+
+488
+00:23:26,790 --> 00:23:30,770
+so I have a sense from
+previous experience
+
+489
+00:23:30,770 --> 00:23:33,610
+and from reading research papers
+that certain things, I know
+
+490
+00:23:33,610 --> 00:23:37,090
+are just not going to
+work if I have 100 images.
+
+491
+00:23:37,090 --> 00:23:40,010
+So there's some face recognition
+systems that I know probably
+
+492
+00:23:40,010 --> 00:23:44,050
+need at least 50,000 images
+before it will have any hope
+
+493
+00:23:44,050 --> 00:23:45,130
+of working.
+
+494
+00:23:45,130 --> 00:23:46,990
+So because of that
+prior experience,
+
+495
+00:23:46,990 --> 00:23:50,990
+having gone through that loop a
+lot, I now have a basis to say,
+
+496
+00:23:50,990 --> 00:23:55,050
+OK, I do need 50,000 images,
+then I might invest upfront
+
+497
+00:23:55,050 --> 00:23:58,770
+and put more effort upfront
+to get those 50,000 images.
+
+498
+00:23:58,770 --> 00:24:00,370
+But I think for
+most applications
+
+499
+00:24:00,370 --> 00:24:02,250
+you work on for the
+first time, if you don't
+
+500
+00:24:02,250 --> 00:24:05,760
+have an academic literature
+to justify certain larger data
+
+501
+00:24:05,760 --> 00:24:08,010
+investments, or if you don't
+have the prior experience
+
+502
+00:24:08,010 --> 00:24:11,770
+yourself, then I would
+focus on the speed
+
+503
+00:24:11,770 --> 00:24:13,650
+of iterating around this loop.
+
+504
+00:24:13,650 --> 00:24:14,350
+Make sense?
+
+505
+00:24:19,540 --> 00:24:24,780
+And to relate this to
+large language models based
+
+506
+00:24:24,780 --> 00:24:28,340
+applications as well, a
+lot of us, a lot of you
+
+507
+00:24:28,340 --> 00:24:31,580
+are probably-- well, you may
+be building applications that
+
+508
+00:24:31,580 --> 00:24:34,420
+prompting OMs and
+calling an API,
+
+509
+00:24:34,420 --> 00:24:38,260
+like OpenAI or Anthropic
+or Gemini or Meta Llama
+
+510
+00:24:38,260 --> 00:24:41,660
+or whatever API to get
+things back from [? home. ?]
+
+511
+00:24:41,660 --> 00:24:44,940
+One of the reasons that, too,
+is a very experimental and very
+
+512
+00:24:44,940 --> 00:24:47,180
+iterative empirical
+process is because when
+
+513
+00:24:47,180 --> 00:24:49,240
+you write an LLM
+prompt, you don't really
+
+514
+00:24:49,240 --> 00:24:51,100
+know in advance
+how well it's going
+
+515
+00:24:51,100 --> 00:24:54,220
+to do because it was trained
+on data that none of us
+
+516
+00:24:54,220 --> 00:24:55,900
+have really looked at.
+
+517
+00:24:55,900 --> 00:24:59,700
+And that, too, is why,
+instead of theorizing
+
+518
+00:24:59,700 --> 00:25:03,260
+for a long time about
+what prompt to use in LLM,
+
+519
+00:25:03,260 --> 00:25:04,100
+just try it out.
+
+520
+00:25:04,100 --> 00:25:07,780
+And then it's by doing that,
+you will then see the problems.
+
+521
+00:25:07,780 --> 00:25:11,660
+And then your focus can
+be on fixing the problems.
+
+522
+00:25:11,660 --> 00:25:12,980
+Makes sense?
+
+523
+00:25:12,980 --> 00:25:16,200
+And in fact, there's a lot of
+discussion on responsible AI,
+
+524
+00:25:16,200 --> 00:25:18,150
+how do you make your
+AI systems are safe,
+
+525
+00:25:18,150 --> 00:25:21,230
+or they don't have
+unforeseen circumstances.
+
+526
+00:25:21,230 --> 00:25:24,990
+And because a lot
+of the theorizing--
+
+527
+00:25:24,990 --> 00:25:27,310
+you can only theorize so much.
+
+528
+00:25:27,310 --> 00:25:31,630
+I find that if you want to build
+safe, responsible AI systems,
+
+529
+00:25:31,630 --> 00:25:35,910
+one of the best ways to do that
+is to just build it, and then
+
+530
+00:25:35,910 --> 00:25:38,733
+experiment with it in
+a sandbox environment.
+
+531
+00:25:38,733 --> 00:25:40,150
+Just don't let it
+out in the world
+
+532
+00:25:40,150 --> 00:25:41,890
+until you've tested
+it rigorously.
+
+533
+00:25:41,890 --> 00:25:44,670
+But just go build
+something, and then test
+
+534
+00:25:44,670 --> 00:25:47,710
+it, probe it in the
+safety of your own laptop.
+
+535
+00:25:47,710 --> 00:25:49,790
+Don't let it enter
+innocent users
+
+536
+00:25:49,790 --> 00:25:53,070
+and have some weird impact
+on innocent third parties.
+
+537
+00:25:53,070 --> 00:25:55,150
+But it's only by building
+it and probing it
+
+538
+00:25:55,150 --> 00:25:57,195
+that you can figure out
+where can it go wrong,
+
+539
+00:25:57,195 --> 00:25:59,070
+where it will say
+inappropriate things, where
+
+540
+00:25:59,070 --> 00:26:02,210
+it would respond inappropriately
+to certain user queries?
+
+541
+00:26:02,210 --> 00:26:04,990
+And then that tells you where
+the problems are, and then
+
+542
+00:26:04,990 --> 00:26:07,910
+work on addressing.
+
+543
+00:26:07,910 --> 00:26:09,430
+Yeah, question?
+
+544
+00:26:09,430 --> 00:26:14,310
+How do you use
+[? generalizing ?] results
+
+545
+00:26:14,310 --> 00:26:15,538
+to [INAUDIBLE]?
+
+546
+00:26:18,050 --> 00:26:18,550
+Sorry.
+
+547
+00:26:18,550 --> 00:26:19,570
+Say that again.
+
+548
+00:26:19,570 --> 00:26:23,610
+So when you come up and
+you analyze it as a model
+
+549
+00:26:23,610 --> 00:26:27,610
+and you come to a conclusion
+that your model is not good,
+
+550
+00:26:27,610 --> 00:26:33,330
+how do you use that to figure
+out what's wrong in the data?
+
+551
+00:26:33,330 --> 00:26:35,550
+Great question.
+
+552
+00:26:35,550 --> 00:26:38,230
+So when you analyze something's
+wrong with your model,
+
+553
+00:26:38,230 --> 00:26:40,870
+how do you use that to
+take the next step forward?
+
+554
+00:26:40,870 --> 00:26:44,970
+That's a big topic that
+we'll talk at length multiple
+
+555
+00:26:44,970 --> 00:26:48,750
+times in some of the videos and
+also in some future lessons.
+
+556
+00:26:48,750 --> 00:26:52,170
+But maybe long story short,
+one of the things you could do
+
+557
+00:26:52,170 --> 00:26:54,142
+is change your neural
+network architecture.
+
+558
+00:26:54,142 --> 00:26:55,850
+You may realize that
+maybe the sign means
+
+559
+00:26:55,850 --> 00:26:58,017
+that it wasn't working or
+read the literature change
+
+560
+00:26:58,017 --> 00:26:58,730
+architecture.
+
+561
+00:26:58,730 --> 00:27:02,730
+The other thing you can
+often do is change your data.
+
+562
+00:27:02,730 --> 00:27:04,588
+So data-centric AI
+is the discipline
+
+563
+00:27:04,588 --> 00:27:07,130
+of systematically entering your
+data to build a successful AI
+
+564
+00:27:07,130 --> 00:27:07,870
+system.
+
+565
+00:27:07,870 --> 00:27:10,078
+And it turns out that if
+you build a face recognition
+
+566
+00:27:10,078 --> 00:27:12,450
+system, let's say, I like
+your hat, Stanford hat.
+
+567
+00:27:12,450 --> 00:27:12,950
+That's cool.
+
+568
+00:27:12,950 --> 00:27:14,940
+But let's say,
+hypothetically, that you
+
+569
+00:27:14,940 --> 00:27:17,740
+find that the system has
+really struggles recognizing
+
+570
+00:27:17,740 --> 00:27:19,260
+people that are wearing hats.
+
+571
+00:27:19,260 --> 00:27:21,580
+Then you may say, I
+need to get more data
+
+572
+00:27:21,580 --> 00:27:22,880
+with people wearing hats.
+
+573
+00:27:22,880 --> 00:27:26,920
+And so it's often that
+looking at what goes wrong,
+
+574
+00:27:26,920 --> 00:27:28,560
+we should call error analysis.
+
+575
+00:27:28,560 --> 00:27:30,740
+That then gives you
+the insight to say, oh,
+
+576
+00:27:30,740 --> 00:27:34,640
+it works well on these types of
+data or these types of users,
+
+577
+00:27:34,640 --> 00:27:37,540
+but it struggles with these
+types of users in the data.
+
+578
+00:27:37,540 --> 00:27:40,220
+So can I fix my data
+or get more data just
+
+579
+00:27:40,220 --> 00:27:42,000
+on the subset of cases
+it struggles with?
+
+580
+00:27:42,000 --> 00:27:44,720
+And that's a very common motion.
+
+581
+00:27:44,720 --> 00:27:47,100
+That's very common
+process for then driving
+
+582
+00:27:47,100 --> 00:27:49,060
+the performance of your system.
+
+583
+00:27:49,060 --> 00:27:53,140
+And this is also why
+blindly going out
+
+584
+00:27:53,140 --> 00:27:55,867
+to grab more data
+willingly, that's often
+
+585
+00:27:55,867 --> 00:27:56,700
+not a good strategy.
+
+586
+00:27:56,700 --> 00:27:58,742
+Because there's just too
+much data you could get.
+
+587
+00:27:58,742 --> 00:28:02,580
+Do I want more data with
+people with long hair
+
+588
+00:28:02,580 --> 00:28:04,640
+or short hair or people
+with facial hair?
+
+589
+00:28:04,640 --> 00:28:06,100
+Sorry, too much hair.
+
+590
+00:28:06,100 --> 00:28:07,280
+Too many hair examples.
+
+591
+00:28:07,280 --> 00:28:11,420
+Or do I want people
+wearing a scarf,
+
+592
+00:28:11,420 --> 00:28:12,920
+covering part of
+the face, or people
+
+593
+00:28:12,920 --> 00:28:15,140
+that wear glasses, or
+that don't wear glasses,
+
+594
+00:28:15,140 --> 00:28:18,640
+or people that are
+slightly turned away?
+
+595
+00:28:18,640 --> 00:28:21,680
+There's just so
+many different types
+
+596
+00:28:21,680 --> 00:28:25,480
+of data you could invest
+effort to get more of that
+
+597
+00:28:25,480 --> 00:28:27,660
+until you build a system,
+see where it goes well,
+
+598
+00:28:27,660 --> 00:28:30,960
+see where it goes poorly, is
+really difficult to decide where
+
+599
+00:28:30,960 --> 00:28:33,480
+to get more data and just
+get more data of everything
+
+600
+00:28:33,480 --> 00:28:34,680
+under the sun.
+
+601
+00:28:34,680 --> 00:28:37,080
+That's very slow and expensive.
+
+602
+00:28:37,080 --> 00:28:41,360
+And I think part of the
+hype about the value of data
+
+603
+00:28:41,360 --> 00:28:45,780
+has led people to have sometimes
+overly simplistic view of data.
+
+604
+00:28:45,780 --> 00:28:48,720
+Yes, of course,
+I want more data.
+
+605
+00:28:48,720 --> 00:28:51,680
+But just grabbing more
+data of all types of data
+
+606
+00:28:51,680 --> 00:28:54,320
+is a very inefficient,
+very expensive way
+
+607
+00:28:54,320 --> 00:28:56,080
+to improve my system.
+
+608
+00:28:56,080 --> 00:28:58,920
+And even if you look at the way
+that frontier models are trained
+
+609
+00:28:58,920 --> 00:29:02,720
+right now is not a game of just
+grabbing more data of anything
+
+610
+00:29:02,720 --> 00:29:03,620
+under the sun.
+
+611
+00:29:03,620 --> 00:29:06,000
+It is identifying
+the subcategories
+
+612
+00:29:06,000 --> 00:29:09,400
+where it's valuable to invest
+to get high quality data, which
+
+613
+00:29:09,400 --> 00:29:11,610
+is why, if you look at--
+
+614
+00:29:11,610 --> 00:29:14,810
+It turns out in AI, there
+are two clear buckets
+
+615
+00:29:14,810 --> 00:29:15,970
+of value in LLMs.
+
+616
+00:29:15,970 --> 00:29:18,350
+There's the general
+answering people's questions.
+
+617
+00:29:18,350 --> 00:29:21,250
+I think OpenAI [INAUDIBLE]
+is doing really well there.
+
+618
+00:29:21,250 --> 00:29:23,750
+Gemini, Anthropic have momentum.
+
+619
+00:29:23,750 --> 00:29:25,830
+But there's a [? chance in ?]
+general questions.
+
+620
+00:29:25,830 --> 00:29:27,490
+And then one of the
+verticals is really
+
+621
+00:29:27,490 --> 00:29:29,630
+valuable, is AI for
+coding assistant.
+
+622
+00:29:29,630 --> 00:29:33,310
+So I think Claude has
+been ahead for a while.
+
+623
+00:29:33,310 --> 00:29:37,890
+But OpenAI, Gemini 2.5
+Pro, some of the models
+
+624
+00:29:37,890 --> 00:29:40,410
+are making really good
+progress in coding as well.
+
+625
+00:29:40,410 --> 00:29:43,410
+And if you look at the work that
+the frontier teams are doing
+
+626
+00:29:43,410 --> 00:29:46,730
+to improve coding, building
+iterative agentic workflows
+
+627
+00:29:46,730 --> 00:29:47,790
+is part of it.
+
+628
+00:29:47,790 --> 00:29:52,530
+But also finding clever ways to
+come up with coding related data
+
+629
+00:29:52,530 --> 00:29:54,050
+is also a part of it.
+
+630
+00:29:54,050 --> 00:29:57,270
+And if you want your OM
+to do better in coding,
+
+631
+00:29:57,270 --> 00:30:01,770
+you don't grab data willy-nilly
+with low quality random internet
+
+632
+00:30:01,770 --> 00:30:04,490
+chat, social media,
+or whatever data.
+
+633
+00:30:04,490 --> 00:30:07,690
+But instead, having high
+quality coding related data
+
+634
+00:30:07,690 --> 00:30:09,620
+is how you can have
+a focused effort
+
+635
+00:30:09,620 --> 00:30:12,640
+to improve your OM's
+ability to code.
+
+636
+00:30:12,640 --> 00:30:16,180
+So a lot of these
+things are actually--
+
+637
+00:30:16,180 --> 00:30:21,000
+Yeah, I feel more
+data is better.
+
+638
+00:30:21,000 --> 00:30:22,080
+That is absolutely true.
+
+639
+00:30:22,080 --> 00:30:23,880
+But it's also overly simplistic.
+
+640
+00:30:23,880 --> 00:30:25,580
+Data is not monolithic.
+
+641
+00:30:25,580 --> 00:30:27,380
+There are subcategories of data.
+
+642
+00:30:27,380 --> 00:30:29,660
+And having a view on
+what piece of data
+
+643
+00:30:29,660 --> 00:30:31,800
+to really invest in
+getting a lot more of,
+
+644
+00:30:31,800 --> 00:30:35,580
+that's really important to being
+efficient in how you improve
+
+645
+00:30:35,580 --> 00:30:37,460
+your system's performance.
+
+646
+00:30:37,460 --> 00:30:39,120
+That makes sense?
+
+647
+00:30:39,120 --> 00:30:42,220
+Well, we'll talk more
+about error analysis later.
+
+648
+00:30:42,220 --> 00:30:43,400
+Any other questions?
+
+649
+00:30:47,180 --> 00:30:49,960
+Cool.
+
+650
+00:30:49,960 --> 00:30:50,680
+Yeah, go for it.
+
+651
+00:30:50,680 --> 00:30:52,097
+What about the
+technology of data?
+
+652
+00:30:52,097 --> 00:30:55,140
+For example, in the future, if
+you want to collect [INAUDIBLE].
+
+653
+00:31:00,620 --> 00:31:04,740
+Yeah, so as you collect
+data, the quality
+
+654
+00:31:04,740 --> 00:31:07,960
+of data matters a lot, too.
+
+655
+00:31:07,960 --> 00:31:15,400
+And I think data quality
+is tricky, I think.
+
+656
+00:31:15,400 --> 00:31:17,660
+When building an application
+for the first time,
+
+657
+00:31:17,660 --> 00:31:21,400
+I would still focus on speed and
+collecting some data quickly.
+
+658
+00:31:21,400 --> 00:31:23,800
+But as you then analyze
+where a system is going well
+
+659
+00:31:23,800 --> 00:31:25,600
+and where it's doing
+poorly, you often
+
+660
+00:31:25,600 --> 00:31:31,040
+find that the quality
+of data really matters.
+
+661
+00:31:31,040 --> 00:31:34,710
+So trying to decide, should I
+talk about this now or later?
+
+662
+00:31:39,640 --> 00:31:42,460
+So let's see what's
+a good example.
+
+663
+00:31:42,460 --> 00:31:44,600
+Let's talk about [INAUDIBLE].
+
+664
+00:31:44,600 --> 00:31:47,400
+There's a lot of low
+quality random chat
+
+665
+00:31:47,400 --> 00:31:50,840
+on the internet that's not
+that useful for training LLMs.
+
+666
+00:31:50,840 --> 00:31:53,920
+But I think it's
+actually now well known
+
+667
+00:31:53,920 --> 00:31:58,680
+that if you can legally access
+very high quality written,
+
+668
+00:31:58,680 --> 00:32:01,800
+authored articles or books
+that are highly edited, very
+
+669
+00:32:01,800 --> 00:32:05,610
+insightful, that's very high
+quality data for training norms.
+
+670
+00:32:05,610 --> 00:32:08,630
+And I'll give an example later
+as well for face recognition.
+
+671
+00:32:08,630 --> 00:32:13,010
+It turns out that
+blurry images would
+
+672
+00:32:13,010 --> 00:32:16,950
+be a lower quality than
+sharp, in-focus images,
+
+673
+00:32:16,950 --> 00:32:19,170
+assuming that's
+representative of how you want
+
+674
+00:32:19,170 --> 00:32:20,850
+to recognize people's faces.
+
+675
+00:32:20,850 --> 00:32:24,050
+So that really matters as well.
+
+676
+00:32:24,050 --> 00:32:25,270
+Anything else?
+
+677
+00:32:28,250 --> 00:32:33,356
+Cool Yeah, go for it.
+
+678
+00:32:33,356 --> 00:32:35,810
+Question about the
+data and how close
+
+679
+00:32:35,810 --> 00:32:38,770
+do you need to be to ask
+what we want them to do.
+
+680
+00:32:38,770 --> 00:32:41,010
+For example, in face
+recognition where
+
+681
+00:32:41,010 --> 00:32:44,050
+we're trying to compare
+two pictures [INAUDIBLE]
+
+682
+00:32:44,050 --> 00:32:49,130
+to train a model, just to
+compare object, just [INAUDIBLE]
+
+683
+00:32:49,130 --> 00:32:51,650
+people's faces.
+
+684
+00:32:51,650 --> 00:32:53,890
+It's much faster,
+but we're moving away
+
+685
+00:32:53,890 --> 00:32:56,870
+from the ideal task we
+want [INAUDIBLE] to do.
+
+686
+00:32:56,870 --> 00:32:59,650
+So what is the balance here?
+
+687
+00:32:59,650 --> 00:33:01,930
+Yeah, so just repeat for mic.
+
+688
+00:33:01,930 --> 00:33:03,900
+How important is it that
+the data you collect
+
+689
+00:33:03,900 --> 00:33:08,700
+is similar to the distribution
+of things you want to work on?
+
+690
+00:33:08,700 --> 00:33:10,940
+I think it's important,
+but not as important
+
+691
+00:33:10,940 --> 00:33:14,380
+as most people might think.
+
+692
+00:33:14,380 --> 00:33:20,860
+So it turns out one of the
+reasons neural networks have
+
+693
+00:33:20,860 --> 00:33:23,300
+been so effective is because
+when you build a very
+
+694
+00:33:23,300 --> 00:33:26,220
+large neural network, you
+can throw all sorts of data
+
+695
+00:33:26,220 --> 00:33:32,860
+into it, including data that is
+not perfectly tuned to your test
+
+696
+00:33:32,860 --> 00:33:34,140
+set distribution.
+
+697
+00:33:34,140 --> 00:33:36,340
+And it often
+doesn't hurt so long
+
+698
+00:33:36,340 --> 00:33:37,860
+as your network is big enough.
+
+699
+00:33:37,860 --> 00:33:39,740
+So you raise the example.
+
+700
+00:33:39,740 --> 00:33:43,100
+What if we have it identified
+two identical objects?
+
+701
+00:33:43,100 --> 00:33:46,260
+If it's generic objects like
+water bottles and markers,
+
+702
+00:33:46,260 --> 00:33:47,920
+maybe that's too far afield.
+
+703
+00:33:47,920 --> 00:33:51,700
+But if we were to
+use, let's say,
+
+704
+00:33:51,700 --> 00:33:54,660
+simulated cartoonish
+characters that
+
+705
+00:33:54,660 --> 00:33:57,020
+look really different
+than real humans,
+
+706
+00:33:57,020 --> 00:34:00,100
+my guess is it probably
+won't hurt at all
+
+707
+00:34:00,100 --> 00:34:02,560
+and may even help a little bit.
+
+708
+00:34:02,560 --> 00:34:04,462
+And so throwing
+in a lot of data,
+
+709
+00:34:04,462 --> 00:34:06,920
+you can train a large neural
+network with a lot of capacity
+
+710
+00:34:06,920 --> 00:34:10,560
+to absorb even some
+slightly relevant data.
+
+711
+00:34:10,560 --> 00:34:14,880
+It usually doesn't hurt and
+might even help a little bit.
+
+712
+00:34:14,880 --> 00:34:17,637
+But how much it helps is
+another empirical question
+
+713
+00:34:17,637 --> 00:34:19,679
+that will be problem
+dependent, and we often just
+
+714
+00:34:19,679 --> 00:34:20,679
+have to try it out.
+
+715
+00:34:20,679 --> 00:34:25,400
+But in the past, people
+used to have an obsession
+
+716
+00:34:25,400 --> 00:34:27,120
+that the data you
+train on has come
+
+717
+00:34:27,120 --> 00:34:29,370
+from exactly the same
+distribution as the distribution
+
+718
+00:34:29,370 --> 00:34:30,199
+you test on.
+
+719
+00:34:30,199 --> 00:34:32,719
+That used to be how
+machine learning was
+
+720
+00:34:32,719 --> 00:34:36,120
+done 10, 15 years ago.
+
+721
+00:34:36,120 --> 00:34:37,739
+That's really not
+true today anymore.
+
+722
+00:34:37,739 --> 00:34:39,440
+I think we're very comfortable.
+
+723
+00:34:39,440 --> 00:34:42,800
+And I think when neural
+networks were much smaller, when
+
+724
+00:34:42,800 --> 00:34:45,105
+you could train
+very small models,
+
+725
+00:34:45,105 --> 00:34:46,480
+there was a sense
+that you didn't
+
+726
+00:34:46,480 --> 00:34:49,639
+want to distract the neural
+network with irrelevant data
+
+727
+00:34:49,639 --> 00:34:53,280
+because a computer was
+expensive, with few parameters.
+
+728
+00:34:53,280 --> 00:34:55,300
+And if you distract
+on irrelevant stuff,
+
+729
+00:34:55,300 --> 00:34:57,200
+maybe it gets less
+good at the core tasks
+
+730
+00:34:57,200 --> 00:34:58,560
+you really care about.
+
+731
+00:34:58,560 --> 00:35:00,930
+But if you can train a bigger
+than neural network, which
+
+732
+00:35:00,930 --> 00:35:03,890
+is getting easier and
+easier these days,
+
+733
+00:35:03,890 --> 00:35:09,410
+then it's become much more OK to
+toss in some data that hopefully
+
+734
+00:35:09,410 --> 00:35:10,590
+isn't incorrect data.
+
+735
+00:35:10,590 --> 00:35:12,390
+I think incorrect data
+would be a problem.
+
+736
+00:35:12,390 --> 00:35:15,330
+But just irrelevant
+examples hurts
+
+737
+00:35:15,330 --> 00:35:19,290
+much less because big neural
+networks is like a human brain.
+
+738
+00:35:19,290 --> 00:35:23,930
+The fact that I learned
+to play the piano
+
+739
+00:35:23,930 --> 00:35:28,130
+probably doesn't
+make me worse at AI.
+
+740
+00:35:28,130 --> 00:35:30,090
+Because hopefully, my
+brain is big enough
+
+741
+00:35:30,090 --> 00:35:34,130
+to learn to play the piano
+and learn some stuff about AI.
+
+742
+00:35:34,130 --> 00:35:36,047
+And I think as neural
+networks get big enough,
+
+743
+00:35:36,047 --> 00:35:37,838
+they can learn some
+other irrelevant things
+
+744
+00:35:37,838 --> 00:35:40,430
+and also do well at the core
+task that you really care about.
+
+745
+00:35:40,430 --> 00:35:44,230
+But this was less true if
+my brain was really small.
+
+746
+00:35:44,230 --> 00:35:48,932
+I don't think any are
+fans of Sherlock Holmes.
+
+747
+00:35:48,932 --> 00:35:50,890
+But I think Sherlock
+Holmes had an attic theory
+
+748
+00:35:50,890 --> 00:35:52,598
+that your brain has
+only so much capacity
+
+749
+00:35:52,598 --> 00:35:54,990
+so you've got to forget some
+stuff to learn new stuff.
+
+750
+00:35:54,990 --> 00:35:57,130
+But when you train very
+large neural networks,
+
+751
+00:35:57,130 --> 00:36:00,020
+that's much less true.
+
+752
+00:36:00,020 --> 00:36:02,100
+Cool.
+
+753
+00:36:02,100 --> 00:36:04,580
+Thank you all the questions.
+
+754
+00:36:04,580 --> 00:36:07,200
+So what I want to do is just
+keep going through this flow.
+
+755
+00:36:07,200 --> 00:36:11,460
+So we talked about get data,
+design model, train the model.
+
+756
+00:36:11,460 --> 00:36:13,780
+We'll talk a lot more
+about error analysis later
+
+757
+00:36:13,780 --> 00:36:16,060
+this quarter of
+how to figure out
+
+758
+00:36:16,060 --> 00:36:17,820
+where your algorithm
+is still subpar
+
+759
+00:36:17,820 --> 00:36:21,300
+and where to focus
+efforts to improve it.
+
+760
+00:36:21,300 --> 00:36:27,340
+But what I want to do is give
+you a sense of a deployment.
+
+761
+00:36:27,340 --> 00:36:39,500
+So, when you have
+trained a model
+
+762
+00:36:39,500 --> 00:36:43,660
+is often a bunch of
+software engineering work
+
+763
+00:36:43,660 --> 00:36:46,140
+to then maybe take
+your model, host it
+
+764
+00:36:46,140 --> 00:36:49,320
+in the cloud or local server,
+and have it run inference.
+
+765
+00:36:49,320 --> 00:36:51,820
+So a very common architecture
+for deploying machine
+
+766
+00:36:51,820 --> 00:36:54,060
+learning model will be that
+you have a neural network
+
+767
+00:36:54,060 --> 00:36:55,700
+as a piece of software.
+
+768
+00:36:55,700 --> 00:36:58,580
+You deploy it maybe on
+a cloud hosted service
+
+769
+00:36:58,580 --> 00:37:02,280
+so that your software can
+accept a picture or a set of two
+
+770
+00:37:02,280 --> 00:37:05,040
+pictures, and it
+will reply back.
+
+771
+00:37:05,040 --> 00:37:06,443
+Do I unlock the door or not?
+
+772
+00:37:06,443 --> 00:37:07,860
+Or is this the
+same person or not?
+
+773
+00:37:07,860 --> 00:37:09,640
+So that's much of
+software engineering
+
+774
+00:37:09,640 --> 00:37:11,120
+work that needs to be done.
+
+775
+00:37:11,120 --> 00:37:14,902
+But in practical
+deployment settings--
+
+776
+00:37:14,902 --> 00:37:15,860
+I'll actually tell you.
+
+777
+00:37:15,860 --> 00:37:18,068
+It turns out that if you're
+building a practical face
+
+778
+00:37:18,068 --> 00:37:21,480
+recognition system, you probably
+find that if you are trying
+
+779
+00:37:21,480 --> 00:37:28,560
+to unlock a door to a corporate
+campus is too expensive or too
+
+780
+00:37:28,560 --> 00:37:34,320
+slow to stream video 24/7 to
+cloud to classify every frame
+
+781
+00:37:34,320 --> 00:37:38,200
+at 30 frames a second to see if
+there's a person that you should
+
+782
+00:37:38,200 --> 00:37:39,920
+unlock the door for.
+
+783
+00:37:39,920 --> 00:37:45,200
+So in practical face recognition
+systems, what we end up doing--
+
+784
+00:37:45,200 --> 00:37:49,320
+so actually, let's take
+the example of someone
+
+785
+00:37:49,320 --> 00:37:52,362
+walk up to the door to your
+home, to your door at home.
+
+786
+00:37:52,362 --> 00:37:54,570
+And you want to see if
+there's someone there that you
+
+787
+00:37:54,570 --> 00:37:56,170
+should unlock the door for.
+
+788
+00:37:56,170 --> 00:38:00,770
+So a lot of systems
+will actually
+
+789
+00:38:00,770 --> 00:38:04,880
+have an image from the camera,
+and then try to build a system--
+
+790
+00:38:08,530 --> 00:38:12,290
+So what we have
+so far is a system
+
+791
+00:38:12,290 --> 00:38:15,490
+that takes as input an image
+and maybe a reference image.
+
+792
+00:38:15,490 --> 00:38:20,090
+Neural network says, do
+I unlock the door or not?
+
+793
+00:38:20,090 --> 00:38:23,410
+But it turns out that
+if streaming video is
+
+794
+00:38:23,410 --> 00:38:26,570
+too expensive, classifying
+every frame is too expensive,
+
+795
+00:38:26,570 --> 00:38:30,140
+we'll often end up with
+a system like this.
+
+796
+00:38:36,090 --> 00:38:41,790
+Well, VAD stands for
+Visual Activity Detection.
+
+797
+00:38:47,210 --> 00:38:50,350
+And what this does is
+a usually low cost,
+
+798
+00:38:50,350 --> 00:38:52,570
+low power, inexpensive
+compute job
+
+799
+00:38:52,570 --> 00:38:55,880
+to run to just very quickly
+maybe try to figure out,
+
+800
+00:38:55,880 --> 00:38:57,540
+is there a human face there?
+
+801
+00:38:57,540 --> 00:39:00,040
+Because it turns out, actually,
+if you're building something
+
+802
+00:39:00,040 --> 00:39:02,860
+unlock your front door
+to you and your friends,
+
+803
+00:39:02,860 --> 00:39:05,680
+if you look out my
+front door and my house,
+
+804
+00:39:05,680 --> 00:39:06,680
+it's pretty boring.
+
+805
+00:39:06,680 --> 00:39:09,027
+There's a wall.
+
+806
+00:39:09,027 --> 00:39:10,860
+We see a little over
+the street, but nothing
+
+807
+00:39:10,860 --> 00:39:11,818
+moves most of the time.
+
+808
+00:39:11,818 --> 00:39:15,180
+So almost all of the
+time, it's very obvious
+
+809
+00:39:15,180 --> 00:39:17,940
+that there's no one outside my
+front door trying to be let in
+
+810
+00:39:17,940 --> 00:39:20,500
+and be very wasteful to stream
+all that video to the internet
+
+811
+00:39:20,500 --> 00:39:21,820
+for classification.
+
+812
+00:39:21,820 --> 00:39:25,040
+So visual activity detection
+is usually a low cost,
+
+813
+00:39:25,040 --> 00:39:28,100
+low power system to just
+very quickly decide,
+
+814
+00:39:28,100 --> 00:39:35,380
+should I do the work of
+sending this to the larger face
+
+815
+00:39:35,380 --> 00:39:37,580
+recognition system
+neural network that
+
+816
+00:39:37,580 --> 00:39:39,660
+may be hosted on
+the cloud to have
+
+817
+00:39:39,660 --> 00:39:42,260
+it do the much more
+computationally expensive work
+
+818
+00:39:42,260 --> 00:39:46,220
+to decide, 0 or 1, do I
+unlock the door or not?
+
+819
+00:39:46,220 --> 00:39:52,880
+So this type of
+optimization, in order
+
+820
+00:39:52,880 --> 00:39:54,960
+to make the system
+computationally
+
+821
+00:39:54,960 --> 00:39:58,840
+feasible to deploy
+is fairly common.
+
+822
+00:39:58,840 --> 00:40:01,720
+And I'm going to give
+you two options for how
+
+823
+00:40:01,720 --> 00:40:03,720
+to implement VAD.
+
+824
+00:40:03,720 --> 00:40:05,980
+And I'm going to ask
+you to reflect on them,
+
+825
+00:40:05,980 --> 00:40:09,240
+and then tell me which one
+you would pick to get started.
+
+826
+00:40:09,240 --> 00:40:16,980
+So option one is a non-machine
+learning based method,
+
+827
+00:40:16,980 --> 00:40:20,000
+which is--
+
+828
+00:40:20,000 --> 00:40:21,560
+see if the number
+of pixels changed--
+
+829
+00:40:25,824 --> 00:40:28,880
+is greater than some
+threshold epsilon.
+
+830
+00:40:28,880 --> 00:40:32,800
+So if the camera is
+stationary, maybe
+
+831
+00:40:32,800 --> 00:40:34,800
+looking at a wall,
+most of the time,
+
+832
+00:40:34,800 --> 00:40:38,360
+the pixels barely change
+because it's just a wall.
+
+833
+00:40:38,360 --> 00:40:40,080
+And so you can write
+a little bit of code
+
+834
+00:40:40,080 --> 00:40:43,880
+using some image library
+like PIL, Python Imaging
+
+835
+00:40:43,880 --> 00:40:46,800
+Library, or some simple write a
+few lines of code to just say,
+
+836
+00:40:46,800 --> 00:40:49,050
+has the number of
+pixels whose RGB
+
+837
+00:40:49,050 --> 00:40:53,050
+values that change more than
+some threshold has more than 10%
+
+838
+00:40:53,050 --> 00:40:55,090
+of the pixels changed
+compared to what it looked
+
+839
+00:40:55,090 --> 00:40:58,770
+like a second ago, in order to
+see if there's anything in front
+
+840
+00:40:58,770 --> 00:41:03,250
+of your camera to even
+decide to pass this to a more
+
+841
+00:41:03,250 --> 00:41:04,510
+high powered neural network.
+
+842
+00:41:07,930 --> 00:41:15,860
+Option two would be to train
+a small neural network.
+
+843
+00:41:39,410 --> 00:41:42,273
+So face recognition is
+a pretty complex task.
+
+844
+00:41:42,273 --> 00:41:44,190
+You have to look at
+multiple cues in the face.
+
+845
+00:41:44,190 --> 00:41:45,690
+Look at the eyes,
+look at the mouth.
+
+846
+00:41:45,690 --> 00:41:49,230
+So that takes a relatively
+large neural network.
+
+847
+00:41:49,230 --> 00:41:51,330
+But just taking a
+quick glance to see,
+
+848
+00:41:51,330 --> 00:41:53,250
+is there even a human
+in front of my door?
+
+849
+00:41:53,250 --> 00:41:54,950
+That's a much simpler task.
+
+850
+00:41:54,950 --> 00:41:58,470
+So option two would be training
+a very small, very low power,
+
+851
+00:41:58,470 --> 00:42:04,110
+very lightweight neural network
+to just very quickly tell you,
+
+852
+00:42:04,110 --> 00:42:07,310
+do you think there's
+a human there?
+
+853
+00:42:07,310 --> 00:42:10,110
+And then use this
+trained model to decide,
+
+854
+00:42:10,110 --> 00:42:14,633
+is it worth passing on to a much
+more powerful neural network
+
+855
+00:42:14,633 --> 00:42:16,550
+running in the cloud
+with a lot more resources
+
+856
+00:42:16,550 --> 00:42:18,670
+to make the final determination?
+
+857
+00:42:18,670 --> 00:42:23,790
+So if you are the CTO of a
+three-person startup building
+
+858
+00:42:23,790 --> 00:42:26,850
+this, how would you start?
+
+859
+00:42:26,850 --> 00:42:29,790
+We'll give everyone a few
+seconds to reflect on this,
+
+860
+00:42:29,790 --> 00:42:31,500
+get people's thoughts.
+
+861
+00:42:42,230 --> 00:42:43,450
+Go for it.
+
+862
+00:42:43,450 --> 00:42:49,460
+[INAUDIBLE] in the street
+where people walk by.
+
+863
+00:42:49,460 --> 00:42:57,080
+[INAUDIBLE] you might get
+a lot of false positives.
+
+864
+00:42:57,080 --> 00:43:00,460
+So it depends on what
+type of phone you have.
+
+865
+00:43:00,460 --> 00:43:02,320
+And you can also
+go with an option
+
+866
+00:43:02,320 --> 00:43:06,640
+that you can make it sound
+simpler classification,
+
+867
+00:43:06,640 --> 00:43:11,520
+not necessarily a
+[INAUDIBLE] or it [INAUDIBLE]
+
+868
+00:43:11,520 --> 00:43:14,280
+is there a person
+there [INAUDIBLE].
+
+869
+00:43:14,280 --> 00:43:14,780
+Yeah, right.
+
+870
+00:43:14,780 --> 00:43:18,323
+Cool Yeah, cool.
+
+871
+00:43:18,323 --> 00:43:19,740
+Just repeating
+[INAUDIBLE] my mic.
+
+872
+00:43:19,740 --> 00:43:21,657
+So problem dependent
+depends on whether you're
+
+873
+00:43:21,657 --> 00:43:23,907
+on the street where a lot
+of people walking past maybe
+
+874
+00:43:23,907 --> 00:43:25,040
+consider other algorithms.
+
+875
+00:43:25,040 --> 00:43:27,200
+They're even cheaper
+than small neural net.
+
+876
+00:43:27,200 --> 00:43:28,040
+Cool.
+
+877
+00:43:28,040 --> 00:43:29,090
+[INAUDIBLE] that.
+
+878
+00:43:29,090 --> 00:43:31,600
+[INAUDIBLE] just a
+training model because this
+
+879
+00:43:31,600 --> 00:43:36,400
+is not the main
+[INAUDIBLE] for that.
+
+880
+00:43:36,400 --> 00:43:40,280
+We could probably just be
+talking about [INAUDIBLE]
+
+881
+00:43:40,280 --> 00:43:41,720
+while we collect more data.
+
+882
+00:43:41,720 --> 00:43:44,970
+And then [INAUDIBLE] with this.
+
+883
+00:43:44,970 --> 00:43:46,250
+Yeah, cool.
+
+884
+00:43:46,250 --> 00:43:46,750
+Great.
+
+885
+00:43:46,750 --> 00:43:49,250
+So use option one
+in the short term.
+
+886
+00:43:49,250 --> 00:43:51,190
+And then maybe replace
+that with option two
+
+887
+00:43:51,190 --> 00:43:52,290
+when we have more data.
+
+888
+00:43:52,290 --> 00:43:52,790
+Yeah, cool.
+
+889
+00:43:52,790 --> 00:43:54,690
+That's very same approach.
+
+890
+00:43:54,690 --> 00:43:56,850
+I was thinking, why don't
+you use two options?
+
+891
+00:43:56,850 --> 00:44:02,690
+Because the [INAUDIBLE]
+is very simple.
+
+892
+00:44:02,690 --> 00:44:05,290
+Only if that is clear
+is then we [INAUDIBLE]
+
+893
+00:44:05,290 --> 00:44:07,170
+say [INAUDIBLE] or not.
+
+894
+00:44:07,170 --> 00:44:11,130
+And after that, moving to one.
+
+895
+00:44:11,130 --> 00:44:14,947
+Sorry, so use both options
+or put both in the pipeline.
+
+896
+00:44:14,947 --> 00:44:16,030
+That's interesting, I see.
+
+897
+00:44:16,030 --> 00:44:17,170
+[INAUDIBLE]
+
+898
+00:44:17,170 --> 00:44:20,030
+So option one, let option
+one see if anything change.
+
+899
+00:44:20,030 --> 00:44:23,650
+If something is changed, then
+pass this [? neural ?] network.
+
+900
+00:44:23,650 --> 00:44:24,350
+That's cool.
+
+901
+00:44:24,350 --> 00:44:25,230
+That could work.
+
+902
+00:44:25,230 --> 00:44:27,490
+[INAUDIBLE]
+
+903
+00:44:32,410 --> 00:44:32,910
+Yeah, cool.
+
+904
+00:44:32,910 --> 00:44:33,827
+Yeah, that could work.
+
+905
+00:44:33,827 --> 00:44:35,930
+So like a cascade
+of multiple steps.
+
+906
+00:44:35,930 --> 00:44:36,750
+Yeah.
+
+907
+00:44:36,750 --> 00:44:42,360
+Which would [INAUDIBLE]
+because that would affect--
+
+908
+00:44:42,360 --> 00:44:46,208
+[? because ?] it's
+cheap to [INAUDIBLE].
+
+909
+00:44:46,208 --> 00:44:47,750
+Because then, you
+don't have to worry
+
+910
+00:44:47,750 --> 00:44:50,710
+about someone coming to the
+door and nothing happening.
+
+911
+00:44:50,710 --> 00:44:52,590
+If it's more expensive
+than I would probably
+
+912
+00:44:52,590 --> 00:44:54,250
+invest [INAUDIBLE] options.
+
+913
+00:44:54,250 --> 00:44:55,450
+I see, cool.
+
+914
+00:44:55,450 --> 00:44:58,494
+[INAUDIBLE] make sure we're
+not wasting [INAUDIBLE].
+
+915
+00:44:58,494 --> 00:44:59,350
+I see, cool.
+
+916
+00:44:59,350 --> 00:45:01,708
+Yeah, so how expensive is it
+to run this neural network
+
+917
+00:45:01,708 --> 00:45:02,250
+in the cloud?
+
+918
+00:45:02,250 --> 00:45:06,830
+So actually, so I would usually
+want to design both of these
+
+919
+00:45:06,830 --> 00:45:09,290
+to run at the edge,
+meaning, on the device.
+
+920
+00:45:09,290 --> 00:45:12,230
+[INAUDIBLE]
+
+921
+00:45:12,230 --> 00:45:12,890
+This one.
+
+922
+00:45:12,890 --> 00:45:15,190
+Yeah.
+
+923
+00:45:15,190 --> 00:45:21,270
+So it turns out that streaming
+video is fairly expensive.
+
+924
+00:45:21,270 --> 00:45:28,870
+So I think, yeah, I feel like--
+boy, I don't have numbers
+
+925
+00:45:28,870 --> 00:45:30,050
+at tip of my fingertips.
+
+926
+00:45:30,050 --> 00:45:34,450
+But I think running this
+24/7 is not feasible.
+
+927
+00:45:34,450 --> 00:45:37,750
+So we definitely need
+something to filter it down.
+
+928
+00:45:37,750 --> 00:45:42,520
+But sending few
+images every minute
+
+929
+00:45:42,520 --> 00:45:44,840
+is probably not a problem.
+
+930
+00:45:44,840 --> 00:45:47,800
+Makes sense?
+
+931
+00:45:47,800 --> 00:45:49,228
+Go ahead.
+
+932
+00:45:49,228 --> 00:45:50,600
+[INAUDIBLE]
+
+933
+00:45:50,600 --> 00:45:51,100
+Sorry?
+
+934
+00:45:51,100 --> 00:45:54,467
+[INAUDIBLE]
+
+935
+00:46:01,680 --> 00:46:04,560
+Sample certain
+frames of the video
+
+936
+00:46:04,560 --> 00:46:06,600
+in order to get all of them.
+
+937
+00:46:06,600 --> 00:46:08,260
+Yes, I guess so.
+
+938
+00:46:08,260 --> 00:46:15,640
+Yeah, although I think if you
+have a video of my front door,
+
+939
+00:46:15,640 --> 00:46:18,540
+you need a way to sample
+other than random, I guess.
+
+940
+00:46:18,540 --> 00:46:22,480
+Because a lot of
+times, nothing happens
+
+941
+00:46:22,480 --> 00:46:25,860
+unless you take one frame
+per minute, I guess,
+
+942
+00:46:25,860 --> 00:46:27,160
+which would be OK.
+
+943
+00:46:27,160 --> 00:46:30,200
+But then, we don't want someone
+waiting there for a full minute
+
+944
+00:46:30,200 --> 00:46:33,520
+before we finally get around
+to sampling and sending it.
+
+945
+00:46:33,520 --> 00:46:34,680
+So, yeah.
+
+946
+00:46:34,680 --> 00:46:36,678
+Go ahead.
+
+947
+00:46:36,678 --> 00:46:37,470
+This is a question.
+
+948
+00:46:37,470 --> 00:46:42,570
+Could we use the same
+images to train [INAUDIBLE]
+
+949
+00:46:42,570 --> 00:46:45,010
+a neural network [INAUDIBLE]?
+
+950
+00:46:45,010 --> 00:46:47,850
+Or with that be biased?
+
+951
+00:46:47,850 --> 00:46:51,290
+Yeah, can we use the same
+images for training this network
+
+952
+00:46:51,290 --> 00:46:55,170
+to train the option two network?
+
+953
+00:46:55,170 --> 00:46:56,850
+Maybe.
+
+954
+00:46:56,850 --> 00:46:58,450
+It's actually one
+of the things, I
+
+955
+00:46:58,450 --> 00:47:00,903
+would say, where to try it
+before we know if it works.
+
+956
+00:47:00,903 --> 00:47:01,570
+Might be doable.
+
+957
+00:47:01,570 --> 00:47:03,870
+Depends a lot on what
+data we collected to train
+
+958
+00:47:03,870 --> 00:47:05,162
+the [INAUDIBLE] neural network.
+
+959
+00:47:07,370 --> 00:47:08,550
+Cool.
+
+960
+00:47:08,550 --> 00:47:09,850
+Let's take a [INAUDIBLE].
+
+961
+00:47:09,850 --> 00:47:10,350
+Go ahead.
+
+962
+00:47:10,350 --> 00:47:13,668
+[INAUDIBLE]
+
+963
+00:47:19,570 --> 00:47:20,230
+Cool, yeah.
+
+964
+00:47:20,230 --> 00:47:22,690
+How about use option one,
+keep a really low threshold.
+
+965
+00:47:22,690 --> 00:47:24,710
+So we send very few images.
+
+966
+00:47:24,710 --> 00:47:26,530
+Is that what you mean?
+
+967
+00:47:26,530 --> 00:47:31,650
+Yeah, I think that would
+that be reasonable to try.
+
+968
+00:47:31,650 --> 00:47:33,870
+Well, so long as we don't
+miss too many people.
+
+969
+00:47:33,870 --> 00:47:35,570
+But, yeah.
+
+970
+00:47:35,570 --> 00:47:37,030
+Let's take one last comment.
+
+971
+00:47:37,030 --> 00:47:39,484
+I'll share your
+perspective on [INAUDIBLE].
+
+972
+00:47:39,484 --> 00:47:42,802
+[INAUDIBLE]
+
+973
+00:47:48,990 --> 00:47:50,670
+Yes.
+
+974
+00:47:50,670 --> 00:47:52,630
+so one of the
+weaknesses of option one
+
+975
+00:47:52,630 --> 00:47:54,822
+is if there's a tree
+swaying in the background
+
+976
+00:47:54,822 --> 00:47:57,030
+or if you see a road and
+there's a car that drives by
+
+977
+00:47:57,030 --> 00:47:59,697
+or if there's a busy street, the
+car is driving by all the time,
+
+978
+00:47:59,697 --> 00:48:01,790
+or the neighbor's
+cat comes and visits.
+
+979
+00:48:01,790 --> 00:48:03,230
+Those will trigger this.
+
+980
+00:48:03,230 --> 00:48:05,087
+So those are downsides.
+
+981
+00:48:05,087 --> 00:48:07,670
+So let me show you a perspective
+of how I would approach this,
+
+982
+00:48:07,670 --> 00:48:10,230
+and what we actually did.
+
+983
+00:48:10,230 --> 00:48:14,870
+So if you are the CTO of a
+startup implementing this,
+
+984
+00:48:14,870 --> 00:48:20,390
+to me, it again
+comes down to speed.
+
+985
+00:48:20,390 --> 00:48:24,110
+And so what I would ask
+is, how long does it
+
+986
+00:48:24,110 --> 00:48:26,590
+take to implement option
+one and how long does it
+
+987
+00:48:26,590 --> 00:48:28,350
+take to implement option two?
+
+988
+00:48:28,350 --> 00:48:30,710
+And I think everyone made
+good points about the pros
+
+989
+00:48:30,710 --> 00:48:32,950
+and cons of these two options.
+
+990
+00:48:32,950 --> 00:48:36,080
+And if you are actually doing
+this, the approach I would take
+
+991
+00:48:36,080 --> 00:48:39,520
+is, just ask, what
+can I do really
+
+992
+00:48:39,520 --> 00:48:43,780
+quickly so I can then deploy
+it and see whether it works.
+
+993
+00:48:43,780 --> 00:48:46,000
+And then I'll fix it
+if it doesn't work.
+
+994
+00:48:46,000 --> 00:48:48,400
+Because I think
+these insights like,
+
+995
+00:48:48,400 --> 00:48:50,860
+would trees swaying in
+the background affect it?
+
+996
+00:48:50,860 --> 00:48:55,240
+It turns out it actually
+does probably, but maybe
+
+997
+00:48:55,240 --> 00:48:58,520
+not if the wind isn't
+that strong or if--
+
+998
+00:48:58,520 --> 00:49:02,200
+But it's very difficult to know
+answers to questions like these
+
+999
+00:49:02,200 --> 00:49:04,440
+because you don't really
+know until you stick
+
+1000
+00:49:04,440 --> 00:49:07,760
+on a bunch of cameras in front
+of doors and see the data,
+
+1001
+00:49:07,760 --> 00:49:12,020
+then you can get more confident
+in how well option one works,
+
+1002
+00:49:12,020 --> 00:49:14,860
+how often does a neighbor's
+cat actually come by?
+
+1003
+00:49:14,860 --> 00:49:18,625
+And if there's a car that drives
+past other cars usually so far
+
+1004
+00:49:18,625 --> 00:49:21,000
+away, that it doesn't matter
+because the number of pixels
+
+1005
+00:49:21,000 --> 00:49:22,160
+per car is small.
+
+1006
+00:49:22,160 --> 00:49:24,820
+So all of these are very
+empirical questions.
+
+1007
+00:49:24,820 --> 00:49:26,640
+It's really difficult to answer.
+
+1008
+00:49:26,640 --> 00:49:28,200
+And the fastest
+way to get answers
+
+1009
+00:49:28,200 --> 00:49:30,840
+is to just implement
+something quick and dirty.
+
+1010
+00:49:30,840 --> 00:49:33,440
+And then run it, see what
+goes wrong, and then fix it.
+
+1011
+00:49:33,440 --> 00:49:34,970
+So what happens on--
+
+1012
+00:49:34,970 --> 00:49:36,930
+And to tell you,
+what the experience
+
+1013
+00:49:36,930 --> 00:49:38,370
+of a lot of face
+recognition teams
+
+1014
+00:49:38,370 --> 00:49:42,510
+is, because option one
+is so quick to implement,
+
+1015
+00:49:42,510 --> 00:49:46,530
+this is like five lines
+of Python or something.
+
+1016
+00:49:46,530 --> 00:49:49,350
+And get an answer right for you.
+
+1017
+00:49:49,350 --> 00:49:52,490
+Just get on to write five
+lines of Python for you.
+
+1018
+00:49:52,490 --> 00:49:57,650
+So you can implement this in
+20 minutes, maybe even less.
+
+1019
+00:49:57,650 --> 00:50:01,550
+Whereas this, I think will
+take you at least many hours,
+
+1020
+00:50:01,550 --> 00:50:03,370
+maybe longer to implement.
+
+1021
+00:50:03,370 --> 00:50:06,050
+So my instinct would
+be to start with this.
+
+1022
+00:50:06,050 --> 00:50:08,630
+And it turns out, having built
+many face recognition systems,
+
+1023
+00:50:08,630 --> 00:50:11,130
+I'll tell you this actually
+doesn't work well enough for all
+
+1024
+00:50:11,130 --> 00:50:12,450
+the problems people raise.
+
+1025
+00:50:12,450 --> 00:50:15,170
+And so we wind up going to this.
+
+1026
+00:50:15,170 --> 00:50:17,930
+But implementing this
+also gives you insights
+
+1027
+00:50:17,930 --> 00:50:20,330
+into where it's going wrong.
+
+1028
+00:50:20,330 --> 00:50:25,290
+And I'll give you one
+example of one insight
+
+1029
+00:50:25,290 --> 00:50:29,130
+that we and many other face
+recognition teams have,
+
+1030
+00:50:29,130 --> 00:50:33,630
+which is, it turns out that
+when you're approaching
+
+1031
+00:50:33,630 --> 00:50:36,630
+a camera that's trying
+to recognize your face,
+
+1032
+00:50:36,630 --> 00:50:38,390
+there are some
+frames that are going
+
+1033
+00:50:38,390 --> 00:50:41,910
+to be really clear and in
+focus, and a lot of frames
+
+1034
+00:50:41,910 --> 00:50:43,193
+that are really blurry.
+
+1035
+00:50:43,193 --> 00:50:45,110
+If you just look at a
+video of someone walking
+
+1036
+00:50:45,110 --> 00:50:48,490
+toward the camera,
+just when I'm stepping,
+
+1037
+00:50:48,490 --> 00:50:50,590
+sometimes, the velocity
+of my face is higher,
+
+1038
+00:50:50,590 --> 00:50:51,830
+and sometimes it's lower.
+
+1039
+00:50:51,830 --> 00:50:53,270
+That's just what it is.
+
+1040
+00:50:53,270 --> 00:50:55,850
+And so sometimes,
+my face is in focus.
+
+1041
+00:50:55,850 --> 00:50:57,910
+Sometimes, it's more blurry.
+
+1042
+00:50:57,910 --> 00:51:00,470
+And it turns out that
+if you can select out
+
+1043
+00:51:00,470 --> 00:51:04,710
+the high resolution frames and
+feed that to face recognition,
+
+1044
+00:51:04,710 --> 00:51:07,390
+you get much higher
+quality results.
+
+1045
+00:51:07,390 --> 00:51:09,630
+So this is the kind
+of stuff that I
+
+1046
+00:51:09,630 --> 00:51:13,150
+assume most people would
+not know about until you
+
+1047
+00:51:13,150 --> 00:51:14,910
+worked on a system like this.
+
+1048
+00:51:14,910 --> 00:51:17,430
+But it turns out that
+when I was working on
+
+1049
+00:51:17,430 --> 00:51:20,470
+a system like that, having
+a system to not just do
+
+1050
+00:51:20,470 --> 00:51:26,590
+VAD, but also capture the video
+and then deliberately select
+
+1051
+00:51:26,590 --> 00:51:31,000
+not just one, but maybe five
+frames that are high resolution
+
+1052
+00:51:31,000 --> 00:51:33,560
+and in focus of the
+person, that actually
+
+1053
+00:51:33,560 --> 00:51:36,360
+gave a significant boost to the
+accuracy of our face recognition
+
+1054
+00:51:36,360 --> 00:51:37,280
+system.
+
+1055
+00:51:37,280 --> 00:51:40,520
+And I mentioned this as an
+example of the discovery
+
+1056
+00:51:40,520 --> 00:51:43,820
+that you will have only when you
+implement one of these systems,
+
+1057
+00:51:43,820 --> 00:51:45,220
+maybe even implement
+this system.
+
+1058
+00:51:45,220 --> 00:51:47,000
+But you implement
+the system, you see,
+
+1059
+00:51:47,000 --> 00:51:49,000
+boy, we're trying to
+recognize a lot of pictures
+
+1060
+00:51:49,000 --> 00:51:50,140
+from blurry faces.
+
+1061
+00:51:50,140 --> 00:51:52,200
+Maybe you could need to
+do something about that.
+
+1062
+00:51:52,200 --> 00:51:55,040
+And this is driving
+that empirical process
+
+1063
+00:51:55,040 --> 00:51:58,400
+that may then lead you to
+train a neural network, both
+
+1064
+00:51:58,400 --> 00:52:00,440
+to see if there's a
+face, but also to see
+
+1065
+00:52:00,440 --> 00:52:03,040
+if the picture of the face
+is in focus to select out
+
+1066
+00:52:03,040 --> 00:52:05,400
+that frame for
+downstream processing.
+
+1067
+00:52:05,400 --> 00:52:06,520
+Does that make sense?
+
+1068
+00:52:06,520 --> 00:52:10,680
+And this is why you find that
+for some meaningful fraction
+
+1069
+00:52:10,680 --> 00:52:13,480
+of questions that
+I asked in class.
+
+1070
+00:52:13,480 --> 00:52:15,440
+The thing that's
+the speediest to do
+
+1071
+00:52:15,440 --> 00:52:18,320
+is often the right answer
+because that obsession
+
+1072
+00:52:18,320 --> 00:52:21,520
+with speed really lets
+you go in and figure out
+
+1073
+00:52:21,520 --> 00:52:26,160
+what's in your data and improve
+your system more efficiently.
+
+1074
+00:52:26,160 --> 00:52:35,393
+So, yeah.
+
+1075
+00:52:35,393 --> 00:52:36,560
+So what happens in practice?
+
+1076
+00:52:36,560 --> 00:52:37,280
+Start with this.
+
+1077
+00:52:37,280 --> 00:52:39,140
+Discover how it doesn't work
+because it doesn't actually
+
+1078
+00:52:39,140 --> 00:52:39,340
+work.
+
+1079
+00:52:39,340 --> 00:52:40,060
+I'll tell you that.
+
+1080
+00:52:40,060 --> 00:52:40,940
+And then figure out.
+
+1081
+00:52:40,940 --> 00:52:43,500
+But use those
+learnings to do this.
+
+1082
+00:52:43,500 --> 00:52:44,846
+Yeah.
+
+1083
+00:52:44,846 --> 00:52:47,960
+[INAUDIBLE]
+
+1084
+00:52:56,140 --> 00:52:59,260
+Yeah, so is there a sense of
+what is a good classification
+
+1085
+00:52:59,260 --> 00:53:00,480
+accuracy problems like these?
+
+1086
+00:53:00,480 --> 00:53:04,220
+It's actually really difficult.
+One of the common benchmarks--
+
+1087
+00:53:04,220 --> 00:53:07,980
+you learn more about this in
+the third module on the online
+
+1088
+00:53:07,980 --> 00:53:09,020
+videos as well--
+
+1089
+00:53:09,020 --> 00:53:11,620
+is building machine
+learning systems
+
+1090
+00:53:11,620 --> 00:53:14,860
+is easier if we have a
+reference level of performance,
+
+1091
+00:53:14,860 --> 00:53:17,900
+like an aspirational target
+accuracy, which is often
+
+1092
+00:53:17,900 --> 00:53:19,580
+human-level performance.
+
+1093
+00:53:19,580 --> 00:53:25,683
+And so it turns out that
+the way you diagnose
+
+1094
+00:53:25,683 --> 00:53:27,100
+bias and variance,
+which I'll talk
+
+1095
+00:53:27,100 --> 00:53:28,725
+should talk about
+later in this course,
+
+1096
+00:53:28,725 --> 00:53:31,750
+it's easier if you know what's
+an achievable level of accuracy.
+
+1097
+00:53:31,750 --> 00:53:34,030
+And very often, we'll
+use what a human expert
+
+1098
+00:53:34,030 --> 00:53:38,070
+could do as achievable
+level of accuracy.
+
+1099
+00:53:38,070 --> 00:53:41,750
+And then in the case of
+face recognition, definitely
+
+1100
+00:53:41,750 --> 00:53:44,330
+under controlled environments,
+we're better than humans.
+
+1101
+00:53:44,330 --> 00:53:46,030
+So, definitely.
+
+1102
+00:53:46,030 --> 00:53:47,670
+Actually, the AI
+systems we built,
+
+1103
+00:53:47,670 --> 00:53:50,370
+they're way better than I am
+at recognizing human faces.
+
+1104
+00:53:50,370 --> 00:53:53,490
+And I think AI systems are
+better than, I will say,
+
+1105
+00:53:53,490 --> 00:53:55,090
+probably the vast
+majority of humans,
+
+1106
+00:53:55,090 --> 00:53:57,950
+maybe all humans at this point,
+at really distinguishing of two
+
+1107
+00:53:57,950 --> 00:53:59,210
+pictures are the same.
+
+1108
+00:53:59,210 --> 00:54:01,550
+And then it gets
+really difficult.
+
+1109
+00:54:01,550 --> 00:54:03,550
+Then it actually gets
+more difficult [INAUDIBLE]
+
+1110
+00:54:03,550 --> 00:54:05,830
+even better than humans.
+
+1111
+00:54:05,830 --> 00:54:07,950
+But, yeah.
+
+1112
+00:54:07,950 --> 00:54:11,790
+But until you're as good as
+humans on a certain task,
+
+1113
+00:54:11,790 --> 00:54:14,635
+using a human level performance
+is often a good benchmark.
+
+1114
+00:54:14,635 --> 00:54:16,510
+And then if you are
+doing something that even
+
+1115
+00:54:16,510 --> 00:54:18,510
+humans can't do well--
+
+1116
+00:54:18,510 --> 00:54:20,670
+like it turns out, you're
+recommending online books
+
+1117
+00:54:20,670 --> 00:54:22,220
+or movies or whatever.
+
+1118
+00:54:22,220 --> 00:54:23,970
+Humans are actually
+not that good at that.
+
+1119
+00:54:23,970 --> 00:54:26,760
+I think most of us would
+have a hard time recommending
+
+1120
+00:54:26,760 --> 00:54:28,820
+good movies, even to
+our closest friends.
+
+1121
+00:54:28,820 --> 00:54:31,320
+AI actually probably does it
+even better than many of us
+
+1122
+00:54:31,320 --> 00:54:32,440
+do as humans.
+
+1123
+00:54:32,440 --> 00:54:35,500
+Then those things is harder
+to establish a baseline.
+
+1124
+00:54:38,100 --> 00:54:38,600
+Cool.
+
+1125
+00:54:41,800 --> 00:54:48,640
+Now, one final aspect
+I want to touch on
+
+1126
+00:54:48,640 --> 00:54:54,120
+is after deploying a model
+to monitor and to maintain
+
+1127
+00:54:54,120 --> 00:54:58,720
+the model, one thing
+that often happens
+
+1128
+00:54:58,720 --> 00:55:01,480
+is, you train a
+machine learning model.
+
+1129
+00:55:01,480 --> 00:55:02,408
+Works great.
+
+1130
+00:55:02,408 --> 00:55:03,700
+Does well on your training set.
+
+1131
+00:55:03,700 --> 00:55:04,900
+Does well on your test set.
+
+1132
+00:55:04,900 --> 00:55:05,960
+Works great.
+
+1133
+00:55:05,960 --> 00:55:07,460
+And then you deploy it.
+
+1134
+00:55:07,460 --> 00:55:11,400
+And then annoyingly, the
+world changes, and your system
+
+1135
+00:55:11,400 --> 00:55:13,080
+no longer works.
+
+1136
+00:55:13,080 --> 00:55:16,300
+So we sometimes call this
+data drift or concept drift,
+
+1137
+00:55:16,300 --> 00:55:18,578
+where the distribution
+of data, the world
+
+1138
+00:55:18,578 --> 00:55:21,120
+gives you is different than what
+you had in your training set
+
+1139
+00:55:21,120 --> 00:55:24,100
+or concept drift, which is
+the input output mapping.
+
+1140
+00:55:24,100 --> 00:55:27,860
+Your x and y changes in the
+world compared to your training
+
+1141
+00:55:27,860 --> 00:55:28,500
+set.
+
+1142
+00:55:28,500 --> 00:55:32,700
+But to ground this, if you are
+training a face recognition
+
+1143
+00:55:32,700 --> 00:55:35,660
+system now in--
+
+1144
+00:55:35,660 --> 00:55:39,380
+when it's not too cold
+here in California,
+
+1145
+00:55:39,380 --> 00:55:42,420
+you get faces of a
+certain distribution.
+
+1146
+00:55:42,420 --> 00:55:45,460
+But as we approach
+winter, if it starts
+
+1147
+00:55:45,460 --> 00:55:48,980
+to rain more, people are
+wearing scarves, rain jackets,
+
+1148
+00:55:48,980 --> 00:55:51,100
+people look different.
+
+1149
+00:55:51,100 --> 00:55:54,580
+Or maybe we approach the summer.
+
+1150
+00:55:54,580 --> 00:55:56,980
+More people are
+wearing sunglasses.
+
+1151
+00:55:56,980 --> 00:56:00,780
+Then the data
+distribution changes.
+
+1152
+00:56:00,780 --> 00:56:04,780
+Or if you train a system based
+on data here in California,
+
+1153
+00:56:04,780 --> 00:56:07,820
+but we then decide to deploy
+it in a different country
+
+1154
+00:56:07,820 --> 00:56:10,900
+where people dress
+differently or where
+
+1155
+00:56:10,900 --> 00:56:12,500
+their appearance is different.
+
+1156
+00:56:12,500 --> 00:56:16,820
+The world keeps on
+giving us different data.
+
+1157
+00:56:16,820 --> 00:56:20,980
+And so one of the
+jobs of I think us
+
+1158
+00:56:20,980 --> 00:56:25,030
+as machine learning engineers
+is to put in place systems that
+
+1159
+00:56:25,030 --> 00:56:28,310
+monitor this type of concept
+drift or data drift, and fix
+
+1160
+00:56:28,310 --> 00:56:30,750
+problems as they arise.
+
+1161
+00:56:30,750 --> 00:56:33,050
+When you're out building
+machine learning systems,
+
+1162
+00:56:33,050 --> 00:56:36,150
+I have seen a segment
+of AI engineers
+
+1163
+00:56:36,150 --> 00:56:39,347
+that think their job is
+to do well on a test set.
+
+1164
+00:56:39,347 --> 00:56:41,430
+And so I've been in a bunch
+of these conversations
+
+1165
+00:56:41,430 --> 00:56:44,490
+where the machine learning
+person would say, look,
+
+1166
+00:56:44,490 --> 00:56:45,690
+I did well on the test set.
+
+1167
+00:56:45,690 --> 00:56:47,190
+My job is done.
+
+1168
+00:56:47,190 --> 00:56:49,070
+But then a product
+owner or business owner
+
+1169
+00:56:49,070 --> 00:56:51,650
+will say, no, your
+system doesn't work.
+
+1170
+00:56:51,650 --> 00:56:53,870
+Look at all the ways
+it does not work.
+
+1171
+00:56:53,870 --> 00:56:56,270
+And then if the machine
+learning person says,
+
+1172
+00:56:56,270 --> 00:56:57,530
+well, that's not my problem.
+
+1173
+00:56:57,530 --> 00:56:58,950
+I do well on the test set.
+
+1174
+00:56:58,950 --> 00:57:01,270
+I think that's not
+a constructive way
+
+1175
+00:57:01,270 --> 00:57:02,530
+to move it forward.
+
+1176
+00:57:02,530 --> 00:57:04,435
+So I encourage you to
+think of yourselves.
+
+1177
+00:57:04,435 --> 00:57:06,310
+If you're building a
+machine learning system,
+
+1178
+00:57:06,310 --> 00:57:09,510
+I think of my job as building
+something that works.
+
+1179
+00:57:09,510 --> 00:57:11,950
+And that can be different
+than building something
+
+1180
+00:57:11,950 --> 00:57:13,370
+that works on a test set.
+
+1181
+00:57:13,370 --> 00:57:16,630
+So if ever you're working on
+a product, and someone says,
+
+1182
+00:57:16,630 --> 00:57:19,610
+I know you did well
+on the test set,
+
+1183
+00:57:19,610 --> 00:57:21,340
+but your system doesn't work.
+
+1184
+00:57:21,340 --> 00:57:23,480
+I would encourage
+you not to respond.
+
+1185
+00:57:23,480 --> 00:57:25,460
+But my job is to
+do one to test it.
+
+1186
+00:57:25,460 --> 00:57:28,600
+I encourage you to think about
+why doing one on the test set
+
+1187
+00:57:28,600 --> 00:57:31,080
+doesn't translate to doing
+well on the application
+
+1188
+00:57:31,080 --> 00:57:34,120
+that people actually care about,
+and then lean in and go and fix
+
+1189
+00:57:34,120 --> 00:57:35,400
+that.
+
+1190
+00:57:35,400 --> 00:57:38,960
+And one of the common problems
+for why doing well on a test set
+
+1191
+00:57:38,960 --> 00:57:41,200
+doesn't translate to
+doing well in real life
+
+1192
+00:57:41,200 --> 00:57:44,240
+is if the data distribution
+changes, in which case,
+
+1193
+00:57:44,240 --> 00:57:46,600
+you may need to update the
+distribution of data you're
+
+1194
+00:57:46,600 --> 00:57:49,560
+training on in order
+to capture whatever
+
+1195
+00:57:49,560 --> 00:57:51,840
+has changed in the world.
+
+1196
+00:57:51,840 --> 00:57:55,120
+And just a few other examples.
+
+1197
+00:57:55,120 --> 00:58:00,100
+I feel like the world gives
+us new data all the time.
+
+1198
+00:58:00,100 --> 00:58:05,960
+So if you're building
+a web search engine,
+
+1199
+00:58:05,960 --> 00:58:08,000
+sometimes, a new
+politician is elected
+
+1200
+00:58:08,000 --> 00:58:10,000
+or there's a new movement
+or some new video
+
+1201
+00:58:10,000 --> 00:58:15,120
+goes viral or Taylor Swift
+releases a new album, whatever.
+
+1202
+00:58:15,120 --> 00:58:17,660
+And then people are suddenly
+searching for a brand--
+
+1203
+00:58:17,660 --> 00:58:19,440
+I thought I'd get
+a laugh from that.
+
+1204
+00:58:19,440 --> 00:58:19,940
+No?
+
+1205
+00:58:19,940 --> 00:58:22,120
+No Swifties here.
+
+1206
+00:58:22,120 --> 00:58:22,620
+All right.
+
+1207
+00:58:22,620 --> 00:58:24,431
+[CHUCKLES]
+
+1208
+00:58:26,820 --> 00:58:28,300
+But then suddenly,
+a lot of people
+
+1209
+00:58:28,300 --> 00:58:31,260
+are searching for
+a brand new thing.
+
+1210
+00:58:31,260 --> 00:58:33,100
+And so the distribution
+of data you get
+
+1211
+00:58:33,100 --> 00:58:35,820
+is different because
+the world has changed.
+
+1212
+00:58:35,820 --> 00:58:38,600
+Or I've done a lot
+of work in factories.
+
+1213
+00:58:38,600 --> 00:58:40,100
+There's actually a
+reasonable chance
+
+1214
+00:58:40,100 --> 00:58:41,808
+that a cell phone you
+have in your pocket
+
+1215
+00:58:41,808 --> 00:58:45,100
+may have been inspected by
+software that my teams wrote.
+
+1216
+00:58:45,100 --> 00:58:47,300
+But sometimes, the
+materials change.
+
+1217
+00:58:47,300 --> 00:58:49,900
+Or there's a new machine
+installed in the manufacturing
+
+1218
+00:58:49,900 --> 00:58:50,400
+line.
+
+1219
+00:58:50,400 --> 00:58:52,540
+And this machine makes
+a new type of scratch
+
+1220
+00:58:52,540 --> 00:58:53,320
+on the cell phone.
+
+1221
+00:58:53,320 --> 00:58:56,700
+So data changes in
+inspection lines as well.
+
+1222
+00:58:56,700 --> 00:58:58,740
+Or one thing that
+actually surprised me,
+
+1223
+00:58:58,740 --> 00:59:01,220
+when I work on self-driving
+cars, one of the things
+
+1224
+00:59:01,220 --> 00:59:04,540
+I was working with, we trained
+a lot on data in California.
+
+1225
+00:59:04,540 --> 00:59:08,720
+And then when we took the cars
+to Texas, you and I as people,
+
+1226
+00:59:08,720 --> 00:59:11,563
+we can drive just fine in
+California or in Texas.
+
+1227
+00:59:11,563 --> 00:59:13,980
+But it turns out that traffic
+lights look really different
+
+1228
+00:59:13,980 --> 00:59:15,400
+in Texas, in California.
+
+1229
+00:59:15,400 --> 00:59:18,430
+So traffic lights,
+horizontal, vertical.
+
+1230
+00:59:18,430 --> 00:59:20,990
+I think part of it is that
+there are very high winds
+
+1231
+00:59:20,990 --> 00:59:22,550
+in some parts of Texas.
+
+1232
+00:59:22,550 --> 00:59:25,210
+So a lot of traffic lights tend
+to be strung up differently,
+
+1233
+00:59:25,210 --> 00:59:26,335
+to be robust to high winds.
+
+1234
+00:59:26,335 --> 00:59:28,918
+And so traffic lights actually
+look pretty different in Texas.
+
+1235
+00:59:28,918 --> 00:59:30,790
+So the models we train
+in California, they
+
+1236
+00:59:30,790 --> 00:59:33,110
+don't work in Texas
+because we get new data.
+
+1237
+00:59:33,110 --> 00:59:35,350
+Refresh the data.
+
+1238
+00:59:35,350 --> 00:59:39,670
+So a lot of that is a process
+of monitoring and maintaining
+
+1239
+00:59:39,670 --> 00:59:44,990
+the model, even when something
+in the world changes.
+
+1240
+00:59:44,990 --> 00:59:49,870
+And before going on to
+monitoring the model performance
+
+1241
+00:59:49,870 --> 00:59:53,990
+and maintaining it, one
+interesting difference
+
+1242
+00:59:53,990 --> 00:59:56,630
+in performance
+between this and this
+
+1243
+00:59:56,630 --> 01:00:01,350
+is option one is
+very simple model.
+
+1244
+01:00:01,350 --> 01:00:04,030
+It basically has
+one parameter, which
+
+1245
+01:00:04,030 --> 01:00:07,990
+is epsilon, the fraction
+of pixels that change.
+
+1246
+01:00:07,990 --> 01:00:11,230
+And so this, because
+it's so simple,
+
+1247
+01:00:11,230 --> 01:00:14,250
+is actually very robust to
+changes in distribution.
+
+1248
+01:00:14,250 --> 01:00:17,760
+For example, say it's a hot
+summer and a lot of people
+
+1249
+01:00:17,760 --> 01:00:20,200
+are wearing sunglasses.
+
+1250
+01:00:20,200 --> 01:00:22,673
+Well, the fraction of
+pixels that change,
+
+1251
+01:00:22,673 --> 01:00:24,340
+even when people are
+wearing sunglasses,
+
+1252
+01:00:24,340 --> 01:00:26,863
+doesn't change that much.
+
+1253
+01:00:26,863 --> 01:00:28,280
+Maybe if it's
+Halloween and people
+
+1254
+01:00:28,280 --> 01:00:29,940
+are wearing crazy
+large costumes,
+
+1255
+01:00:29,940 --> 01:00:30,940
+maybe that would change.
+
+1256
+01:00:30,940 --> 01:00:33,320
+But this is actually a
+very robust algorithm
+
+1257
+01:00:33,320 --> 01:00:34,920
+because it's so simple.
+
+1258
+01:00:34,920 --> 01:00:37,320
+In contrast, if
+you trained on data
+
+1259
+01:00:37,320 --> 01:00:41,440
+with no one wearing
+sunglasses because the sun's
+
+1260
+01:00:41,440 --> 01:00:43,480
+not that hot these days.
+
+1261
+01:00:43,480 --> 01:00:45,740
+Then with everyone starts
+to wear sunglasses,
+
+1262
+01:00:45,740 --> 01:00:48,180
+this is actually less robust.
+
+1263
+01:00:48,180 --> 01:00:50,240
+So one of the
+advantages, very simple
+
+1264
+01:00:50,240 --> 01:00:51,680
+non-machine
+learning-based systems
+
+1265
+01:00:51,680 --> 01:00:56,440
+is they may be less
+susceptible to data drift.
+
+1266
+01:00:56,440 --> 01:00:59,720
+Because maybe I tuned
+this parameter epsilon
+
+1267
+01:00:59,720 --> 01:01:02,020
+to limit the data set.
+
+1268
+01:01:02,020 --> 01:01:05,360
+But even when the data changes,
+this tuning can be quite robust.
+
+1269
+01:01:05,360 --> 01:01:08,840
+But if I train a neural
+network with, say, thousands
+
+1270
+01:01:08,840 --> 01:01:10,820
+or tens of thousands
+of parameters,
+
+1271
+01:01:10,820 --> 01:01:14,170
+then I'm more likely to overfit
+to people without sunglasses.
+
+1272
+01:01:14,170 --> 01:01:17,380
+So when people start
+wearing sunglasses,
+
+1273
+01:01:17,380 --> 01:01:21,980
+you're more likely to
+have to update this model.
+
+1274
+01:01:21,980 --> 01:01:25,840
+And if you are building a--
+
+1275
+01:01:30,180 --> 01:01:30,680
+sorry.
+
+1276
+01:01:34,520 --> 01:01:35,020
+Cool.
+
+1277
+01:01:43,110 --> 01:01:43,610
+Boy.
+
+1278
+01:01:47,180 --> 01:01:56,180
+If you're building a
+system, it turns out
+
+1279
+01:01:56,180 --> 01:02:00,620
+to be incredibly helpful if
+you can get user permission
+
+1280
+01:02:00,620 --> 01:02:02,900
+to stream a little bit of
+data back to your cloud
+
+1281
+01:02:02,900 --> 01:02:04,480
+hosted service.
+
+1282
+01:02:04,480 --> 01:02:07,360
+So that respecting user privacy,
+being careful of opt in,
+
+1283
+01:02:07,360 --> 01:02:09,320
+transparent privacy practices--
+
+1284
+01:02:09,320 --> 01:02:11,100
+I think privacy is
+really important.
+
+1285
+01:02:11,100 --> 01:02:12,250
+So do be transparent.
+
+1286
+01:02:12,250 --> 01:02:14,430
+Do the right thing for users.
+
+1287
+01:02:14,430 --> 01:02:16,910
+And if you're able to do that
+and get a little bit of data
+
+1288
+01:02:16,910 --> 01:02:20,050
+back to your cloud
+to plot dashboards--
+
+1289
+01:02:23,990 --> 01:02:26,350
+and maybe one practice
+that I've seen
+
+1290
+01:02:26,350 --> 01:02:30,830
+is when building a high
+stakes application,
+
+1291
+01:02:30,830 --> 01:02:34,390
+one good practice would be
+to gather your team together
+
+1292
+01:02:34,390 --> 01:02:36,950
+and get a diverse
+set of opinions
+
+1293
+01:02:36,950 --> 01:02:38,410
+on all the things
+you could change,
+
+1294
+01:02:38,410 --> 01:02:40,310
+or all the things
+that could go wrong.
+
+1295
+01:02:40,310 --> 01:02:43,690
+And I've built quite a few
+machine learning systems.
+
+1296
+01:02:43,690 --> 01:02:46,620
+And I've found that when
+we sit down and brainstorm
+
+1297
+01:02:46,620 --> 01:02:48,870
+all the things that could
+go wrong, including the data
+
+1298
+01:02:48,870 --> 01:02:53,510
+distribution changes, I don't
+think I have ever seen something
+
+1299
+01:02:53,510 --> 01:02:56,550
+go wrong in real
+life that we did not
+
+1300
+01:02:56,550 --> 01:02:59,430
+identify as a possible problem.
+
+1301
+01:02:59,430 --> 01:03:00,290
+I might be wrong.
+
+1302
+01:03:00,290 --> 01:03:02,390
+But at least right
+now, when we sat down,
+
+1303
+01:03:02,390 --> 01:03:04,390
+we really brainstorm all
+the things to go wrong.
+
+1304
+01:03:04,390 --> 01:03:05,990
+I think I have yet
+to see something
+
+1305
+01:03:05,990 --> 01:03:08,510
+go wrong that was not
+on the list of stuff
+
+1306
+01:03:08,510 --> 01:03:10,770
+that we brainstormed.
+
+1307
+01:03:10,770 --> 01:03:12,988
+And so if you
+brainstorm-- and this
+
+1308
+01:03:12,988 --> 01:03:15,030
+is true for safety critical
+applications as well.
+
+1309
+01:03:15,030 --> 01:03:16,730
+It turns out creative
+teams, you can actually
+
+1310
+01:03:16,730 --> 01:03:19,022
+think of all sorts of things
+that could change the data
+
+1311
+01:03:19,022 --> 01:03:20,570
+or things that could go wrong.
+
+1312
+01:03:20,570 --> 01:03:25,210
+And that then lets you try
+to design a set of dashboards
+
+1313
+01:03:25,210 --> 01:03:29,048
+or metrics to put in place
+to monitor whether or not
+
+1314
+01:03:29,048 --> 01:03:31,090
+any of these things that
+you think might go wrong
+
+1315
+01:03:31,090 --> 01:03:32,730
+actually do go wrong.
+
+1316
+01:03:32,730 --> 01:03:38,570
+So we may put in place
+dashboards [? light-- ?]
+
+1317
+01:03:38,570 --> 01:03:41,470
+it turns out re-authentication
+is a common thing.
+
+1318
+01:03:41,470 --> 01:03:43,630
+How often does the user
+need to authenticate twice
+
+1319
+01:03:43,630 --> 01:03:44,630
+before they let through?
+
+1320
+01:03:44,630 --> 01:03:46,430
+That's actually a sign
+of user frustration.
+
+1321
+01:03:46,430 --> 01:03:48,590
+So let's build a
+dashboard to do that.
+
+1322
+01:03:48,590 --> 01:03:50,610
+How often does a user
+have to try twice?
+
+1323
+01:03:50,610 --> 01:03:52,068
+Because it probably
+means something
+
+1324
+01:03:52,068 --> 01:03:53,370
+went wrong the first time.
+
+1325
+01:03:53,370 --> 01:03:57,050
+How often do you accept
+versus reject the user?
+
+1326
+01:03:57,050 --> 01:03:59,770
+And what is the
+latency of the system?
+
+1327
+01:03:59,770 --> 01:04:03,370
+And I find that just as it's
+difficult to know in advance
+
+1328
+01:04:03,370 --> 01:04:05,170
+what's in your
+data, it's actually
+
+1329
+01:04:05,170 --> 01:04:07,490
+difficult to know in
+advance what dashboard
+
+1330
+01:04:07,490 --> 01:04:09,260
+will be the most useful.
+
+1331
+01:04:09,260 --> 01:04:12,780
+And so the best practice
+I tend to recommend
+
+1332
+01:04:12,780 --> 01:04:15,380
+is brainstorm a lot of
+things that go wrong,
+
+1333
+01:04:15,380 --> 01:04:19,340
+brainstorm a lot of metrics,
+and then just create
+
+1334
+01:04:19,340 --> 01:04:23,400
+very rich dashboards
+where this is time,
+
+1335
+01:04:23,400 --> 01:04:28,980
+latency, re-authentication.
+
+1336
+01:04:28,980 --> 01:04:34,580
+Time, the number of
+zeros versus ones.
+
+1337
+01:04:34,580 --> 01:04:42,820
+And then draw plots over time to
+see how these rates trend over
+
+1338
+01:04:42,820 --> 01:04:43,980
+time.
+
+1339
+01:04:43,980 --> 01:04:47,500
+And if you're able to have a
+lot of dashboards and sample
+
+1340
+01:04:47,500 --> 01:04:49,860
+and just look at
+some of the data
+
+1341
+01:04:49,860 --> 01:04:52,340
+for where you suspect it
+may be making a mistake,
+
+1342
+01:04:52,340 --> 01:04:54,900
+that often is then
+a good way for you
+
+1343
+01:04:54,900 --> 01:04:58,460
+to have a higher
+chance of spotting
+
+1344
+01:04:58,460 --> 01:05:00,500
+when there might be a problem.
+
+1345
+01:05:00,500 --> 01:05:04,580
+And in the times that
+built large dashboards
+
+1346
+01:05:04,580 --> 01:05:09,710
+with 20, 30 metrics, I found
+that it's surprisingly difficult
+
+1347
+01:05:09,710 --> 01:05:11,430
+to know in advance
+which dashboards
+
+1348
+01:05:11,430 --> 01:05:13,630
+will turn out to be useful.
+
+1349
+01:05:13,630 --> 01:05:17,510
+I think in exploratory data
+analysis, in data science,
+
+1350
+01:05:17,510 --> 01:05:19,950
+again, because we often
+don't know what's in the data
+
+1351
+01:05:19,950 --> 01:05:21,970
+or what the data will
+give us in the future,
+
+1352
+01:05:21,970 --> 01:05:24,070
+we just frankly
+plot a lot of stuff,
+
+1353
+01:05:24,070 --> 01:05:26,850
+and then go and figure out
+from there what is interesting.
+
+1354
+01:05:26,850 --> 01:05:30,190
+So the cost of plotting
+something in a Jupyter Notebook
+
+1355
+01:05:30,190 --> 01:05:31,050
+is fairly low.
+
+1356
+01:05:31,050 --> 01:05:33,830
+So let's just plot a lot of
+stuff, have a lot of dashboards.
+
+1357
+01:05:33,830 --> 01:05:39,230
+And if you end up with, 30,
+50, 100 dashboards tracking
+
+1358
+01:05:39,230 --> 01:05:41,910
+these metrics over
+time, then hopefully,
+
+1359
+01:05:41,910 --> 01:05:43,710
+in a few days or
+a few weeks, you
+
+1360
+01:05:43,710 --> 01:05:45,890
+figure out that a lot of
+them are really boring.
+
+1361
+01:05:45,890 --> 01:05:48,358
+So we figure out that, well,
+latency is just not a thing
+
+1362
+01:05:48,358 --> 01:05:50,150
+because the cloud-hosted
+deployment is just
+
+1363
+01:05:50,150 --> 01:05:51,090
+very constant.
+
+1364
+01:05:51,090 --> 01:05:53,110
+So well, let's get rid
+of that because that's
+
+1365
+01:05:53,110 --> 01:05:54,290
+just a very boring plot.
+
+1366
+01:05:54,290 --> 01:05:55,650
+I'm just not worried about that.
+
+1367
+01:05:55,650 --> 01:05:57,790
+And so often, plot
+a lot of things
+
+1368
+01:05:57,790 --> 01:06:00,870
+and then prune back to then
+have a smaller number of metrics
+
+1369
+01:06:00,870 --> 01:06:05,010
+and we track and monitor
+for the long term.
+
+1370
+01:06:05,010 --> 01:06:06,490
+And then eventually,
+when you get
+
+1371
+01:06:06,490 --> 01:06:12,190
+a sense of just being the
+normal range for some metric,
+
+1372
+01:06:12,190 --> 01:06:17,170
+you can then also put in
+place upper and lower alarms.
+
+1373
+01:06:17,170 --> 01:06:21,110
+So that if it ever goes above
+or below certain bounds,
+
+1374
+01:06:21,110 --> 01:06:23,970
+they'll trigger an alarm,
+like go pay someone
+
+1375
+01:06:23,970 --> 01:06:26,770
+to take a look to figure out
+if something's gone wrong.
+
+1376
+01:06:26,770 --> 01:06:28,230
+That makes sense?
+
+1377
+01:06:28,230 --> 01:06:33,158
+And so unfortunately, just
+because you train a model a lot
+
+1378
+01:06:33,158 --> 01:06:34,950
+of time in a real world
+production setting,
+
+1379
+01:06:34,950 --> 01:06:36,117
+it doesn't mean you're done.
+
+1380
+01:06:36,117 --> 01:06:38,850
+Because you deploy
+it, and then the world
+
+1381
+01:06:38,850 --> 01:06:40,970
+will give you surprising data.
+
+1382
+01:06:40,970 --> 01:06:44,090
+And having a plan to
+monitor what happens
+
+1383
+01:06:44,090 --> 01:06:46,170
+as well as to
+maintain the model,
+
+1384
+01:06:46,170 --> 01:06:49,370
+meaning get new data,
+update the system
+
+1385
+01:06:49,370 --> 01:06:52,130
+to fix problems as
+they arise, that
+
+1386
+01:06:52,130 --> 01:06:57,250
+is often an important part of
+the practicalities of deploying
+
+1387
+01:06:57,250 --> 01:06:59,960
+a machine learning
+system as well.
+

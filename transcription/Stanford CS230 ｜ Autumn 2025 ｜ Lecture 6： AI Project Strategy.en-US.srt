@@ -1,0 +1,7558 @@
+1
+00:00:05,560 --> 00:00:09,280
+So what I want to do today
+is continue our discussion
+
+2
+00:00:09,280 --> 00:00:11,620
+on AI project strategy.
+
+3
+00:00:11,620 --> 00:00:15,260
+So if you're building a deep
+learning system for some tasks.
+
+4
+00:00:15,260 --> 00:00:17,540
+And today, for the
+first part of today,
+
+5
+00:00:17,540 --> 00:00:20,800
+I'm going to use a
+speech recognition
+
+6
+00:00:20,800 --> 00:00:22,462
+voice-activated device example.
+
+7
+00:00:22,462 --> 00:00:23,920
+And then for the
+second half, we're
+
+8
+00:00:23,920 --> 00:00:28,040
+going to use a kind of AI
+deep researcher example.
+
+9
+00:00:28,040 --> 00:00:30,040
+But what I want
+to do is walk you
+
+10
+00:00:30,040 --> 00:00:34,480
+through a couple concrete
+examples of projects
+
+11
+00:00:34,480 --> 00:00:39,560
+you might work on, and let
+you understand what it feels
+
+12
+00:00:39,560 --> 00:00:42,320
+like to be in the thick
+of building an AI system,
+
+13
+00:00:42,320 --> 00:00:46,080
+making day to day decisions
+on what to do next.
+
+14
+00:00:46,080 --> 00:00:49,040
+I think as you've heard me
+say before, understanding
+
+15
+00:00:49,040 --> 00:00:50,700
+the algorithms is important.
+
+16
+00:00:50,700 --> 00:00:52,080
+So in this class,
+you learn a lot
+
+17
+00:00:52,080 --> 00:00:56,100
+from the online videos about
+the deep learning algorithms,
+
+18
+00:00:56,100 --> 00:00:57,440
+how to build pipelines.
+
+19
+00:00:57,440 --> 00:01:01,010
+But even beyond understanding
+how the algorithms work,
+
+20
+00:01:01,010 --> 00:01:04,410
+what really drives performance
+is a team's ability
+
+21
+00:01:04,410 --> 00:01:07,057
+to have an efficient
+development process.
+
+22
+00:01:07,057 --> 00:01:08,390
+How do you tune hyperparameters?
+
+23
+00:01:08,390 --> 00:01:09,390
+How do you collect data?
+
+24
+00:01:09,390 --> 00:01:10,932
+When you try something
+and it doesn't
+
+25
+00:01:10,932 --> 00:01:13,130
+work the first time, which
+it often doesn't, what
+
+26
+00:01:13,130 --> 00:01:13,790
+do you do next?
+
+27
+00:01:13,790 --> 00:01:16,690
+Your skill in making those
+decisions is what often makes
+
+28
+00:01:16,690 --> 00:01:20,570
+a massive, literally 10X
+difference in productivity.
+
+29
+00:01:20,570 --> 00:01:22,250
+And as I was reflecting,
+I was preparing
+
+30
+00:01:22,250 --> 00:01:23,550
+for what to say to you today.
+
+31
+00:01:23,550 --> 00:01:27,490
+I was reflecting on quite a
+few projects where that 10X
+
+32
+00:01:27,490 --> 00:01:31,690
+difference in productivity is
+really not an exaggeration.
+
+33
+00:01:31,690 --> 00:01:33,030
+Maybe more than 10X.
+
+34
+00:01:33,030 --> 00:01:35,850
+But I've literally
+seen many teams
+
+35
+00:01:35,850 --> 00:01:40,850
+in many well-known
+companies with good brands
+
+36
+00:01:40,850 --> 00:01:43,010
+spend a year
+working on a project
+
+37
+00:01:43,010 --> 00:01:46,610
+that I will see a more skilled
+team execute in a month.
+
+38
+00:01:46,610 --> 00:01:49,850
+So these differences
+in skill are real.
+
+39
+00:01:49,850 --> 00:01:52,970
+And one of the challenges
+for people learning this
+
+40
+00:01:52,970 --> 00:01:56,090
+is if you work for
+some company, maybe
+
+41
+00:01:56,090 --> 00:01:58,940
+you work on a different
+project every year or two.
+
+42
+00:01:58,940 --> 00:02:03,380
+So it takes you two years
+or a year of your life
+
+43
+00:02:03,380 --> 00:02:06,080
+to gain experience
+on one more project.
+
+44
+00:02:06,080 --> 00:02:08,280
+And then after, I
+don't know, 10 years,
+
+45
+00:02:08,280 --> 00:02:11,660
+you've finally seen 10 projects
+and are pretty experienced.
+
+46
+00:02:11,660 --> 00:02:13,960
+But what I want to do
+is, in today's class,
+
+47
+00:02:13,960 --> 00:02:17,460
+walk you through a few
+concrete examples of projects
+
+48
+00:02:17,460 --> 00:02:20,220
+that are similar to one kind
+of simplified versions of stuff
+
+49
+00:02:20,220 --> 00:02:23,660
+that I've seen myself
+to try to accelerate
+
+50
+00:02:23,660 --> 00:02:26,940
+your hands on experience
+looking at these projects
+
+51
+00:02:26,940 --> 00:02:30,340
+and thinking through if you
+are the one in the hot seat,
+
+52
+00:02:30,340 --> 00:02:32,440
+building a system, and
+it works or doesn't work,
+
+53
+00:02:32,440 --> 00:02:34,140
+or there's a
+problem or whatever,
+
+54
+00:02:34,140 --> 00:02:36,720
+making those decisions
+for what you would do.
+
+55
+00:02:36,720 --> 00:02:40,320
+So try to get you through that
+today with a couple of examples,
+
+56
+00:02:40,320 --> 00:02:43,780
+rather than you having to spend
+years, and years of your life
+
+57
+00:02:43,780 --> 00:02:46,260
+to finally see a small
+number of examples of how
+
+58
+00:02:46,260 --> 00:02:49,956
+these projects can be driven.
+
+59
+00:02:49,956 --> 00:02:54,220
+So the first, the two motivating
+examples I want to use today
+
+60
+00:02:54,220 --> 00:02:59,740
+is building a
+voice-activated device.
+
+61
+00:02:59,740 --> 00:03:04,080
+In my house, I have
+an Amazon Echo, where
+
+62
+00:03:04,080 --> 00:03:05,520
+I have a lot of them, actually.
+
+63
+00:03:05,520 --> 00:03:08,460
+And I think it's a
+delightful experience.
+
+64
+00:03:08,460 --> 00:03:12,420
+But those devices like that,
+Amazon Echo or Google Home,
+
+65
+00:03:12,420 --> 00:03:15,700
+or the Apple Siri
+and HomePod, they
+
+66
+00:03:15,700 --> 00:03:17,140
+require quite a bit of setup.
+
+67
+00:03:17,140 --> 00:03:18,140
+They require some setup.
+
+68
+00:03:18,140 --> 00:03:19,520
+They connect to Wi-Fi.
+
+69
+00:03:19,520 --> 00:03:22,080
+Figure a way to
+connect to your phone.
+
+70
+00:03:22,080 --> 00:03:27,020
+Actually, for a long time, even
+though I built smart speakers,
+
+71
+00:03:27,020 --> 00:03:31,260
+for a long time in my house,
+I had one light bulb connected
+
+72
+00:03:31,260 --> 00:03:34,240
+to my home Wi-Fi internet.
+
+73
+00:03:34,240 --> 00:03:37,680
+Because it's just so much of
+a hassle to set things up.
+
+74
+00:03:37,680 --> 00:03:40,320
+I think now I have two light
+bulbs connected in my house.
+
+75
+00:03:40,320 --> 00:03:44,273
+I guess, I should
+connect more stuff.
+
+76
+00:03:44,273 --> 00:03:47,540
+So for this example,
+I want to talk about
+
+77
+00:03:47,540 --> 00:03:53,220
+if you are part of a startup,
+building a new product that
+
+78
+00:03:53,220 --> 00:03:56,910
+makes it much easier to
+get these voice control
+
+79
+00:03:56,910 --> 00:04:00,790
+devices without the user needing
+to do this whole Wi-Fi setup
+
+80
+00:04:00,790 --> 00:04:01,750
+process.
+
+81
+00:04:01,750 --> 00:04:07,710
+So I'm not very good at drawing.
+
+82
+00:04:07,710 --> 00:04:13,190
+But if you could go to some
+store and buy a desk lamp
+
+83
+00:04:13,190 --> 00:04:15,970
+and the desk lamp
+already has a name,
+
+84
+00:04:15,970 --> 00:04:17,910
+I'll just call
+this lamp, Robert.
+
+85
+00:04:17,910 --> 00:04:20,250
+And you could just take it,
+plug it into electricity,
+
+86
+00:04:20,250 --> 00:04:22,655
+plunk it on your desk, and
+then say, Robert, turn on.
+
+87
+00:04:22,655 --> 00:04:23,530
+And then it turns on.
+
+88
+00:04:23,530 --> 00:04:24,830
+Say, Robert, turn off.
+
+89
+00:04:24,830 --> 00:04:28,490
+It turns off without needing to
+be connected to the internet.
+
+90
+00:04:28,490 --> 00:04:30,130
+So this is a cloud
+access and all that.
+
+91
+00:04:30,130 --> 00:04:33,430
+Then that would give users
+a easier set of experience.
+
+92
+00:04:33,430 --> 00:04:35,430
+There's a project that
+my friends and I actually
+
+93
+00:04:35,430 --> 00:04:38,190
+discussed a few years ago
+that we thought would actually
+
+94
+00:04:38,190 --> 00:04:39,530
+be a decent startup idea.
+
+95
+00:04:39,530 --> 00:04:40,830
+We decided not to do it
+because there are too
+
+96
+00:04:40,830 --> 00:04:42,955
+many other ideas that were
+even more excited about.
+
+97
+00:04:42,955 --> 00:04:45,630
+But we felt that actually
+like a reasonable startup
+
+98
+00:04:45,630 --> 00:04:48,170
+idea to build a
+little IC circuit,
+
+99
+00:04:48,170 --> 00:04:50,890
+little integrated
+circuit, to sell to say,
+
+100
+00:04:50,890 --> 00:04:53,630
+lamp manufacturers and
+other device manufacturers
+
+101
+00:04:53,630 --> 00:04:56,320
+to make it really easy
+if say, some company
+
+102
+00:04:56,320 --> 00:04:58,480
+sells lamps to build
+little things so they
+
+103
+00:04:58,480 --> 00:05:01,540
+can very quickly make their
+devices voice-enabled.
+
+104
+00:05:01,540 --> 00:05:03,860
+And if you have a
+few pre-built names,
+
+105
+00:05:03,860 --> 00:05:05,260
+maybe give the users a choice.
+
+106
+00:05:05,260 --> 00:05:09,000
+You can call your lamp Robert,
+or Lana, or I don't know,
+
+107
+00:05:09,000 --> 00:05:14,160
+or Johnny or I don't
+know, Alice or whatever.
+
+108
+00:05:14,160 --> 00:05:18,400
+Have a little switch, then
+users could just buy a lamp,
+
+109
+00:05:18,400 --> 00:05:19,920
+put it down, and
+then immediately
+
+110
+00:05:19,920 --> 00:05:21,800
+have it be voice
+control without needing
+
+111
+00:05:21,800 --> 00:05:25,260
+to worry about how do you get
+this onto my Wi-Fi network.
+
+112
+00:05:25,260 --> 00:05:27,720
+And if my internet is
+down, then my whole house
+
+113
+00:05:27,720 --> 00:05:28,740
+stays dark as well.
+
+114
+00:05:28,740 --> 00:05:31,120
+Bizarre things like that.
+
+115
+00:05:31,120 --> 00:05:32,800
+And I actually
+did once have an--
+
+116
+00:05:32,800 --> 00:05:35,480
+I was building a lot
+of voice assistants.
+
+117
+00:05:35,480 --> 00:05:37,600
+I actually set up
+my office to have
+
+118
+00:05:37,600 --> 00:05:39,420
+a lot of voice control devices.
+
+119
+00:05:39,420 --> 00:05:41,800
+So had different names
+and different lamps.
+
+120
+00:05:41,800 --> 00:05:43,460
+Standing desk, it
+has name as well.
+
+121
+00:05:43,460 --> 00:05:45,800
+So I'd say-- I forget
+what my desk name was.
+
+122
+00:05:45,800 --> 00:05:47,942
+Jonathan, go higher or whatever.
+
+123
+00:05:47,942 --> 00:05:49,900
+And then my standing desk
+would go up and down.
+
+124
+00:05:49,900 --> 00:05:50,983
+It's actually pretty cool.
+
+125
+00:05:53,410 --> 00:06:01,010
+So what I want you-- so just for
+today's illustration, probably
+
+126
+00:06:01,010 --> 00:06:03,450
+we should give the
+different devices,
+
+127
+00:06:03,450 --> 00:06:05,650
+different names because
+you can't have every device
+
+128
+00:06:05,650 --> 00:06:07,082
+in your house called Robert.
+
+129
+00:06:07,082 --> 00:06:09,790
+Otherwise, you say, Robert, turn
+on, the whole house illuminates.
+
+130
+00:06:09,790 --> 00:06:11,130
+And then Robert, turn off.
+
+131
+00:06:11,130 --> 00:06:12,910
+Whole house is
+plunged into darkness.
+
+132
+00:06:12,910 --> 00:06:15,450
+So we found out you do
+need different devices
+
+133
+00:06:15,450 --> 00:06:16,930
+to have different names.
+
+134
+00:06:16,930 --> 00:06:20,290
+But just for today,
+I'm going to use,
+
+135
+00:06:20,290 --> 00:06:24,530
+as illustration, the task
+of training a neural network
+
+136
+00:06:24,530 --> 00:06:27,710
+or building a system that
+detects when someone says,
+
+137
+00:06:27,710 --> 00:06:29,170
+Robert, turn on.
+
+138
+00:06:29,170 --> 00:06:32,610
+And you need Robert, turn
+on, Robert, turn off.
+
+139
+00:06:32,610 --> 00:06:35,350
+If you have a choice that needs
+to be Lana, turn on, Lana,
+
+140
+00:06:35,350 --> 00:06:38,190
+turn off, a variety of
+handful of options of names.
+
+141
+00:06:38,190 --> 00:06:39,930
+But just for
+simplicity, I'm going
+
+142
+00:06:39,930 --> 00:06:46,570
+to worry only about detecting
+the phrase Robert, turn on.
+
+143
+00:06:46,570 --> 00:06:48,070
+And what do we do for this?
+
+144
+00:06:48,070 --> 00:06:50,690
+You can rinse and repeat
+to get the turn off command
+
+145
+00:06:50,690 --> 00:06:52,580
+and a handful of
+other names to make it
+
+146
+00:06:52,580 --> 00:06:56,220
+user selectable, what name do
+you want to give this thing.
+
+147
+00:06:56,220 --> 00:06:57,540
+OK.
+
+148
+00:06:57,540 --> 00:07:01,900
+So this is something
+that I'll need to run
+
+149
+00:07:01,900 --> 00:07:06,206
+on device, small IC circuits.
+
+150
+00:07:06,206 --> 00:07:08,600
+And I'm going to
+ask you a question.
+
+151
+00:07:11,832 --> 00:07:14,820
+When you've
+graduated from CS230,
+
+152
+00:07:14,820 --> 00:07:16,940
+or maybe when you
+graduate from Stanford,
+
+153
+00:07:16,940 --> 00:07:23,620
+if you are the CTO of a startup
+responsible for building this,
+
+154
+00:07:23,620 --> 00:07:24,660
+what would you do?
+
+155
+00:07:24,660 --> 00:07:25,720
+So called out.
+
+156
+00:07:25,720 --> 00:07:28,140
+So imagine you just
+graduated from CS230
+
+157
+00:07:28,140 --> 00:07:32,180
+or graduated from Stanford, and
+you are the CTO of a startup,
+
+158
+00:07:32,180 --> 00:07:35,220
+and you want to build this lamp
+that can turn on when anyone
+
+159
+00:07:35,220 --> 00:07:36,780
+says, Robert, turn on.
+
+160
+00:07:36,780 --> 00:07:38,580
+How would you
+approach this problem?
+
+161
+00:07:38,580 --> 00:07:41,580
+And I know this is an
+incredibly open ended question.
+
+162
+00:07:41,580 --> 00:07:44,780
+And it turns out life is
+incredibly open-ended.
+
+163
+00:07:44,780 --> 00:07:48,080
+You graduate from CS230, you
+have to decide what to do.
+
+164
+00:07:48,080 --> 00:07:51,380
+So if this is what you're
+doing, raise your hand
+
+165
+00:07:51,380 --> 00:07:54,750
+or call out if you want
+to build this product.
+
+166
+00:07:54,750 --> 00:07:56,000
+What's the first thing you do?
+
+167
+00:07:56,000 --> 00:07:57,240
+How would you think about it?
+
+168
+00:08:00,060 --> 00:08:01,622
+Go for it.
+
+169
+00:08:01,622 --> 00:08:10,820
+[INAUDIBLE] speech-to-text
+model [INAUDIBLE]
+
+170
+00:08:10,820 --> 00:08:14,760
+the actual word of
+the lamp [INAUDIBLE].
+
+171
+00:08:21,360 --> 00:08:21,860
+Yeah.
+
+172
+00:08:21,860 --> 00:08:22,160
+Cool.
+
+173
+00:08:22,160 --> 00:08:22,300
+Yeah.
+
+174
+00:08:22,300 --> 00:08:22,800
+Right.
+
+175
+00:08:22,800 --> 00:08:24,690
+So get some open source
+speech-to-text model
+
+176
+00:08:24,690 --> 00:08:26,440
+or something, and then
+see if you can run.
+
+177
+00:08:26,440 --> 00:08:28,660
+Yeah, that'd be a good start.
+
+178
+00:08:28,660 --> 00:08:30,220
+Anything else?
+
+179
+00:08:30,220 --> 00:08:31,444
+Yeah, go ahead.
+
+180
+00:08:31,444 --> 00:08:32,896
+[INAUDIBLE] three models.
+
+181
+00:08:32,896 --> 00:08:41,039
+[INAUDIBLE] just going
+on to the second one.
+
+182
+00:08:41,039 --> 00:08:44,820
+[INAUDIBLE] the third one
+would try to [INAUDIBLE].
+
+183
+00:08:47,460 --> 00:08:50,150
+Three models, one that
+detects Robert and one that--
+
+184
+00:08:50,150 --> 00:08:51,910
+The first one,
+detects the sound.
+
+185
+00:08:51,910 --> 00:08:52,950
+I see.
+
+186
+00:08:52,950 --> 00:08:55,350
+The second one, detects
+the word Robert.
+
+187
+00:08:55,350 --> 00:08:57,590
+The third one
+tries to understand
+
+188
+00:08:57,590 --> 00:08:59,590
+the sentence [INAUDIBLE].
+
+189
+00:08:59,590 --> 00:09:00,090
+I see.
+
+190
+00:09:00,090 --> 00:09:00,430
+Cool.
+
+191
+00:09:00,430 --> 00:09:01,050
+OK.
+
+192
+00:09:01,050 --> 00:09:03,910
+So the three models
+to detect Robert,
+
+193
+00:09:03,910 --> 00:09:06,730
+understand, read sentence,
+or detected the sound.
+
+194
+00:09:06,730 --> 00:09:07,230
+Cool.
+
+195
+00:09:07,230 --> 00:09:09,950
+Go for it.
+
+196
+00:09:09,950 --> 00:09:10,450
+Sorry.
+
+197
+00:09:10,450 --> 00:09:10,992
+Say it again.
+
+198
+00:09:10,992 --> 00:09:16,630
+[INAUDIBLE] Robert.
+
+199
+00:09:16,630 --> 00:09:21,110
+Then let's say you want
+to explain [INAUDIBLE]
+
+200
+00:09:21,110 --> 00:09:26,190
+then you have repeat the
+same process for [INAUDIBLE].
+
+201
+00:09:26,190 --> 00:09:32,710
+So instead, what you could do
+is take a model that takes--
+
+202
+00:09:32,710 --> 00:09:39,030
+given [INAUDIBLE]
+and see, trying
+
+203
+00:09:39,030 --> 00:09:42,570
+to identify one or two policies.
+
+204
+00:09:42,570 --> 00:09:43,070
+OK.
+
+205
+00:09:43,070 --> 00:09:46,190
+Obviously, it's like
+a Siamese network.
+
+206
+00:09:46,190 --> 00:09:47,960
+We actually teach
+a Siamese network
+
+207
+00:09:47,960 --> 00:09:50,640
+in this class, where some
+people inputs two audio files
+
+208
+00:09:50,640 --> 00:09:52,060
+and decide the same word.
+
+209
+00:09:52,060 --> 00:09:54,920
+So you can more easily
+generalize to new words
+
+210
+00:09:54,920 --> 00:09:55,580
+than Robert.
+
+211
+00:09:55,580 --> 00:09:56,080
+Cool.
+
+212
+00:09:56,080 --> 00:09:57,480
+That's actually interesting.
+
+213
+00:09:57,480 --> 00:09:59,120
+Yeah, go for it.
+
+214
+00:09:59,120 --> 00:10:02,200
+I don't know how to
+[INAUDIBLE] but I
+
+215
+00:10:02,200 --> 00:10:07,320
+think that maybe people are
+going to install some plugin.
+
+216
+00:10:07,320 --> 00:10:12,440
+And have a [INAUDIBLE]
+so I think it's silly.
+
+217
+00:10:12,440 --> 00:10:21,240
+[INAUDIBLE] like
+turn it off, turn on.
+
+218
+00:10:23,880 --> 00:10:24,380
+Sorry.
+
+219
+00:10:24,380 --> 00:10:28,060
+You mean just connect
+up your device to Siri?
+
+220
+00:10:28,060 --> 00:10:28,560
+Yes.
+
+221
+00:10:28,560 --> 00:10:32,260
+[INAUDIBLE] neural
+network on my iPhone.
+
+222
+00:10:32,260 --> 00:10:34,560
+And the iPhone will
+send the [INAUDIBLE]
+
+223
+00:10:34,560 --> 00:10:37,360
+the signal to
+[INAUDIBLE] turn on.
+
+224
+00:10:37,360 --> 00:10:37,860
+I see.
+
+225
+00:10:37,860 --> 00:10:38,380
+OK, cool.
+
+226
+00:10:38,380 --> 00:10:39,660
+Yeah.
+
+227
+00:10:39,660 --> 00:10:40,660
+That sounds interesting.
+
+228
+00:10:40,660 --> 00:10:42,620
+It sounds like a different
+product than this
+
+229
+00:10:42,620 --> 00:10:45,550
+if we need to connect to your
+cell phone and all that, though.
+
+230
+00:10:45,550 --> 00:10:46,050
+Yeah.
+
+231
+00:10:46,050 --> 00:10:46,550
+Cool.
+
+232
+00:10:46,550 --> 00:10:47,130
+All right.
+
+233
+00:10:47,130 --> 00:10:48,730
+So let me just--
+
+234
+00:10:48,730 --> 00:10:50,310
+lots of interesting ideas.
+
+235
+00:10:50,310 --> 00:10:53,650
+Let me just make
+some observations.
+
+236
+00:10:53,650 --> 00:10:58,370
+So I find that when
+building software products,
+
+237
+00:10:58,370 --> 00:11:00,210
+there's actually
+lots of good ideas
+
+238
+00:11:00,210 --> 00:11:02,690
+or lots of reasonable
+things you could try.
+
+239
+00:11:02,690 --> 00:11:05,385
+But as you heard me
+mention a few weeks ago,
+
+240
+00:11:05,385 --> 00:11:07,010
+I think one of the
+strongest predictors
+
+241
+00:11:07,010 --> 00:11:11,010
+for the odds of your building
+something compelling is speed.
+
+242
+00:11:11,010 --> 00:11:13,550
+So I find that of
+all of these ideas,
+
+243
+00:11:13,550 --> 00:11:15,790
+I think some are better than
+others, but it doesn't--
+
+244
+00:11:15,790 --> 00:11:19,750
+but whether the idea is, a bit
+better, a little bit worse,
+
+245
+00:11:19,750 --> 00:11:21,410
+it is important,
+but it's actually
+
+246
+00:11:21,410 --> 00:11:24,810
+secondary to how quickly you
+can just get something built.
+
+247
+00:11:24,810 --> 00:11:27,150
+So if you're actually the
+CTO of a startup like this,
+
+248
+00:11:27,150 --> 00:11:29,750
+I would encourage you to
+look and say, all right,
+
+249
+00:11:29,750 --> 00:11:34,650
+what can we build today, or what
+can we build maybe in a week,
+
+250
+00:11:34,650 --> 00:11:37,730
+and try out any of these
+architecture choices
+
+251
+00:11:37,730 --> 00:11:40,230
+and build it and
+see what happens.
+
+252
+00:11:40,230 --> 00:11:44,775
+Because even if what you build
+is a little bit less good,
+
+253
+00:11:44,775 --> 00:11:47,340
+you can find out
+all in two days,
+
+254
+00:11:47,340 --> 00:11:50,700
+you can course
+correct very quickly.
+
+255
+00:11:50,700 --> 00:11:53,380
+I've actually built a
+lot of smart speakers.
+
+256
+00:11:53,380 --> 00:11:55,917
+So I have maybe first
+hand experience of this.
+
+257
+00:11:55,917 --> 00:11:57,500
+And I'll just share
+some things that I
+
+258
+00:11:57,500 --> 00:11:59,833
+happen to know that there's
+no reason you wouldn't know.
+
+259
+00:11:59,833 --> 00:12:01,420
+But it turns out that--
+
+260
+00:12:01,420 --> 00:12:05,380
+let's see, at least today,
+general purpose, speech
+
+261
+00:12:05,380 --> 00:12:08,040
+recognition is still a
+little bit heavyweight.
+
+262
+00:12:08,040 --> 00:12:12,140
+It takes quite a lot
+of processing power.
+
+263
+00:12:12,140 --> 00:12:15,000
+It's a bit expensive to
+run on an edge device
+
+264
+00:12:15,000 --> 00:12:17,860
+if you want to make
+this just a few dollars.
+
+265
+00:12:17,860 --> 00:12:22,060
+But it turns out that if you
+look at the smart speakers,
+
+266
+00:12:22,060 --> 00:12:24,390
+there's usually--
+
+267
+00:12:24,390 --> 00:12:26,140
+if you want to train
+a neural network just
+
+268
+00:12:26,140 --> 00:12:31,860
+to detect one phrase, be it a
+phrase like OK, Google, or hey,
+
+269
+00:12:31,860 --> 00:12:36,140
+Siri or Alexa or whatever, and
+the smart speaker trigger words,
+
+270
+00:12:36,140 --> 00:12:39,043
+that can be done with a
+fairly small neural network.
+
+271
+00:12:39,043 --> 00:12:40,460
+Although to your
+point, if we want
+
+272
+00:12:40,460 --> 00:12:42,200
+to do different neural
+networks, different words,
+
+273
+00:12:42,200 --> 00:12:44,460
+we would need to swap out
+different neural networks
+
+274
+00:12:44,460 --> 00:12:45,980
+and rinse and repeat that.
+
+275
+00:12:45,980 --> 00:12:48,980
+But if you have only a small
+handful of names, phrases
+
+276
+00:12:48,980 --> 00:12:51,540
+1 to 10, I think they'll be OK.
+
+277
+00:12:51,540 --> 00:12:54,140
+And then one other
+piece of advice
+
+278
+00:12:54,140 --> 00:12:57,100
+I would give if you're
+embarking on this,
+
+279
+00:12:57,100 --> 00:12:58,880
+is the first thing I
+would do, actually,
+
+280
+00:12:58,880 --> 00:13:01,172
+if I was working on this for
+the first time is actually
+
+281
+00:13:01,172 --> 00:13:02,860
+a literature search.
+
+282
+00:13:02,860 --> 00:13:05,610
+And it turns out that--
+
+283
+00:13:05,610 --> 00:13:08,700
+I think we're fortunate
+that the AI world has
+
+284
+00:13:08,700 --> 00:13:14,620
+a ton of open source software
+and a ton of open research
+
+285
+00:13:14,620 --> 00:13:16,180
+papers.
+
+286
+00:13:16,180 --> 00:13:18,460
+Some are surprisingly,
+despite smart speakers having
+
+287
+00:13:18,460 --> 00:13:20,500
+been around for a
+long time, they're
+
+288
+00:13:20,500 --> 00:13:23,340
+still, to this day, isn't
+a single architecture
+
+289
+00:13:23,340 --> 00:13:25,932
+that everyone's agreed on,
+on the best way to do this.
+
+290
+00:13:25,932 --> 00:13:28,140
+If you look at the literature,
+there's still actually
+
+291
+00:13:28,140 --> 00:13:32,140
+a diversity of opinions on how
+to do this type of wake word
+
+292
+00:13:32,140 --> 00:13:33,340
+or trigger word.
+
+293
+00:13:33,340 --> 00:13:35,260
+We use those terms.
+
+294
+00:13:35,260 --> 00:13:38,460
+So when you say something
+like, OK, Google or hey, Siri
+
+295
+00:13:38,460 --> 00:13:39,042
+or Alexa.
+
+296
+00:13:39,042 --> 00:13:40,500
+That's sometimes
+called a wake word
+
+297
+00:13:40,500 --> 00:13:43,310
+because it wakes up the device
+or that triggers the device
+
+298
+00:13:43,310 --> 00:13:44,283
+circuit activity.
+
+299
+00:13:44,283 --> 00:13:45,950
+So somewhat surprisingly,
+even though we
+
+300
+00:13:45,950 --> 00:13:47,710
+have smart speakers
+for a long time
+
+301
+00:13:47,710 --> 00:13:51,070
+now, for a lot
+more than a decade,
+
+302
+00:13:51,070 --> 00:13:55,190
+there's still isn't a single
+agreed on unified architecture
+
+303
+00:13:55,190 --> 00:13:56,610
+that the community
+has agreed on,
+
+304
+00:13:56,610 --> 00:13:58,830
+on what's the best
+algorithm to do this.
+
+305
+00:13:58,830 --> 00:14:02,830
+But I feel like if
+you are embarking
+
+306
+00:14:02,830 --> 00:14:07,150
+on this the first
+time, the number one
+
+307
+00:14:07,150 --> 00:14:10,350
+boost in your speed
+of learning, it could
+
+308
+00:14:10,350 --> 00:14:11,602
+be implementing something.
+
+309
+00:14:11,602 --> 00:14:13,310
+But I would say doing
+a literature search
+
+310
+00:14:13,310 --> 00:14:15,230
+and try open source
+software would
+
+311
+00:14:15,230 --> 00:14:17,790
+be the even faster accelerator.
+
+312
+00:14:17,790 --> 00:14:22,470
+And I want to give you a few
+tips for that real quick.
+
+313
+00:14:22,470 --> 00:14:26,350
+So today, if this is--
+
+314
+00:14:26,350 --> 00:14:28,710
+there are a lot of research
+articles and blog posts
+
+315
+00:14:28,710 --> 00:14:34,110
+and GitHub repos on many topics,
+certainly wake word detection.
+
+316
+00:14:34,110 --> 00:14:37,910
+And what I find is that if this
+is research paper one, research
+
+317
+00:14:37,910 --> 00:14:42,400
+paper two, research paper three,
+research paper four, I find it
+
+318
+00:14:42,400 --> 00:14:45,880
+people will spend a lot of
+time reading research paper
+
+319
+00:14:45,880 --> 00:14:47,887
+one until you're done.
+
+320
+00:14:47,887 --> 00:14:48,720
+This is 0% complete.
+
+321
+00:14:48,720 --> 00:14:50,800
+This is 100% complete.
+
+322
+00:14:50,800 --> 00:14:53,640
+And then spend a lot of time
+reading research paper two,
+
+323
+00:14:53,640 --> 00:14:56,440
+spend a lot of time reading
+research paper three,
+
+324
+00:14:56,440 --> 00:14:59,620
+and I just recommend
+you not do that.
+
+325
+00:14:59,620 --> 00:15:03,120
+Instead, when I'm doing a
+literature search, what it often
+
+326
+00:15:03,120 --> 00:15:05,800
+feels like is do
+a few web searches
+
+327
+00:15:05,800 --> 00:15:10,380
+for a handful of resources,
+skim all of them, 0% complete,
+
+328
+00:15:10,380 --> 00:15:11,240
+100% complete.
+
+329
+00:15:11,240 --> 00:15:12,800
+Based on your
+initial reading, you
+
+330
+00:15:12,800 --> 00:15:14,360
+may decide to go
+back to paper three
+
+331
+00:15:14,360 --> 00:15:17,240
+and spend more time to really
+read and understand that,
+
+332
+00:15:17,240 --> 00:15:20,000
+but that'll help you find
+additional references.
+
+333
+00:15:20,000 --> 00:15:20,660
+You can skim.
+
+334
+00:15:20,660 --> 00:15:24,000
+And maybe you find a paper
+seven that's really seminal.
+
+335
+00:15:24,000 --> 00:15:25,140
+Spend a lot of effort.
+
+336
+00:15:25,140 --> 00:15:28,920
+But this is what doing a very
+broad survey of the literature
+
+337
+00:15:28,920 --> 00:15:32,080
+will feel like, where you
+really put in the time
+
+338
+00:15:32,080 --> 00:15:34,840
+to finish only a very
+small number of resources,
+
+339
+00:15:34,840 --> 00:15:37,360
+but spend a lot more time
+skipping around and giving
+
+340
+00:15:37,360 --> 00:15:41,050
+a cursory level, understanding
+of a broader set of papers,
+
+341
+00:15:41,050 --> 00:15:47,450
+which can also point you to
+the more useful resources
+
+342
+00:15:47,450 --> 00:15:49,210
+to focus attention on.
+
+343
+00:15:49,210 --> 00:15:53,810
+And just one of the things I've
+seen among Stanford students,
+
+344
+00:15:53,810 --> 00:15:58,390
+there's one other thing that I
+find people tend to underuse,
+
+345
+00:15:58,390 --> 00:16:00,910
+which is trying to
+talk to experts.
+
+346
+00:16:00,910 --> 00:16:02,730
+So if you are actually
+a CTO of a startup,
+
+347
+00:16:02,730 --> 00:16:05,210
+trying to build this
+for the first time,
+
+348
+00:16:05,210 --> 00:16:07,810
+I feel like, yeah, we all
+want to do our own work
+
+349
+00:16:07,810 --> 00:16:09,950
+and not bother other
+people, which is good.
+
+350
+00:16:09,950 --> 00:16:13,690
+But I just encourage you
+to consider if after you've
+
+351
+00:16:13,690 --> 00:16:16,190
+done your own work, if
+reach out to an expert,
+
+352
+00:16:16,190 --> 00:16:18,350
+can really accelerate
+your learning.
+
+353
+00:16:18,350 --> 00:16:21,490
+So something I've often done
+is I will do my own work.
+
+354
+00:16:21,490 --> 00:16:23,170
+I don't want to
+call random experts
+
+355
+00:16:23,170 --> 00:16:25,510
+to try to bother them before
+I've at least done my work.
+
+356
+00:16:25,510 --> 00:16:28,470
+But if you've-- sometimes,
+I'm reading a paper,
+
+357
+00:16:28,470 --> 00:16:30,770
+I'm really struggling
+to understand it.
+
+358
+00:16:30,770 --> 00:16:34,170
+And I find that instead of me
+struggling for another like four
+
+359
+00:16:34,170 --> 00:16:39,510
+hours, if I send the authors a
+respectful email, and say, hey,
+
+360
+00:16:39,510 --> 00:16:40,810
+I read your paper.
+
+361
+00:16:40,810 --> 00:16:41,830
+Try to understand this.
+
+362
+00:16:41,830 --> 00:16:42,997
+I'm still confused.
+
+363
+00:16:42,997 --> 00:16:43,830
+Can you help me out?
+
+364
+00:16:43,830 --> 00:16:44,955
+Can you explain this to me?
+
+365
+00:16:44,955 --> 00:16:49,790
+A lot of the time, including
+when I was less well known.
+
+366
+00:16:49,790 --> 00:16:51,795
+But I think a lot
+of people, if they
+
+367
+00:16:51,795 --> 00:16:54,170
+see that you're doing your
+work and not just reaching out
+
+368
+00:16:54,170 --> 00:16:57,090
+to them before you've even
+done anything, a lot of-- not
+
+369
+00:16:57,090 --> 00:17:00,450
+everyone, but a lot
+of research authors
+
+370
+00:17:00,450 --> 00:17:03,090
+would actually be
+quite understanding
+
+371
+00:17:03,090 --> 00:17:04,783
+and try to help you out.
+
+372
+00:17:04,783 --> 00:17:06,450
+And so I find that
+for a lot of projects
+
+373
+00:17:06,450 --> 00:17:11,297
+I did, finding that one expert--
+
+374
+00:17:11,297 --> 00:17:13,130
+sometimes a Stanford
+professor, actually, we
+
+375
+00:17:13,130 --> 00:17:15,970
+have a lot of speech faculty in
+the Stanford faculty as well.
+
+376
+00:17:15,970 --> 00:17:19,849
+But when I had problems with
+my speech recognition system,
+
+377
+00:17:19,849 --> 00:17:23,230
+sometimes I call Dan
+Jurafsky, whatever.
+
+378
+00:17:23,230 --> 00:17:25,569
+And then a half hour
+conversation or even a 10 minute
+
+379
+00:17:25,569 --> 00:17:29,870
+conversation really accelerates
+what I've been able to do.
+
+380
+00:17:29,870 --> 00:17:32,130
+So I just encourage you to--
+
+381
+00:17:32,130 --> 00:17:34,530
+it takes you like 10
+minutes to send an email,
+
+382
+00:17:34,530 --> 00:17:36,840
+and maybe there's a 50%
+chance you chance to respond.
+
+383
+00:17:36,840 --> 00:17:37,580
+I don't know.
+
+384
+00:17:37,580 --> 00:17:38,760
+Not 100% chance.
+
+385
+00:17:38,760 --> 00:17:43,380
+But sometimes that tends
+to be really high ROI.
+
+386
+00:17:43,380 --> 00:17:45,780
+And then what I
+think you find is
+
+387
+00:17:45,780 --> 00:17:49,300
+that if you do a
+literature search,
+
+388
+00:17:49,300 --> 00:17:52,540
+you will likely
+discover that most
+
+389
+00:17:52,540 --> 00:17:56,700
+of the robust enterprise-grade
+smart speaker systems, all
+
+390
+00:17:56,700 --> 00:18:00,340
+have a specialized system
+trained to detect the wake word
+
+391
+00:18:00,340 --> 00:18:01,420
+or trigger word.
+
+392
+00:18:01,420 --> 00:18:03,497
+And again, there's a
+variety of architectures.
+
+393
+00:18:03,497 --> 00:18:05,580
+You probably come up with
+some good neural network
+
+394
+00:18:05,580 --> 00:18:07,860
+architectures for this.
+
+395
+00:18:07,860 --> 00:18:11,700
+And it turns out that there
+is no data set on the internet
+
+396
+00:18:11,700 --> 00:18:13,720
+with lots of people
+saying, Robert, turn on.
+
+397
+00:18:13,720 --> 00:18:15,100
+That's just not a thing.
+
+398
+00:18:15,100 --> 00:18:18,020
+So if you decide that the
+names are Robert and Lenard,
+
+399
+00:18:18,020 --> 00:18:22,083
+and I don't know, Jeremy,
+and Alicia, or whatever.
+
+400
+00:18:22,083 --> 00:18:24,000
+Sorry if there are people
+of those real names.
+
+401
+00:18:24,000 --> 00:18:26,740
+It was actually kind of weird
+when you chose people's names,
+
+402
+00:18:26,740 --> 00:18:28,280
+but we just do that
+for some reason.
+
+403
+00:18:28,280 --> 00:18:30,980
+But it turns out that
+there is no large data set
+
+404
+00:18:30,980 --> 00:18:34,060
+on the internet of lots of
+people saying, Robert, turn on.
+
+405
+00:18:34,060 --> 00:18:36,110
+So if you want to
+train a neural network
+
+406
+00:18:36,110 --> 00:18:38,190
+to detect if someone
+has said this phrase,
+
+407
+00:18:38,190 --> 00:18:41,750
+you need to collect
+that data yourself.
+
+408
+00:18:41,750 --> 00:18:45,670
+So let me then ask
+you another question.
+
+409
+00:18:45,670 --> 00:18:47,550
+Say you've done a
+literature search,
+
+410
+00:18:47,550 --> 00:18:49,830
+found some open source
+code you can try,
+
+411
+00:18:49,830 --> 00:18:52,150
+but that has led
+you, say, to conclude
+
+412
+00:18:52,150 --> 00:18:57,910
+that you need a data set of
+people saying, Robert, turn on.
+
+413
+00:18:57,910 --> 00:19:01,590
+You need a data set to train
+to distinguish between someone
+
+414
+00:19:01,590 --> 00:19:04,010
+saying, Robert, turn on versus
+not someone saying, Robert,
+
+415
+00:19:04,010 --> 00:19:05,410
+turn on.
+
+416
+00:19:05,410 --> 00:19:09,790
+How would you approach
+getting a data set like that?
+
+417
+00:19:09,790 --> 00:19:10,290
+Yeah.
+
+418
+00:19:10,290 --> 00:19:10,930
+Go for it.
+
+419
+00:19:10,930 --> 00:19:15,110
+[INAUDIBLE] text-to-speech.
+
+420
+00:19:15,110 --> 00:19:15,970
+Text-to-speech.
+
+421
+00:19:15,970 --> 00:19:17,610
+[INAUDIBLE]
+
+422
+00:19:17,610 --> 00:19:18,110
+Yeah.
+
+423
+00:19:18,110 --> 00:19:18,450
+Cool.
+
+424
+00:19:18,450 --> 00:19:18,630
+Yeah.
+
+425
+00:19:18,630 --> 00:19:19,130
+Yep.
+
+426
+00:19:19,130 --> 00:19:22,082
+You use text-to-speech
+as one method.
+
+427
+00:19:22,082 --> 00:19:23,290
+I'll come back to that later.
+
+428
+00:19:23,290 --> 00:19:24,210
+So you need ideas.
+
+429
+00:19:24,210 --> 00:19:24,930
+Go ahead.
+
+430
+00:19:24,930 --> 00:19:27,330
+[INAUDIBLE]
+
+431
+00:19:27,330 --> 00:19:28,190
+Sorry.
+
+432
+00:19:28,190 --> 00:19:29,190
+[INAUDIBLE]
+
+433
+00:19:34,300 --> 00:19:34,800
+Yeah.
+
+434
+00:19:34,800 --> 00:19:35,100
+Cool.
+
+435
+00:19:35,100 --> 00:19:35,820
+Yeah, I like that.
+
+436
+00:19:35,820 --> 00:19:36,320
+Yeah.
+
+437
+00:19:36,320 --> 00:19:37,860
+So walk around and ask people.
+
+438
+00:19:37,860 --> 00:19:38,700
+Tell them what you're doing.
+
+439
+00:19:38,700 --> 00:19:40,742
+Get the permission to
+record and use their voice.
+
+440
+00:19:40,742 --> 00:19:42,500
+And if they're OK
+giving permission,
+
+441
+00:19:42,500 --> 00:19:43,660
+just record their voices.
+
+442
+00:19:43,660 --> 00:19:45,200
+Yeah, I like that.
+
+443
+00:19:45,200 --> 00:19:48,480
+Anything else?
+
+444
+00:19:48,480 --> 00:19:49,720
+Cool.
+
+445
+00:19:49,720 --> 00:19:50,680
+Yeah.
+
+446
+00:19:50,680 --> 00:19:51,680
+[INAUDIBLE]
+
+447
+00:20:04,600 --> 00:20:08,260
+Step where it triggers.
+
+448
+00:20:08,260 --> 00:20:09,080
+Sorry.
+
+449
+00:20:09,080 --> 00:20:11,080
+[INAUDIBLE] sample.
+
+450
+00:20:11,080 --> 00:20:14,096
+We should have samples
+where they're [INAUDIBLE]
+
+451
+00:20:14,096 --> 00:20:17,320
+and there's [INAUDIBLE].
+
+452
+00:20:17,320 --> 00:20:18,502
+Yeah, cool.
+
+453
+00:20:18,502 --> 00:20:21,160
+[INAUDIBLE]
+
+454
+00:20:21,160 --> 00:20:21,760
+Yeah.
+
+455
+00:20:21,760 --> 00:20:21,960
+Cool.
+
+456
+00:20:21,960 --> 00:20:22,460
+Yep.
+
+457
+00:20:22,460 --> 00:20:26,460
+So samples of people saying
+not Robert or not people.
+
+458
+00:20:26,460 --> 00:20:27,380
+Yeah.
+
+459
+00:20:27,380 --> 00:20:27,880
+Yeah.
+
+460
+00:20:27,880 --> 00:20:28,380
+Cool.
+
+461
+00:20:28,380 --> 00:20:30,480
+Go ahead.
+
+462
+00:20:30,480 --> 00:20:39,227
+[INAUDIBLE] I would also have to
+[INAUDIBLE] Robert [INAUDIBLE].
+
+463
+00:20:45,870 --> 00:20:46,370
+I see.
+
+464
+00:20:46,370 --> 00:20:51,285
+Cool Actually, [INAUDIBLE]
+what you're saying, Robert,
+
+465
+00:20:51,285 --> 00:20:52,910
+but you don't want
+that to be mistaken.
+
+466
+00:20:52,910 --> 00:20:53,743
+That's a good point.
+
+467
+00:20:53,743 --> 00:20:54,970
+I'll come back to that later.
+
+468
+00:20:54,970 --> 00:20:55,810
+Yes.
+
+469
+00:20:55,810 --> 00:20:57,018
+Do you want to say something.
+
+470
+00:20:57,018 --> 00:20:57,690
+[INAUDIBLE]
+
+471
+00:20:57,690 --> 00:20:58,250
+Same thing.
+
+472
+00:20:58,250 --> 00:20:58,750
+Interesting.
+
+473
+00:20:58,750 --> 00:20:58,890
+Cool.
+
+474
+00:20:58,890 --> 00:20:59,390
+Awesome.
+
+475
+00:20:59,390 --> 00:21:00,050
+Great.
+
+476
+00:21:00,050 --> 00:21:00,550
+All right.
+
+477
+00:21:00,550 --> 00:21:04,210
+So one of the--
+
+478
+00:21:04,210 --> 00:21:08,330
+yes, so I really like the idea
+of just going around and asking
+
+479
+00:21:08,330 --> 00:21:10,550
+people for permission
+to record their voices.
+
+480
+00:21:10,550 --> 00:21:13,350
+And by the way, in today's
+world, privacy is important.
+
+481
+00:21:13,350 --> 00:21:14,350
+Consent is important.
+
+482
+00:21:14,350 --> 00:21:16,890
+So don't do anything
+sneaky or weird.
+
+483
+00:21:16,890 --> 00:21:19,310
+Just tell people clearly
+what you're doing.
+
+484
+00:21:19,310 --> 00:21:20,930
+Ask them for permission.
+
+485
+00:21:20,930 --> 00:21:23,410
+Make sure any permission
+is freely given.
+
+486
+00:21:23,410 --> 00:21:25,390
+And if they don't give
+permission, it's fine.
+
+487
+00:21:25,390 --> 00:21:25,710
+Move on.
+
+488
+00:21:25,710 --> 00:21:27,252
+They really respect
+people's privacy.
+
+489
+00:21:27,252 --> 00:21:28,490
+That is really important.
+
+490
+00:21:28,490 --> 00:21:30,930
+Having said that, I find that
+a lot of people in the world
+
+491
+00:21:30,930 --> 00:21:31,593
+are very nice.
+
+492
+00:21:31,593 --> 00:21:34,010
+Not everyone, but the vast
+majority of people in the world
+
+493
+00:21:34,010 --> 00:21:34,910
+seem very nice.
+
+494
+00:21:34,910 --> 00:21:37,516
+And you ask them nicely.
+
+495
+00:21:37,516 --> 00:21:39,630
+I know this because
+I've done this myself.
+
+496
+00:21:39,630 --> 00:21:45,043
+They will give permission for
+you to provide their data.
+
+497
+00:21:45,043 --> 00:21:47,710
+And then just one of the framing
+I encourage you to think about,
+
+498
+00:21:47,710 --> 00:21:49,030
+as always is the speed.
+
+499
+00:21:49,030 --> 00:21:51,810
+So how long will it take
+you to wander around campus
+
+500
+00:21:51,810 --> 00:21:55,203
+or wander around San Francisco
+and collect a sample of voices?
+
+501
+00:21:55,203 --> 00:21:56,870
+And I think you
+actually get a lot done,
+
+502
+00:21:56,870 --> 00:21:59,610
+you'll get many dozens of
+samples, maybe hundreds
+
+503
+00:21:59,610 --> 00:22:01,670
+of samples, easily in a day.
+
+504
+00:22:01,670 --> 00:22:04,690
+So I think those
+are good tactics.
+
+505
+00:22:04,690 --> 00:22:08,110
+And then let me share
+with you some things.
+
+506
+00:22:08,110 --> 00:22:10,330
+And then it turns
+out synthetic data
+
+507
+00:22:10,330 --> 00:22:14,730
+using text-to-speech is
+an interesting tactic.
+
+508
+00:22:14,730 --> 00:22:18,810
+I would usually not use that
+as the first thing I do,
+
+509
+00:22:18,810 --> 00:22:22,770
+mainly because it
+turns out, it's
+
+510
+00:22:22,770 --> 00:22:27,650
+hard to know how accurate
+synthetic data is
+
+511
+00:22:27,650 --> 00:22:31,920
+compared to true natural data.
+
+512
+00:22:31,920 --> 00:22:33,920
+And maybe just show you
+one thing I've run into.
+
+513
+00:22:33,920 --> 00:22:35,900
+I've actually done a
+lot of synthetic data
+
+514
+00:22:35,900 --> 00:22:36,920
+for speech recognition.
+
+515
+00:22:36,920 --> 00:22:39,820
+One thing you have
+to watch out for is
+
+516
+00:22:39,820 --> 00:22:44,380
+if you go to a lot of
+synthetic sources of data,
+
+517
+00:22:44,380 --> 00:22:46,980
+how many voices, how many
+different voices does it
+
+518
+00:22:46,980 --> 00:22:47,940
+provide?
+
+519
+00:22:47,940 --> 00:22:52,460
+And is it going to be a
+pain to get enough diversity
+
+520
+00:22:52,460 --> 00:22:54,120
+in different people's voices?
+
+521
+00:22:54,120 --> 00:22:57,960
+So it turns out, I don't
+know, for example, I often
+
+522
+00:22:57,960 --> 00:23:02,100
+talk to OpenAI voice on my
+phone, instead of typing.
+
+523
+00:23:02,100 --> 00:23:04,680
+But the number of
+voices there is limited.
+
+524
+00:23:04,680 --> 00:23:07,020
+And if you go to TTS
+provider, I guess,
+
+525
+00:23:07,020 --> 00:23:09,520
+there are now some services
+with a larger number of voices.
+
+526
+00:23:09,520 --> 00:23:11,780
+But these are things you
+end up worrying about.
+
+527
+00:23:11,780 --> 00:23:13,700
+And it's all solvable.
+
+528
+00:23:13,700 --> 00:23:16,620
+Synthetic data does work
+for speech recognition.
+
+529
+00:23:16,620 --> 00:23:20,780
+But it turns out that
+there often enough details
+
+530
+00:23:20,780 --> 00:23:23,740
+associated with fiddling with
+the synthetic data generation
+
+531
+00:23:23,740 --> 00:23:26,700
+process that that
+ends up taking longer.
+
+532
+00:23:26,700 --> 00:23:30,670
+So for a lot of machine
+learning applications,
+
+533
+00:23:30,670 --> 00:23:33,270
+using synthetic
+data is a good idea.
+
+534
+00:23:33,270 --> 00:23:35,930
+And eventually, you
+might get around to it.
+
+535
+00:23:35,930 --> 00:23:37,750
+But using synthetic
+data is usually
+
+536
+00:23:37,750 --> 00:23:40,990
+not the first type of
+data I would collect,
+
+537
+00:23:40,990 --> 00:23:43,830
+because usually, there are just
+too many hyperparameters and too
+
+538
+00:23:43,830 --> 00:23:46,210
+many knobs you have
+to worry about.
+
+539
+00:23:46,210 --> 00:23:48,670
+And then at the back of
+your head, you're wondering,
+
+540
+00:23:48,670 --> 00:23:52,310
+what if there's something
+weird about the synthetic data
+
+541
+00:23:52,310 --> 00:23:54,110
+that I've not thought of before?
+
+542
+00:23:54,110 --> 00:23:57,910
+And once you collect natural
+data, collect real data,
+
+543
+00:23:57,910 --> 00:24:02,830
+it's just one less
+thing to worry about.
+
+544
+00:24:02,830 --> 00:24:05,590
+Maybe just to tell
+one more story,
+
+545
+00:24:05,590 --> 00:24:08,463
+not in speech, but
+self-driving cars.
+
+546
+00:24:08,463 --> 00:24:10,130
+So if you're building
+self-driving cars,
+
+547
+00:24:10,130 --> 00:24:12,150
+you want to detect other cars.
+
+548
+00:24:12,150 --> 00:24:15,390
+Where do you get
+pictures of cars?
+
+549
+00:24:15,390 --> 00:24:18,030
+It turns out that
+a lot of people
+
+550
+00:24:18,030 --> 00:24:20,670
+will have the idea oh, there
+are lots of video games
+
+551
+00:24:20,670 --> 00:24:22,350
+with cars driving around.
+
+552
+00:24:22,350 --> 00:24:24,510
+Why don't we use video
+games to get pictures
+
+553
+00:24:24,510 --> 00:24:27,960
+of cars out of the video game?
+
+554
+00:24:27,960 --> 00:24:30,800
+But it turns out a problem
+with a lot of video games
+
+555
+00:24:30,800 --> 00:24:34,500
+is there could be 20 different
+cars in the entire video game,
+
+556
+00:24:34,500 --> 00:24:35,860
+depends on the video game.
+
+557
+00:24:35,860 --> 00:24:38,760
+But it turns out that to
+have a realistic video game,
+
+558
+00:24:38,760 --> 00:24:40,960
+you don't need 1,000
+different cars.
+
+559
+00:24:40,960 --> 00:24:43,820
+And there are tons of different
+cars designs on the road.
+
+560
+00:24:43,820 --> 00:24:45,940
+But you need a very
+narrow set of cars.
+
+561
+00:24:45,940 --> 00:24:49,540
+And so to a human, seeing the
+same 20 cars over and over,
+
+562
+00:24:49,540 --> 00:24:51,340
+looks like the road, looks fine.
+
+563
+00:24:51,340 --> 00:24:52,720
+The video game plays fine.
+
+564
+00:24:52,720 --> 00:24:55,720
+But for a lot of
+video games, the data
+
+565
+00:24:55,720 --> 00:24:57,800
+just isn't rich enough
+to capture anywhere
+
+566
+00:24:57,800 --> 00:24:59,840
+near the richness
+of the real world.
+
+567
+00:24:59,840 --> 00:25:02,100
+Whereas in contrast, if
+you got real pictures,
+
+568
+00:25:02,100 --> 00:25:04,120
+there's just one less
+thing to worry about.
+
+569
+00:25:04,120 --> 00:25:06,980
+So I find that for
+synthetic data, it works.
+
+570
+00:25:06,980 --> 00:25:09,160
+It's very valuable
+to use it a lot,
+
+571
+00:25:09,160 --> 00:25:13,280
+but I usually get to it
+only later in the process.
+
+572
+00:25:13,280 --> 00:25:14,080
+Make sense?
+
+573
+00:25:14,080 --> 00:25:14,580
+Cool.
+
+574
+00:25:14,580 --> 00:25:17,720
+So thank you.
+
+575
+00:25:17,720 --> 00:25:23,000
+And then in the interest of
+building these things quickly,
+
+576
+00:25:23,000 --> 00:25:26,930
+let me share with you the types
+of things that my teams have
+
+577
+00:25:26,930 --> 00:25:28,610
+done to collect data for this.
+
+578
+00:25:28,610 --> 00:25:32,670
+And I feel like when you
+read research papers,
+
+579
+00:25:32,670 --> 00:25:37,530
+you take courses, often, you
+get a very clean view of data.
+
+580
+00:25:37,530 --> 00:25:42,370
+I'm going to tell you about
+one of the weird random hacks
+
+581
+00:25:42,370 --> 00:25:45,670
+that one of my teams
+has used to build,
+
+582
+00:25:45,670 --> 00:25:48,750
+like a very serious, working
+really well commercial system.
+
+583
+00:25:48,750 --> 00:25:53,810
+And at least as part of the
+journey to do so, which is--
+
+584
+00:25:53,810 --> 00:25:54,550
+let's see.
+
+585
+00:26:01,370 --> 00:26:12,090
+So collected 100 training
+audio clips and 25 development
+
+586
+00:26:12,090 --> 00:26:16,210
+set to tune too, and zero test.
+
+587
+00:26:16,210 --> 00:26:19,650
+One thing I'll often do if
+my main goal is to just build
+
+588
+00:26:19,650 --> 00:26:23,050
+a system that works, as opposed
+to publish a research paper,
+
+589
+00:26:23,050 --> 00:26:24,710
+is to not have a test set.
+
+590
+00:26:24,710 --> 00:26:27,890
+We just have a dev set that we
+will tune the parameters to.
+
+591
+00:26:27,890 --> 00:26:30,310
+And if I want to publish
+a research paper,
+
+592
+00:26:30,310 --> 00:26:32,690
+I probably need to
+clean unbiased test set.
+
+593
+00:26:32,690 --> 00:26:35,490
+But if my goal is to just
+build something and have
+
+594
+00:26:35,490 --> 00:26:37,890
+it work and ship it,
+sometimes, I just say,
+
+595
+00:26:37,890 --> 00:26:40,110
+I'm not going to bother
+to collect any test data,
+
+596
+00:26:40,110 --> 00:26:41,990
+just a training
+set and a dev set.
+
+597
+00:26:41,990 --> 00:26:48,330
+And I'll just unapologetically
+to my system, to the dev set.
+
+598
+00:26:48,330 --> 00:26:58,370
+And one thing you
+could do is let's see.
+
+599
+00:26:58,370 --> 00:27:03,690
+So audio clips-- so audio is--
+
+600
+00:27:03,690 --> 00:27:04,190
+let's see.
+
+601
+00:27:04,190 --> 00:27:06,210
+So you may have seen
+the audio waveforms.
+
+602
+00:27:06,210 --> 00:27:07,530
+[INAUDIBLE] this time.
+
+603
+00:27:07,530 --> 00:27:09,170
+X-axis is time.
+
+604
+00:27:09,170 --> 00:27:14,730
+And audio waveforms kind of
+are these wiggly time series.
+
+605
+00:27:14,730 --> 00:27:18,730
+And sound is very rapid
+vibrations in the air
+
+606
+00:27:18,730 --> 00:27:21,250
+that your ear
+perceives as sound.
+
+607
+00:27:21,250 --> 00:27:22,770
+And what the
+microphone does is it
+
+608
+00:27:22,770 --> 00:27:25,520
+records these very rapid
+changes in air pressure.
+
+609
+00:27:25,520 --> 00:27:28,540
+So that's why you see all the
+waveforms that look like this.
+
+610
+00:27:28,540 --> 00:27:32,340
+And so one thing that
+one of my teams once did
+
+611
+00:27:32,340 --> 00:27:36,900
+was collect 100 samples
+of audio waveforms,
+
+612
+00:27:36,900 --> 00:27:41,400
+where somewhere in the middle
+of it is someone saying,
+
+613
+00:27:41,400 --> 00:27:42,820
+Robert, turn on.
+
+614
+00:27:42,820 --> 00:27:44,260
+So hey, how are you going?
+
+615
+00:27:44,260 --> 00:27:44,840
+Oh, yep.
+
+616
+00:27:44,840 --> 00:27:46,667
+And let's say, Robert, turn on.
+
+617
+00:27:46,667 --> 00:27:48,500
+And we can now talk
+about some other things.
+
+618
+00:27:48,500 --> 00:27:52,020
+And so the phrase
+Robert, turn on
+
+619
+00:27:52,020 --> 00:27:54,900
+takes about one second to say.
+
+620
+00:27:54,900 --> 00:27:57,580
+And one way to collect
+construct a training set
+
+621
+00:27:57,580 --> 00:28:01,860
+would be to take a
+three-second clip.
+
+622
+00:28:01,860 --> 00:28:05,120
+So this is where Robert,
+turn on was said.
+
+623
+00:28:05,120 --> 00:28:09,540
+This is where they just
+finished saying Robert, turn on.
+
+624
+00:28:09,540 --> 00:28:14,500
+And so if you collect 100
+audio clips like this,
+
+625
+00:28:14,500 --> 00:28:17,860
+one way to turn this
+into a training set
+
+626
+00:28:17,860 --> 00:28:22,510
+is to take these
+long audio clips.
+
+627
+00:28:22,510 --> 00:28:29,290
+And then this becomes a training
+example with a label one,
+
+628
+00:28:29,290 --> 00:28:31,870
+because that's an utterance
+where the end of the utterance
+
+629
+00:28:31,870 --> 00:28:34,070
+corresponds to when
+someone just finished
+
+630
+00:28:34,070 --> 00:28:36,870
+saying, Robert, turn on.
+
+631
+00:28:36,870 --> 00:28:41,490
+And in contrast, this
+would be an example.
+
+632
+00:28:41,490 --> 00:28:42,940
+It would be a negative example.
+
+633
+00:28:45,470 --> 00:28:48,310
+And this two is a
+negative example,
+
+634
+00:28:48,310 --> 00:28:51,215
+and this two is
+negative example.
+
+635
+00:28:51,215 --> 00:28:52,090
+Does that make sense?
+
+636
+00:28:52,090 --> 00:28:57,510
+So given a say 10-second clip,
+given 10 seconds of audio,
+
+637
+00:28:57,510 --> 00:29:04,930
+we will have cut out a phrase
+where you get a positive label
+
+638
+00:29:04,930 --> 00:29:08,813
+if that three second audio
+corresponds to someone just
+
+639
+00:29:08,813 --> 00:29:11,230
+finishing saying Robert, turn
+on, which is when you should
+
+640
+00:29:11,230 --> 00:29:12,790
+turn on the lamp.
+
+641
+00:29:12,790 --> 00:29:15,790
+And anything else is labeled 0.
+
+642
+00:29:15,790 --> 00:29:18,830
+And so this is a
+way to take, say,
+
+643
+00:29:18,830 --> 00:29:24,820
+100 training examples and turn
+that into 3,000 binary examples.
+
+644
+00:29:24,820 --> 00:29:26,040
+So 100 audio clips.
+
+645
+00:29:26,040 --> 00:29:26,540
+Sorry.
+
+646
+00:29:26,540 --> 00:29:27,930
+I should say 100 audio clips.
+
+647
+00:29:35,320 --> 00:29:39,620
+And if we take 30
+windows out of this,
+
+648
+00:29:39,620 --> 00:29:46,940
+then you can turn this into,
+say, 3,000 training examples,
+
+649
+00:29:46,940 --> 00:29:51,120
+each with a binary 0 or 1 label,
+that labels is this moment
+
+650
+00:29:51,120 --> 00:29:55,120
+in time when someone just
+finished saying the phrase
+
+651
+00:29:55,120 --> 00:29:56,240
+Robert, turn on.
+
+652
+00:29:59,320 --> 00:30:04,000
+So it turns out that if you
+do this, and we did do this,
+
+653
+00:30:04,000 --> 00:30:08,120
+then we wound up--
+
+654
+00:30:08,120 --> 00:30:08,940
+let's see.
+
+655
+00:30:11,760 --> 00:30:13,700
+We wound up with a system.
+
+656
+00:30:13,700 --> 00:30:17,690
+So we ran this and tested
+this on the test set.
+
+657
+00:30:20,450 --> 00:30:23,130
+And we wound up with
+a system that when
+
+658
+00:30:23,130 --> 00:30:26,410
+trained to predict
+binary classification,
+
+659
+00:30:26,410 --> 00:30:29,070
+was 97% accurate.
+
+660
+00:30:35,775 --> 00:30:40,450
+But it turns out it did
+this by outputting 0
+
+661
+00:30:40,450 --> 00:30:45,130
+all the time that
+had 0 detections.
+
+662
+00:30:45,130 --> 00:30:48,690
+And so with this
+training set, we
+
+663
+00:30:48,690 --> 00:30:51,410
+basically trained a very
+large neural network
+
+664
+00:30:51,410 --> 00:30:55,610
+where I would have gotten
+exactly the same result
+
+665
+00:30:55,610 --> 00:30:57,500
+with that one line
+of Python code.
+
+666
+00:31:00,274 --> 00:31:02,850
+So this is the kind of stuff
+that happens in real life.
+
+667
+00:31:02,850 --> 00:31:05,460
+And by the way, I'm sharing
+these stories not just
+
+668
+00:31:05,460 --> 00:31:07,710
+to entertain you though,
+hopefully you're entertained,
+
+669
+00:31:07,710 --> 00:31:09,168
+but because I think
+it is by living
+
+670
+00:31:09,168 --> 00:31:12,230
+these experiences that you go,
+oh, I could see this problem.
+
+671
+00:31:12,230 --> 00:31:14,130
+This is like I could
+see this problem.
+
+672
+00:31:14,130 --> 00:31:18,010
+So my question to you is,
+if you collected this data,
+
+673
+00:31:18,010 --> 00:31:22,610
+train the system, 97%
+accuracy, isn't that fantastic?
+
+674
+00:31:22,610 --> 00:31:24,690
+But you realize that
+you just implemented
+
+675
+00:31:24,690 --> 00:31:28,730
+a very huge neural network,
+a print 0 statement,
+
+676
+00:31:28,730 --> 00:31:32,090
+or the equivalent of print
+0 that has never finding
+
+677
+00:31:32,090 --> 00:31:34,490
+the phrase Robert, turn on.
+
+678
+00:31:34,490 --> 00:31:36,970
+What do you do next?
+
+679
+00:31:36,970 --> 00:31:39,484
+What's going On
+What do you do next?
+
+680
+00:31:39,484 --> 00:31:44,850
+[INAUDIBLE] Robert, turn on.
+
+681
+00:31:44,850 --> 00:31:46,859
+And so if we could [INAUDIBLE].
+
+682
+00:31:53,050 --> 00:31:53,550
+Yeah.
+
+683
+00:31:53,550 --> 00:31:53,730
+Cool.
+
+684
+00:31:53,730 --> 00:31:54,290
+Awesome.
+
+685
+00:31:54,290 --> 00:31:56,835
+So increase the
+number of Robert,
+
+686
+00:31:56,835 --> 00:31:58,210
+turn ons in the
+training example.
+
+687
+00:31:58,210 --> 00:32:00,030
+This is very unbalanced
+training example.
+
+688
+00:32:00,030 --> 00:32:03,210
+And it did great by just saying,
+I never hear this phrase.
+
+689
+00:32:03,210 --> 00:32:05,817
+How would you go about--
+as you or anyone else,
+
+690
+00:32:05,817 --> 00:32:07,650
+how would you go about
+increasing the number
+
+691
+00:32:07,650 --> 00:32:08,540
+of positive examples?
+
+692
+00:32:11,290 --> 00:32:11,910
+Go for it.
+
+693
+00:32:11,910 --> 00:32:14,060
+[INAUDIBLE]
+
+694
+00:32:14,060 --> 00:32:17,706
+But how do you do that?
+
+695
+00:32:17,706 --> 00:32:21,460
+We would [INAUDIBLE].
+
+696
+00:32:21,460 --> 00:32:22,180
+Audio as it is.
+
+697
+00:32:22,180 --> 00:32:22,680
+I see.
+
+698
+00:32:22,680 --> 00:32:23,240
+Wow.
+
+699
+00:32:23,240 --> 00:32:23,740
+I see.
+
+700
+00:32:23,740 --> 00:32:24,450
+Cool.
+
+701
+00:32:24,450 --> 00:32:25,200
+Yeah, interesting.
+
+702
+00:32:25,200 --> 00:32:26,180
+OK, yes.
+
+703
+00:32:26,180 --> 00:32:27,300
+That would work.
+
+704
+00:32:27,300 --> 00:32:30,120
+If that gets a
+synthetic data again.
+
+705
+00:32:30,120 --> 00:32:31,480
+Which actually works.
+
+706
+00:32:31,480 --> 00:32:33,880
+And it also has all the
+complexities of synthetic data.
+
+707
+00:32:33,880 --> 00:32:35,480
+But it turns out it does work.
+
+708
+00:32:35,480 --> 00:32:38,780
+So I know it works because
+I've done that too.
+
+709
+00:32:38,780 --> 00:32:39,480
+I see.
+
+710
+00:32:39,480 --> 00:32:40,280
+Go ahead.
+
+711
+00:32:40,280 --> 00:32:41,254
+[INAUDIBLE]
+
+712
+00:32:46,560 --> 00:32:47,060
+Yeah.
+
+713
+00:32:47,060 --> 00:32:47,560
+Yep.
+
+714
+00:32:47,560 --> 00:32:48,400
+That works too.
+
+715
+00:32:48,400 --> 00:32:52,800
+So one thing you could do is
+take your positive examples,
+
+716
+00:32:52,800 --> 00:32:54,940
+the examples of Robert,
+turn on, and just
+
+717
+00:32:54,940 --> 00:32:56,940
+duplicate those
+examples, or maybe just
+
+718
+00:32:56,940 --> 00:33:00,220
+give those examples more weight
+to the training objective.
+
+719
+00:33:00,220 --> 00:33:00,800
+Yeah.
+
+720
+00:33:00,800 --> 00:33:02,006
+Any other ideas?
+
+721
+00:33:02,006 --> 00:33:06,140
+[INAUDIBLE] similar results.
+
+722
+00:33:06,140 --> 00:33:08,500
+Make an example of
+the [INAUDIBLE].
+
+723
+00:33:11,380 --> 00:33:13,260
+Increase the
+[INAUDIBLE] example.
+
+724
+00:33:13,260 --> 00:33:13,780
+Yeah.
+
+725
+00:33:13,780 --> 00:33:14,280
+Cool.
+
+726
+00:33:14,280 --> 00:33:15,050
+Yeah.
+
+727
+00:33:15,050 --> 00:33:15,550
+Yeah.
+
+728
+00:33:15,550 --> 00:33:17,830
+So a few variations of
+synthetic [INAUDIBLE].
+
+729
+00:33:17,830 --> 00:33:18,510
+Yeah.
+
+730
+00:33:18,510 --> 00:33:20,990
+So I think the
+easy things to try,
+
+731
+00:33:20,990 --> 00:33:26,010
+one would be to take the
+examples and duplicate it.
+
+732
+00:33:26,010 --> 00:33:28,150
+Mathematically, this
+is equivalent to taking
+
+733
+00:33:28,150 --> 00:33:31,590
+your positive examples and just
+making multiple copies of that
+
+734
+00:33:31,590 --> 00:33:32,523
+in your training set.
+
+735
+00:33:32,523 --> 00:33:33,690
+It turns out that will work.
+
+736
+00:33:33,690 --> 00:33:35,070
+They'll largely solve it.
+
+737
+00:33:35,070 --> 00:33:37,790
+And by the way,
+unbalanced data sets
+
+738
+00:33:37,790 --> 00:33:39,850
+is a common issue in
+training neural networks.
+
+739
+00:33:39,850 --> 00:33:41,550
+I'll tell you the
+rule of thumb I use.
+
+740
+00:33:41,550 --> 00:33:44,910
+And is many neural
+networks are pretty
+
+741
+00:33:44,910 --> 00:33:50,490
+good at handling up to a 1 to 10
+ratio of unbalanced data sets.
+
+742
+00:33:50,490 --> 00:33:53,350
+So people often worry what
+if an unbalanced data set.
+
+743
+00:33:53,350 --> 00:33:56,910
+In this example, we
+have a 1 to 30 ratio.
+
+744
+00:33:56,910 --> 00:33:58,370
+And your mileage may vary.
+
+745
+00:33:58,370 --> 00:34:00,550
+Sometimes it works, sometimes
+it won't, and do that.
+
+746
+00:34:00,550 --> 00:34:02,670
+In this case, it didn't work.
+
+747
+00:34:02,670 --> 00:34:06,510
+But I find that if
+you have a 1 to 2
+
+748
+00:34:06,510 --> 00:34:09,170
+ratio, just usually not
+that worried about it.
+
+749
+00:34:09,170 --> 00:34:11,750
+Your network is fine
+training like that.
+
+750
+00:34:11,750 --> 00:34:14,360
+Maybe up to 1 to
+10 is when I start
+
+751
+00:34:14,360 --> 00:34:16,120
+to worry about it
+being a little bit too
+
+752
+00:34:16,120 --> 00:34:19,213
+unbalanced for standard
+training procedures
+
+753
+00:34:19,213 --> 00:34:20,880
+and what I might do
+something to make it
+
+754
+00:34:20,880 --> 00:34:23,120
+a little bit more balanced.
+
+755
+00:34:23,120 --> 00:34:26,239
+But duplicating the examples
+would be one tactic.
+
+756
+00:34:26,239 --> 00:34:26,800
+Go ahead.
+
+757
+00:34:26,800 --> 00:34:30,719
+What if you also feel
+like [INAUDIBLE].
+
+758
+00:34:30,719 --> 00:34:31,840
+Yes.
+
+759
+00:34:31,840 --> 00:34:33,818
+Penalize false negatives.
+
+760
+00:34:33,818 --> 00:34:34,860
+Yes, that would work too.
+
+761
+00:34:34,860 --> 00:34:37,579
+So I think there are
+a few ways to train--
+
+762
+00:34:37,579 --> 00:34:39,500
+to change the cost function.
+
+763
+00:34:39,500 --> 00:34:44,320
+You can give the positive
+examples more weight or yes,
+
+764
+00:34:44,320 --> 00:34:46,659
+or penalizing false negative
+would be another way
+
+765
+00:34:46,659 --> 00:34:49,060
+to change the cost function.
+
+766
+00:34:49,060 --> 00:34:51,080
+That will work.
+
+767
+00:34:51,080 --> 00:34:53,060
+OK.
+
+768
+00:34:53,060 --> 00:34:53,560
+Yeah.
+
+769
+00:34:53,560 --> 00:34:54,060
+Go ahead.
+
+770
+00:34:54,060 --> 00:34:58,000
+[INAUDIBLE] some
+increase the amount
+
+771
+00:34:58,000 --> 00:35:01,790
+of the negative examples
+of the [INAUDIBLE].
+
+772
+00:35:08,640 --> 00:35:09,460
+Yes.
+
+773
+00:35:09,460 --> 00:35:11,840
+So you can also decrease the
+number of negative examples.
+
+774
+00:35:11,840 --> 00:35:13,050
+That would work too.
+
+775
+00:35:13,050 --> 00:35:15,170
+The one downside of that is--
+
+776
+00:35:15,170 --> 00:35:15,910
+like, it's OK.
+
+777
+00:35:15,910 --> 00:35:17,770
+I think it's fine
+to do what you said.
+
+778
+00:35:17,770 --> 00:35:19,770
+The one slight
+downside is if you
+
+779
+00:35:19,770 --> 00:35:23,147
+are reducing the diversity
+of the negative examples,
+
+780
+00:35:23,147 --> 00:35:25,730
+then the neural network has just
+a little bit less information
+
+781
+00:35:25,730 --> 00:35:27,330
+to learn from.
+
+782
+00:35:27,330 --> 00:35:29,030
+I think this is
+what I just said.
+
+783
+00:35:29,030 --> 00:35:30,488
+There's a small
+difference, though.
+
+784
+00:35:30,488 --> 00:35:33,610
+I think that will also work
+as a quick thing to try.
+
+785
+00:35:33,610 --> 00:35:35,510
+Yeah.
+
+786
+00:35:35,510 --> 00:35:37,210
+And I'll just tell you another--
+
+787
+00:35:37,210 --> 00:35:39,382
+I'll tell you what
+my team actually did.
+
+788
+00:35:39,382 --> 00:35:41,090
+And I'm telling you
+this not because it's
+
+789
+00:35:41,090 --> 00:35:43,970
+a brilliant technique I'm
+proud, but because I just
+
+790
+00:35:43,970 --> 00:35:46,250
+want to tell you the examples
+of the types of hacks
+
+791
+00:35:46,250 --> 00:35:48,530
+that actual commercial
+machine learning
+
+792
+00:35:48,530 --> 00:35:50,662
+teams do that actually works.
+
+793
+00:35:50,662 --> 00:35:51,870
+So I'll tell you what we did.
+
+794
+00:35:51,870 --> 00:35:55,510
+It was very close to duplicating
+the positive examples,
+
+795
+00:35:55,510 --> 00:35:57,630
+but we had just a slightly
+different variation,
+
+796
+00:35:57,630 --> 00:36:02,290
+which was we said that instead
+of the positive example,
+
+797
+00:36:02,290 --> 00:36:07,370
+being the one window where
+Robert, turn on, just finish.
+
+798
+00:36:07,370 --> 00:36:11,410
+So here, we're having a
+sequence of labels walls,
+
+799
+00:36:11,410 --> 00:36:15,010
+where 0 corresponds to--
+
+800
+00:36:15,010 --> 00:36:17,850
+is that moment in time when
+someone just finished Robert,
+
+801
+00:36:17,850 --> 00:36:18,810
+turn on.
+
+802
+00:36:18,810 --> 00:36:21,250
+And in the architecture
+I describe,
+
+803
+00:36:21,250 --> 00:36:23,930
+we are detecting a very,
+very narrow window in time
+
+804
+00:36:23,930 --> 00:36:25,850
+where someone just
+finished Robert, turn on,
+
+805
+00:36:25,850 --> 00:36:27,290
+and you got to turn on.
+
+806
+00:36:27,290 --> 00:36:30,970
+But the hack that we
+used was actually just
+
+807
+00:36:30,970 --> 00:36:32,850
+extend this out a little bit.
+
+808
+00:36:32,850 --> 00:36:35,630
+So instead of saying, did
+someone just finished saying,
+
+809
+00:36:35,630 --> 00:36:39,210
+Robert, turn on in the
+last 100 milliseconds,
+
+810
+00:36:39,210 --> 00:36:42,750
+we extended that out to
+half a second or a second.
+
+811
+00:36:42,750 --> 00:36:44,750
+And so if someone
+finished saying,
+
+812
+00:36:44,750 --> 00:36:47,410
+Robert, turn on any time
+in the last half second,
+
+813
+00:36:47,410 --> 00:36:48,630
+let's turn on the light.
+
+814
+00:36:48,630 --> 00:36:52,405
+And so this actually generates
+a few more training examples.
+
+815
+00:36:52,405 --> 00:36:54,030
+The reason we did
+that, and again, this
+
+816
+00:36:54,030 --> 00:36:55,530
+is a small difference,
+is this actually
+
+817
+00:36:55,530 --> 00:36:57,010
+creates a little
+bit more diversity
+
+818
+00:36:57,010 --> 00:37:00,110
+in the positive examples
+than just duplicating it.
+
+819
+00:37:00,110 --> 00:37:04,330
+Because now this red rectangle
+is a positive example,
+
+820
+00:37:04,330 --> 00:37:08,103
+and so is this one, and so is
+this one, and so is this one.
+
+821
+00:37:08,103 --> 00:37:10,020
+So it just creates a
+little bit more diversity
+
+822
+00:37:10,020 --> 00:37:12,340
+in the positive examples.
+
+823
+00:37:12,340 --> 00:37:15,693
+I expect this would make a very
+small difference in the training
+
+824
+00:37:15,693 --> 00:37:17,360
+and the learning
+algorithms performance,
+
+825
+00:37:17,360 --> 00:37:19,380
+but it's just maybe
+just slightly better
+
+826
+00:37:19,380 --> 00:37:21,820
+to have slightly--
+
+827
+00:37:21,820 --> 00:37:24,660
+yeah, cover the space
+of positive examples
+
+828
+00:37:24,660 --> 00:37:26,280
+just a little bit.
+
+829
+00:37:26,280 --> 00:37:29,780
+Just a little bit better.
+
+830
+00:37:29,780 --> 00:37:30,400
+Make sense?
+
+831
+00:37:33,300 --> 00:37:38,420
+So again, just to keep
+going with the story,
+
+832
+00:37:38,420 --> 00:37:40,940
+let's say you do this.
+
+833
+00:37:40,940 --> 00:37:49,730
+And now, you still do
+well on the training set.
+
+834
+00:37:54,660 --> 00:37:57,220
+95% accuracy on training set.
+
+835
+00:37:57,220 --> 00:38:07,200
+But 50% accuracy, so not
+good enough, on your dev set.
+
+836
+00:38:07,200 --> 00:38:11,150
+So you fix one problem
+and another one comes up.
+
+837
+00:38:11,150 --> 00:38:12,950
+So what do you do next?
+
+838
+00:38:12,950 --> 00:38:13,530
+Go for it.
+
+839
+00:38:13,530 --> 00:38:14,442
+[INAUDIBLE]
+
+840
+00:38:18,250 --> 00:38:18,750
+Yeah.
+
+841
+00:38:18,750 --> 00:38:19,010
+Cool.
+
+842
+00:38:19,010 --> 00:38:19,270
+Awesome.
+
+843
+00:38:19,270 --> 00:38:19,770
+Yep.
+
+844
+00:38:19,770 --> 00:38:22,190
+Overfitting and [INAUDIBLE].
+
+845
+00:38:22,190 --> 00:38:22,850
+Go ahead.
+
+846
+00:38:22,850 --> 00:38:23,796
+[INAUDIBLE]
+
+847
+00:38:31,170 --> 00:38:33,790
+Is it the training set
+distributions are not the same.
+
+848
+00:38:33,790 --> 00:38:37,430
+In this example, because we
+collected the training and test
+
+849
+00:38:37,430 --> 00:38:40,010
+sets and we randomly shuffle
+between training and dev,
+
+850
+00:38:40,010 --> 00:38:43,210
+then there would be the
+same distribution, actually.
+
+851
+00:38:43,210 --> 00:38:43,710
+Yeah.
+
+852
+00:38:43,710 --> 00:38:47,650
+But sometimes there's
+one other thing I do see,
+
+853
+00:38:47,650 --> 00:38:53,470
+which is it turns out early in
+the history of machine learning,
+
+854
+00:38:53,470 --> 00:38:55,630
+there was always this
+assumption or obsession
+
+855
+00:38:55,630 --> 00:38:57,870
+with making the training
+set in a dev set.
+
+856
+00:38:57,870 --> 00:39:00,010
+And a test set have
+the same distribution.
+
+857
+00:39:00,010 --> 00:39:02,510
+I think it's because if the
+training set and a test set
+
+858
+00:39:02,510 --> 00:39:05,490
+are the same distribution,
+it's easy to prove theorems,
+
+859
+00:39:05,490 --> 00:39:07,680
+easy to give guarantees,
+whatever, kind
+
+860
+00:39:07,680 --> 00:39:09,720
+of academic machine learning.
+
+861
+00:39:09,720 --> 00:39:12,360
+There was always this
+theoretical assumption,
+
+862
+00:39:12,360 --> 00:39:15,980
+which makes the theory work way
+better than your training set.
+
+863
+00:39:15,980 --> 00:39:18,320
+And your test set come
+from the same distribution.
+
+864
+00:39:18,320 --> 00:39:22,320
+It's just from a publishing
+papers point of view,
+
+865
+00:39:22,320 --> 00:39:24,480
+that makes life much better.
+
+866
+00:39:24,480 --> 00:39:28,280
+From a practical point of view,
+what I see is a lot of the time,
+
+867
+00:39:28,280 --> 00:39:29,760
+your training set
+distribution is
+
+868
+00:39:29,760 --> 00:39:32,520
+just different than your
+tested distribution.
+
+869
+00:39:32,520 --> 00:39:33,420
+That's just life.
+
+870
+00:39:33,420 --> 00:39:37,560
+Because it's hard to demand
+data of a certain [INAUDIBLE].
+
+871
+00:39:37,560 --> 00:39:39,640
+And so for example,
+one common thing
+
+872
+00:39:39,640 --> 00:39:44,600
+is if you do use synthetic data
+generation, you can come up
+
+873
+00:39:44,600 --> 00:39:47,040
+with really clever ways to
+generate synthetic training
+
+874
+00:39:47,040 --> 00:39:50,460
+data, like using TTS or
+editing audio or whatever.
+
+875
+00:39:50,460 --> 00:39:55,040
+There, these techniques let you
+generate a massive training set.
+
+876
+00:39:55,040 --> 00:39:58,400
+But the price of that
+is your synthetic data--
+
+877
+00:39:58,400 --> 00:40:00,640
+I mean, that's not
+how users talk.
+
+878
+00:40:00,640 --> 00:40:02,780
+Users don't speak
+synthetic data.
+
+879
+00:40:02,780 --> 00:40:04,560
+They speak real data.
+
+880
+00:40:04,560 --> 00:40:08,280
+And so to make sure that
+your test metric truly
+
+881
+00:40:08,280 --> 00:40:12,680
+reflects how users will
+perceive your product,
+
+882
+00:40:12,680 --> 00:40:15,960
+I would put true data
+in your test set.
+
+883
+00:40:15,960 --> 00:40:17,680
+And so you end up
+with a lot of systems,
+
+884
+00:40:17,680 --> 00:40:19,305
+where your training
+set distribution is
+
+885
+00:40:19,305 --> 00:40:21,640
+synthetic data or other
+things you fit it with.
+
+886
+00:40:21,640 --> 00:40:23,880
+And then your test set is
+whatever the world actually
+
+887
+00:40:23,880 --> 00:40:24,660
+cares more about.
+
+888
+00:40:24,660 --> 00:40:27,097
+And two distributions
+is very different.
+
+889
+00:40:27,097 --> 00:40:28,680
+And then I think the
+question you just
+
+890
+00:40:28,680 --> 00:40:31,760
+asked is, is the training
+set distribution too
+
+891
+00:40:31,760 --> 00:40:33,700
+different from your
+synthetic data.
+
+892
+00:40:33,700 --> 00:40:34,540
+That is a problem.
+
+893
+00:40:34,540 --> 00:40:36,200
+Those would be good
+questions to ask.
+
+894
+00:40:38,720 --> 00:40:39,960
+All right.
+
+895
+00:40:39,960 --> 00:40:43,990
+So if you see this,
+this is overfitting
+
+896
+00:40:43,990 --> 00:40:45,740
+because we're doing
+great on training set,
+
+897
+00:40:45,740 --> 00:40:47,240
+not so well on dev.
+
+898
+00:40:47,240 --> 00:40:49,840
+So one thing to try would
+be-- the first thing to try
+
+899
+00:40:49,840 --> 00:40:51,520
+is [INAUDIBLE] regularization.
+
+900
+00:40:51,520 --> 00:40:53,240
+So that would be a
+good thing to try.
+
+901
+00:40:53,240 --> 00:40:55,640
+And then beyond
+using regularization,
+
+902
+00:40:55,640 --> 00:40:59,660
+I find that for a lot of speech
+problems, if you're overfitting,
+
+903
+00:40:59,660 --> 00:41:01,800
+getting more data is nice.
+
+904
+00:41:01,800 --> 00:41:03,480
+And so just to share with you--
+
+905
+00:41:03,480 --> 00:41:06,770
+I know your suggestion of
+synthetic data earlier.
+
+906
+00:41:06,770 --> 00:41:08,770
+I'll share with you one
+thing for synthetic data
+
+907
+00:41:08,770 --> 00:41:12,490
+that does work, which we
+eventually wound up using,
+
+908
+00:41:12,490 --> 00:41:16,370
+which is it turns out that--
+
+909
+00:41:16,370 --> 00:41:17,890
+sorry, this is audio stream.
+
+910
+00:41:17,890 --> 00:41:20,450
+It turns out that
+there are a lot of--
+
+911
+00:41:20,450 --> 00:41:23,270
+if you can get audio clips
+of background noise--
+
+912
+00:41:23,270 --> 00:41:26,790
+so for example, in this
+room, if I'm quiet,
+
+913
+00:41:26,790 --> 00:41:28,990
+we can hear a little bit
+of air conditioning noise.
+
+914
+00:41:28,990 --> 00:41:32,070
+So a lot of rooms have
+little background noise.
+
+915
+00:41:32,070 --> 00:41:34,990
+Or if you're near a highway,
+there's a car in the background.
+
+916
+00:41:34,990 --> 00:41:36,930
+So there are
+actually-- most people,
+
+917
+00:41:36,930 --> 00:41:38,450
+where they may use
+the lamp, there's
+
+918
+00:41:38,450 --> 00:41:40,170
+a little bit of
+background noise.
+
+919
+00:41:40,170 --> 00:41:45,770
+So if you're able to get
+audio of background noise,
+
+920
+00:41:45,770 --> 00:41:50,210
+and then additionally record
+some very clean audio clips
+
+921
+00:41:50,210 --> 00:41:53,450
+of Robert, turn on, it
+turns out that if you
+
+922
+00:41:53,450 --> 00:41:57,450
+take two audio waveforms
+and sum them together,
+
+923
+00:41:57,450 --> 00:41:59,530
+you end up with an
+audio waveform that
+
+924
+00:41:59,530 --> 00:42:02,540
+sounds like someone saying this
+in the presence of background
+
+925
+00:42:02,540 --> 00:42:04,100
+noise.
+
+926
+00:42:04,100 --> 00:42:06,760
+I think it's called the
+superposition property of sound,
+
+927
+00:42:06,760 --> 00:42:08,820
+but basically sound
+adds, which is
+
+928
+00:42:08,820 --> 00:42:11,260
+why if you take two
+audio clips and you just
+
+929
+00:42:11,260 --> 00:42:13,780
+add the audio waveforms
+together, then
+
+930
+00:42:13,780 --> 00:42:15,460
+you end up with an
+audio recording that
+
+931
+00:42:15,460 --> 00:42:18,420
+sounds like both sounds
+going on at the same time.
+
+932
+00:42:18,420 --> 00:42:24,380
+So we can do is take
+background noise.
+
+933
+00:42:24,380 --> 00:42:27,860
+There's actually a lot of
+audio clips of background noise
+
+934
+00:42:27,860 --> 00:42:30,245
+on YouTube as well, and so on.
+
+935
+00:42:30,245 --> 00:42:32,620
+Check the licensing terms
+before you use stuff like that.
+
+936
+00:42:32,620 --> 00:42:35,020
+But there are actually
+quite a lot of openly
+
+937
+00:42:35,020 --> 00:42:38,800
+licensed audio clips of
+just someone like a quiet,
+
+938
+00:42:38,800 --> 00:42:41,900
+like a coffee shop
+noise or someone
+
+939
+00:42:41,900 --> 00:42:45,620
+sitting in a house
+studying or whatever.
+
+940
+00:42:45,620 --> 00:42:49,860
+And so if you can take some
+background noise audio clips,
+
+941
+00:42:49,860 --> 00:42:55,660
+and then take a clean voice,
+someone saying, Robert, turn on.
+
+942
+00:42:55,660 --> 00:42:58,500
+And if you add
+these two together,
+
+943
+00:42:58,500 --> 00:43:00,600
+then you end up with
+background noise,
+
+944
+00:43:00,600 --> 00:43:03,710
+Robert, turn on, and
+more background noise.
+
+945
+00:43:03,710 --> 00:43:08,870
+And this becomes a positive
+example using the process
+
+946
+00:43:08,870 --> 00:43:11,270
+that we talked about just now.
+
+947
+00:43:11,270 --> 00:43:15,470
+And if you have a handful
+of clips of Robert, turn on,
+
+948
+00:43:15,470 --> 00:43:17,910
+and a lot of clips
+of background noise,
+
+949
+00:43:17,910 --> 00:43:20,250
+so you can synthesize the
+phrase Robert, turn on,
+
+950
+00:43:20,250 --> 00:43:23,030
+it means a lot of different
+types of background noise
+
+951
+00:43:23,030 --> 00:43:28,270
+and create a prelaunch
+training set.
+
+952
+00:43:28,270 --> 00:43:29,990
+It turns out one
+problem with what I just
+
+953
+00:43:29,990 --> 00:43:31,950
+described is if you do
+exactly what you just
+
+954
+00:43:31,950 --> 00:43:35,310
+said, you won't actually find
+the Robert, turn on detector,
+
+955
+00:43:35,310 --> 00:43:37,738
+you end up with a voice
+activity detection detector.
+
+956
+00:43:37,738 --> 00:43:39,530
+Because you have a lot
+of background noise.
+
+957
+00:43:39,530 --> 00:43:41,050
+And anytime anyone
+says anything,
+
+958
+00:43:41,050 --> 00:43:43,330
+the only thing people
+say is Robert, turn on.
+
+959
+00:43:43,330 --> 00:43:45,390
+It's much easier to
+just decide, is there
+
+960
+00:43:45,390 --> 00:43:48,090
+a loud sound, someone talking
+to actually recognize things.
+
+961
+00:43:48,090 --> 00:43:50,550
+So the other thing
+we should do is
+
+962
+00:43:50,550 --> 00:43:55,030
+instead of adding Robert,
+turn on, pick a dictionary
+
+963
+00:43:55,030 --> 00:43:56,650
+or find other types of audio.
+
+964
+00:43:56,650 --> 00:43:59,030
+I think that's where you
+had to come in just now.
+
+965
+00:43:59,030 --> 00:44:01,000
+Make sure don't
+confuse other things.
+
+966
+00:44:01,000 --> 00:44:05,280
+And add, I don't know--
+get someone to say the word
+
+967
+00:44:05,280 --> 00:44:07,180
+cardinal, or
+whatever, other words.
+
+968
+00:44:07,180 --> 00:44:09,960
+So you have a bunch of
+examples of people saying words
+
+969
+00:44:09,960 --> 00:44:13,260
+other than Robert, turn on, and
+then also a bunch of examples,
+
+970
+00:44:13,260 --> 00:44:14,840
+people saying, Robert, turn on.
+
+971
+00:44:14,840 --> 00:44:19,480
+And by having a handful of clean
+recordings of Robert, turn on,
+
+972
+00:44:19,480 --> 00:44:21,600
+and a handful of clean
+recordings of people saying
+
+973
+00:44:21,600 --> 00:44:24,680
+other stuff and synthesizing
+a data set like this,
+
+974
+00:44:24,680 --> 00:44:29,280
+you can get a data set with many
+thousands of examples of Robert,
+
+975
+00:44:29,280 --> 00:44:31,150
+turn on pretty efficiently.
+
+976
+00:44:31,150 --> 00:44:32,900
+And if you train a
+neural network on this,
+
+977
+00:44:32,900 --> 00:44:38,440
+you get a decent wake word
+or trigger word detector.
+
+978
+00:44:38,440 --> 00:44:39,220
+That makes sense?
+
+979
+00:44:47,840 --> 00:44:50,640
+Yeah.
+
+980
+00:44:50,640 --> 00:44:54,190
+So with a process like this--
+
+981
+00:44:59,312 --> 00:45:01,520
+so this is what working on
+a machine learning project
+
+982
+00:45:01,520 --> 00:45:02,280
+feels like.
+
+983
+00:45:02,280 --> 00:45:04,680
+You try something,
+it doesn't work.
+
+984
+00:45:04,680 --> 00:45:08,680
+You find out that you
+have a skewed data set.
+
+985
+00:45:08,680 --> 00:45:11,400
+Be creative in how you
+create and collect data.
+
+986
+00:45:11,400 --> 00:45:12,980
+You may find a skewed data set.
+
+987
+00:45:12,980 --> 00:45:14,020
+It just doesn't work.
+
+988
+00:45:14,020 --> 00:45:15,840
+You may find this overfitting.
+
+989
+00:45:15,840 --> 00:45:18,920
+And I find that
+it is the ability
+
+990
+00:45:18,920 --> 00:45:23,560
+to drive iterations on a system
+that determines how quickly you
+
+991
+00:45:23,560 --> 00:45:26,480
+can get something to work.
+
+992
+00:45:26,480 --> 00:45:27,315
+Yeah.
+
+993
+00:45:27,315 --> 00:45:28,265
+[INAUDIBLE]
+
+994
+00:45:35,960 --> 00:45:39,360
+How would you sample
+[INAUDIBLE] differentiate
+
+995
+00:45:39,360 --> 00:45:41,320
+between X and [INAUDIBLE].
+
+996
+00:45:44,680 --> 00:45:47,280
+For the Robert, turn on example?
+
+997
+00:45:47,280 --> 00:45:48,440
+Yeah.
+
+998
+00:45:48,440 --> 00:45:51,160
+So if I found that there were a
+lot of users that are listening
+
+999
+00:45:51,160 --> 00:45:56,200
+to music, then I would
+probably synthesize data
+
+1000
+00:45:56,200 --> 00:45:58,810
+with music in the
+background, and then have
+
+1001
+00:45:58,810 --> 00:46:00,430
+someone say, Robert, turn on.
+
+1002
+00:46:00,430 --> 00:46:03,115
+So if you think a lot
+of users listen to music
+
+1003
+00:46:03,115 --> 00:46:04,490
+and there's our
+desk lamp and you
+
+1004
+00:46:04,490 --> 00:46:08,770
+want to make sure we catch
+them saying, Robert, turn on,
+
+1005
+00:46:08,770 --> 00:46:13,170
+then I would probably
+synthesize more training data
+
+1006
+00:46:13,170 --> 00:46:16,510
+to include loud-ish
+music in the background.
+
+1007
+00:46:16,510 --> 00:46:20,410
+[INAUDIBLE] music
+that you can't really
+
+1008
+00:46:20,410 --> 00:46:24,450
+predict [INAUDIBLE] be
+vastly different even more.
+
+1009
+00:46:24,450 --> 00:46:27,810
+So one of the genre of music?
+
+1010
+00:46:27,810 --> 00:46:30,650
+Like classical
+music, [INAUDIBLE]
+
+1011
+00:46:30,650 --> 00:46:35,250
+which you don't know what they
+use, [INAUDIBLE] and then you
+
+1012
+00:46:35,250 --> 00:46:39,690
+train different genres
+of music [INAUDIBLE].
+
+1013
+00:46:39,690 --> 00:46:43,330
+It's extremely different.
+
+1014
+00:46:43,330 --> 00:46:43,870
+Yeah.
+
+1015
+00:46:43,870 --> 00:46:47,790
+So it turns out
+that if you have--
+
+1016
+00:46:47,790 --> 00:46:50,650
+I feel like as a
+rule of thumb, if you
+
+1017
+00:46:50,650 --> 00:46:54,890
+can have a more diverse
+set of training data,
+
+1018
+00:46:54,890 --> 00:46:56,326
+it's usually better.
+
+1019
+00:46:59,180 --> 00:47:01,460
+So maybe I'm not sure
+what music my user
+
+1020
+00:47:01,460 --> 00:47:03,053
+base likes to listen the most.
+
+1021
+00:47:03,053 --> 00:47:03,720
+Is it classical?
+
+1022
+00:47:03,720 --> 00:47:04,220
+Is it rock?
+
+1023
+00:47:04,220 --> 00:47:04,920
+Is it EDM?
+
+1024
+00:47:04,920 --> 00:47:06,380
+Is it whatever?
+
+1025
+00:47:06,380 --> 00:47:09,660
+If you could collect
+a very rich training
+
+1026
+00:47:09,660 --> 00:47:14,220
+set that includes all of
+the above, and even more,
+
+1027
+00:47:14,220 --> 00:47:17,220
+usually they'll do better
+than going to narrow
+
+1028
+00:47:17,220 --> 00:47:21,000
+and risking picking wrong.
+
+1029
+00:47:21,000 --> 00:47:23,380
+And the one asterisk
+to what I said
+
+1030
+00:47:23,380 --> 00:47:26,420
+is so long as you can train
+a neural network that's
+
+1031
+00:47:26,420 --> 00:47:29,960
+big enough, usually,
+more diverse data.
+
+1032
+00:47:29,960 --> 00:47:32,460
+More data, more
+diverse data is better.
+
+1033
+00:47:32,460 --> 00:47:34,580
+If you're neural
+network is too small,
+
+1034
+00:47:34,580 --> 00:47:36,980
+then it may lack the
+capacity or the intelligence
+
+1035
+00:47:36,980 --> 00:47:39,220
+to memorize all
+this stuff, which
+
+1036
+00:47:39,220 --> 00:47:41,700
+could be a problem if you
+need a very small network that
+
+1037
+00:47:41,700 --> 00:47:42,520
+runs at the edge.
+
+1038
+00:47:42,520 --> 00:47:47,100
+But usually, if you
+have the capacity
+
+1039
+00:47:47,100 --> 00:47:51,740
+to get more rich, more
+diverse training data,
+
+1040
+00:47:51,740 --> 00:47:55,510
+that ends up delivering
+better results.
+
+1041
+00:47:55,510 --> 00:47:56,510
+That makes sense?
+
+1042
+00:47:56,510 --> 00:47:58,320
+Cool.
+
+1043
+00:47:58,320 --> 00:47:58,820
+Cool.
+
+1044
+00:48:02,870 --> 00:48:04,630
+All right.
+
+1045
+00:48:04,630 --> 00:48:06,970
+Now I want to share with you--
+
+1046
+00:48:10,670 --> 00:48:13,670
+so it turns out when you're
+building a machine learning
+
+1047
+00:48:13,670 --> 00:48:18,390
+system, very common experience
+is you try something
+
+1048
+00:48:18,390 --> 00:48:20,630
+and it doesn't work.
+
+1049
+00:48:20,630 --> 00:48:24,190
+And then you have to figure
+out all the wonderful ways
+
+1050
+00:48:24,190 --> 00:48:26,910
+it could be not working,
+and then go and fix
+
+1051
+00:48:26,910 --> 00:48:28,330
+whatever is not working.
+
+1052
+00:48:28,330 --> 00:48:32,030
+And even in this
+example we went through,
+
+1053
+00:48:32,030 --> 00:48:33,730
+is the training data too skew?
+
+1054
+00:48:33,730 --> 00:48:34,663
+Is it overfitting?
+
+1055
+00:48:34,663 --> 00:48:36,830
+So you need [INAUDIBLE]
+regularization or more data,
+
+1056
+00:48:36,830 --> 00:48:37,910
+or is it something else.
+
+1057
+00:48:37,910 --> 00:48:39,550
+Or the synthetic
+data distribution not
+
+1058
+00:48:39,550 --> 00:48:41,088
+match the real
+data distribution.
+
+1059
+00:48:41,088 --> 00:48:43,630
+It turns out that when you're
+training a neural network, when
+
+1060
+00:48:43,630 --> 00:48:46,830
+you're training-- when
+your building AI system,
+
+1061
+00:48:46,830 --> 00:48:49,190
+it's really difficult
+to know in advance
+
+1062
+00:48:49,190 --> 00:48:51,710
+what's going to go wrong next.
+
+1063
+00:48:51,710 --> 00:48:54,740
+I find that in
+software development,
+
+1064
+00:48:54,740 --> 00:48:57,240
+if I'm writing
+traditional software,
+
+1065
+00:48:57,240 --> 00:48:59,680
+you kind of control
+all the code.
+
+1066
+00:48:59,680 --> 00:49:05,000
+And so it's more OK to write a
+spec and then you just build it
+
+1067
+00:49:05,000 --> 00:49:07,700
+and then it kind of works
+as soon as you debug it.
+
+1068
+00:49:07,700 --> 00:49:10,128
+But the bugs are it's
+like my own bugs.
+
+1069
+00:49:10,128 --> 00:49:11,920
+In contrast, when you're
+building a machine
+
+1070
+00:49:11,920 --> 00:49:15,240
+learning system, it's much
+more like I don't what's
+
+1071
+00:49:15,240 --> 00:49:16,360
+going to happen next.
+
+1072
+00:49:16,360 --> 00:49:18,420
+Maybe because I don't what
+the data will give me,
+
+1073
+00:49:18,420 --> 00:49:21,320
+how to predict, how the
+algorithm will perform.
+
+1074
+00:49:21,320 --> 00:49:23,640
+And so the workflow
+of machine learning
+
+1075
+00:49:23,640 --> 00:49:26,760
+feels much more like
+debugging than development.
+
+1076
+00:49:26,760 --> 00:49:29,840
+And by debugging, I
+mean, there is a process
+
+1077
+00:49:29,840 --> 00:49:32,920
+where you build a system and
+you just repeatedly trying
+
+1078
+00:49:32,920 --> 00:49:35,920
+to find how it doesn't
+work and fix it.
+
+1079
+00:49:35,920 --> 00:49:38,400
+If you're trying to do a
+task that humans can do,
+
+1080
+00:49:38,400 --> 00:49:40,880
+then the bugs or the
+gaps in performance
+
+1081
+00:49:40,880 --> 00:49:43,740
+is often, whatever a
+human can clearly do,
+
+1082
+00:49:43,740 --> 00:49:46,600
+but the AI system
+is unable to do.
+
+1083
+00:49:46,600 --> 00:49:51,000
+So for many machine learning
+teams that have led or worked
+
+1084
+00:49:51,000 --> 00:49:56,040
+in, if you can get the team to a
+healthy rhythm of this debugging
+
+1085
+00:49:56,040 --> 00:49:58,700
+cycle, you can make
+really rapid progress.
+
+1086
+00:49:58,700 --> 00:50:03,000
+So for example, it turns
+out-- let me give one example.
+
+1087
+00:50:03,000 --> 00:50:06,520
+I've been on teams where
+we would do the following.
+
+1088
+00:50:06,520 --> 00:50:14,840
+We say morning,
+afternoon, evening, night.
+
+1089
+00:50:14,840 --> 00:50:17,240
+So we run our training
+jobs at night.
+
+1090
+00:50:21,068 --> 00:50:23,360
+And for example, it turns
+out for some of these models,
+
+1091
+00:50:23,360 --> 00:50:24,943
+we're training for
+speech recognition.
+
+1092
+00:50:24,943 --> 00:50:27,400
+And it takes, let's say,
+it takes four hours.
+
+1093
+00:50:27,400 --> 00:50:29,320
+So the training job
+takes about four hours
+
+1094
+00:50:29,320 --> 00:50:31,440
+to train a neural network.
+
+1095
+00:50:31,440 --> 00:50:32,760
+So training at night.
+
+1096
+00:50:32,760 --> 00:50:35,610
+In the morning, we
+look at our results.
+
+1097
+00:50:44,080 --> 00:50:46,300
+You look at the results,
+do error analysis,
+
+1098
+00:50:46,300 --> 00:50:49,480
+try to figure out what's wrong.
+
+1099
+00:50:49,480 --> 00:50:55,085
+And the afternoon, we
+write code to figure out
+
+1100
+00:50:55,085 --> 00:50:57,210
+how we're going to fix
+whatever thing we discovered
+
+1101
+00:50:57,210 --> 00:50:58,330
+the day before.
+
+1102
+00:50:58,330 --> 00:51:01,710
+And then in the evening,
+right before we go home,
+
+1103
+00:51:01,710 --> 00:51:05,290
+we launch the training job.
+
+1104
+00:51:05,290 --> 00:51:06,830
+And then it runs overnight.
+
+1105
+00:51:06,830 --> 00:51:10,810
+And the next morning, we do
+it again and again and again.
+
+1106
+00:51:10,810 --> 00:51:14,410
+And it turns out that if you
+can fix one problem a day,
+
+1107
+00:51:14,410 --> 00:51:16,930
+that's actually pretty good.
+
+1108
+00:51:16,930 --> 00:51:20,370
+And then you saw me walk
+through three or four problems.
+
+1109
+00:51:20,370 --> 00:51:22,650
+When I built this for
+real, there are slightly
+
+1110
+00:51:22,650 --> 00:51:23,850
+more problems than that.
+
+1111
+00:51:23,850 --> 00:51:27,410
+But I find that if you can
+get a team into a cadence
+
+1112
+00:51:27,410 --> 00:51:30,690
+where you train stuff, look
+at the results, figure out
+
+1113
+00:51:30,690 --> 00:51:33,550
+is this bias variance
+data mismatch--
+
+1114
+00:51:33,550 --> 00:51:37,290
+actually, this should
+be code or get data.
+
+1115
+00:51:37,290 --> 00:51:38,730
+Fix it.
+
+1116
+00:51:38,730 --> 00:51:41,890
+And then the evening, before
+you go home, launch the job.
+
+1117
+00:51:41,890 --> 00:51:43,985
+Maybe if you have time
+evening, just maybe
+
+1118
+00:51:43,985 --> 00:51:46,610
+the training job a little bit,
+which is still running, but then
+
+1119
+00:51:46,610 --> 00:51:48,870
+come back in the next
+morning to see how it did.
+
+1120
+00:51:48,870 --> 00:51:50,940
+Then you just do
+this over and over.
+
+1121
+00:51:50,940 --> 00:51:53,460
+And you can make
+really rapid progress.
+
+1122
+00:51:53,460 --> 00:51:55,400
+And I find this often,
+this discipline,
+
+1123
+00:51:55,400 --> 00:51:57,440
+that lets you make progress.
+
+1124
+00:51:57,440 --> 00:52:00,020
+In contrast, the teams
+that kind wake up
+
+1125
+00:52:00,020 --> 00:52:01,760
+and they go, what do we do next?
+
+1126
+00:52:01,760 --> 00:52:03,400
+Let's call a meeting
+this afternoon.
+
+1127
+00:52:03,400 --> 00:52:04,440
+Wait, where's the data?
+
+1128
+00:52:04,440 --> 00:52:04,940
+OK.
+
+1129
+00:52:04,940 --> 00:52:07,120
+I guess we'll meet tomorrow
+to look at the data.
+
+1130
+00:52:07,120 --> 00:52:09,400
+And then oh,
+[INAUDIBLE] is down.
+
+1131
+00:52:09,400 --> 00:52:10,917
+And teams like that
+move much slower
+
+1132
+00:52:10,917 --> 00:52:12,500
+than the really
+disciplined teams that
+
+1133
+00:52:12,500 --> 00:52:15,420
+just keep on rolling forward.
+
+1134
+00:52:15,420 --> 00:52:18,200
+And one more observation.
+
+1135
+00:52:18,200 --> 00:52:22,140
+It turns out that
+iteration cycle sometimes
+
+1136
+00:52:22,140 --> 00:52:24,315
+is driven by this.
+
+1137
+00:52:24,315 --> 00:52:25,940
+So I've worked on
+machine learning jobs
+
+1138
+00:52:25,940 --> 00:52:28,820
+where it took us about four
+hours to train a model.
+
+1139
+00:52:28,820 --> 00:52:30,360
+And for us, it's long enough.
+
+1140
+00:52:30,360 --> 00:52:31,640
+Don't want to wait for it.
+
+1141
+00:52:31,640 --> 00:52:34,900
+But running overnight
+is just fine.
+
+1142
+00:52:34,900 --> 00:52:37,940
+I've also worked on teams, where
+a typical training job took
+
+1143
+00:52:37,940 --> 00:52:39,720
+about three weeks on average.
+
+1144
+00:52:39,720 --> 00:52:42,900
+And so if it takes three weeks
+to train a neural network
+
+1145
+00:52:42,900 --> 00:52:45,340
+for a particular type of
+model we're working on,
+
+1146
+00:52:45,340 --> 00:52:47,280
+then the pacing
+is very different.
+
+1147
+00:52:47,280 --> 00:52:50,430
+So how long it takes to
+train a neural network really
+
+1148
+00:52:50,430 --> 00:52:51,970
+drives the pacing of this.
+
+1149
+00:52:51,970 --> 00:52:55,620
+Where sometimes we would
+launch a training job and then
+
+1150
+00:52:55,620 --> 00:52:56,370
+hope for the best.
+
+1151
+00:52:56,370 --> 00:52:58,130
+We would monitor it
+during those two weeks.
+
+1152
+00:52:58,130 --> 00:53:00,130
+It's not that we do nothing
+for those two weeks,
+
+1153
+00:53:00,130 --> 00:53:02,070
+but you just got to
+launch the training job.
+
+1154
+00:53:02,070 --> 00:53:05,630
+And then frankly, hope that
+it works three weeks later.
+
+1155
+00:53:05,630 --> 00:53:06,970
+But we take three weeks.
+
+1156
+00:53:06,970 --> 00:53:09,930
+And after that, tons of
+analysis and debugging,
+
+1157
+00:53:09,930 --> 00:53:12,430
+whatever work that would
+take us one to two weeks
+
+1158
+00:53:12,430 --> 00:53:14,148
+to set us up for the
+next training job.
+
+1159
+00:53:14,148 --> 00:53:16,690
+They're going to take us another
+three weeks to get a result.
+
+1160
+00:53:16,690 --> 00:53:19,183
+And then we're
+also parallelizing.
+
+1161
+00:53:19,183 --> 00:53:21,350
+While launching this job,
+we're analyzing the result
+
+1162
+00:53:21,350 --> 00:53:23,225
+from a previous job,
+and we launch a few jobs
+
+1163
+00:53:23,225 --> 00:53:24,010
+asynchronously.
+
+1164
+00:53:24,010 --> 00:53:26,390
+But I find that
+how long it takes--
+
+1165
+00:53:26,390 --> 00:53:30,350
+this is a huge driver
+for how you do this.
+
+1166
+00:53:30,350 --> 00:53:32,390
+The other end of the
+spectrum is if it
+
+1167
+00:53:32,390 --> 00:53:34,730
+takes 10 minutes to
+train a neural network,
+
+1168
+00:53:34,730 --> 00:53:36,090
+then that's wonderful.
+
+1169
+00:53:36,090 --> 00:53:38,890
+You just train it, get a
+result, train it, get a coffee,
+
+1170
+00:53:38,890 --> 00:53:41,050
+come back, then do the analysis.
+
+1171
+00:53:41,050 --> 00:53:43,910
+And then the bottleneck is how
+quickly can you analyze the data
+
+1172
+00:53:43,910 --> 00:53:45,250
+and get more data.
+
+1173
+00:53:45,250 --> 00:53:48,640
+So this really drives the
+design of this process.
+
+1174
+00:53:48,640 --> 00:53:50,120
+And one of the
+things that happens
+
+1175
+00:53:50,120 --> 00:53:52,440
+is for a lot of
+projects, you start off
+
+1176
+00:53:52,440 --> 00:53:54,720
+with a small thing that
+takes 10 minutes to train.
+
+1177
+00:53:54,720 --> 00:53:58,042
+But then as you get more and
+more data, then you're bigger,
+
+1178
+00:53:58,042 --> 00:54:00,500
+But now it takes four hours to
+train because you're bigger.
+
+1179
+00:54:00,500 --> 00:54:01,660
+Then it takes two
+weeks to train.
+
+1180
+00:54:01,660 --> 00:54:03,520
+It's like, oh, now this thing
+takes a month and a half
+
+1181
+00:54:03,520 --> 00:54:04,240
+to train.
+
+1182
+00:54:04,240 --> 00:54:05,820
+So I've experienced
+that as well,
+
+1183
+00:54:05,820 --> 00:54:08,520
+where unfortunately,
+as a performance climb,
+
+1184
+00:54:08,520 --> 00:54:10,720
+we decided we had to train
+bigger and bigger models
+
+1185
+00:54:10,720 --> 00:54:12,080
+with more and more data.
+
+1186
+00:54:12,080 --> 00:54:14,680
+And then it went from this
+really fantastic 10-minute
+
+1187
+00:54:14,680 --> 00:54:17,192
+iterations to these
+month long iterations.
+
+1188
+00:54:17,192 --> 00:54:19,400
+But they just had to be done
+because we were training
+
+1189
+00:54:19,400 --> 00:54:21,410
+bigger and bigger networks.
+
+1190
+00:54:21,410 --> 00:54:21,910
+Yeah.
+
+1191
+00:54:21,910 --> 00:54:30,160
+[INAUDIBLE] as you get into
+the model, you see a problem,
+
+1192
+00:54:30,160 --> 00:54:33,420
+you have to stop the
+model or [INAUDIBLE].
+
+1193
+00:54:36,120 --> 00:54:40,040
+We probably didn't stop
+the model that much.
+
+1194
+00:54:40,040 --> 00:54:42,720
+So sometimes you can
+look at checkpoints.
+
+1195
+00:54:42,720 --> 00:54:45,640
+And if you see that
+for some reason--
+
+1196
+00:54:45,640 --> 00:54:48,320
+so actually, if you're
+training like a three-week job,
+
+1197
+00:54:48,320 --> 00:54:51,000
+you expect the performance
+to be at a certain level
+
+1198
+00:54:51,000 --> 00:54:52,820
+after a couple of
+days or after a week.
+
+1199
+00:54:52,820 --> 00:54:56,420
+And if it's way off, then before
+burning another two weeks,
+
+1200
+00:54:56,420 --> 00:54:58,940
+you may ask, is my learning
+rate clearly wrong?
+
+1201
+00:54:58,940 --> 00:55:02,523
+Or maybe this new data set
+we try is clearly wrong.
+
+1202
+00:55:02,523 --> 00:55:04,440
+So you can actually start
+to run some analyzes
+
+1203
+00:55:04,440 --> 00:55:05,340
+on the checkpoints.
+
+1204
+00:55:05,340 --> 00:55:08,580
+And sometimes, we would yank
+the job and just kill it.
+
+1205
+00:55:08,580 --> 00:55:11,880
+I would say that
+happened very rarely.
+
+1206
+00:55:11,880 --> 00:55:13,480
+Yeah.
+
+1207
+00:55:13,480 --> 00:55:13,980
+OK.
+
+1208
+00:55:13,980 --> 00:55:14,916
+[INAUDIBLE]
+
+1209
+00:55:21,000 --> 00:55:21,820
+Yes.
+
+1210
+00:55:21,820 --> 00:55:23,160
+So once you learn about--
+
+1211
+00:55:23,160 --> 00:55:25,020
+the online videos is
+transfer learning.
+
+1212
+00:55:25,020 --> 00:55:27,640
+We train a large data
+set and then maybe
+
+1213
+00:55:27,640 --> 00:55:29,900
+fine tune on just a
+much smaller data set.
+
+1214
+00:55:29,900 --> 00:55:32,680
+And then if your process of fine
+tuning, a much smaller data set
+
+1215
+00:55:32,680 --> 00:55:35,180
+takes half an hour,
+then that's great.
+
+1216
+00:55:35,180 --> 00:55:37,698
+Then you can also drive
+much faster iterations
+
+1217
+00:55:37,698 --> 00:55:40,240
+based on that half hour, the
+limiting factor for the training
+
+1218
+00:55:40,240 --> 00:55:40,740
+time.
+
+1219
+00:55:43,400 --> 00:55:45,210
+Cool.
+
+1220
+00:55:45,210 --> 00:55:48,050
+All right.
+
+1221
+00:55:48,050 --> 00:55:51,180
+One reason I obsess
+about speed is because.
+
+1222
+00:55:55,150 --> 00:55:58,715
+it turns out that
+if the x-axis--
+
+1223
+00:55:58,715 --> 00:56:01,090
+imagine you're building a
+startup to launch this product.
+
+1224
+00:56:04,330 --> 00:56:14,210
+I find that if a team takes
+twice as long to do it,
+
+1225
+00:56:14,210 --> 00:56:17,070
+they're just much less
+competitive in the marketplace.
+
+1226
+00:56:17,070 --> 00:56:18,150
+So here's what I mean.
+
+1227
+00:56:18,150 --> 00:56:23,028
+So if this is error
+and this is months,
+
+1228
+00:56:23,028 --> 00:56:24,570
+there's some machine
+learning systems
+
+1229
+00:56:24,570 --> 00:56:27,890
+that we work on for months to
+keep on trying to improve it.
+
+1230
+00:56:27,890 --> 00:56:30,600
+And if this is you.
+
+1231
+00:56:33,970 --> 00:56:37,045
+And if a competitor, say,
+it takes twice as long
+
+1232
+00:56:37,045 --> 00:56:38,670
+to reach the same
+level of performance.
+
+1233
+00:56:38,670 --> 00:56:41,170
+So instead of taking
+this long to get here,
+
+1234
+00:56:41,170 --> 00:56:43,180
+they take this long to get here.
+
+1235
+00:56:43,180 --> 00:56:45,580
+Instead of taking
+this long to get here,
+
+1236
+00:56:45,580 --> 00:56:47,080
+they take twice as
+long to get here.
+
+1237
+00:56:47,080 --> 00:56:49,833
+So if a competitor
+kind of does that.
+
+1238
+00:56:49,833 --> 00:56:51,000
+It just takes twice as long.
+
+1239
+00:56:51,000 --> 00:56:53,500
+They take two days instead
+of one day to do something.
+
+1240
+00:56:53,500 --> 00:56:55,740
+But it always takes
+two days to do what
+
+1241
+00:56:55,740 --> 00:56:57,460
+you would take one day to do.
+
+1242
+00:56:57,460 --> 00:56:59,710
+Then the performance over
+time looks like this.
+
+1243
+00:57:03,220 --> 00:57:05,140
+And what the customer
+cares about is
+
+1244
+00:57:05,140 --> 00:57:08,340
+a certain moment in time is you
+are so much better than them.
+
+1245
+00:57:08,340 --> 00:57:11,660
+So these two
+differences in speed
+
+1246
+00:57:11,660 --> 00:57:13,860
+really translates into
+massive difference
+
+1247
+00:57:13,860 --> 00:57:16,420
+in the performance of your
+system versus someone else's
+
+1248
+00:57:16,420 --> 00:57:19,060
+system in the marketplace.
+
+1249
+00:57:19,060 --> 00:57:23,540
+And I find that the fast moving
+teams are just so much more
+
+1250
+00:57:23,540 --> 00:57:24,240
+effective.
+
+1251
+00:57:24,240 --> 00:57:27,160
+And you might think,
+yeah, I took two days.
+
+1252
+00:57:27,160 --> 00:57:27,920
+They took one day.
+
+1253
+00:57:27,920 --> 00:57:28,820
+What's the big deal?
+
+1254
+00:57:28,820 --> 00:57:30,445
+The big deal is not
+that your day slow.
+
+1255
+00:57:30,445 --> 00:57:32,200
+The big deal is you're
+two times slower.
+
+1256
+00:57:32,200 --> 00:57:35,360
+And it's very-- just
+in the marketplace,
+
+1257
+00:57:35,360 --> 00:57:41,100
+it's just not competitive
+if you take twice as long
+
+1258
+00:57:41,100 --> 00:57:43,150
+for some applications.
+
+1259
+00:57:43,150 --> 00:57:45,790
+OK.
+
+1260
+00:57:45,790 --> 00:57:47,830
+All right.
+
+1261
+00:57:47,830 --> 00:57:50,070
+There's one other
+example I want to cover.
+
+1262
+00:57:50,070 --> 00:57:51,320
+Let me try to do that quickly.
+
+1263
+00:57:54,990 --> 00:58:00,790
+So what I've talked about so far
+is speech recognition, your wake
+
+1264
+00:58:00,790 --> 00:58:03,670
+word detection, which is more
+of an end-to-end deep learning
+
+1265
+00:58:03,670 --> 00:58:11,030
+system, where your input
+audio goes to neural network.
+
+1266
+00:58:11,030 --> 00:58:15,250
+And in this outputs, is
+this RTo, Robert, turn on.
+
+1267
+00:58:15,250 --> 00:58:18,070
+So the entire system
+you're trying to build
+
+1268
+00:58:18,070 --> 00:58:20,550
+is just a single neural network.
+
+1269
+00:58:20,550 --> 00:58:22,150
+For a lot of
+applications you build,
+
+1270
+00:58:22,150 --> 00:58:26,410
+you end up building pipelines
+or sometimes call them cascades.
+
+1271
+00:58:26,410 --> 00:58:28,270
+I'm going to use
+the term pipelines.
+
+1272
+00:58:28,270 --> 00:58:30,430
+You saw one example
+of this last time,
+
+1273
+00:58:30,430 --> 00:58:35,310
+where to detect people coming
+up to unlock a door with face
+
+1274
+00:58:35,310 --> 00:58:41,000
+recognition, we had video that
+fed to visual activity detection
+
+1275
+00:58:41,000 --> 00:58:43,640
+to see if anyone is
+even in front of it.
+
+1276
+00:58:43,640 --> 00:58:47,040
+And then that fed to the
+neural network to recognize,
+
+1277
+00:58:47,040 --> 00:58:49,040
+is this an authorized person.
+
+1278
+00:58:49,040 --> 00:58:52,400
+And then 0 or 1 to say,
+is this a person that we
+
+1279
+00:58:52,400 --> 00:58:55,146
+should unlock the door for.
+
+1280
+00:58:55,146 --> 00:58:57,800
+What I want to do is
+use a different example
+
+1281
+00:58:57,800 --> 00:59:01,260
+of a pipeline of an AI
+[INAUDIBLE] researcher.
+
+1282
+00:59:05,520 --> 00:59:08,040
+So it turns out
+that all of the--
+
+1283
+00:59:08,040 --> 00:59:09,840
+I think all of the leading--
+
+1284
+00:59:09,840 --> 00:59:13,520
+well, almost all of the
+leading LLM providers
+
+1285
+00:59:13,520 --> 00:59:17,400
+have deep researches,
+where you can ask a query
+
+1286
+00:59:17,400 --> 00:59:20,200
+or go and search the internet,
+look at a lot of web pages
+
+1287
+00:59:20,200 --> 00:59:22,890
+and come back and synthesize
+a very thoughtful report.
+
+1288
+00:59:25,600 --> 00:59:28,760
+But I actually use the OpenAI
+researcher quite a lot.
+
+1289
+00:59:28,760 --> 00:59:30,540
+I know some of the
+team that built it,
+
+1290
+00:59:30,540 --> 00:59:32,760
+and it's really well built.
+I think some others also
+
+1291
+00:59:32,760 --> 00:59:35,360
+did a good job.
+
+1292
+00:59:35,360 --> 00:59:38,920
+You input a query like--
+
+1293
+00:59:38,920 --> 00:59:43,760
+this is example I'm taking from
+the agentic AI course online.
+
+1294
+00:59:43,760 --> 00:59:48,360
+But if the query, show me the
+latest research on Black holes,
+
+1295
+00:59:48,360 --> 00:59:50,400
+some query like that.
+
+1296
+00:59:50,400 --> 00:59:57,800
+And then One thing you
+might do is take a query
+
+1297
+00:59:57,800 --> 00:59:59,890
+like whatever Black
+hole research.
+
+1298
+01:00:03,160 --> 01:00:05,020
+And then use an LLM.
+
+1299
+01:00:05,020 --> 01:00:08,040
+Use a large language model
+to generate search terms
+
+1300
+01:00:08,040 --> 01:00:11,560
+to feed to a web search engine.
+
+1301
+01:00:11,560 --> 01:00:13,840
+So may generate a few
+terms like black hole
+
+1302
+01:00:13,840 --> 01:00:17,580
+research, latest in astronomy
+and black holes or whatever.
+
+1303
+01:00:17,580 --> 01:00:21,360
+So generate a handful
+of search terms.
+
+1304
+01:00:21,360 --> 01:00:24,680
+This, then, call out
+to a web search engine,
+
+1305
+01:00:24,680 --> 01:00:26,750
+be it Safari, Google,
+DuckDuckGo, Bing.
+
+1306
+01:00:26,750 --> 01:00:27,840
+I don't know.
+
+1307
+01:00:27,840 --> 01:00:31,040
+I use [INAUDIBLE] quite a
+lot, but then multiple--
+
+1308
+01:00:31,040 --> 01:00:33,192
+actually more and more
+web search engines
+
+1309
+01:00:33,192 --> 01:00:35,400
+designed for AI rather than
+for humans, which I think
+
+1310
+01:00:35,400 --> 01:00:37,090
+is pretty neat.
+
+1311
+01:00:37,090 --> 01:00:48,530
+So this can call the
+web search engine,
+
+1312
+01:00:48,530 --> 01:00:50,600
+and then fetch the top URLs.
+
+1313
+01:00:54,730 --> 01:00:55,230
+Sorry.
+
+1314
+01:00:55,230 --> 01:00:59,650
+I mean, fetch the top
+pages and then top URLs.
+
+1315
+01:00:59,650 --> 01:01:01,950
+So the web search
+engine returns 10 pages.
+
+1316
+01:01:01,950 --> 01:01:03,910
+You may not want to
+fetch all 10 of them.
+
+1317
+01:01:03,910 --> 01:01:05,690
+You can read the
+snippets, decide
+
+1318
+01:01:05,690 --> 01:01:07,490
+which ones are most relevant.
+
+1319
+01:01:07,490 --> 01:01:10,210
+Again, maybe with an LLM
+with a large language model,
+
+1320
+01:01:10,210 --> 01:01:12,670
+to decide what are the
+pages you want to download.
+
+1321
+01:01:12,670 --> 01:01:15,330
+So just like a human,
+do a web search.
+
+1322
+01:01:15,330 --> 01:01:16,910
+I won't click every single link.
+
+1323
+01:01:16,910 --> 01:01:18,368
+I'll take a glance
+at it and decide
+
+1324
+01:01:18,368 --> 01:01:20,130
+which ones I want to click.
+
+1325
+01:01:20,130 --> 01:01:22,690
+So identify and
+fetch the top URLs,
+
+1326
+01:01:22,690 --> 01:01:27,110
+and then feed all
+that into writing.
+
+1327
+01:01:27,110 --> 01:01:30,610
+And this gives the final output.
+
+1328
+01:01:30,610 --> 01:01:34,570
+So this is a-- by the way,
+this is a more traditional
+
+1329
+01:01:34,570 --> 01:01:36,713
+deep researcher article.
+
+1330
+01:01:36,713 --> 01:01:38,980
+So deep researcher architecture.
+
+1331
+01:01:38,980 --> 01:01:42,100
+The more modern deep
+research architectures
+
+1332
+01:01:42,100 --> 01:01:44,860
+let the system decide when
+to do more web search, when
+
+1333
+01:01:44,860 --> 01:01:49,860
+to fetch more web pages, and
+more autonomous, more agentic.
+
+1334
+01:01:49,860 --> 01:01:52,740
+But this is what the
+early deep researcher
+
+1335
+01:01:52,740 --> 01:01:53,760
+architectures look like.
+
+1336
+01:01:53,760 --> 01:01:56,400
+There's more of a
+linear pipeline.
+
+1337
+01:01:56,400 --> 01:01:58,140
+There are more
+modern architectures
+
+1338
+01:01:58,140 --> 01:02:00,060
+where system will
+fetch some pages
+
+1339
+01:02:00,060 --> 01:02:02,140
+and autonomously decide,
+do I need to go back
+
+1340
+01:02:02,140 --> 01:02:04,820
+and do more research and so
+on, what topics and iterate
+
+1341
+01:02:04,820 --> 01:02:05,440
+a few times.
+
+1342
+01:02:05,440 --> 01:02:12,180
+But this would be a pretty
+decent basic deep researcher.
+
+1343
+01:02:12,180 --> 01:02:13,780
+And it turns out
+that if you actually
+
+1344
+01:02:13,780 --> 01:02:23,660
+built this, in the speech
+recognition system, Robert,
+
+1345
+01:02:23,660 --> 01:02:26,540
+turn on lamp example,
+we talk a lot
+
+1346
+01:02:26,540 --> 01:02:28,540
+about how to improve
+one component, which
+
+1347
+01:02:28,540 --> 01:02:30,180
+is the neural network.
+
+1348
+01:02:30,180 --> 01:02:32,047
+If you have a
+pipeline like this,
+
+1349
+01:02:32,047 --> 01:02:34,630
+the other thing you need to do,
+which is critically important,
+
+1350
+01:02:34,630 --> 01:02:37,390
+is to decide of all the
+different components
+
+1351
+01:02:37,390 --> 01:02:39,430
+in the pipeline,
+which one do you want
+
+1352
+01:02:39,430 --> 01:02:41,270
+to focus your attention on.
+
+1353
+01:02:41,270 --> 01:02:44,070
+So I find that one
+thing that makes
+
+1354
+01:02:44,070 --> 01:02:46,870
+a huge difference in
+a team's performance
+
+1355
+01:02:46,870 --> 01:02:50,310
+is, again, being able to drive a
+disciplined evaluation and error
+
+1356
+01:02:50,310 --> 01:02:54,470
+analysis process to
+decide what to work on.
+
+1357
+01:02:54,470 --> 01:02:56,950
+I find that a lot
+of machine learning
+
+1358
+01:02:56,950 --> 01:03:01,470
+is not wildly doing
+things to see what works.
+
+1359
+01:03:01,470 --> 01:03:04,350
+It's actually a very thoughtful,
+very disciplined process,
+
+1360
+01:03:04,350 --> 01:03:09,270
+where the system, maybe it's
+not doing as well as we wish.
+
+1361
+01:03:09,270 --> 01:03:11,710
+So we should look
+at it to decide.
+
+1362
+01:03:11,710 --> 01:03:14,230
+It turns out lots of
+things could be wrong.
+
+1363
+01:03:14,230 --> 01:03:18,262
+Is it generating search terms
+that aren't quite right?
+
+1364
+01:03:18,262 --> 01:03:20,790
+Or maybe we're
+using a web search
+
+1365
+01:03:20,790 --> 01:03:23,970
+engine that is returning
+results that aren't that good.
+
+1366
+01:03:23,970 --> 01:03:29,470
+So for example, is my web search
+engine comprehensive enough
+
+1367
+01:03:29,470 --> 01:03:32,670
+or is it just maybe I
+picked a lower cost web
+
+1368
+01:03:32,670 --> 01:03:34,710
+search service or
+something that's just not
+
+1369
+01:03:34,710 --> 01:03:37,350
+returning the latest materials?
+
+1370
+01:03:37,350 --> 01:03:40,450
+It turns out for some
+internet articles,
+
+1371
+01:03:40,450 --> 01:03:42,670
+many web search engines
+will do really well.
+
+1372
+01:03:42,670 --> 01:03:45,477
+But if you ever want to fetch
+news, really fresh news,
+
+1373
+01:03:45,477 --> 01:03:47,810
+there's actually a lot of
+difference in the performance.
+
+1374
+01:03:47,810 --> 01:03:49,470
+Some web search
+engines are much better
+
+1375
+01:03:49,470 --> 01:03:51,450
+at having really fresh content.
+
+1376
+01:03:51,450 --> 01:03:53,410
+Some just don't
+update as frequently.
+
+1377
+01:03:53,410 --> 01:03:56,190
+So do I need to switch
+web search engines?
+
+1378
+01:03:56,190 --> 01:04:00,150
+Or am I successfully
+identifying the best web pages
+
+1379
+01:04:00,150 --> 01:04:02,990
+to fetch So if I have
+black hole signs,
+
+1380
+01:04:02,990 --> 01:04:06,610
+I think nasa.gov is very,
+very authoritative web page.
+
+1381
+01:04:06,610 --> 01:04:11,110
+But if a web search
+engine returns,
+
+1382
+01:04:11,110 --> 01:04:15,302
+I don't know,
+bobsbackyardastronomyblog.com.
+
+1383
+01:04:15,302 --> 01:04:18,830
+That's less authoritative
+than nasa.gov.
+
+1384
+01:04:18,830 --> 01:04:22,430
+Am I correctly fetching the
+most authoritative scientific
+
+1385
+01:04:22,430 --> 01:04:24,670
+articles versus
+whatever is hyped up?
+
+1386
+01:04:24,670 --> 01:04:30,870
+Or maybe am I fetching a
+lot of random TikTok videos,
+
+1387
+01:04:30,870 --> 01:04:36,000
+rather than released scientific,
+authoritative things?
+
+1388
+01:04:36,000 --> 01:04:38,300
+And then lastly, given
+all this information,
+
+1389
+01:04:38,300 --> 01:04:42,500
+am I writing a thoughtful
+article with an LLM
+
+1390
+01:04:42,500 --> 01:04:43,980
+from a final research output.
+
+1391
+01:04:43,980 --> 01:04:46,700
+So it turns out that with
+a pipeline like this,
+
+1392
+01:04:46,700 --> 01:04:49,040
+there are lots of steps
+that could go wrong.
+
+1393
+01:04:49,040 --> 01:04:53,060
+And your ability to decide
+what is the component,
+
+1394
+01:04:53,060 --> 01:04:57,040
+you should focus your effort
+on, that's a massive driver
+
+1395
+01:04:57,040 --> 01:05:02,760
+of your productivity and
+improving a system like this.
+
+1396
+01:05:02,760 --> 01:05:06,400
+And the good news
+is there's actually
+
+1397
+01:05:06,400 --> 01:05:08,800
+one other thing I've seen.
+
+1398
+01:05:08,800 --> 01:05:11,720
+Sometimes I've seen a
+few experienced machine
+
+1399
+01:05:11,720 --> 01:05:12,420
+learning people.
+
+1400
+01:05:12,420 --> 01:05:15,240
+It's actually one
+thing I've seen.
+
+1401
+01:05:15,240 --> 01:05:19,000
+Sometimes a team will
+build a system like this.
+
+1402
+01:05:19,000 --> 01:05:21,720
+And if it's a less experienced
+team, they build system.
+
+1403
+01:05:21,720 --> 01:05:23,120
+It's not quite working.
+
+1404
+01:05:23,120 --> 01:05:25,080
+Trying to decide
+what to do next.
+
+1405
+01:05:25,080 --> 01:05:27,240
+One thing I've
+seen many times is
+
+1406
+01:05:27,240 --> 01:05:30,450
+if you get a few senior machine
+learning people around--
+
+1407
+01:05:30,450 --> 01:05:32,687
+at Stanford, I've seen
+this quite a few times.
+
+1408
+01:05:32,687 --> 01:05:34,270
+Sometimes the students
+done a project,
+
+1409
+01:05:34,270 --> 01:05:35,770
+maybe build a system like this.
+
+1410
+01:05:35,770 --> 01:05:38,370
+If you get a few
+experienced professors
+
+1411
+01:05:38,370 --> 01:05:42,290
+to look at the system,
+you find that our opinions
+
+1412
+01:05:42,290 --> 01:05:47,090
+on what to do next, there's
+remarkably little variance.
+
+1413
+01:05:47,090 --> 01:05:51,090
+So you find that many
+experienced AI people look at it
+
+1414
+01:05:51,090 --> 01:05:53,610
+and go, well, based on what
+it seems, we think this
+
+1415
+01:05:53,610 --> 01:05:54,870
+is a problem or this is wrong.
+
+1416
+01:05:54,870 --> 01:05:55,703
+You should try this.
+
+1417
+01:05:55,703 --> 01:05:58,130
+It's not that we always
+agree with each other 100%
+
+1418
+01:05:58,130 --> 01:06:01,730
+but the variance is much
+less than you might think.
+
+1419
+01:06:01,730 --> 01:06:07,130
+And to me, I think there's
+a methodology behind how
+
+1420
+01:06:07,130 --> 01:06:08,742
+to approach these problems.
+
+1421
+01:06:08,742 --> 01:06:10,450
+Whereas the variance
+and what to try next
+
+1422
+01:06:10,450 --> 01:06:13,330
+among less experienced
+engineers is much larger.
+
+1423
+01:06:13,330 --> 01:06:16,690
+So to me, I think
+there's actually--
+
+1424
+01:06:16,690 --> 01:06:19,930
+if you have a systematic way of
+doing error analysis to figure
+
+1425
+01:06:19,930 --> 01:06:23,266
+out where it's actually
+underperforming
+
+1426
+01:06:23,266 --> 01:06:26,070
+experienced people, all kind
+of-- doesn't mean experience
+
+1427
+01:06:26,070 --> 01:06:28,237
+people are always right,
+but it's just low variance.
+
+1428
+01:06:28,237 --> 01:06:29,980
+But there really
+is a methodology
+
+1429
+01:06:29,980 --> 01:06:32,100
+to figure out what to do next.
+
+1430
+01:06:32,100 --> 01:06:36,140
+And one of the key
+ideas is error analysis.
+
+1431
+01:06:36,140 --> 01:06:38,160
+And I talk about this
+online videos as well.
+
+1432
+01:06:38,160 --> 01:06:40,160
+But this is so important.
+
+1433
+01:06:40,160 --> 01:06:41,240
+Let me just go through.
+
+1434
+01:06:45,220 --> 01:06:52,100
+And one thing to do is to
+look at the outputs of each
+
+1435
+01:06:52,100 --> 01:06:54,180
+of these intermediate steps.
+
+1436
+01:06:54,180 --> 01:06:55,740
+And it's one of these things.
+
+1437
+01:06:55,740 --> 01:06:56,600
+I'll say it.
+
+1438
+01:06:56,600 --> 01:06:58,640
+You probably even
+agree it's a good idea.
+
+1439
+01:06:58,640 --> 01:07:00,820
+But the percentage of
+people that actually do it
+
+1440
+01:07:00,820 --> 01:07:04,940
+when the time comes are found
+to be far lower than 100%.
+
+1441
+01:07:04,940 --> 01:07:09,140
+But that's just take
+a handful of queries.
+
+1442
+01:07:09,140 --> 01:07:12,220
+Is it latest in
+black hole science
+
+1443
+01:07:12,220 --> 01:07:18,340
+or should I rent or buy
+an apartment or help me
+
+1444
+01:07:18,340 --> 01:07:21,300
+make fun plans for a weekend
+in Santa Cruz or whatever.
+
+1445
+01:07:21,300 --> 01:07:24,980
+Some handful of queries
+for a researcher.
+
+1446
+01:07:24,980 --> 01:07:27,830
+And then look at what
+search terms it generates
+
+1447
+01:07:27,830 --> 01:07:29,270
+and see if it makes sense.
+
+1448
+01:07:29,270 --> 01:07:32,790
+Look at the web pages it
+fetches, see if they look good.
+
+1449
+01:07:32,790 --> 01:07:35,430
+Look at the top pages
+in fetch and see
+
+1450
+01:07:35,430 --> 01:07:38,550
+if the top web pages
+selected is similar
+
+1451
+01:07:38,550 --> 01:07:41,010
+or materially different
+than what you would pick.
+
+1452
+01:07:41,010 --> 01:07:44,110
+My example, what if
+this decides to fetch
+
+1453
+01:07:44,110 --> 01:07:48,110
+bobsbackyardastronomypage.com
+rather than nasa.gov.
+
+1454
+01:07:48,110 --> 01:07:51,070
+And you go, OK, maybe I need
+to change how to do that.
+
+1455
+01:07:51,070 --> 01:07:53,130
+And then also look at
+the final writing to see,
+
+1456
+01:07:53,130 --> 01:07:55,190
+given this source
+articles, is it
+
+1457
+01:07:55,190 --> 01:07:57,390
+writing the
+appropriate articles?
+
+1458
+01:07:57,390 --> 01:08:04,970
+And what I find is for
+a process like this,
+
+1459
+01:08:04,970 --> 01:08:09,870
+it turns out error analysis
+is often a very manual process
+
+1460
+01:08:09,870 --> 01:08:13,470
+because when the system
+isn't performing,
+
+1461
+01:08:13,470 --> 01:08:15,910
+error analysis or
+gap analysis is often
+
+1462
+01:08:15,910 --> 01:08:18,390
+a manual process of
+figuring out what
+
+1463
+01:08:18,390 --> 01:08:21,430
+a human would do that is better
+than what the AI system would
+
+1464
+01:08:21,430 --> 01:08:22,109
+do.
+
+1465
+01:08:22,109 --> 01:08:25,630
+And we're trying to inject
+knowledge from the human
+
+1466
+01:08:25,630 --> 01:08:26,770
+into the AI system.
+
+1467
+01:08:26,770 --> 01:08:29,510
+So because the AI doesn't
+have this knowledge yet,
+
+1468
+01:08:29,510 --> 01:08:32,950
+usually you, do need a
+human time to do this.
+
+1469
+01:08:32,950 --> 01:08:35,430
+And people are talking about
+automating some of this
+
+1470
+01:08:35,430 --> 01:08:37,069
+and maybe there'll
+be progress there.
+
+1471
+01:08:37,069 --> 01:08:39,090
+So far I find error analysis.
+
+1472
+01:08:39,090 --> 01:08:41,189
+It just takes
+human to look at it
+
+1473
+01:08:41,189 --> 01:08:43,590
+and have the insights
+into where AI system is
+
+1474
+01:08:43,590 --> 01:08:46,109
+doing something different than
+the expert human would be.
+
+1475
+01:08:46,109 --> 01:08:47,950
+And as that insight
+that then points you
+
+1476
+01:08:47,950 --> 01:08:50,250
+in the direction for
+how to improve it.
+
+1477
+01:08:52,870 --> 01:08:54,990
+And so often, I would
+build a spreadsheet
+
+1478
+01:08:54,990 --> 01:09:00,630
+like this, where I have a
+query that is black hole size.
+
+1479
+01:09:00,630 --> 01:09:02,189
+And then another one.
+
+1480
+01:09:02,189 --> 01:09:07,149
+Do I rent versus buy in
+whatever in San Francisco
+
+1481
+01:09:07,149 --> 01:09:14,450
+or weekend activities
+in Santa Cruz, whatever.
+
+1482
+01:09:14,450 --> 01:09:18,050
+Just have, I don't
+know, maybe up to 100.
+
+1483
+01:09:18,050 --> 01:09:19,830
+I find that I often
+have patients look it
+
+1484
+01:09:19,830 --> 01:09:22,798
+up to 100 examples beyond 100.
+
+1485
+01:09:22,798 --> 01:09:24,590
+Sometimes more than
+100, but it's somewhere
+
+1486
+01:09:24,590 --> 01:09:27,040
+between 10 and 100.
+
+1487
+01:09:27,040 --> 01:09:30,000
+Have a list of queries
+and have a list of steps.
+
+1488
+01:09:30,000 --> 01:09:33,330
+And so the steps
+would be search terms.
+
+1489
+01:09:37,120 --> 01:09:37,650
+What's that?
+
+1490
+01:09:37,650 --> 01:09:38,150
+Web search.
+
+1491
+01:09:43,040 --> 01:09:43,849
+Fetch pages.
+
+1492
+01:09:56,440 --> 01:09:58,900
+So this is what it feels
+like to do error analysis.
+
+1493
+01:09:58,900 --> 01:10:01,240
+It is a labor-intensive
+process because this
+
+1494
+01:10:01,240 --> 01:10:04,480
+is a process of identifying
+where a human outperforms
+
+1495
+01:10:04,480 --> 01:10:06,160
+AI to try to close the gap.
+
+1496
+01:10:06,160 --> 01:10:08,040
+We just do this over and over.
+
+1497
+01:10:08,040 --> 01:10:10,200
+So what I would do
+is I would sit down,
+
+1498
+01:10:10,200 --> 01:10:13,000
+often with a spreadsheet in
+front of me open like this.
+
+1499
+01:10:13,000 --> 01:10:15,440
+And I will run
+black hole science
+
+1500
+01:10:15,440 --> 01:10:17,160
+through the whole
+system, and then
+
+1501
+01:10:17,160 --> 01:10:20,382
+just read all the search
+terms satisfactory.
+
+1502
+01:10:20,382 --> 01:10:22,340
+And if I'm not an expert
+in black hole science,
+
+1503
+01:10:22,340 --> 01:10:25,890
+I need to get an expert or do a
+bit of work to figure that out.
+
+1504
+01:10:25,890 --> 01:10:29,370
+But if I find that the search
+terms to send to a web search
+
+1505
+01:10:29,370 --> 01:10:30,990
+engine are completely
+satisfactory,
+
+1506
+01:10:30,990 --> 01:10:33,410
+then I'll just say,
+OK, this looks good.
+
+1507
+01:10:33,410 --> 01:10:34,970
+Then, given those
+search terms, I'll
+
+1508
+01:10:34,970 --> 01:10:36,890
+look at the web search
+results and say,
+
+1509
+01:10:36,890 --> 01:10:40,310
+did the web search engine
+retrieve reasonable things?
+
+1510
+01:10:40,310 --> 01:10:42,730
+And it looks good, then great.
+
+1511
+01:10:42,730 --> 01:10:46,810
+And then I'll look at, did
+my system, maybe an LLM,
+
+1512
+01:10:46,810 --> 01:10:49,570
+did it make a good choice
+in the top web pages
+
+1513
+01:10:49,570 --> 01:10:50,950
+to actually go and fetch?
+
+1514
+01:10:50,950 --> 01:10:53,410
+And maybe I found
+this retrieving--
+
+1515
+01:10:53,410 --> 01:10:56,430
+it chose to retrieve Bob's
+backyard astronomy blog,
+
+1516
+01:10:56,430 --> 01:10:58,390
+but skipped nasa.gov,
+then I'll say,
+
+1517
+01:10:58,390 --> 01:11:00,690
+OK, there's a problem there.
+
+1518
+01:11:00,690 --> 01:11:07,570
+And then I'll [INAUDIBLE] make
+a note, Bob, instead of NASA,
+
+1519
+01:11:07,570 --> 01:11:10,930
+just take notes on
+what you're seeing.
+
+1520
+01:11:10,930 --> 01:11:13,710
+And then I'll say, given these
+sources, is this writing, OK?
+
+1521
+01:11:13,710 --> 01:11:15,090
+Maybe it's OK.
+
+1522
+01:11:15,090 --> 01:11:19,850
+And then the process is to
+take a handful somewhere
+
+1523
+01:11:19,850 --> 01:11:23,580
+between 10, 20, and
+100 of articles, where
+
+1524
+01:11:23,580 --> 01:11:25,380
+the performance is subpar.
+
+1525
+01:11:25,380 --> 01:11:27,340
+And it's called error
+analysis, because I
+
+1526
+01:11:27,340 --> 01:11:29,560
+want to focus on where
+it's underperforming.
+
+1527
+01:11:29,560 --> 01:11:32,620
+So there's some articles where
+it's doing a great job on.
+
+1528
+01:11:32,620 --> 01:11:35,100
+I would tend to pay
+less attention to those.
+
+1529
+01:11:35,100 --> 01:11:38,510
+But I'll focus on finding
+anywhere from 10, 20,
+
+1530
+01:11:38,510 --> 01:11:42,180
+to 100 queries, whereas
+clearly underperforming what
+
+1531
+01:11:42,180 --> 01:11:46,260
+I think a human should be doing
+or what I hope this will do.
+
+1532
+01:11:46,260 --> 01:11:49,140
+And then going
+through to just try
+
+1533
+01:11:49,140 --> 01:11:52,460
+to get a sense of how often the
+hot spots are in different parts
+
+1534
+01:11:52,460 --> 01:11:53,320
+of the pipeline.
+
+1535
+01:11:53,320 --> 01:11:56,260
+And so maybe for
+rent versus buy,
+
+1536
+01:11:56,260 --> 01:11:59,660
+I might say, boy, this is really
+authoritative blogger that
+
+1537
+01:11:59,660 --> 01:12:01,818
+talks about this, but
+somehow web search misses.
+
+1538
+01:12:01,818 --> 01:12:02,360
+I don't know.
+
+1539
+01:12:02,360 --> 01:12:05,300
+Maybe I'm using the
+wrong web search engine.
+
+1540
+01:12:05,300 --> 01:12:11,540
+We can, in Santa Cruz, buy into
+some hyped up tourist things
+
+1541
+01:12:11,540 --> 01:12:14,420
+rather than actually finding
+locally interesting web
+
+1542
+01:12:14,420 --> 01:12:16,060
+pages and so on.
+
+1543
+01:12:16,060 --> 01:12:21,890
+And then by doing this,
+20, 30, 50 queries,
+
+1544
+01:12:21,890 --> 01:12:25,030
+you can then start to
+get a sense of where
+
+1545
+01:12:25,030 --> 01:12:26,550
+the hot spots are.
+
+1546
+01:12:26,550 --> 01:12:29,290
+So again, all of these
+are subpar results.
+
+1547
+01:12:29,290 --> 01:12:32,590
+I'm focusing on queries
+where the performance is not
+
+1548
+01:12:32,590 --> 01:12:33,790
+good enough.
+
+1549
+01:12:33,790 --> 01:12:35,970
+And then if I find that--
+
+1550
+01:12:35,970 --> 01:12:38,790
+I don't know, 40% of
+the time is failing
+
+1551
+01:12:38,790 --> 01:12:42,390
+to fetch the top web
+pages, only 5% of the time
+
+1552
+01:12:42,390 --> 01:12:43,810
+is failing to do that.
+
+1553
+01:12:43,810 --> 01:12:44,610
+Sorry.
+
+1554
+01:12:44,610 --> 01:12:46,978
+Let me find that
+70% of the time,
+
+1555
+01:12:46,978 --> 01:12:48,270
+I'm really not happy with this.
+
+1556
+01:12:48,270 --> 01:12:50,710
+5% of time, web search
+is not good enough.
+
+1557
+01:12:50,710 --> 01:12:54,550
+Maybe 20% of the time,
+search terms are wrong.
+
+1558
+01:12:54,550 --> 01:12:58,750
+And maybe 20% of the time, the
+writing is not good enough.
+
+1559
+01:12:58,750 --> 01:13:00,810
+So these all have
+to add up to 100%.
+
+1560
+01:13:00,810 --> 01:13:03,030
+Sometimes you have problems
+in more than one column.
+
+1561
+01:13:03,030 --> 01:13:06,050
+But if this is what it turns
+out to be, then we'll go,
+
+1562
+01:13:06,050 --> 01:13:10,910
+well, clearly a lot of my
+dissatisfaction results
+
+1563
+01:13:10,910 --> 01:13:13,550
+is because it's just not
+choosing good pages from the web
+
+1564
+01:13:13,550 --> 01:13:14,870
+search to return.
+
+1565
+01:13:14,870 --> 01:13:17,142
+So let me go focus on that.
+
+1566
+01:13:17,142 --> 01:13:19,350
+And the thing about a lot
+of machine learning systems
+
+1567
+01:13:19,350 --> 01:13:23,550
+is if you don't do this
+analysis ahead of time
+
+1568
+01:13:23,550 --> 01:13:27,070
+in terms of what
+component to focus on.
+
+1569
+01:13:27,070 --> 01:13:28,870
+And so I find that
+the teams that
+
+1570
+01:13:28,870 --> 01:13:33,230
+know how to drive this
+process systematically.
+
+1571
+01:13:33,230 --> 01:13:35,270
+And it sometimes takes us hours.
+
+1572
+01:13:35,270 --> 01:13:37,050
+Ever heard that
+daily schedule thing?
+
+1573
+01:13:37,050 --> 01:13:39,550
+Sometimes it takes us a few
+hours to go through this process
+
+1574
+01:13:39,550 --> 01:13:40,910
+and reach conclusions.
+
+1575
+01:13:40,910 --> 01:13:44,470
+But then the benefit
+of spending whatever,
+
+1576
+01:13:44,470 --> 01:13:47,310
+three or four hours
+on this, is that it
+
+1577
+01:13:47,310 --> 01:13:51,670
+can save you weeks of otherwise
+heading in the wrong direction.
+
+1578
+01:13:51,670 --> 01:13:56,670
+So teams can drive this evals
+and error analysis process
+
+1579
+01:13:56,670 --> 01:13:59,870
+in a very methodical way.
+
+1580
+01:13:59,870 --> 01:14:03,550
+You are much better at picking
+what direction to work in.
+
+1581
+01:14:03,550 --> 01:14:06,130
+And that allows your
+team to go way faster.
+
+1582
+01:14:06,130 --> 01:14:08,130
+And this is way more
+than a 2X difference.
+
+1583
+01:14:08,130 --> 01:14:09,987
+I've actually
+literally visited teams
+
+1584
+01:14:09,987 --> 01:14:12,070
+that have been working on
+something for six months
+
+1585
+01:14:12,070 --> 01:14:15,230
+and go like, gee, I could
+have told you six months ago
+
+1586
+01:14:15,230 --> 01:14:16,870
+this wasn't going to cut it.
+
+1587
+01:14:16,870 --> 01:14:20,080
+And imagine if this
+was the problem,
+
+1588
+01:14:20,080 --> 01:14:23,360
+we're not writing
+the right web pages.
+
+1589
+01:14:23,360 --> 01:14:27,160
+But for some reason, the
+team kept on trying out
+
+1590
+01:14:27,160 --> 01:14:28,392
+different web search engines.
+
+1591
+01:14:28,392 --> 01:14:30,600
+Maybe there's someone trying
+to sell a new web search
+
+1592
+01:14:30,600 --> 01:14:31,460
+service to you.
+
+1593
+01:14:31,460 --> 01:14:33,418
+So you spend a lot of
+time with the sales team,
+
+1594
+01:14:33,418 --> 01:14:35,340
+do a lot of integration
+with your website.
+
+1595
+01:14:35,340 --> 01:14:37,800
+There's actually more web
+services than most people.
+
+1596
+01:14:37,800 --> 01:14:41,520
+And I actually swap between
+them whenever I feel like it.
+
+1597
+01:14:41,520 --> 01:14:43,720
+So imagine, you
+spend all your time
+
+1598
+01:14:43,720 --> 01:14:46,360
+trying to come up with a
+better web search service
+
+1599
+01:14:46,360 --> 01:14:48,040
+for six months.
+
+1600
+01:14:48,040 --> 01:14:51,060
+It's entirely possible.
+
+1601
+01:14:51,060 --> 01:14:54,020
+It just won't move the needle
+for the overall performance,
+
+1602
+01:14:54,020 --> 01:14:56,440
+which is why this type
+of error analysis process
+
+1603
+01:14:56,440 --> 01:14:58,240
+is so important.
+
+1604
+01:14:58,240 --> 01:15:00,840
+I walk through this with
+the example of one pipeline.
+
+1605
+01:15:00,840 --> 01:15:03,800
+The online videos go through
+other examples as well.
+
+1606
+01:15:03,800 --> 01:15:06,540
+But both are building
+deep learning pipelines
+
+1607
+01:15:06,540 --> 01:15:09,340
+and for AI agentic pipelines.
+
+1608
+01:15:09,340 --> 01:15:13,470
+I think this is a very
+important concept to master.
+

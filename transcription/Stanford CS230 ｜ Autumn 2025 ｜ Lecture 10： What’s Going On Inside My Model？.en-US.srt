@@ -1,0 +1,9672 @@
+1
+00:00:05,760 --> 00:00:08,960
+Welcome to lecture 9 already.
+
+2
+00:00:08,960 --> 00:00:14,200
+I hope everybody had
+a good fall break.
+
+3
+00:00:14,200 --> 00:00:19,360
+Today, we're going to talk
+about neural networks,
+
+4
+00:00:19,360 --> 00:00:23,840
+both convolutional neural
+networks and transformers.
+
+5
+00:00:23,840 --> 00:00:27,840
+And we're going to unpack it
+to see what's going on inside.
+
+6
+00:00:27,840 --> 00:00:32,020
+This lecture used to be called
+neural network interpretability,
+
+7
+00:00:32,020 --> 00:00:35,880
+but I've broadened the scope
+because there is a section now
+
+8
+00:00:35,880 --> 00:00:39,880
+where we talk more
+about frontier models.
+
+9
+00:00:39,880 --> 00:00:43,800
+And the interpretability
+or visualization methods
+
+10
+00:00:43,800 --> 00:00:46,760
+have not quite been
+figured out for most models
+
+11
+00:00:46,760 --> 00:00:48,960
+that you play with out there.
+
+12
+00:00:48,960 --> 00:00:52,120
+So think about this
+one as research areas,
+
+13
+00:00:52,120 --> 00:00:54,480
+what we know from
+convolutions, and what
+
+14
+00:00:54,480 --> 00:00:58,280
+we're trying to figure
+out for frontier models.
+
+15
+00:00:58,280 --> 00:01:02,320
+We're going to start with a
+very packed agenda with a case
+
+16
+00:01:02,320 --> 00:01:05,280
+study where I'm going
+to ask you a question
+
+17
+00:01:05,280 --> 00:01:10,760
+and let you brainstorm a
+little bit all together
+
+18
+00:01:10,760 --> 00:01:15,640
+on how you would try to
+understand what's happening
+
+19
+00:01:15,640 --> 00:01:20,040
+inside of a frontier model.
+
+20
+00:01:20,040 --> 00:01:21,640
+In the second
+section, we're going
+
+21
+00:01:21,640 --> 00:01:24,240
+to look at the example
+of convolutions
+
+22
+00:01:24,240 --> 00:01:27,800
+specifically and try
+to interpret everything
+
+23
+00:01:27,800 --> 00:01:29,780
+possible about convolution.
+
+24
+00:01:29,780 --> 00:01:33,420
+Meaning, we're going to look
+at input/output relationship.
+
+25
+00:01:33,420 --> 00:01:35,480
+We're going to look
+at a specific neuron
+
+26
+00:01:35,480 --> 00:01:37,460
+inside and try to interpret it.
+
+27
+00:01:37,460 --> 00:01:41,240
+We're going to look also
+at a specific feature maps
+
+28
+00:01:41,240 --> 00:01:43,160
+and try to understand
+what they do.
+
+29
+00:01:43,160 --> 00:01:45,580
+I will present many
+methods to do that.
+
+30
+00:01:45,580 --> 00:01:47,560
+Those methods are
+real, and they've
+
+31
+00:01:47,560 --> 00:01:50,000
+been used for convolutions.
+
+32
+00:01:50,000 --> 00:01:51,720
+But again, they're
+not the methods
+
+33
+00:01:51,720 --> 00:01:56,240
+that you might see frontier
+labs use for today's language
+
+34
+00:01:56,240 --> 00:02:00,450
+or vision, large models.
+
+35
+00:02:00,450 --> 00:02:02,210
+However, they're
+going to bring you
+
+36
+00:02:02,210 --> 00:02:04,970
+the skills that will
+allow you to understand
+
+37
+00:02:04,970 --> 00:02:07,330
+the methods for frontier
+models as researchers
+
+38
+00:02:07,330 --> 00:02:09,690
+are trying to figure them out.
+
+39
+00:02:09,690 --> 00:02:11,570
+The second half
+of the lecture is
+
+40
+00:02:11,570 --> 00:02:16,810
+going to focus more on the
+modern representation analysis.
+
+41
+00:02:16,810 --> 00:02:19,850
+We're going to talk about
+scaling laws, capability
+
+42
+00:02:19,850 --> 00:02:23,130
+benchmarking, data
+diagnostics, and then I'll
+
+43
+00:02:23,130 --> 00:02:26,890
+end on a few closing remarks.
+
+44
+00:02:26,890 --> 00:02:29,690
+Are we ready for this one?
+
+45
+00:02:29,690 --> 00:02:31,990
+Lots of visualizations
+in this lecture.
+
+46
+00:02:31,990 --> 00:02:37,370
+So first question for you all.
+
+47
+00:02:37,370 --> 00:02:42,290
+Let's say the case study
+is, you are a model trainer,
+
+48
+00:02:42,290 --> 00:02:48,210
+and you're working on a 200
+billion parameters model
+
+49
+00:02:48,210 --> 00:02:49,810
+at a frontier lab.
+
+50
+00:02:49,810 --> 00:02:54,930
+And overnight, a new checkpoint
+passes training sanity check,
+
+51
+00:02:54,930 --> 00:02:57,570
+but a few issues arise.
+
+52
+00:02:57,570 --> 00:03:03,730
+Things like the model is getting
+worse on reasoning benchmarks,
+
+53
+00:03:03,730 --> 00:03:08,170
+some safety evals are
+failing, and there's
+
+54
+00:03:08,170 --> 00:03:11,630
+a weird spike in, let's
+say, latency for tool use
+
+55
+00:03:11,630 --> 00:03:14,930
+when you actually use this
+model for an agentic workflow.
+
+56
+00:03:14,930 --> 00:03:18,810
+Your VP is wondering what's
+happening, and they ask,
+
+57
+00:03:18,810 --> 00:03:20,290
+what is going on?
+
+58
+00:03:20,290 --> 00:03:22,230
+And what are you going
+to look at first?
+
+59
+00:03:22,230 --> 00:03:26,890
+So what I want you to
+discuss for a minute
+
+60
+00:03:26,890 --> 00:03:29,930
+or so think about it
+first, and I'll open up,
+
+61
+00:03:29,930 --> 00:03:34,050
+is what are the type of
+evidences that you would look,
+
+62
+00:03:34,050 --> 00:03:38,090
+want to inspect before
+even touching the code
+
+63
+00:03:38,090 --> 00:03:40,115
+or retraining the model?
+
+64
+00:03:40,115 --> 00:03:41,990
+What are the things that
+you want to look at?
+
+65
+00:03:45,970 --> 00:03:46,850
+Jumping.
+
+66
+00:03:46,850 --> 00:03:48,190
+There's no single answer.
+
+67
+00:03:48,190 --> 00:03:51,990
+So I want to everything
+you're going to look at OK.
+
+68
+00:03:51,990 --> 00:03:54,850
+So error analysis.
+
+69
+00:03:54,850 --> 00:03:58,570
+You said, I will look at
+the reasoning benchmarks
+
+70
+00:03:58,570 --> 00:04:01,390
+and find the examples
+where the model is failing.
+
+71
+00:04:01,390 --> 00:04:03,570
+Specifically, try
+to find patterns
+
+72
+00:04:03,570 --> 00:04:05,790
+in order to pinpoint
+what the issue might be.
+
+73
+00:04:05,790 --> 00:04:08,330
+And then same
+thing on the safety
+
+74
+00:04:08,330 --> 00:04:11,130
+evals where you want to see
+what type of safety issues
+
+75
+00:04:11,130 --> 00:04:11,950
+are arising.
+
+76
+00:04:11,950 --> 00:04:12,870
+Is it everywhere?
+
+77
+00:04:12,870 --> 00:04:14,570
+Is it specific to something?
+
+78
+00:04:14,570 --> 00:04:16,050
+Yeah, I agree.
+
+79
+00:04:16,050 --> 00:04:17,470
+Error analysis in general.
+
+80
+00:04:17,470 --> 00:04:18,110
+What else?
+
+81
+00:04:33,970 --> 00:04:35,670
+Remember you're
+the model trainer.
+
+82
+00:04:35,670 --> 00:04:37,150
+So you're training this model.
+
+83
+00:04:37,150 --> 00:04:39,530
+You're supposed to be
+watching certain things when
+
+84
+00:04:39,530 --> 00:04:41,330
+you're training.
+
+85
+00:04:41,330 --> 00:04:42,710
+What can be interesting?
+
+86
+00:04:48,210 --> 00:04:49,130
+Yeah.
+
+87
+00:04:49,130 --> 00:04:53,740
+With sanity checks, you
+mean the loss in frequency.
+
+88
+00:04:53,740 --> 00:04:56,280
+And all of this, right,
+it starts passing.
+
+89
+00:04:56,280 --> 00:04:56,780
+Yeah.
+
+90
+00:04:56,780 --> 00:04:58,480
+Let's say not
+necessarily passing,
+
+91
+00:04:58,480 --> 00:04:59,760
+but those are great examples.
+
+92
+00:04:59,760 --> 00:05:02,480
+So you're mentioning, yeah,
+as you're the model trainer,
+
+93
+00:05:02,480 --> 00:05:04,540
+you would be watching
+the training loss.
+
+94
+00:05:04,540 --> 00:05:05,500
+And you want to see.
+
+95
+00:05:05,500 --> 00:05:09,220
+What are you going to look
+for in that training loss?
+
+96
+00:05:09,220 --> 00:05:10,020
+Convergence.
+
+97
+00:05:10,020 --> 00:05:10,520
+OK.
+
+98
+00:05:10,520 --> 00:05:11,980
+Convergence.
+
+99
+00:05:11,980 --> 00:05:15,100
+You probably want to make
+sure that it's smooth.
+
+100
+00:05:15,100 --> 00:05:18,180
+You don't want big spikes.
+
+101
+00:05:18,180 --> 00:05:19,760
+How about the validation loss?
+
+102
+00:05:19,760 --> 00:05:25,076
+What is your expectation
+on the validation loss?
+
+103
+00:05:25,076 --> 00:05:27,540
+Should go up.
+
+104
+00:05:27,540 --> 00:05:30,640
+Yeah, should probably follow the
+same curve as the training loss,
+
+105
+00:05:30,640 --> 00:05:33,580
+but is likely slightly higher
+because you're probably
+
+106
+00:05:33,580 --> 00:05:36,420
+performing slightly less
+well on the validation set
+
+107
+00:05:36,420 --> 00:05:38,260
+than on the training set.
+
+108
+00:05:38,260 --> 00:05:41,980
+If you're seeing
+spikes, it might
+
+109
+00:05:41,980 --> 00:05:44,500
+mean there are some issues.
+
+110
+00:05:44,500 --> 00:05:47,200
+What else are you looking at?
+
+111
+00:05:53,340 --> 00:05:54,380
+Yeah.
+
+112
+00:05:54,380 --> 00:05:56,320
+Take a look at this
+round of training data
+
+113
+00:05:56,320 --> 00:05:57,860
+see how it's performing.
+
+114
+00:05:57,860 --> 00:05:59,420
+So this batch, you mean?
+
+115
+00:05:59,420 --> 00:06:02,540
+Yeah, so you're looking at
+this round of training data,
+
+116
+00:06:02,540 --> 00:06:07,980
+maybe the last round of
+data that we trained on,
+
+117
+00:06:07,980 --> 00:06:09,680
+there were some
+issues in that data.
+
+118
+00:06:09,680 --> 00:06:15,780
+Maybe that data was
+probably poisoned or biased
+
+119
+00:06:15,780 --> 00:06:18,760
+toward a certain category of
+data that we're failing on.
+
+120
+00:06:18,760 --> 00:06:20,000
+You're totally right.
+
+121
+00:06:20,000 --> 00:06:21,580
+Yeah.
+
+122
+00:06:21,580 --> 00:06:24,275
+Maybe that specific checkpoint
+is doing poorly compared
+
+123
+00:06:24,275 --> 00:06:25,400
+to the previous checkpoint.
+
+124
+00:06:25,400 --> 00:06:28,980
+And so you pinpoint
+where the issue arises
+
+125
+00:06:28,980 --> 00:06:31,260
+during the training.
+
+126
+00:06:31,260 --> 00:06:32,720
+What else are you looking at?
+
+127
+00:06:43,420 --> 00:06:44,380
+Yeah.
+
+128
+00:06:44,380 --> 00:06:46,080
+I'm worried about
+the overnight thing.
+
+129
+00:06:46,080 --> 00:06:46,967
+It's pretty fast.
+
+130
+00:06:46,967 --> 00:06:49,300
+I wonder if this is in line
+with a hardware issue there.
+
+131
+00:06:49,300 --> 00:06:49,800
+OK.
+
+132
+00:06:49,800 --> 00:06:52,180
+Because it's overnight
+and it seemed
+
+133
+00:06:52,180 --> 00:06:53,840
+everything was good
+up to yesterday
+
+134
+00:06:53,840 --> 00:06:55,660
+and now there's an
+issue, maybe you're
+
+135
+00:06:55,660 --> 00:06:57,320
+saying there's a hardware issue.
+
+136
+00:06:57,320 --> 00:07:00,860
+Yeah, we could
+check actually is--
+
+137
+00:07:00,860 --> 00:07:04,080
+yeah, latency has
+been pointed out.
+
+138
+00:07:04,080 --> 00:07:06,000
+So maybe the
+hardware has failed.
+
+139
+00:07:06,000 --> 00:07:06,840
+Yeah, you're right.
+
+140
+00:07:11,380 --> 00:07:12,240
+What else?
+
+141
+00:07:19,140 --> 00:07:22,375
+So a lot of the answers
+are global answers.
+
+142
+00:07:22,375 --> 00:07:24,000
+You're looking at
+the model in general.
+
+143
+00:07:24,000 --> 00:07:26,440
+You're not looking at specific
+portions of the model.
+
+144
+00:07:26,440 --> 00:07:31,420
+What would if you were to
+inspect the model more precisely
+
+145
+00:07:31,420 --> 00:07:32,960
+from the inside?
+
+146
+00:07:37,820 --> 00:07:39,280
+And this one's a language model.
+
+147
+00:07:39,280 --> 00:07:42,600
+So you can think about the fact
+that it's a language model.
+
+148
+00:07:47,150 --> 00:07:47,790
+Yeah.
+
+149
+00:07:47,790 --> 00:07:50,110
+I mean, it's something I
+would do is just recently
+
+150
+00:07:50,110 --> 00:07:54,150
+examine differential equations,
+look at what has happened
+
+151
+00:07:54,150 --> 00:07:57,470
+over the past 10
+points before this one
+
+152
+00:07:57,470 --> 00:08:02,070
+to see the model getting
+to perform better or was
+
+153
+00:08:02,070 --> 00:08:05,310
+it not, just to see if
+there was hardware issue
+
+154
+00:08:05,310 --> 00:08:07,028
+or there would be a problem.
+
+155
+00:08:07,028 --> 00:08:07,820
+Yeah, you're right.
+
+156
+00:08:07,820 --> 00:08:10,630
+You want to look at
+different checkpoints
+
+157
+00:08:10,630 --> 00:08:14,030
+and see where did
+we fail and might
+
+158
+00:08:14,030 --> 00:08:16,150
+be able to trace
+back to that moment
+
+159
+00:08:16,150 --> 00:08:17,570
+and figure out
+what the issue was?
+
+160
+00:08:17,570 --> 00:08:21,790
+So, for example, maybe your
+initialization was actually
+
+161
+00:08:21,790 --> 00:08:25,730
+pretty good and the first
+checkpoints were doing well,
+
+162
+00:08:25,730 --> 00:08:29,030
+but suddenly at some
+points, the model
+
+163
+00:08:29,030 --> 00:08:30,530
+saturated in a certain way.
+
+164
+00:08:30,530 --> 00:08:33,030
+Maybe you're seeing exploding
+gradients or vanishing
+
+165
+00:08:33,030 --> 00:08:37,210
+gradients in certain moments,
+and you want to pinpoint that.
+
+166
+00:08:37,210 --> 00:08:38,590
+Yeah.
+
+167
+00:08:38,590 --> 00:08:40,510
+What else?
+
+168
+00:08:40,510 --> 00:08:42,289
+We're adding so many
+methods right now,
+
+169
+00:08:42,289 --> 00:08:47,750
+but I want to hear what else
+you have for language models.
+
+170
+00:08:47,750 --> 00:08:49,270
+What other things
+can you visualize
+
+171
+00:08:49,270 --> 00:08:53,170
+for language models that might
+mean something's going wrong?
+
+172
+00:08:59,810 --> 00:09:00,310
+Yeah.
+
+173
+00:09:00,310 --> 00:09:02,930
+And if you really want
+to go deep into it,
+
+174
+00:09:02,930 --> 00:09:05,150
+you can actually plot
+the attention maps
+
+175
+00:09:05,150 --> 00:09:08,150
+The attention maps.
+
+176
+00:09:08,150 --> 00:09:09,030
+Yeah, yeah.
+
+177
+00:09:09,030 --> 00:09:09,530
+Fair enough.
+
+178
+00:09:09,530 --> 00:09:11,550
+You've learned
+about transformers
+
+179
+00:09:11,550 --> 00:09:15,350
+in the online videos,
+the attention maps, which
+
+180
+00:09:15,350 --> 00:09:18,230
+are representative
+of the relationship
+
+181
+00:09:18,230 --> 00:09:19,910
+between different tokens.
+
+182
+00:09:19,910 --> 00:09:21,410
+They might not
+make sense to you.
+
+183
+00:09:21,410 --> 00:09:23,618
+You might actually be plotting
+certain attention maps
+
+184
+00:09:23,618 --> 00:09:27,090
+and be like, this token has
+nothing to do with that one,
+
+185
+00:09:27,090 --> 00:09:28,990
+but the model seems
+to think it has.
+
+186
+00:09:28,990 --> 00:09:33,390
+And you might be able to
+identify certain issues
+
+187
+00:09:33,390 --> 00:09:35,030
+with the attention maps.
+
+188
+00:09:35,030 --> 00:09:37,010
+What else beyond
+the attention maps?
+
+189
+00:09:42,790 --> 00:09:43,390
+What?
+
+190
+00:09:43,390 --> 00:09:44,630
+Yeah.
+
+191
+00:09:44,630 --> 00:09:48,110
+I don't know myself, but
+running a sensitivity analysis
+
+192
+00:09:48,110 --> 00:09:52,990
+might be helpful to
+see where with what
+
+193
+00:09:52,990 --> 00:09:56,790
+parameters are [INAUDIBLE]
+
+194
+00:09:56,790 --> 00:09:59,610
+So you mean-- tell me more
+about the sensitivity analysis.
+
+195
+00:09:59,610 --> 00:10:05,230
+What would you fix, for example,
+and what would you change?
+
+196
+00:10:05,230 --> 00:10:07,330
+Probably the parameters.
+
+197
+00:10:07,330 --> 00:10:10,698
+Honestly, right now I don't
+what parameters to touch
+
+198
+00:10:10,698 --> 00:10:15,390
+and how to that, but it seems
+logical to access the analysis
+
+199
+00:10:15,390 --> 00:10:20,110
+so you realize
+what is happening.
+
+200
+00:10:20,110 --> 00:10:27,230
+How the parameters
+actually [INAUDIBLE]
+
+201
+00:10:27,230 --> 00:10:27,730
+OK.
+
+202
+00:10:27,730 --> 00:10:28,230
+Yeah.
+
+203
+00:10:28,230 --> 00:10:31,270
+But I like the idea of
+sensitivity analysis.
+
+204
+00:10:31,270 --> 00:10:32,990
+You might try to
+figure out which
+
+205
+00:10:32,990 --> 00:10:35,070
+hyper parameter went wrong.
+
+206
+00:10:35,070 --> 00:10:37,390
+Is there something wrong
+with our optimizer?
+
+207
+00:10:37,390 --> 00:10:42,560
+Is our learning rate
+schedule poorly tuned?
+
+208
+00:10:42,560 --> 00:10:43,820
+Maybe scaling laws.
+
+209
+00:10:43,820 --> 00:10:46,140
+That we can play with compute.
+
+210
+00:10:46,140 --> 00:10:47,140
+We can play with data.
+
+211
+00:10:47,140 --> 00:10:48,960
+We can play with model size.
+
+212
+00:10:48,960 --> 00:10:51,400
+And one of those
+might be going wrong.
+
+213
+00:10:51,400 --> 00:10:55,860
+Maybe an analysis would allow us
+to identify the model is fine.
+
+214
+00:10:55,860 --> 00:10:57,320
+It just needs to
+be trained longer
+
+215
+00:10:57,320 --> 00:10:59,960
+or the model is actually
+too small for the amount
+
+216
+00:10:59,960 --> 00:11:01,020
+of data we're giving it.
+
+217
+00:11:01,020 --> 00:11:05,280
+That type of stuff would come
+with either doing a sensitivity
+
+218
+00:11:05,280 --> 00:11:08,600
+analysis or comparing what
+we're doing to the scaling laws
+
+219
+00:11:08,600 --> 00:11:11,120
+that we from other models.
+
+220
+00:11:11,120 --> 00:11:13,020
+We're going to look into that.
+
+221
+00:11:13,020 --> 00:11:13,520
+OK.
+
+222
+00:11:13,520 --> 00:11:15,896
+Any other ideas?
+
+223
+00:11:15,896 --> 00:11:17,560
+I have a question.
+
+224
+00:11:17,560 --> 00:11:22,520
+So these 200 billion parameters,
+where does the number come from?
+
+225
+00:11:22,520 --> 00:11:25,960
+Probably these parameters,
+we don't need them.
+
+226
+00:11:25,960 --> 00:11:26,540
+Might be.
+
+227
+00:11:26,540 --> 00:11:29,720
+So you're saying I gave you
+200 billion parameters, which
+
+228
+00:11:29,720 --> 00:11:32,640
+is a very large model
+even as of today.
+
+229
+00:11:32,640 --> 00:11:34,260
+It might be overparameterized.
+
+230
+00:11:34,260 --> 00:11:35,640
+That's a good
+question because it
+
+231
+00:11:35,640 --> 00:11:37,880
+depends on what it's been
+trained on, how much data
+
+232
+00:11:37,880 --> 00:11:39,500
+we're feeding it,
+how much compute.
+
+233
+00:11:39,500 --> 00:11:40,900
+It's all relative to each other.
+
+234
+00:11:40,900 --> 00:11:42,180
+But yeah, it's a large model.
+
+235
+00:11:42,180 --> 00:11:43,600
+So I would expect
+a lot of compute
+
+236
+00:11:43,600 --> 00:11:46,200
+and a lot of data along with it.
+
+237
+00:11:46,200 --> 00:11:48,240
+In fact, a lot of
+these models might be
+
+238
+00:11:48,240 --> 00:11:49,660
+built as a mixture of experts.
+
+239
+00:11:49,660 --> 00:11:52,920
+You've heard about
+mixture of experts.
+
+240
+00:11:52,920 --> 00:11:55,680
+One thing that could happen
+is that some of the experts
+
+241
+00:11:55,680 --> 00:12:00,000
+are failing, and you might
+be inspecting if experts
+
+242
+00:12:00,000 --> 00:12:04,080
+are in fact failing or the
+routing module is always
+
+243
+00:12:04,080 --> 00:12:06,480
+selecting the same
+expert because it's just
+
+244
+00:12:06,480 --> 00:12:09,640
+found an expert that is
+really good and generalized
+
+245
+00:12:09,640 --> 00:12:12,220
+and the other experts
+are not being used.
+
+246
+00:12:12,220 --> 00:12:14,520
+That might be
+another issue as well
+
+247
+00:12:14,520 --> 00:12:17,220
+that might be related
+to the model capacity.
+
+248
+00:12:17,220 --> 00:12:20,580
+Because if the model is
+not using all its experts,
+
+249
+00:12:20,580 --> 00:12:23,880
+it's probably not actually
+operating as a 200 billion
+
+250
+00:12:23,880 --> 00:12:24,940
+parameter model.
+
+251
+00:12:24,940 --> 00:12:27,920
+It's operating as
+a smaller model.
+
+252
+00:12:27,920 --> 00:12:31,220
+So generally, this is
+to motivate the lecture.
+
+253
+00:12:31,220 --> 00:12:34,520
+We're going to look into
+all of these together today.
+
+254
+00:12:34,520 --> 00:12:36,560
+And we'll start
+with convolutions
+
+255
+00:12:36,560 --> 00:12:38,280
+because they're very visual.
+
+256
+00:12:38,280 --> 00:12:42,600
+For the convolutional part,
+we're going to go super deep.
+
+257
+00:12:42,600 --> 00:12:44,010
+But then for the
+frontier models,
+
+258
+00:12:44,010 --> 00:12:45,760
+I'm just going to get
+broader and give you
+
+259
+00:12:45,760 --> 00:12:47,280
+the areas of research.
+
+260
+00:12:47,280 --> 00:12:49,880
+So the answer to the
+question I asked typically
+
+261
+00:12:49,880 --> 00:12:51,920
+would fall under four
+buckets, every solution
+
+262
+00:12:51,920 --> 00:12:53,380
+that we looked into together.
+
+263
+00:12:53,380 --> 00:12:54,740
+One is training and scaling.
+
+264
+00:12:54,740 --> 00:13:00,640
+So people are looking at loss
+curves at things gradients,
+
+265
+00:13:00,640 --> 00:13:04,460
+learning rates, mixture of
+experts, routing, scaling laws.
+
+266
+00:13:04,460 --> 00:13:06,480
+We're going to talk
+about all these.
+
+267
+00:13:06,480 --> 00:13:08,920
+The second category
+is representation
+
+268
+00:13:08,920 --> 00:13:11,080
+and internal aspect
+of the model.
+
+269
+00:13:11,080 --> 00:13:14,837
+You mentioned. attention
+heads and maps, embeddings,
+
+270
+00:13:14,837 --> 00:13:16,920
+nobody mentioned embeddings
+but you could actually
+
+271
+00:13:16,920 --> 00:13:18,640
+visualize embeddings
+and see, does it
+
+272
+00:13:18,640 --> 00:13:22,560
+make sense to you or these
+tokens close to each other
+
+273
+00:13:22,560 --> 00:13:23,660
+as you would expect?
+
+274
+00:13:23,660 --> 00:13:27,880
+Meaning the model's mental
+understanding of language
+
+275
+00:13:27,880 --> 00:13:30,080
+is correct.
+
+276
+00:13:30,080 --> 00:13:32,200
+And then neuron level behaviors.
+
+277
+00:13:32,200 --> 00:13:35,360
+Although that's really
+hard with a large model.
+
+278
+00:13:35,360 --> 00:13:38,290
+And nobody has quite
+figured it out yet.
+
+279
+00:13:38,290 --> 00:13:41,790
+And then the other category
+might be data and distribution.
+
+280
+00:13:41,790 --> 00:13:48,210
+Maybe the actual benchmark
+that we're looking at
+
+281
+00:13:48,210 --> 00:13:49,970
+has been contaminated.
+
+282
+00:13:49,970 --> 00:13:54,810
+Meaning the model either it's
+doing too well on that benchmark
+
+283
+00:13:54,810 --> 00:13:56,490
+or it doesn't mean
+anything, or it's
+
+284
+00:13:56,490 --> 00:13:58,350
+doing poorly for
+a certain reason
+
+285
+00:13:58,350 --> 00:14:02,250
+because the data distribution
+used in the test set
+
+286
+00:14:02,250 --> 00:14:05,890
+is completely different from
+the training or validation set.
+
+287
+00:14:05,890 --> 00:14:08,710
+And then it might be
+failing at different levels.
+
+288
+00:14:08,710 --> 00:14:11,270
+You can run benchmarks
+on the language model.
+
+289
+00:14:11,270 --> 00:14:14,850
+You can run benchmarks on
+the agentic workflow that
+
+290
+00:14:14,850 --> 00:14:16,745
+is using that language model.
+
+291
+00:14:16,745 --> 00:14:18,370
+And because you want
+the language model
+
+292
+00:14:18,370 --> 00:14:19,970
+to be used in agentic
+workflow, those
+
+293
+00:14:19,970 --> 00:14:22,310
+are two levels that
+you need to inspect.
+
+294
+00:14:22,310 --> 00:14:24,810
+So, for example,
+when a frontier lab
+
+295
+00:14:24,810 --> 00:14:28,930
+says our model is doing
+really well for tool use,
+
+296
+00:14:28,930 --> 00:14:30,450
+what they mean is
+the language model
+
+297
+00:14:30,450 --> 00:14:34,270
+has been tested on upstream
+tasks in a workflow,
+
+298
+00:14:34,270 --> 00:14:37,730
+and it's actually good at tool
+use against their benchmarks.
+
+299
+00:14:37,730 --> 00:14:42,450
+So those are different levels
+of capability analysis.
+
+300
+00:14:42,450 --> 00:14:45,470
+So let's talk
+about convolutions.
+
+301
+00:14:45,470 --> 00:14:47,710
+We're going to dive deep
+inside convolutions.
+
+302
+00:14:47,710 --> 00:14:51,090
+And then we'll go back up
+and look at frontier models.
+
+303
+00:14:51,090 --> 00:14:57,810
+So first case study
+for convolutions.
+
+304
+00:14:57,810 --> 00:15:02,930
+Let's say that you have built
+an animal classifier for a zoo.
+
+305
+00:15:02,930 --> 00:15:06,170
+And they are very
+reluctant to use your model
+
+306
+00:15:06,170 --> 00:15:08,370
+without any human
+supervising because they
+
+307
+00:15:08,370 --> 00:15:12,570
+don't understand the decision
+making process of the model.
+
+308
+00:15:12,570 --> 00:15:14,390
+How can you alleviate
+their concerns?
+
+309
+00:15:14,390 --> 00:15:17,610
+How can you give them intuition
+about the decision making
+
+310
+00:15:17,610 --> 00:15:19,090
+process of the
+model so that they
+
+311
+00:15:19,090 --> 00:15:23,210
+feel like the
+models doing things
+
+312
+00:15:23,210 --> 00:15:25,230
+that feel natural and human?
+
+313
+00:15:30,930 --> 00:15:32,610
+Just to simplify,
+let's say you have
+
+314
+00:15:32,610 --> 00:15:36,940
+a convolutional neural network,
+and there's a softmax layer,
+
+315
+00:15:36,940 --> 00:15:38,920
+and it's supposed
+to identify animals.
+
+316
+00:15:38,920 --> 00:15:41,620
+So the number of
+classes or many animals.
+
+317
+00:15:41,620 --> 00:15:42,120
+Yeah.
+
+318
+00:15:56,460 --> 00:15:57,980
+If you were to
+write a quick Python
+
+319
+00:15:57,980 --> 00:16:01,460
+code to give them some
+intuition, how would you do it?
+
+320
+00:16:01,460 --> 00:16:01,980
+Yeah.
+
+321
+00:16:01,980 --> 00:16:02,860
+Thanks very much.
+
+322
+00:16:02,860 --> 00:16:05,180
+First, with the
+softmax is how we're
+
+323
+00:16:05,180 --> 00:16:07,540
+going to eventually
+get at the end result,
+
+324
+00:16:07,540 --> 00:16:10,380
+probabilities what
+the animal is.
+
+325
+00:16:10,380 --> 00:16:14,500
+And then the next thing I will
+explain is how with the CNN,
+
+326
+00:16:14,500 --> 00:16:18,560
+each layer of our CNN is
+getting more in depth,
+
+327
+00:16:18,560 --> 00:16:23,060
+I guess, features of the image
+of the animals are showing.
+
+328
+00:16:23,060 --> 00:16:29,620
+And then maybe if I have time, I
+can try and use different images
+
+329
+00:16:29,620 --> 00:16:33,020
+and try to figure out what
+each layer [INAUDIBLE]
+
+330
+00:16:33,020 --> 00:16:35,420
+OK.
+
+331
+00:16:35,420 --> 00:16:36,040
+Good.
+
+332
+00:16:36,040 --> 00:16:39,857
+So just to recap, the
+zoo is not I native.
+
+333
+00:16:39,857 --> 00:16:41,440
+So you have to explain
+certain things.
+
+334
+00:16:41,440 --> 00:16:42,960
+You're going to tell
+them what softmax is.
+
+335
+00:16:42,960 --> 00:16:45,127
+So we're going to have a
+probability for each animal
+
+336
+00:16:45,127 --> 00:16:46,000
+classes.
+
+337
+00:16:46,000 --> 00:16:47,357
+That's how it works.
+
+338
+00:16:47,357 --> 00:16:48,940
+And on top of that,
+you also mentioned
+
+339
+00:16:48,940 --> 00:16:50,380
+you might talk
+about convolutions
+
+340
+00:16:50,380 --> 00:16:53,520
+and say here are how
+features are identified,
+
+341
+00:16:53,520 --> 00:16:56,100
+here is how a filter
+scans through the image.
+
+342
+00:16:56,100 --> 00:16:58,080
+And we're expecting
+this to learn.
+
+343
+00:16:58,080 --> 00:16:59,760
+So you're going to
+educate them first.
+
+344
+00:16:59,760 --> 00:17:00,635
+That's totally right.
+
+345
+00:17:00,635 --> 00:17:02,420
+The second thing you
+mentioned is maybe
+
+346
+00:17:02,420 --> 00:17:04,520
+you run a data set search.
+
+347
+00:17:04,520 --> 00:17:06,460
+So you can try to
+build their intuition
+
+348
+00:17:06,460 --> 00:17:08,940
+by showing them animal
+pictures and showing
+
+349
+00:17:08,940 --> 00:17:10,460
+that the model is doing well.
+
+350
+00:17:10,460 --> 00:17:12,920
+And yeah, I agree those
+are good approaches.
+
+351
+00:17:12,920 --> 00:17:15,300
+We're going to see how
+to do a proper data set
+
+352
+00:17:15,300 --> 00:17:17,060
+search large scale.
+
+353
+00:17:17,060 --> 00:17:20,940
+But what else can you do that's
+going to give a little bit
+
+354
+00:17:20,940 --> 00:17:21,720
+more confidence?
+
+355
+00:17:21,720 --> 00:17:23,678
+Because this is explanation,
+but it's not proof
+
+356
+00:17:23,678 --> 00:17:27,160
+that the model is looking at
+the right place systematically.
+
+357
+00:17:27,160 --> 00:17:27,920
+Yeah.
+
+358
+00:17:27,920 --> 00:17:36,335
+You display some of the hurdles
+and demonstrate [INAUDIBLE],
+
+359
+00:17:36,335 --> 00:17:41,220
+and show all the small
+features that [INAUDIBLE].
+
+360
+00:17:41,220 --> 00:17:43,420
+So you say, ideally,
+you would give them
+
+361
+00:17:43,420 --> 00:17:46,300
+intuition at a filter level.
+
+362
+00:17:46,300 --> 00:17:49,300
+This filter we know it's
+responsible for finding
+
+363
+00:17:49,300 --> 00:17:50,597
+the legs of an animal.
+
+364
+00:17:50,597 --> 00:17:51,680
+That's what you're saying.
+
+365
+00:17:51,680 --> 00:17:54,820
+So how would you do that?
+
+366
+00:17:54,820 --> 00:17:57,520
+Well, maybe I don't know
+enough but it's not supposed
+
+367
+00:17:57,520 --> 00:18:03,460
+to bring out the [INAUDIBLE]
+
+368
+00:18:03,460 --> 00:18:04,640
+Good intuition.
+
+369
+00:18:04,640 --> 00:18:07,100
+You're asking, is it as
+simple as just printing out
+
+370
+00:18:07,100 --> 00:18:10,820
+the weights that are
+identified or the feature map
+
+371
+00:18:10,820 --> 00:18:13,300
+that results of that filter?
+
+372
+00:18:13,300 --> 00:18:15,900
+Unfortunately, not
+usually, because that
+
+373
+00:18:15,900 --> 00:18:18,180
+might be true for
+the first layer.
+
+374
+00:18:18,180 --> 00:18:20,460
+But as you get
+deeper, things mix up
+
+375
+00:18:20,460 --> 00:18:25,440
+so much that if you were
+just to print the filter,
+
+376
+00:18:25,440 --> 00:18:27,660
+it wouldn't make any sense.
+
+377
+00:18:27,660 --> 00:18:29,083
+Pretty much.
+
+378
+00:18:29,083 --> 00:18:31,250
+But there are other methods
+that we're going to see.
+
+379
+00:18:31,250 --> 00:18:32,408
+So your intuition is right.
+
+380
+00:18:32,408 --> 00:18:33,950
+We're going to try
+to give them that.
+
+381
+00:18:33,950 --> 00:18:37,050
+Something simpler,
+input/output relationship.
+
+382
+00:18:37,050 --> 00:18:42,310
+How would you show that
+the output is actually
+
+383
+00:18:42,310 --> 00:18:46,150
+related to the right portions
+of the inputs for this dog,
+
+384
+00:18:46,150 --> 00:18:48,670
+for example?
+
+385
+00:18:48,670 --> 00:18:49,990
+Yeah.
+
+386
+00:18:49,990 --> 00:18:52,998
+Recall a confusion matrix.
+
+387
+00:18:52,998 --> 00:18:56,350
+[INAUDIBLE]
+
+388
+00:18:56,350 --> 00:18:58,310
+Confusion matrix
+across a lot of data.
+
+389
+00:18:58,310 --> 00:19:01,330
+You would find true
+positives, false, et cetera.
+
+390
+00:19:01,330 --> 00:19:01,830
+Yeah.
+
+391
+00:19:01,830 --> 00:19:02,330
+Correct.
+
+392
+00:19:02,330 --> 00:19:03,870
+Something else.
+
+393
+00:19:03,870 --> 00:19:12,410
+You have a critical
+layer of your network
+
+394
+00:19:12,410 --> 00:19:17,190
+and then you show how it
+completes over different layers
+
+395
+00:19:17,190 --> 00:19:21,310
+to show how from the
+first layer is taken.
+
+396
+00:19:21,310 --> 00:19:24,310
+That doesn't give us [INAUDIBLE]
+
+397
+00:19:24,310 --> 00:19:27,470
+So similar to what
+he said, you want
+
+398
+00:19:27,470 --> 00:19:30,290
+to give them intuition from the
+inner workings of the network.
+
+399
+00:19:30,290 --> 00:19:31,790
+And you're saying,
+how about we mask
+
+400
+00:19:31,790 --> 00:19:34,230
+the latter parts of
+the network and we
+
+401
+00:19:34,230 --> 00:19:37,810
+treat every intermediary
+layer as an output,
+
+402
+00:19:37,810 --> 00:19:39,950
+and analyzing the
+output makes sense.
+
+403
+00:19:39,950 --> 00:19:42,002
+Yeah, we're going to
+look at that actually.
+
+404
+00:19:42,002 --> 00:19:43,210
+Yeah those are more advanced.
+
+405
+00:19:43,210 --> 00:19:46,430
+What I was looking for
+is even much more basic.
+
+406
+00:19:46,430 --> 00:19:50,190
+If you want to show the
+relationship between an input
+
+407
+00:19:50,190 --> 00:19:55,190
+and an output of a CNN
+or any vision model,
+
+408
+00:19:55,190 --> 00:19:59,550
+you might take the score of
+the dog in the output layer.
+
+409
+00:19:59,550 --> 00:20:03,490
+And what is exactly
+this quantity?
+
+410
+00:20:03,490 --> 00:20:07,250
+What is your intuition for
+what this quantity means?
+
+411
+00:20:12,430 --> 00:20:16,510
+If you take the derivative of
+the score of an animal class
+
+412
+00:20:16,510 --> 00:20:21,530
+with respect to x, with
+x being the input image--
+
+413
+00:20:25,610 --> 00:20:26,110
+yeah.
+
+414
+00:20:26,110 --> 00:20:30,082
+How does the score
+of dog vary when
+
+415
+00:20:30,082 --> 00:20:32,070
+you change things around some?
+
+416
+00:20:32,070 --> 00:20:37,310
+How does the score of dog change
+when you move pixels around?
+
+417
+00:20:37,310 --> 00:20:38,550
+Which is what you want.
+
+418
+00:20:38,550 --> 00:20:41,390
+You want to be able to-- if you
+can do that, you would indicate
+
+419
+00:20:41,390 --> 00:20:45,330
+that which are the pixels of the
+image that if we change them,
+
+420
+00:20:45,330 --> 00:20:47,568
+it changes the score of dog.
+
+421
+00:20:47,568 --> 00:20:49,110
+If you can print
+that, then you would
+
+422
+00:20:49,110 --> 00:20:51,390
+be able to show this is
+where the model is looking
+
+423
+00:20:51,390 --> 00:20:54,470
+at when it's predicting a dog.
+
+424
+00:20:54,470 --> 00:20:59,710
+So yeah, if you actually
+calculate this derivative,
+
+425
+00:20:59,710 --> 00:21:02,470
+you would get something like
+that where some of the pixels
+
+426
+00:21:02,470 --> 00:21:05,830
+are going to be brighter,
+meaning their gradient is higher
+
+427
+00:21:05,830 --> 00:21:07,850
+and some of the pixels
+are going to be darker,
+
+428
+00:21:07,850 --> 00:21:09,870
+meaning we move that
+pixel and it didn't
+
+429
+00:21:09,870 --> 00:21:12,750
+modify the score of dog at all.
+
+430
+00:21:12,750 --> 00:21:16,510
+That's a very quick way to look
+at which pixels in the input
+
+431
+00:21:16,510 --> 00:21:20,950
+were relevant for
+the score of dog.
+
+432
+00:21:20,950 --> 00:21:25,960
+Now why should we select
+the score of dog pre-softmax
+
+433
+00:21:25,960 --> 00:21:27,460
+versus post-softmax?
+
+434
+00:21:30,880 --> 00:21:34,500
+It's usually a very
+common misconception.
+
+435
+00:21:34,500 --> 00:21:35,000
+Yeah.
+
+436
+00:21:35,000 --> 00:21:41,480
+[INAUDIBLE]
+
+437
+00:21:41,480 --> 00:21:46,460
+So what's the issue
+with the scaled version?
+
+438
+00:21:46,460 --> 00:21:50,080
+It's more representative
+of the actual score.
+
+439
+00:21:50,080 --> 00:21:50,960
+Class of dog.
+
+440
+00:21:50,960 --> 00:21:55,840
+So what you said is
+the post-softmax score
+
+441
+00:21:55,840 --> 00:21:57,760
+is not only dependent
+on dog; it's also
+
+442
+00:21:57,760 --> 00:21:59,300
+dependent on all
+the other scores.
+
+443
+00:21:59,300 --> 00:22:02,740
+So you could actually
+take a pixel, move it,
+
+444
+00:22:02,740 --> 00:22:06,200
+and it happens to modify
+the score of a panda
+
+445
+00:22:06,200 --> 00:22:08,600
+because there's a panda in
+the background or something.
+
+446
+00:22:08,600 --> 00:22:11,640
+And it would influence
+what you're trying to show.
+
+447
+00:22:11,640 --> 00:22:12,980
+But you're only looking at dog.
+
+448
+00:22:12,980 --> 00:22:15,500
+You just want the score
+of dog to be influenced.
+
+449
+00:22:15,500 --> 00:22:19,180
+So that's why in this
+method called saliency maps,
+
+450
+00:22:19,180 --> 00:22:21,360
+we use the pre-softmax
+scores that
+
+451
+00:22:21,360 --> 00:22:24,240
+is only representative
+of the class at hand
+
+452
+00:22:24,240 --> 00:22:26,360
+that you're analyzing.
+
+453
+00:22:26,360 --> 00:22:26,920
+OK.
+
+454
+00:22:26,920 --> 00:22:27,900
+So you could do that.
+
+455
+00:22:27,900 --> 00:22:30,900
+And actually if you were to,
+in the past, not anymore,
+
+456
+00:22:30,900 --> 00:22:34,260
+but you could use that for a
+quick segmentation sanity check
+
+457
+00:22:34,260 --> 00:22:35,942
+because the pixels
+that are brighter,
+
+458
+00:22:35,942 --> 00:22:37,400
+the gradients that
+are brighter are
+
+459
+00:22:37,400 --> 00:22:38,920
+representatives
+of the pixels that
+
+460
+00:22:38,920 --> 00:22:41,040
+should be overlaid on the dog.
+
+461
+00:22:41,040 --> 00:22:42,880
+And in fact, if you
+do the saliency maps
+
+462
+00:22:42,880 --> 00:22:46,120
+and you realize that the pixels
+that are bright when you compute
+
+463
+00:22:46,120 --> 00:22:47,813
+that gradient are
+all over the place,
+
+464
+00:22:47,813 --> 00:22:49,480
+it's probably that
+the model is not even
+
+465
+00:22:49,480 --> 00:22:50,605
+looking at the right place.
+
+466
+00:22:50,605 --> 00:22:52,640
+It's just getting lucky.
+
+467
+00:22:52,640 --> 00:22:53,600
+OK.
+
+468
+00:22:53,600 --> 00:22:56,960
+So this first method,
+saliency maps,
+
+469
+00:22:56,960 --> 00:22:58,800
+now have that in your toolkit.
+
+470
+00:22:58,800 --> 00:23:00,160
+Very easy to implement.
+
+471
+00:23:00,160 --> 00:23:01,620
+You just write a Python script.
+
+472
+00:23:01,620 --> 00:23:04,100
+You perform the
+gradient calculation.
+
+473
+00:23:04,100 --> 00:23:04,940
+You print it.
+
+474
+00:23:04,940 --> 00:23:08,280
+It's a matrix of pixels
+that are brighter or darker,
+
+475
+00:23:08,280 --> 00:23:10,040
+and you're done.
+
+476
+00:23:10,040 --> 00:23:13,440
+One of the main issues
+with saliency maps
+
+477
+00:23:13,440 --> 00:23:17,680
+is that it's looking at
+just a pixel level, which
+
+478
+00:23:17,680 --> 00:23:19,400
+doesn't make too
+much sense if you
+
+479
+00:23:19,400 --> 00:23:22,640
+want to interpret semantically
+where the model is looking at.
+
+480
+00:23:22,640 --> 00:23:25,320
+The model will never
+see a cat or a dog
+
+481
+00:23:25,320 --> 00:23:29,100
+with one pixel being
+different than the rest.
+
+482
+00:23:29,100 --> 00:23:30,580
+It would be too discontinuous.
+
+483
+00:23:30,580 --> 00:23:32,140
+So instead, there's
+another method,
+
+484
+00:23:32,140 --> 00:23:33,640
+I'm not going to
+go into the detail,
+
+485
+00:23:33,640 --> 00:23:36,160
+but I linked the paper,
+which is way more common,
+
+486
+00:23:36,160 --> 00:23:38,960
+called integrated gradients.
+
+487
+00:23:38,960 --> 00:23:41,320
+And integrated
+gradients, the idea
+
+488
+00:23:41,320 --> 00:23:45,800
+is that instead of doing that
+directly by taking the ds of dog
+
+489
+00:23:45,800 --> 00:23:49,040
+over dx, we're going to
+take an image of the animal,
+
+490
+00:23:49,040 --> 00:23:54,080
+and we're going to
+generate many pictures that
+
+491
+00:23:54,080 --> 00:24:00,320
+are taking a dark, completely
+black zero's pixel all the way
+
+492
+00:24:00,320 --> 00:24:03,180
+to the animal, the final image.
+
+493
+00:24:03,180 --> 00:24:06,760
+And then we're going to look
+at the path of gradients
+
+494
+00:24:06,760 --> 00:24:08,980
+across all of these updates.
+
+495
+00:24:08,980 --> 00:24:11,158
+And it's going to be
+way more interpretive.
+
+496
+00:24:11,158 --> 00:24:12,700
+I'm not going to go
+into the details.
+
+497
+00:24:12,700 --> 00:24:15,920
+But integrated gradients is just
+an extension of saliency maps
+
+498
+00:24:15,920 --> 00:24:19,410
+that happens to use a different
+formula with an integration
+
+499
+00:24:19,410 --> 00:24:21,312
+and is way more common.
+
+500
+00:24:21,312 --> 00:24:22,770
+If you look at it
+practically, this
+
+501
+00:24:22,770 --> 00:24:24,610
+is an example from
+the medical field.
+
+502
+00:24:24,610 --> 00:24:27,210
+Here is an image of a retina.
+
+503
+00:24:27,210 --> 00:24:30,330
+And if you perform the
+integrated gradients,
+
+504
+00:24:30,330 --> 00:24:37,490
+you would see that the
+original image, the annotation
+
+505
+00:24:37,490 --> 00:24:40,810
+for the lesions are exactly
+where the model is looking
+
+506
+00:24:40,810 --> 00:24:43,690
+at when it's giving
+you a probability
+
+507
+00:24:43,690 --> 00:24:46,730
+that there is a lesion.
+
+508
+00:24:46,730 --> 00:24:50,410
+So the second method called
+integrated gradients.
+
+509
+00:24:50,410 --> 00:24:53,930
+Let's push it a little further.
+
+510
+00:24:53,930 --> 00:25:01,610
+The next case study is that
+you want to now tell them
+
+511
+00:25:01,610 --> 00:25:10,090
+a little more about the decision
+process of the model with--
+
+512
+00:25:10,090 --> 00:25:12,850
+I guess let me rephrase.
+
+513
+00:25:12,850 --> 00:25:16,530
+The saliency maps looked
+at the pixel level.
+
+514
+00:25:16,530 --> 00:25:20,290
+What you can do in order to
+give a better intuition, which
+
+515
+00:25:20,290 --> 00:25:24,010
+was mentioned earlier,
+is another approach
+
+516
+00:25:24,010 --> 00:25:27,330
+called occlusion sensitivity,
+which is actually
+
+517
+00:25:27,330 --> 00:25:32,290
+way more intuitive and simple,
+where you could actually
+
+518
+00:25:32,290 --> 00:25:35,890
+take the dog image and
+paste it into the CNN,
+
+519
+00:25:35,890 --> 00:25:38,050
+and you would get
+a score of a dog.
+
+520
+00:25:38,050 --> 00:25:42,850
+You could also overlay a dark
+square, so zero out or mask
+
+521
+00:25:42,850 --> 00:25:47,130
+partially the input image
+and give it to the same CNN
+
+522
+00:25:47,130 --> 00:25:51,810
+and track the modifications
+on the score of dog
+
+523
+00:25:51,810 --> 00:25:53,810
+that you're tracking.
+
+524
+00:25:53,810 --> 00:25:57,930
+If you actually do that, you
+can plot a probability map
+
+525
+00:25:57,930 --> 00:26:00,490
+of how is the score
+of dog changing
+
+526
+00:26:00,490 --> 00:26:05,010
+as I move the dark
+square through the image?
+
+527
+00:26:05,010 --> 00:26:06,490
+So let's do it together.
+
+528
+00:26:06,490 --> 00:26:09,810
+I'm going to say that this
+one, when you actually
+
+529
+00:26:09,810 --> 00:26:12,490
+put the dark square on the top
+left of the image, the score
+
+530
+00:26:12,490 --> 00:26:13,630
+of dog is unchanged.
+
+531
+00:26:13,630 --> 00:26:14,810
+It's still very high.
+
+532
+00:26:14,810 --> 00:26:18,970
+Now you move the square a
+little bit to the right,
+
+533
+00:26:18,970 --> 00:26:22,230
+and you see that it's still
+very high, the score of dog.
+
+534
+00:26:22,230 --> 00:26:24,250
+You do it again,
+still very high.
+
+535
+00:26:24,250 --> 00:26:29,330
+Now, the square is partially
+occluding the face of the dog,
+
+536
+00:26:29,330 --> 00:26:32,350
+and you should see
+the score of dog drop
+
+537
+00:26:32,350 --> 00:26:35,530
+if the model is, in
+fact, looking at the dog.
+
+538
+00:26:35,530 --> 00:26:37,110
+And you perform that many times.
+
+539
+00:26:37,110 --> 00:26:40,130
+So you scan through the
+image with your dark square,
+
+540
+00:26:40,130 --> 00:26:45,050
+and you plot what we
+call the probability
+
+541
+00:26:45,050 --> 00:26:47,570
+map of the true class
+for different positions
+
+542
+00:26:47,570 --> 00:26:50,210
+of the gray square.
+
+543
+00:26:50,210 --> 00:26:51,610
+Does that make sense?
+
+544
+00:26:51,610 --> 00:26:54,410
+So pretty simple,
+computationally expensive
+
+545
+00:26:54,410 --> 00:26:55,530
+though.
+
+546
+00:26:55,530 --> 00:26:59,610
+Just have to rerun the image so
+many times through the model.
+
+547
+00:26:59,610 --> 00:27:03,450
+Here are practical
+examples to look at.
+
+548
+00:27:03,450 --> 00:27:09,410
+The first one, the true label
+is a Pomeranian cute dog.
+
+549
+00:27:09,410 --> 00:27:12,370
+And you see that
+the model is failing
+
+550
+00:27:12,370 --> 00:27:16,700
+to recognize the true class
+when the square is overlapping
+
+551
+00:27:16,700 --> 00:27:19,940
+with the center of the
+face, which makes sense
+
+552
+00:27:19,940 --> 00:27:22,580
+because here the true class
+that we're tracking is not dog.
+
+553
+00:27:22,580 --> 00:27:23,820
+It's Pomeranian.
+
+554
+00:27:23,820 --> 00:27:27,080
+And I could see how if
+you occlude the face,
+
+555
+00:27:27,080 --> 00:27:30,180
+it's hard to get the
+breed of the dog.
+
+556
+00:27:30,180 --> 00:27:34,200
+The second example, the true
+label is a car wheel-- sorry,
+
+557
+00:27:34,200 --> 00:27:35,580
+I hadn't shown you that.
+
+558
+00:27:35,580 --> 00:27:37,040
+The true label is a car wheel.
+
+559
+00:27:37,040 --> 00:27:41,620
+And you can see that when
+the square is on the wheel,
+
+560
+00:27:41,620 --> 00:27:46,860
+it is in fact dropping in terms
+of the true class probability.
+
+561
+00:27:46,860 --> 00:27:48,880
+And then finally
+the Afghan hound.
+
+562
+00:27:48,880 --> 00:27:52,060
+What's interesting about that
+third example is the probability
+
+563
+00:27:52,060 --> 00:27:54,500
+is dropping when the
+square is on the dog,
+
+564
+00:27:54,500 --> 00:27:57,820
+but it's also increasing
+when the square is
+
+565
+00:27:57,820 --> 00:28:01,140
+on the face of the
+human on the left, which
+
+566
+00:28:01,140 --> 00:28:03,840
+means that if you actually
+occlude the face of the human,
+
+567
+00:28:03,840 --> 00:28:07,100
+the model thinks even more
+that the true class is
+
+568
+00:28:07,100 --> 00:28:10,620
+in fact an Afghan hound.
+
+569
+00:28:10,620 --> 00:28:13,740
+You're just removing additional
+unnecessary information for it
+
+570
+00:28:13,740 --> 00:28:15,180
+to discover the true class.
+
+571
+00:28:15,180 --> 00:28:17,260
+So this model seems
+to be doing well.
+
+572
+00:28:17,260 --> 00:28:20,820
+It seems to be looking
+in the right place.
+
+573
+00:28:20,820 --> 00:28:23,280
+We call that
+occlusion sensitivity.
+
+574
+00:28:23,280 --> 00:28:25,660
+Pretty simple, another
+tool with saliency map
+
+575
+00:28:25,660 --> 00:28:30,620
+and integrated gradients
+in your toolkit.
+
+576
+00:28:30,620 --> 00:28:33,840
+Let's push it slightly further.
+
+577
+00:28:37,260 --> 00:28:45,780
+Here we're given, along with
+the classification output,
+
+578
+00:28:45,780 --> 00:28:49,580
+the zoo wants a real time
+visualization of the model's
+
+579
+00:28:49,580 --> 00:28:51,060
+decision process.
+
+580
+00:28:51,060 --> 00:28:53,560
+And you have one
+day to show that.
+
+581
+00:28:53,560 --> 00:28:55,535
+And we're talking about
+convolutions again.
+
+582
+00:28:55,535 --> 00:28:56,160
+What do you do?
+
+583
+00:28:56,160 --> 00:29:00,460
+So the important part is to
+know the methods that we've
+
+584
+00:29:00,460 --> 00:29:06,300
+seen so far are post methods
+where you analyze the output
+
+585
+00:29:06,300 --> 00:29:07,400
+or you show something.
+
+586
+00:29:07,400 --> 00:29:11,260
+Here we're looking
+at ideally a module
+
+587
+00:29:11,260 --> 00:29:13,700
+that we could plug in our
+network that would constantly
+
+588
+00:29:13,700 --> 00:29:16,380
+give us the decision making
+process of the network,
+
+589
+00:29:16,380 --> 00:29:19,180
+or at least where
+it's looking at.
+
+590
+00:29:19,180 --> 00:29:20,400
+How would you do this?
+
+591
+00:29:26,987 --> 00:29:28,320
+This is our network, by the way.
+
+592
+00:29:28,320 --> 00:29:29,740
+We're taking an input.
+
+593
+00:29:29,740 --> 00:29:32,020
+We're adding zero padding,
+and we have a series
+
+594
+00:29:32,020 --> 00:29:34,780
+of conv ReLU max pool blocks.
+
+595
+00:29:34,780 --> 00:29:36,580
+And then at the end, we flatten.
+
+596
+00:29:36,580 --> 00:29:40,240
+We have a triple fully
+connected layer, a softmax,
+
+597
+00:29:40,240 --> 00:29:45,540
+and we get our probability
+output for classification.
+
+598
+00:29:45,540 --> 00:29:49,260
+So first question,
+where do you think
+
+599
+00:29:49,260 --> 00:29:51,900
+is the weakness of
+this network when
+
+600
+00:29:51,900 --> 00:29:54,740
+it comes to interpreting
+where the model is looking
+
+601
+00:29:54,740 --> 00:29:55,880
+at on a picture?
+
+602
+00:30:04,660 --> 00:30:08,090
+A part of this
+architecture is very mixed,
+
+603
+00:30:08,090 --> 00:30:10,650
+interpreting the
+network way harder.
+
+604
+00:30:10,650 --> 00:30:12,030
+Yeah.
+
+605
+00:30:12,030 --> 00:30:12,530
+[INAUDIBLE]
+
+606
+00:30:12,530 --> 00:30:13,410
+Why?
+
+607
+00:30:13,410 --> 00:30:19,630
+Because of you look at all
+the pixels at once, I guess,
+
+608
+00:30:19,630 --> 00:30:23,110
+over the last month, there
+have been three of them.
+
+609
+00:30:23,110 --> 00:30:26,870
+So it's three layers of
+abstraction from the last layer
+
+610
+00:30:26,870 --> 00:30:29,870
+all the way to what you get.
+
+611
+00:30:29,870 --> 00:30:30,930
+Yeah, totally right.
+
+612
+00:30:30,930 --> 00:30:32,727
+They're fully connected layers.
+
+613
+00:30:32,727 --> 00:30:34,810
+You're looking at all the
+pixels at the same time.
+
+614
+00:30:34,810 --> 00:30:37,227
+You're mixing everything, and
+you're doing it three times.
+
+615
+00:30:37,227 --> 00:30:39,170
+So by the end of
+those three layers,
+
+616
+00:30:39,170 --> 00:30:42,330
+the information has been
+mixed together, essentially.
+
+617
+00:30:42,330 --> 00:30:44,430
+You do not find the
+localized information
+
+618
+00:30:44,430 --> 00:30:48,310
+that you had pre that with the
+maxpool and the conv layers.
+
+619
+00:30:48,310 --> 00:30:52,575
+So how could you change that
+layer in order to avoid that?
+
+620
+00:30:52,575 --> 00:30:53,950
+How would you
+modify your network
+
+621
+00:30:53,950 --> 00:30:57,790
+if you wanted to retain maybe
+the performance of the model
+
+622
+00:30:57,790 --> 00:31:01,710
+but not lose that
+localized information?
+
+623
+00:31:01,710 --> 00:31:05,010
+I guess, could you do one layer.
+
+624
+00:31:05,010 --> 00:31:06,110
+I think it's huge.
+
+625
+00:31:06,110 --> 00:31:06,990
+I don't it know.
+
+626
+00:31:06,990 --> 00:31:07,790
+But it might be--
+
+627
+00:31:07,790 --> 00:31:10,670
+I don't actually know how
+many times larger than.
+
+628
+00:31:10,670 --> 00:31:12,350
+Yeah, good idea.
+
+629
+00:31:12,350 --> 00:31:14,430
+Instead of doing
+three, can we do one?
+
+630
+00:31:14,430 --> 00:31:19,810
+Can we still have a layer that
+makes the interpretation easy.
+
+631
+00:31:19,810 --> 00:31:22,410
+Actually, there's another
+trick which we're going to see,
+
+632
+00:31:22,410 --> 00:31:24,870
+but it's similar to
+what you described.
+
+633
+00:31:24,870 --> 00:31:27,070
+Let's say we
+convert this network
+
+634
+00:31:27,070 --> 00:31:31,550
+into something where the
+flattening of the pixels
+
+635
+00:31:31,550 --> 00:31:33,750
+and the fully connected
+layers are converted
+
+636
+00:31:33,750 --> 00:31:37,470
+into a single global
+average pooling layer
+
+637
+00:31:37,470 --> 00:31:40,790
+and a fully connected layer.
+
+638
+00:31:40,790 --> 00:31:44,137
+So here we reduce from 3 to
+1, the fully connected layers.
+
+639
+00:31:44,137 --> 00:31:46,470
+We still need our fully
+connected layers and our softmax
+
+640
+00:31:46,470 --> 00:31:48,310
+because it's a
+classification task,
+
+641
+00:31:48,310 --> 00:31:50,990
+and we want a good
+decision engine at the end.
+
+642
+00:31:50,990 --> 00:31:52,090
+But we converted.
+
+643
+00:31:52,090 --> 00:31:53,890
+We added a global
+average pooling.
+
+644
+00:31:53,890 --> 00:31:57,230
+So let me explain
+why this is better.
+
+645
+00:31:57,230 --> 00:32:01,350
+So the last conv
+block essentially
+
+646
+00:32:01,350 --> 00:32:03,790
+is giving us a volume.
+
+647
+00:32:03,790 --> 00:32:06,710
+For the sake of simplicity,
+let's say that volume
+
+648
+00:32:06,710 --> 00:32:10,590
+is a 4 by 4 with six channels.
+
+649
+00:32:10,590 --> 00:32:14,350
+And I color-coded
+them for simplicity.
+
+650
+00:32:14,350 --> 00:32:18,630
+So each of these
+channels is a feature map
+
+651
+00:32:18,630 --> 00:32:21,150
+that is resulting from
+a filter being scanned
+
+652
+00:32:21,150 --> 00:32:23,690
+through the previous input.
+
+653
+00:32:23,690 --> 00:32:27,070
+Everybody's clear on that?
+
+654
+00:32:27,070 --> 00:32:30,470
+So global average
+pooling is going
+
+655
+00:32:30,470 --> 00:32:34,510
+to take each of these
+channels, feature maps,
+
+656
+00:32:34,510 --> 00:32:38,590
+and is going to average
+them in a single number.
+
+657
+00:32:38,590 --> 00:32:42,850
+So if you take the orange
+matrix and you average it,
+
+658
+00:32:42,850 --> 00:32:45,150
+it gives you 104.7.
+
+659
+00:32:45,150 --> 00:32:48,790
+You do the same thing with the
+green one, the blue one, all six
+
+660
+00:32:48,790 --> 00:32:52,030
+of them, and you
+get a volume or call
+
+661
+00:32:52,030 --> 00:32:56,750
+it a vector of size 6, 1, 1, 6.
+
+662
+00:32:56,750 --> 00:32:58,270
+So why is that interesting?
+
+663
+00:32:58,270 --> 00:33:02,350
+Because we actually did not
+lose the localized information.
+
+664
+00:33:02,350 --> 00:33:03,820
+We did not mix things up.
+
+665
+00:33:03,820 --> 00:33:08,400
+We just assigned a single
+number to a feature map
+
+666
+00:33:08,400 --> 00:33:12,280
+that we retained, so the
+localized information is still
+
+667
+00:33:12,280 --> 00:33:15,000
+there on the previous volume.
+
+668
+00:33:15,000 --> 00:33:17,240
+And now we can treat
+that as a vector that
+
+669
+00:33:17,240 --> 00:33:20,640
+goes through a decision engine
+or a fully connected layer that
+
+670
+00:33:20,640 --> 00:33:22,360
+ultimately goes
+through our softmax
+
+671
+00:33:22,360 --> 00:33:24,400
+and gives us the probabilities.
+
+672
+00:33:24,400 --> 00:33:28,280
+So this architecture
+is easier to trace back
+
+673
+00:33:28,280 --> 00:33:31,640
+to localized information
+in the input space
+
+674
+00:33:31,640 --> 00:33:33,740
+because you can actually
+look at, let's say,
+
+675
+00:33:33,740 --> 00:33:35,800
+one of the score of dog.
+
+676
+00:33:35,800 --> 00:33:41,160
+And you can look at the weights
+of each of these edges that
+
+677
+00:33:41,160 --> 00:33:45,720
+tell you how much has the
+feature map from the volume
+
+678
+00:33:45,720 --> 00:33:49,400
+before contributed
+to that score.
+
+679
+00:33:49,400 --> 00:33:51,510
+So in other words, if
+I had to summarize,
+
+680
+00:33:51,510 --> 00:33:53,260
+let's say the feature
+map looks like this.
+
+681
+00:33:53,260 --> 00:33:56,960
+So this feature map is
+very high, has somehow
+
+682
+00:33:56,960 --> 00:34:00,840
+activated heavily in some
+portion of the input image.
+
+683
+00:34:00,840 --> 00:34:04,880
+The others similarly have
+activated two other things.
+
+684
+00:34:04,880 --> 00:34:07,588
+You're taking the weights from
+your fully connected layer.
+
+685
+00:34:07,588 --> 00:34:09,380
+By the way, you have
+to retrain that layer.
+
+686
+00:34:09,380 --> 00:34:12,760
+You have to just train that
+layer, that last one, and then
+
+687
+00:34:12,760 --> 00:34:14,520
+you sum all of them,
+and it gives you
+
+688
+00:34:14,520 --> 00:34:17,480
+what we call a class
+activation map for the class
+
+689
+00:34:17,480 --> 00:34:18,659
+that you're visualizing.
+
+690
+00:34:21,880 --> 00:34:24,862
+So you're overlaying those
+last six feature maps,
+
+691
+00:34:24,862 --> 00:34:27,320
+and you're weighing them with
+the weights of the last fully
+
+692
+00:34:27,320 --> 00:34:28,290
+connected layer.
+
+693
+00:34:28,290 --> 00:34:29,540
+You're not losing information.
+
+694
+00:34:29,540 --> 00:34:31,760
+You're not mixing three
+fully connected layers
+
+695
+00:34:31,760 --> 00:34:34,340
+that are impossible to trace
+back to the input space.
+
+696
+00:34:39,320 --> 00:34:40,199
+OK.
+
+697
+00:34:40,199 --> 00:34:42,679
+So if you now give
+it an input image,
+
+698
+00:34:42,679 --> 00:34:44,760
+and you overlay the
+class activation
+
+699
+00:34:44,760 --> 00:34:47,340
+map for the score of dog, which
+you can do for other classes,
+
+700
+00:34:47,340 --> 00:34:49,440
+you can do the same thing
+for the class of cat,
+
+701
+00:34:49,440 --> 00:34:51,780
+look at the different
+weights, the feature maps,
+
+702
+00:34:51,780 --> 00:34:53,760
+and maybe for the class
+of cat, the weights
+
+703
+00:34:53,760 --> 00:34:55,500
+will certainly be different.
+
+704
+00:34:55,500 --> 00:34:59,420
+So the contribution of each
+feature map will be different.
+
+705
+00:34:59,420 --> 00:34:59,920
+Yeah.
+
+706
+00:34:59,920 --> 00:35:00,962
+And this is what you get.
+
+707
+00:35:00,962 --> 00:35:04,760
+This is called class
+activation map.
+
+708
+00:35:04,760 --> 00:35:08,000
+And it's from folks
+over at Berkeley.
+
+709
+00:35:08,000 --> 00:35:10,520
+And so here's a video
+that describes it.
+
+710
+00:35:10,520 --> 00:35:11,860
+It runs really quickly.
+
+711
+00:35:11,860 --> 00:35:16,000
+You can think of it as a slight
+modification to a vision network
+
+712
+00:35:16,000 --> 00:35:19,040
+that can allow you to unpack
+what's happening inside
+
+713
+00:35:19,040 --> 00:35:21,720
+and what's the decision process.
+
+714
+00:35:21,720 --> 00:35:27,760
+There's also an improvement to
+the CAM or Class Activation Map
+
+715
+00:35:27,760 --> 00:35:31,380
+algorithm called Grad-CAM,
+which enhances that method.
+
+716
+00:35:38,320 --> 00:35:41,780
+Any questions on
+class activation maps?
+
+717
+00:35:45,680 --> 00:35:48,020
+So we're getting to know
+convolutions a little better.
+
+718
+00:35:48,020 --> 00:35:48,520
+Yeah.
+
+719
+00:35:48,520 --> 00:35:49,466
+I have a question.
+
+720
+00:35:49,466 --> 00:35:52,040
+In the video, it seems
+like it has hypermobility
+
+721
+00:35:52,040 --> 00:35:54,260
+on unrelated things
+all the time,
+
+722
+00:35:54,260 --> 00:35:56,740
+like [INAUDIBLE] of the models.
+
+723
+00:35:56,740 --> 00:35:57,240
+Yeah.
+
+724
+00:35:57,240 --> 00:35:58,810
+So you were saying
+in the video, it
+
+725
+00:35:58,810 --> 00:36:00,810
+seems like the model
+sometimes is looking
+
+726
+00:36:00,810 --> 00:36:02,590
+at the meaningless things.
+
+727
+00:36:02,590 --> 00:36:03,090
+Yeah.
+
+728
+00:36:03,090 --> 00:36:04,632
+I mean, it's not
+surprising, frankly.
+
+729
+00:36:04,632 --> 00:36:07,370
+This is the previous
+generation of models.
+
+730
+00:36:07,370 --> 00:36:10,490
+And on top of that,
+you're looking on a video.
+
+731
+00:36:10,490 --> 00:36:12,810
+The model is a
+classification network.
+
+732
+00:36:12,810 --> 00:36:15,370
+So it might look
+sometimes at things
+
+733
+00:36:15,370 --> 00:36:17,450
+that are not even labeled.
+
+734
+00:36:17,450 --> 00:36:19,390
+And so it has to
+find the closest one.
+
+735
+00:36:19,390 --> 00:36:21,010
+It might not make sense at all.
+
+736
+00:36:21,010 --> 00:36:23,570
+That's why you build
+that type of model
+
+737
+00:36:23,570 --> 00:36:26,050
+to visualize and
+understand the network
+
+738
+00:36:26,050 --> 00:36:27,970
+is actually not
+working that well.
+
+739
+00:36:31,043 --> 00:36:33,210
+But maybe on the main objects
+that you actually want
+
+740
+00:36:33,210 --> 00:36:36,290
+for your task, let's say the zoo
+wants to do very well with cats
+
+741
+00:36:36,290 --> 00:36:38,690
+and dogs, you can verify that
+when a cat is moving, even
+
+742
+00:36:38,690 --> 00:36:41,370
+at fast speed, the model
+is quickly looking at it.
+
+743
+00:36:44,170 --> 00:36:45,010
+Super.
+
+744
+00:36:45,010 --> 00:36:47,530
+Let's do a couple more
+methods because it's
+
+745
+00:36:47,530 --> 00:36:52,330
+going to build our intuition
+for frontier models.
+
+746
+00:36:52,330 --> 00:36:55,190
+So now the zoo trusts you.
+
+747
+00:36:55,190 --> 00:36:58,490
+It trusts that the model
+correctly locates animals,
+
+748
+00:36:58,490 --> 00:37:03,890
+but they get of scared and they
+wonder if the model understands
+
+749
+00:37:03,890 --> 00:37:05,890
+what a dog is.
+
+750
+00:37:05,890 --> 00:37:08,110
+Does it understand
+actually what a dog is,
+
+751
+00:37:08,110 --> 00:37:13,170
+or is it just like pattern
+matching random things?
+
+752
+00:37:13,170 --> 00:37:21,770
+How could you take this
+ConvNet and query what
+
+753
+00:37:21,770 --> 00:37:23,810
+the model thinks the dog is?
+
+754
+00:37:23,810 --> 00:37:27,130
+How would you do that?
+
+755
+00:37:27,130 --> 00:37:29,730
+How could you ask the
+model, what's your best
+
+756
+00:37:29,730 --> 00:37:31,550
+representation of a dog?
+
+757
+00:37:44,250 --> 00:37:48,010
+You are trying to
+reverse-engineer or get
+
+758
+00:37:48,010 --> 00:37:55,330
+an image that maximizes
+the probability of dog.
+
+759
+00:37:55,330 --> 00:37:55,910
+OK.
+
+760
+00:37:55,910 --> 00:37:56,210
+Yeah.
+
+761
+00:37:56,210 --> 00:37:57,230
+You did say two things.
+
+762
+00:37:57,230 --> 00:38:02,290
+So get an image, so a
+forged image that maximizes
+
+763
+00:38:02,290 --> 00:38:03,582
+the probability of dog.
+
+764
+00:38:03,582 --> 00:38:04,790
+Yeah, let's do that actually.
+
+765
+00:38:04,790 --> 00:38:10,790
+And then on your second point
+about reverse engineering,
+
+766
+00:38:10,790 --> 00:38:12,790
+we're going to look at
+the method there as well.
+
+767
+00:38:12,790 --> 00:38:14,770
+But, yeah, I agree you could.
+
+768
+00:38:14,770 --> 00:38:16,270
+So how would you
+concretely do that?
+
+769
+00:38:16,270 --> 00:38:19,370
+What would you maximize?
+
+770
+00:38:19,370 --> 00:38:21,210
+The softmax
+
+771
+00:38:21,210 --> 00:38:22,090
+OK.
+
+772
+00:38:22,090 --> 00:38:24,290
+Actually, what we
+said earlier, but I
+
+773
+00:38:24,290 --> 00:38:28,050
+think you came right after that
+is we would not take the softmax
+
+774
+00:38:28,050 --> 00:38:30,650
+output because the
+softmax output is
+
+775
+00:38:30,650 --> 00:38:32,030
+dependent on other classes.
+
+776
+00:38:32,030 --> 00:38:35,790
+You divide by the sum of the
+exponentials of other classes.
+
+777
+00:38:35,790 --> 00:38:38,530
+And so you could actually
+maximize the softmax output
+
+778
+00:38:38,530 --> 00:38:40,470
+by not maximizing
+the class you want
+
+779
+00:38:40,470 --> 00:38:43,130
+but by minimizing the
+other classes, which is
+
+780
+00:38:43,130 --> 00:38:45,450
+different than what you want.
+
+781
+00:38:45,450 --> 00:38:47,073
+So here's what we'll do.
+
+782
+00:38:47,073 --> 00:38:48,490
+We'll define a
+loss function where
+
+783
+00:38:48,490 --> 00:38:51,310
+we take the pre-softmax
+score of dog,
+
+784
+00:38:51,310 --> 00:38:53,380
+so the thing right
+before the softmax, which
+
+785
+00:38:53,380 --> 00:38:55,620
+is only dependent on
+that specific class.
+
+786
+00:38:55,620 --> 00:38:59,060
+And we might also regularize it
+to make sure it looks natural.
+
+787
+00:38:59,060 --> 00:39:01,580
+The reason we want the
+regularization term
+
+788
+00:39:01,580 --> 00:39:06,660
+is because pixels need to be
+between 0 and 255, roughly.
+
+789
+00:39:06,660 --> 00:39:10,020
+And so you don't want
+to run an optimization
+
+790
+00:39:10,020 --> 00:39:12,820
+problem where pixels
+can have values
+
+791
+00:39:12,820 --> 00:39:14,740
+that go all over the place.
+
+792
+00:39:14,740 --> 00:39:18,740
+It's just not going to
+look good to the human eye.
+
+793
+00:39:18,740 --> 00:39:20,640
+And so we're going to do that.
+
+794
+00:39:20,640 --> 00:39:22,920
+We're going to run a
+gradient ascent algorithm.
+
+795
+00:39:22,920 --> 00:39:26,580
+So similar to what we've seen
+in some of the previous classes
+
+796
+00:39:26,580 --> 00:39:29,180
+where we're going to update
+the pixels of an input
+
+797
+00:39:29,180 --> 00:39:32,500
+image, a completely
+random input image
+
+798
+00:39:32,500 --> 00:39:36,060
+until we can maximize the
+loss function we defined.
+
+799
+00:39:36,060 --> 00:39:38,200
+So we forward propagated
+the random image,
+
+800
+00:39:38,200 --> 00:39:41,860
+we compute the objective, we
+back propagate all the way
+
+801
+00:39:41,860 --> 00:39:44,300
+back to the pixels, and
+then we update the pixels
+
+802
+00:39:44,300 --> 00:39:46,060
+to maximize that objective.
+
+803
+00:39:46,060 --> 00:39:50,660
+And we do that many times
+until we end up with something
+
+804
+00:39:50,660 --> 00:39:52,700
+that might look like this.
+
+805
+00:39:52,700 --> 00:39:58,460
+So let's say we take the
+score of a Dalmatian.
+
+806
+00:39:58,460 --> 00:40:06,740
+Here researchers, and this
+is work from Jason Yosinski,
+
+807
+00:40:06,740 --> 00:40:11,480
+shows that you can
+start seeing the model.
+
+808
+00:40:11,480 --> 00:40:13,400
+If you ask the model
+what is a Dalmatian,
+
+809
+00:40:13,400 --> 00:40:16,820
+it will tell you it's
+something with black dots
+
+810
+00:40:16,820 --> 00:40:20,260
+on a white background, roughly.
+
+811
+00:40:20,260 --> 00:40:22,220
+So actually it might
+not understand fully
+
+812
+00:40:22,220 --> 00:40:26,180
+what the dog is, but that's
+what it thinks it is.
+
+813
+00:40:26,180 --> 00:40:29,580
+So we just unpacked it a
+little bit and query that.
+
+814
+00:40:29,580 --> 00:40:34,080
+Another interesting one is
+if you look at the goose,
+
+815
+00:40:34,080 --> 00:40:41,140
+so here, the top left
+label goose for the model
+
+816
+00:40:41,140 --> 00:40:44,007
+is many of them.
+
+817
+00:40:44,007 --> 00:40:44,840
+What does that mean?
+
+818
+00:40:44,840 --> 00:40:48,380
+It means probably the model
+has seen a bunch of geese
+
+819
+00:40:48,380 --> 00:40:52,350
+all the time together and
+has rarely seen a single one.
+
+820
+00:40:52,350 --> 00:40:56,070
+And maybe the labeled data
+was labeling that as goose
+
+821
+00:40:56,070 --> 00:40:57,237
+when it was geese.
+
+822
+00:40:57,237 --> 00:40:59,070
+And so the model actually
+doesn't understand
+
+823
+00:40:59,070 --> 00:41:00,130
+that it's a single one.
+
+824
+00:41:00,130 --> 00:41:03,750
+It thinks that all of
+them are the label.
+
+825
+00:41:03,750 --> 00:41:06,830
+Does that make sense?
+
+826
+00:41:06,830 --> 00:41:08,430
+OK.
+
+827
+00:41:08,430 --> 00:41:08,930
+Super.
+
+828
+00:41:08,930 --> 00:41:10,850
+So that's called class
+model visualization.
+
+829
+00:41:10,850 --> 00:41:13,028
+You can actually-- oh,
+sorry, I wasn't showing
+
+830
+00:41:13,028 --> 00:41:14,070
+what I was talking about.
+
+831
+00:41:14,070 --> 00:41:14,950
+No, I was showing.
+
+832
+00:41:18,450 --> 00:41:20,590
+The way to improve
+those visualization
+
+833
+00:41:20,590 --> 00:41:22,970
+is just to change some of
+the regularization methods.
+
+834
+00:41:22,970 --> 00:41:26,590
+So the researchers have
+shown that you can actually
+
+835
+00:41:26,590 --> 00:41:29,310
+add more color by regularizing
+better so it looks better
+
+836
+00:41:29,310 --> 00:41:30,310
+to the human eye.
+
+837
+00:41:30,310 --> 00:41:32,350
+And then it becomes
+easier to query
+
+838
+00:41:32,350 --> 00:41:34,110
+the model for a
+variety of classes just
+
+839
+00:41:34,110 --> 00:41:37,790
+to make sure that it
+understood those classes.
+
+840
+00:41:37,790 --> 00:41:42,830
+And so same with flamingos,
+actually, the label flamingo
+
+841
+00:41:42,830 --> 00:41:46,590
+to the model feels
+like many flamingos,
+
+842
+00:41:46,590 --> 00:41:48,130
+just something you can observe.
+
+843
+00:41:51,990 --> 00:41:55,290
+Any questions on class
+model visualization?
+
+844
+00:41:55,290 --> 00:42:01,630
+Nothing's super new, just
+another tool in your kit.
+
+845
+00:42:01,630 --> 00:42:05,950
+It turns out you can apply
+the same type of method
+
+846
+00:42:05,950 --> 00:42:08,050
+as class model visualization.
+
+847
+00:42:08,050 --> 00:42:11,270
+But instead of doing
+it at the class level,
+
+848
+00:42:11,270 --> 00:42:15,658
+you do it in an
+intermediary activation.
+
+849
+00:42:15,658 --> 00:42:17,450
+So you could actually
+do the same exercise,
+
+850
+00:42:17,450 --> 00:42:19,910
+sort of what you
+were saying earlier
+
+851
+00:42:19,910 --> 00:42:21,950
+with the masking
+of the later layer
+
+852
+00:42:21,950 --> 00:42:23,730
+and just looking
+inside the network.
+
+853
+00:42:23,730 --> 00:42:26,470
+You could pick an
+activation in the network,
+
+854
+00:42:26,470 --> 00:42:29,230
+create an objective function
+with a regularization
+
+855
+00:42:29,230 --> 00:42:32,590
+and say, hey, show
+me the input picture
+
+856
+00:42:32,590 --> 00:42:35,390
+that maximizes this activation.
+
+857
+00:42:35,390 --> 00:42:41,910
+And that should tell you what
+is the input that maximizes
+
+858
+00:42:41,910 --> 00:42:44,170
+activation the most.
+
+859
+00:42:47,350 --> 00:42:50,730
+So that's class
+model visualization
+
+860
+00:42:50,730 --> 00:42:53,150
+which can also be applied
+with gradient ascent
+
+861
+00:42:53,150 --> 00:42:56,030
+anywhere inside the
+network at any neuron.
+
+862
+00:42:56,030 --> 00:42:59,630
+And that already gives
+you some of a method
+
+863
+00:42:59,630 --> 00:43:01,530
+to look at the neuron
+level and say, hey,
+
+864
+00:43:01,530 --> 00:43:04,128
+what's the input that
+maximizes the fake input
+
+865
+00:43:04,128 --> 00:43:05,670
+that theoretically
+you could generate
+
+866
+00:43:05,670 --> 00:43:07,650
+that maximizes that activation.
+
+867
+00:43:10,310 --> 00:43:15,270
+The next method is actually
+the most commonly used today
+
+868
+00:43:15,270 --> 00:43:18,310
+because it's so
+simple and intuitive.
+
+869
+00:43:18,310 --> 00:43:20,150
+It's a data set search.
+
+870
+00:43:20,150 --> 00:43:24,510
+So what you could actually
+do is to pick a filter.
+
+871
+00:43:24,510 --> 00:43:29,550
+You just pick one filter, you
+pick its feature map among--
+
+872
+00:43:29,550 --> 00:43:32,390
+I guess, you pick
+one feature map
+
+873
+00:43:32,390 --> 00:43:36,830
+at some point in the network,
+such as at after this max
+
+874
+00:43:36,830 --> 00:43:38,070
+pooling layer.
+
+875
+00:43:38,070 --> 00:43:42,990
+And so let's say you have 256
+filters in that convolution
+
+876
+00:43:42,990 --> 00:43:43,490
+layer.
+
+877
+00:43:43,490 --> 00:43:49,640
+So you have 256 feature
+maps of size 5 by 5.
+
+878
+00:43:49,640 --> 00:43:54,560
+And you find across
+all your data,
+
+879
+00:43:54,560 --> 00:43:58,320
+your validation set
+the top five image
+
+880
+00:43:58,320 --> 00:44:03,400
+that maximize this feature map.
+
+881
+00:44:03,400 --> 00:44:06,600
+So you just track the
+activations in that feature map.
+
+882
+00:44:06,600 --> 00:44:10,900
+You find the highest activation
+across all your data,
+
+883
+00:44:10,900 --> 00:44:13,300
+and you find the
+top five images.
+
+884
+00:44:13,300 --> 00:44:14,360
+And you can do that.
+
+885
+00:44:14,360 --> 00:44:19,160
+Again, you would say, this seems
+that the filter that produced
+
+886
+00:44:19,160 --> 00:44:22,360
+that feature map has
+learned to detect shirts,
+
+887
+00:44:22,360 --> 00:44:25,160
+because if you find the top
+five images that activated
+
+888
+00:44:25,160 --> 00:44:28,080
+that feature map the most,
+that filter the most,
+
+889
+00:44:28,080 --> 00:44:29,740
+it's all images of shirts.
+
+890
+00:44:32,560 --> 00:44:35,060
+If you were to find something
+like this, you would say.
+
+891
+00:44:35,060 --> 00:44:38,320
+It seems that the filter
+has learned to detect edges.
+
+892
+00:44:38,320 --> 00:44:41,880
+And you could do that
+across every feature map
+
+893
+00:44:41,880 --> 00:44:43,460
+to interpret your filters.
+
+894
+00:44:48,080 --> 00:44:53,080
+Simple data set
+search that can allow
+
+895
+00:44:53,080 --> 00:44:58,600
+you to interpret if a filter
+is reacting to something
+
+896
+00:44:58,600 --> 00:45:01,160
+meaningful.
+
+897
+00:45:01,160 --> 00:45:03,120
+So if you look at
+these pictures that I
+
+898
+00:45:03,120 --> 00:45:07,440
+printed at the bottom of the
+slide, they're all cropped.
+
+899
+00:45:07,440 --> 00:45:08,900
+So why are they cropped?
+
+900
+00:45:12,920 --> 00:45:15,917
+They don't look like images from
+the data set that the image is
+
+901
+00:45:15,917 --> 00:45:17,000
+probably bigger than that.
+
+902
+00:45:25,848 --> 00:45:28,776
+The body.
+
+903
+00:45:28,776 --> 00:45:30,020
+The what?
+
+904
+00:45:30,020 --> 00:45:31,010
+The body.
+
+905
+00:45:31,010 --> 00:45:39,680
+Like [INAUDIBLE] on
+the bottom, [INAUDIBLE]
+
+906
+00:45:39,680 --> 00:45:41,380
+So we took the input image.
+
+907
+00:45:41,380 --> 00:45:45,960
+We send it through
+the conv ReLU blocks.
+
+908
+00:45:45,960 --> 00:45:49,400
+And then we pick a feature
+map in the fifth block,
+
+909
+00:45:49,400 --> 00:45:52,920
+let's say, what is this
+feature map looking at?
+
+910
+00:45:52,920 --> 00:45:55,640
+Is it looking at the
+whole image or no?
+
+911
+00:45:55,640 --> 00:45:57,160
+Sorry.
+
+912
+00:45:57,160 --> 00:45:58,840
+So we pick a feature map.
+
+913
+00:45:58,840 --> 00:46:01,260
+And in that feature map,
+we find the activation
+
+914
+00:46:01,260 --> 00:46:02,060
+that's the highest.
+
+915
+00:46:02,060 --> 00:46:05,400
+So let's say the activation
+is the row number
+
+916
+00:46:05,400 --> 00:46:10,760
+5, column number 3, if
+you pick that activation
+
+917
+00:46:10,760 --> 00:46:15,760
+does it have access to the
+entire input image or not?
+
+918
+00:46:15,760 --> 00:46:16,740
+Not necessarily.
+
+919
+00:46:16,740 --> 00:46:20,880
+But it is more focused
+on what is actually--
+
+920
+00:46:20,880 --> 00:46:23,960
+it's closer to what it's
+actually predicting.
+
+921
+00:46:23,960 --> 00:46:28,620
+So you're closer to actually
+getting to the right answer.
+
+922
+00:46:28,620 --> 00:46:33,160
+So that's why you're basically
+seeing where the shape
+
+923
+00:46:33,160 --> 00:46:34,640
+itself is.
+
+924
+00:46:34,640 --> 00:46:35,620
+Not necessarily.
+
+925
+00:46:35,620 --> 00:46:36,120
+Yeah.
+
+926
+00:46:36,120 --> 00:46:38,620
+So you don't necessarily have
+access to the entire image.
+
+927
+00:46:38,620 --> 00:46:41,130
+The best way to visualize
+it is that the first layer.
+
+928
+00:46:41,130 --> 00:46:43,810
+Let's say on the first layer,
+you take the input image,
+
+929
+00:46:43,810 --> 00:46:47,010
+you take a filter, and
+you run it through.
+
+930
+00:46:47,010 --> 00:46:50,890
+Well, that activation in the
+feature map of the first layer
+
+931
+00:46:50,890 --> 00:46:54,330
+is only going to see
+what the filter sees.
+
+932
+00:46:54,330 --> 00:46:55,950
+When you go deeper
+in the network,
+
+933
+00:46:55,950 --> 00:47:01,050
+do you see more or less
+on average of the image?
+
+934
+00:47:01,050 --> 00:47:03,410
+A single activation,
+does it have access
+
+935
+00:47:03,410 --> 00:47:05,670
+to more or less
+parts of the image?
+
+936
+00:47:12,530 --> 00:47:13,350
+You're saying more?
+
+937
+00:47:16,290 --> 00:47:17,930
+Yeah, it's more.
+
+938
+00:47:17,930 --> 00:47:18,750
+Let's look at it.
+
+939
+00:47:18,750 --> 00:47:22,890
+So here's a picture 64
+by 64 by 3, let's say.
+
+940
+00:47:22,890 --> 00:47:26,490
+We have a conv
+network, five layers.
+
+941
+00:47:26,490 --> 00:47:31,330
+And after five layers, the
+last conv has 13 filters
+
+942
+00:47:31,330 --> 00:47:33,970
+and leads to a 13 by 13-- sorry.
+
+943
+00:47:33,970 --> 00:47:35,990
+It has 256 filters.
+
+944
+00:47:35,990 --> 00:47:38,550
+That leads to a 13
+by 13 feature maps.
+
+945
+00:47:41,410 --> 00:47:44,130
+If I look at this
+feature map, let's
+
+946
+00:47:44,130 --> 00:47:50,370
+say that's the most activated,
+I trace back to the input space.
+
+947
+00:47:50,370 --> 00:47:54,970
+It will have access to this
+part of the image, let's say.
+
+948
+00:47:54,970 --> 00:47:58,970
+Now if there was
+another conv ReLU block,
+
+949
+00:47:58,970 --> 00:48:00,550
+and I was looking
+at a feature map,
+
+950
+00:48:00,550 --> 00:48:03,770
+it would have even more
+abstraction of multiple portions
+
+951
+00:48:03,770 --> 00:48:04,550
+of these squares.
+
+952
+00:48:04,550 --> 00:48:06,690
+So it would actually
+see slightly more
+
+953
+00:48:06,690 --> 00:48:07,710
+from the input image.
+
+954
+00:48:07,710 --> 00:48:10,010
+Does that make sense?
+
+955
+00:48:10,010 --> 00:48:13,990
+So that's how you
+would think about it.
+
+956
+00:48:13,990 --> 00:48:16,230
+And it makes sense
+because at the end of it,
+
+957
+00:48:16,230 --> 00:48:19,050
+the last output has
+access to the entire image
+
+958
+00:48:19,050 --> 00:48:27,930
+because all these things are
+adding up to the prediction.
+
+959
+00:48:27,930 --> 00:48:31,430
+So the deeper the activation,
+the more it sees from the image.
+
+960
+00:48:31,430 --> 00:48:33,070
+And that's why the
+images were cropped.
+
+961
+00:48:33,070 --> 00:48:35,730
+They were just cropped
+based on tracing back
+
+962
+00:48:35,730 --> 00:48:38,410
+what that activation was looking
+at in the input image, which
+
+963
+00:48:38,410 --> 00:48:41,430
+you can do very simply
+computationally.
+
+964
+00:48:44,530 --> 00:48:47,170
+So now we're going to
+look at our last method
+
+965
+00:48:47,170 --> 00:48:51,730
+for convs, which has to do
+with reverse engineering conv.
+
+966
+00:48:51,730 --> 00:48:55,490
+And then we'll move to
+the frontier models.
+
+967
+00:48:55,490 --> 00:49:01,050
+So remember this slide from
+when we introduced Generative
+
+968
+00:49:01,050 --> 00:49:04,290
+Adversarial networks, GANs.
+
+969
+00:49:04,290 --> 00:49:08,510
+I didn't talk too much about
+the generator architecture.
+
+970
+00:49:08,510 --> 00:49:10,470
+I just said it was
+a neural network.
+
+971
+00:49:10,470 --> 00:49:12,930
+But I did mention
+that something's
+
+972
+00:49:12,930 --> 00:49:16,650
+weird about that network, which
+is that the input is way smaller
+
+973
+00:49:16,650 --> 00:49:18,010
+than its output.
+
+974
+00:49:18,010 --> 00:49:19,770
+The input is a vector z.
+
+975
+00:49:19,770 --> 00:49:24,330
+The output is an image
+of more dimensions.
+
+976
+00:49:24,330 --> 00:49:27,970
+It is very common that such
+a network needs to upsample
+
+977
+00:49:27,970 --> 00:49:31,312
+and thus would
+use deconvolution.
+
+978
+00:49:31,312 --> 00:49:32,770
+Sometimes in the
+literature, you're
+
+979
+00:49:32,770 --> 00:49:35,980
+going to see dimensions
+of deconvolutions
+
+980
+00:49:35,980 --> 00:49:40,460
+as an upsampling network
+where the input is
+
+981
+00:49:40,460 --> 00:49:43,060
+smaller than the output.
+
+982
+00:49:43,060 --> 00:49:45,800
+Sometimes those are called
+transposed convolutions,
+
+983
+00:49:45,800 --> 00:49:49,420
+but we're going
+to talk about why.
+
+984
+00:49:49,420 --> 00:49:52,980
+Another example where you
+might run into upsampling
+
+985
+00:49:52,980 --> 00:49:55,940
+is when you have an
+encoder/decoder type networks
+
+986
+00:49:55,940 --> 00:49:57,600
+such as for segmentation.
+
+987
+00:49:57,600 --> 00:50:02,860
+So let's say you're given an
+image of a cellular set of cells
+
+988
+00:50:02,860 --> 00:50:06,020
+like this, and then you
+want to label segments
+
+989
+00:50:06,020 --> 00:50:07,860
+the pixels that
+belong to a cell just
+
+990
+00:50:07,860 --> 00:50:09,940
+to find the different cells.
+
+991
+00:50:09,940 --> 00:50:13,460
+Typically, you would use a set
+of convolutions that reduces
+
+992
+00:50:13,460 --> 00:50:16,540
+the volume in height and width.
+
+993
+00:50:16,540 --> 00:50:21,860
+And then you'll get information
+encoded in a dense format
+
+994
+00:50:21,860 --> 00:50:24,300
+that you will then upsample
+because your output should
+
+995
+00:50:24,300 --> 00:50:27,200
+be of the size of the input
+minus the number of channels.
+
+996
+00:50:27,200 --> 00:50:32,580
+But at least every pixel
+should have its own class.
+
+997
+00:50:32,580 --> 00:50:35,940
+And so typically that would
+be a set of convolutions
+
+998
+00:50:35,940 --> 00:50:38,460
+followed by deconvolutions.
+
+999
+00:50:38,460 --> 00:50:40,800
+So you downsample, you upsample.
+
+1000
+00:50:43,900 --> 00:50:45,720
+Why am I talking
+about deconvolutions?
+
+1001
+00:50:45,720 --> 00:50:51,500
+Because we're going to try to
+reverse-engineer conv networks
+
+1002
+00:50:51,500 --> 00:50:56,660
+by adding a
+deconvolutional module that
+
+1003
+00:50:56,660 --> 00:51:00,620
+will take a specific activation
+and will reverse-engineer
+
+1004
+00:51:00,620 --> 00:51:07,940
+the trace to verify what was the
+reason this activation was high.
+
+1005
+00:51:07,940 --> 00:51:10,480
+This idea is key
+not only for convs
+
+1006
+00:51:10,480 --> 00:51:13,300
+but for any network you'll
+think about in the future
+
+1007
+00:51:13,300 --> 00:51:17,100
+when you work on it if you want
+to actually reverse-engineer
+
+1008
+00:51:17,100 --> 00:51:20,660
+the reason a specific
+neuron has been active.
+
+1009
+00:51:20,660 --> 00:51:24,920
+So let's take the example
+of a 1D convolution.
+
+1010
+00:51:24,920 --> 00:51:28,300
+This is the most
+basic example just
+
+1011
+00:51:28,300 --> 00:51:31,580
+for the sake of
+understanding the math.
+
+1012
+00:51:31,580 --> 00:51:36,540
+And I give you an
+input x, which has
+
+1013
+00:51:36,540 --> 00:51:38,880
+some padding with
+two zeros at the top,
+
+1014
+00:51:38,880 --> 00:51:43,040
+two zeros at the bottom, and
+then x1 through x8 values.
+
+1015
+00:51:43,040 --> 00:51:46,360
+And I send that input
+to a 1D convolution,
+
+1016
+00:51:46,360 --> 00:51:52,100
+which has one single filter of
+size 4 with a stride of two.
+
+1017
+00:51:52,100 --> 00:51:54,640
+What's the size of my output y?
+
+1018
+00:52:01,660 --> 00:52:02,840
+Remember the formula.
+
+1019
+00:52:08,500 --> 00:52:09,500
+What?
+
+1020
+00:52:09,500 --> 00:52:10,000
+Five.
+
+1021
+00:52:10,000 --> 00:52:11,660
+Correct.
+
+1022
+00:52:11,660 --> 00:52:12,240
+Yes.
+
+1023
+00:52:12,240 --> 00:52:16,300
+I assume you did this.
+
+1024
+00:52:16,300 --> 00:52:27,000
+So you took an x, you applied
+the formula and you floored it.
+
+1025
+00:52:27,000 --> 00:52:30,230
+You didn't forget to add 1.
+
+1026
+00:52:30,230 --> 00:52:32,710
+And then you ended up with 5.
+
+1027
+00:52:32,710 --> 00:52:33,630
+Yeah.
+
+1028
+00:52:33,630 --> 00:52:34,290
+Correct.
+
+1029
+00:52:37,630 --> 00:52:39,870
+Super.
+
+1030
+00:52:39,870 --> 00:52:43,130
+So we have our output of 5.
+
+1031
+00:52:43,130 --> 00:52:48,910
+And let's say we define our
+filter size for w1, w2, w3, w4.
+
+1032
+00:52:48,910 --> 00:52:53,750
+It's actually easy to see
+that the conv1d can be written
+
+1033
+00:52:53,750 --> 00:52:57,750
+as a system of
+equations where y1
+
+1034
+00:52:57,750 --> 00:53:02,590
+equals w1 times 0 plus w2 times
+0, because of the padding,
+
+1035
+00:53:02,590 --> 00:53:08,190
+plus w3 times x1
+plus w4 times x2.
+
+1036
+00:53:08,190 --> 00:53:15,030
+You're just overlaying the
+filter on top of the first four
+
+1037
+00:53:15,030 --> 00:53:20,510
+indices of the inputs, and
+you're doing a dot product.
+
+1038
+00:53:20,510 --> 00:53:22,910
+Same thing with the
+second one, third one,
+
+1039
+00:53:22,910 --> 00:53:24,550
+all the way to the fifth one.
+
+1040
+00:53:24,550 --> 00:53:26,070
+And that's your
+system of equations
+
+1041
+00:53:26,070 --> 00:53:30,310
+that describes this conv1d.
+
+1042
+00:53:30,310 --> 00:53:33,890
+Now, because it's a
+system of equations,
+
+1043
+00:53:33,890 --> 00:53:37,610
+you could actually write it
+as a matrix multiplication.
+
+1044
+00:53:37,610 --> 00:53:42,470
+So you could say the conv1d is
+literally just a weight matrix
+
+1045
+00:53:42,470 --> 00:53:44,750
+that we multiply by the input.
+
+1046
+00:53:44,750 --> 00:53:50,550
+So the inputs and the output
+sizes we know, 5, 1 and 12, 1.
+
+1047
+00:53:50,550 --> 00:53:53,990
+So the weight matrix
+is necessarily
+
+1048
+00:53:53,990 --> 00:53:58,350
+a 5 by 12 weight matrix.
+
+1049
+00:53:58,350 --> 00:54:04,550
+So we just rewrote the conv1d
+as a single weight matrix
+
+1050
+00:54:04,550 --> 00:54:08,510
+that you multiply by the
+input, you get the output.
+
+1051
+00:54:08,510 --> 00:54:13,450
+If you were to draw this matrix,
+this is what it would look like.
+
+1052
+00:54:13,450 --> 00:54:16,510
+So it would be a
+matrix with values
+
+1053
+00:54:16,510 --> 00:54:20,210
+all along the diagonal
+and the rest are zeros.
+
+1054
+00:54:27,510 --> 00:54:29,110
+So that's our conclusion.
+
+1055
+00:54:29,110 --> 00:54:34,670
+Conv1d can be rewritten as a
+matrix vector multiplication.
+
+1056
+00:54:34,670 --> 00:54:35,690
+Everybody follows?
+
+1057
+00:54:42,230 --> 00:54:45,270
+So if you can write it as
+a matrix multiplication,
+
+1058
+00:54:45,270 --> 00:54:48,310
+remember we're talking
+about reverse engineering,
+
+1059
+00:54:48,310 --> 00:54:53,890
+then I could say
+deconv is possible.
+
+1060
+00:54:53,890 --> 00:54:56,130
+It's possible to
+reverse-engineer that.
+
+1061
+00:54:56,130 --> 00:55:00,150
+And in fact, I'm going to make
+a very big assumption that
+
+1062
+00:55:00,150 --> 00:55:01,472
+is not always true.
+
+1063
+00:55:01,472 --> 00:55:03,430
+Sometimes it's true, but
+for practical reasons,
+
+1064
+00:55:03,430 --> 00:55:04,550
+we're in deep learning.
+
+1065
+00:55:04,550 --> 00:55:06,590
+It's an engineering field.
+
+1066
+00:55:06,590 --> 00:55:10,710
+We're going to assume
+that W is invertible.
+
+1067
+00:55:10,710 --> 00:55:12,790
+And so you can find
+a matrix H that
+
+1068
+00:55:12,790 --> 00:55:16,990
+is equal to the
+inverse of W such
+
+1069
+00:55:16,990 --> 00:55:22,310
+that x equals Hy so that
+you're able to reverse-engineer
+
+1070
+00:55:22,310 --> 00:55:23,840
+the signal.
+
+1071
+00:55:23,840 --> 00:55:28,160
+I'm going to make a second
+assumption in the sizes I
+
+1072
+00:55:28,160 --> 00:55:31,840
+printed, which is even
+bigger, is that W is not
+
+1073
+00:55:31,840 --> 00:55:34,180
+only invertible,
+it's also orthogonal,
+
+1074
+00:55:34,180 --> 00:55:40,640
+meaning that its inverse
+is its transpose.
+
+1075
+00:55:40,640 --> 00:55:43,180
+It happens that
+it's sometimes true.
+
+1076
+00:55:43,180 --> 00:55:46,020
+And in fact, if you think
+about an edge detector.
+
+1077
+00:55:46,020 --> 00:55:50,300
+So let's say our filter
+is minus 1, 0, 0, 0, 1.
+
+1078
+00:55:50,300 --> 00:55:52,500
+It's an edge detector.
+
+1079
+00:55:52,500 --> 00:55:54,180
+So I have one too many zeros.
+
+1080
+00:55:54,180 --> 00:55:56,440
+But it's an edge detector.
+
+1081
+00:55:56,440 --> 00:56:02,160
+And it's actually
+invertible, and its inverse
+
+1082
+00:56:02,160 --> 00:56:03,580
+is its transpose.
+
+1083
+00:56:06,120 --> 00:56:09,800
+And so that simplifies
+our reverse engineering
+
+1084
+00:56:09,800 --> 00:56:12,680
+because we have a conv1d.
+
+1085
+00:56:12,680 --> 00:56:15,560
+And we know that we can
+write it as a matrix vector
+
+1086
+00:56:15,560 --> 00:56:16,820
+multiplication.
+
+1087
+00:56:16,820 --> 00:56:20,560
+And we can transpose that
+matrix to reverse it.
+
+1088
+00:56:20,560 --> 00:56:23,440
+And maybe it's not
+always true, but it's
+
+1089
+00:56:23,440 --> 00:56:26,440
+true enough for it to
+work in deep learning.
+
+1090
+00:56:26,440 --> 00:56:27,880
+Pretty much.
+
+1091
+00:56:27,880 --> 00:56:31,520
+You're going to do
+that so many times.
+
+1092
+00:56:31,520 --> 00:56:35,640
+That's why in the literature,
+oftentimes deconvolutions are
+
+1093
+00:56:35,640 --> 00:56:39,440
+called transpose convolutions.
+
+1094
+00:56:39,440 --> 00:56:41,100
+I give you the 1D example.
+
+1095
+00:56:41,100 --> 00:56:42,980
+The 2D example is similar.
+
+1096
+00:56:42,980 --> 00:56:44,680
+It's just more complicated.
+
+1097
+00:56:44,680 --> 00:56:50,880
+There's more math, things
+mix up, but same idea.
+
+1098
+00:56:50,880 --> 00:56:54,240
+Now, there is a trick
+that makes it simpler
+
+1099
+00:56:54,240 --> 00:56:58,480
+to code the deconvolution.
+
+1100
+00:56:58,480 --> 00:57:07,320
+And to see that trick, I just
+drew x equals W transpose y.
+
+1101
+00:57:07,320 --> 00:57:10,740
+So you have your x, which
+is a vector of size 12,
+
+1102
+00:57:10,740 --> 00:57:14,880
+although there's two padding
+at the top or at the bottom.
+
+1103
+00:57:14,880 --> 00:57:19,720
+And then I transpose the W
+matrix that I was showing you.
+
+1104
+00:57:19,720 --> 00:57:25,360
+And then I multiply that
+by my vector y of size 5.
+
+1105
+00:57:25,360 --> 00:57:31,120
+This is actually a transpose
+convolution with stride 2 is
+
+1106
+00:57:31,120 --> 00:57:34,000
+equivalent to something
+slightly different,
+
+1107
+00:57:34,000 --> 00:57:38,120
+which is a sub pixel
+convolution of stride 1/2.
+
+1108
+00:57:38,120 --> 00:57:41,840
+It's a mathematical trick.
+
+1109
+00:57:41,840 --> 00:57:44,280
+You can do it at
+home, but you would
+
+1110
+00:57:44,280 --> 00:57:48,340
+see that these two
+operations are equivalent,
+
+1111
+00:57:48,340 --> 00:57:52,220
+meaning you can actually
+flip the filter.
+
+1112
+00:57:52,220 --> 00:57:55,400
+So you see in the left
+side of the screen,
+
+1113
+00:57:55,400 --> 00:57:56,900
+the filters are flipped.
+
+1114
+00:57:56,900 --> 00:58:00,720
+So if you look at the
+first row of my matrix,
+
+1115
+00:58:00,720 --> 00:58:02,540
+it's not w1 through w4.
+
+1116
+00:58:02,540 --> 00:58:05,280
+It's w4 through w1.
+
+1117
+00:58:05,280 --> 00:58:09,600
+So I flipped the filter,
+and I scanned it all the way
+
+1118
+00:58:09,600 --> 00:58:12,360
+through the diagonal.
+
+1119
+00:58:12,360 --> 00:58:15,840
+I also used another trick,
+which is my y vector.
+
+1120
+00:58:15,840 --> 00:58:20,330
+I inserted zeros rows
+in between the values.
+
+1121
+00:58:20,330 --> 00:58:22,090
+It's called sub-pixel.
+
+1122
+00:58:22,090 --> 00:58:26,330
+So I inserted zeros, and
+I also added some padding.
+
+1123
+00:58:26,330 --> 00:58:31,710
+So a couple of tricks but no
+need to remember it by heart.
+
+1124
+00:58:31,710 --> 00:58:33,450
+If there's anything
+you can remember,
+
+1125
+00:58:33,450 --> 00:58:36,290
+it's that implementing
+a deconvolution
+
+1126
+00:58:36,290 --> 00:58:38,810
+in the sub-pixel
+version I was describing
+
+1127
+00:58:38,810 --> 00:58:40,630
+is similar to a convolution.
+
+1128
+00:58:40,630 --> 00:58:44,370
+But what you do is you create a
+sub-pixel version of the input
+
+1129
+00:58:44,370 --> 00:58:48,610
+by adding zeros in between
+the values and padding it.
+
+1130
+00:58:48,610 --> 00:58:54,650
+You flip the filters, and
+you divide the stride by 2.
+
+1131
+00:58:54,650 --> 00:58:56,190
+And that's what a
+deconvolution is.
+
+1132
+00:58:56,190 --> 00:59:00,450
+So if you have a
+convolutional neural network
+
+1133
+00:59:00,450 --> 00:59:04,730
+and you want to reverse-engineer
+it, you take the filters.
+
+1134
+00:59:04,730 --> 00:59:06,650
+You flip them.
+
+1135
+00:59:06,650 --> 00:59:10,530
+You create a sub-pixel
+version of the input.
+
+1136
+00:59:10,530 --> 00:59:13,230
+You divide the stride by
+2, and you run the process.
+
+1137
+00:59:13,230 --> 00:59:16,970
+You will have reversed
+that convolution.
+
+1138
+00:59:16,970 --> 00:59:20,210
+The reason we're doing
+that is because we're just
+
+1139
+00:59:20,210 --> 00:59:22,630
+rewriting the convolution
+as another convolution.
+
+1140
+00:59:22,630 --> 00:59:24,650
+But the hyperparameters
+are different.
+
+1141
+00:59:24,650 --> 00:59:27,890
+But it's easy to code.
+
+1142
+00:59:27,890 --> 00:59:32,570
+You're just reusing the
+same code pretty much.
+
+1143
+00:59:32,570 --> 00:59:35,070
+Anyway, let's get
+back to our example.
+
+1144
+00:59:35,070 --> 00:59:39,850
+Here, we have an image of a dog.
+
+1145
+00:59:39,850 --> 00:59:44,010
+We run it through ConvNet.
+
+1146
+00:59:44,010 --> 00:59:49,730
+And we pick at some point in
+that ConvNet a feature map.
+
+1147
+00:59:49,730 --> 00:59:55,010
+We pick one feature map only
+among the 256 possible feature
+
+1148
+00:59:55,010 --> 00:59:56,610
+maps right here.
+
+1149
+00:59:56,610 --> 01:00:00,810
+And we're going to look at the
+max activation of that feature
+
+1150
+01:00:00,810 --> 01:00:01,310
+map.
+
+1151
+01:00:01,310 --> 01:00:02,550
+So we find the max.
+
+1152
+01:00:02,550 --> 01:00:04,250
+Let's say it's this one.
+
+1153
+01:00:04,250 --> 01:00:07,370
+So row 2, column 3
+is the maximum number
+
+1154
+01:00:07,370 --> 01:00:09,930
+of that feature map.
+
+1155
+01:00:09,930 --> 01:00:11,190
+What does it mean?
+
+1156
+01:00:11,190 --> 01:00:14,050
+It means the filter that
+led to that feature map
+
+1157
+01:00:14,050 --> 01:00:19,010
+when it looked at its input, it
+was maximal in that location.
+
+1158
+01:00:19,010 --> 01:00:22,850
+It maximally activated
+in that location.
+
+1159
+01:00:22,850 --> 01:00:30,670
+We zero out every other
+entries of this matrix.
+
+1160
+01:00:33,370 --> 01:00:35,690
+And then we reverse the network.
+
+1161
+01:00:35,690 --> 01:00:38,290
+So we max-pooled; we unpooled.
+
+1162
+01:00:38,290 --> 01:00:40,310
+We ReLU; we do the reverse.
+
+1163
+01:00:40,310 --> 01:00:41,950
+We do a deconv
+instead of the conv,
+
+1164
+01:00:41,950 --> 01:00:45,850
+which is a transpose
+convolution sub-pixel version,
+
+1165
+01:00:45,850 --> 01:00:49,410
+flip the filter,
+divide the stride by 2.
+
+1166
+01:00:49,410 --> 01:00:50,970
+And we do that how many times?
+
+1167
+01:00:50,970 --> 01:00:53,250
+Three times because
+we had three blocks.
+
+1168
+01:00:53,250 --> 01:00:59,170
+And then we should be able to
+reconstruct what this activation
+
+1169
+01:00:59,170 --> 01:01:01,690
+was maximally activated for.
+
+1170
+01:01:01,690 --> 01:01:03,930
+And we get a cropped
+version as we learned,
+
+1171
+01:01:03,930 --> 01:01:06,730
+the cropped part of the image
+that this activation was
+
+1172
+01:01:06,730 --> 01:01:11,150
+looking at, and exactly the
+pixels that maximized its value.
+
+1173
+01:01:13,820 --> 01:01:15,660
+Does that make sense?
+
+1174
+01:01:15,660 --> 01:01:19,740
+It's pretty complex, but it's
+important to know these methods
+
+1175
+01:01:19,740 --> 01:01:22,820
+because you might run into
+something similar in the future
+
+1176
+01:01:22,820 --> 01:01:27,300
+or be asked to interpret certain
+feature maps, certain activation
+
+1177
+01:01:27,300 --> 01:01:29,860
+maps, et cetera.
+
+1178
+01:01:29,860 --> 01:01:35,100
+So some additional details that
+we'll cover is what is unpooled
+
+1179
+01:01:35,100 --> 01:01:38,100
+and why do we do
+some ReLU in there.
+
+1180
+01:01:38,100 --> 01:01:43,040
+So very simply, let's say I
+take the maxpooling layer.
+
+1181
+01:01:43,040 --> 01:01:48,400
+I maxpool this filter
+size 2 by 2 stride of 2.
+
+1182
+01:01:51,540 --> 01:01:55,480
+If you wanted to unpool
+this, how would you do it?
+
+1183
+01:02:03,820 --> 01:02:07,660
+Our pooling layers,
+maxpooling layers invertible?
+
+1184
+01:02:10,640 --> 01:02:11,140
+No?
+
+1185
+01:02:11,140 --> 01:02:12,520
+Why?
+
+1186
+01:02:21,020 --> 01:02:21,820
+Yeah.
+
+1187
+01:02:21,820 --> 01:02:24,340
+There's no way of knowing
+where the layer came from.
+
+1188
+01:02:24,340 --> 01:02:25,240
+Yeah, exactly.
+
+1189
+01:02:25,240 --> 01:02:29,140
+It's not invertible, because
+if you pick the 6 here
+
+1190
+01:02:29,140 --> 01:02:32,180
+on the top left, you
+can tell that the 6 was
+
+1191
+01:02:32,180 --> 01:02:35,460
+in one of these four, but
+you don't where it was.
+
+1192
+01:02:35,460 --> 01:02:36,473
+So you can't invert.
+
+1193
+01:02:36,473 --> 01:02:38,140
+And it's very important
+to where it was.
+
+1194
+01:02:41,060 --> 01:02:43,700
+So it's not invertible,
+but you could actually
+
+1195
+01:02:43,700 --> 01:02:46,740
+use a trick to
+make it invertible,
+
+1196
+01:02:46,740 --> 01:02:50,420
+which is passing what
+we call switches.
+
+1197
+01:02:50,420 --> 01:02:52,900
+So during the
+forward propagation,
+
+1198
+01:02:52,900 --> 01:02:55,200
+you look at all your maxpooling.
+
+1199
+01:02:55,200 --> 01:02:58,100
+And you remember with the binary
+matrix, so very lightweight
+
+1200
+01:02:58,100 --> 01:03:00,960
+matrix, where the
+pooling happened,
+
+1201
+01:03:00,960 --> 01:03:02,660
+where the maxpooling happened.
+
+1202
+01:03:02,660 --> 01:03:05,100
+And then when you're
+doing the unpooling,
+
+1203
+01:03:05,100 --> 01:03:07,820
+you remember those switches,
+so you keep them in memory,
+
+1204
+01:03:07,820 --> 01:03:09,040
+and you pass them back.
+
+1205
+01:03:09,040 --> 01:03:13,580
+And that should tell you
+where the value came from.
+
+1206
+01:03:13,580 --> 01:03:16,180
+So that's what we
+mean by unpooling.
+
+1207
+01:03:16,180 --> 01:03:18,800
+So I go back to my previous map.
+
+1208
+01:03:18,800 --> 01:03:21,580
+The only thing I need to change
+to be able to reverse-engineer
+
+1209
+01:03:21,580 --> 01:03:25,597
+my network is to pass the
+switches and the filters,
+
+1210
+01:03:25,597 --> 01:03:27,180
+by the way, because
+the deconv is just
+
+1211
+01:03:27,180 --> 01:03:31,460
+the flipped version of the
+filter with sub-pixel and stride
+
+1212
+01:03:31,460 --> 01:03:33,020
+divided by 2.
+
+1213
+01:03:33,020 --> 01:03:35,820
+And so I do that.
+
+1214
+01:03:35,820 --> 01:03:38,820
+So you can see you can literally
+invert your network here
+
+1215
+01:03:38,820 --> 01:03:43,140
+and trace back from one
+activation to the input space.
+
+1216
+01:03:43,140 --> 01:03:44,688
+And then for ReLU
+is a little odd.
+
+1217
+01:03:44,688 --> 01:03:46,980
+I'm not going to spend too
+much time on it because it's
+
+1218
+01:03:46,980 --> 01:03:48,760
+more empirical than nothing.
+
+1219
+01:03:48,760 --> 01:03:52,140
+But ReLU forward is
+essentially zeroing out
+
+1220
+01:03:52,140 --> 01:03:56,140
+every value that is negative
+during the forward pass.
+
+1221
+01:03:56,140 --> 01:03:59,260
+Technically, a ReLU
+backward is impossible
+
+1222
+01:03:59,260 --> 01:04:01,700
+unless you have
+also the switches.
+
+1223
+01:04:01,700 --> 01:04:07,510
+If you have the switches, you
+could actually, pass linearly
+
+1224
+01:04:07,510 --> 01:04:12,110
+back whatever was kept because
+it's the identity function.
+
+1225
+01:04:12,110 --> 01:04:16,790
+But actually that would
+kill your positive signal
+
+1226
+01:04:16,790 --> 01:04:17,370
+coming back.
+
+1227
+01:04:17,370 --> 01:04:20,910
+So instead, you just reuse ReLU.
+
+1228
+01:04:20,910 --> 01:04:23,270
+Basically, you use
+ReLU because you
+
+1229
+01:04:23,270 --> 01:04:25,910
+want to start from
+the activation that
+
+1230
+01:04:25,910 --> 01:04:27,410
+is the highest on
+your feature map
+
+1231
+01:04:27,410 --> 01:04:31,110
+and to keep passing the positive
+signal back to the input space.
+
+1232
+01:04:31,110 --> 01:04:32,790
+Don't worry too much about it.
+
+1233
+01:04:32,790 --> 01:04:35,470
+It's just that ReLU
+is just passed as ReLU
+
+1234
+01:04:35,470 --> 01:04:38,710
+during the reconstruction
+process, not as a proper ReLU
+
+1235
+01:04:38,710 --> 01:04:40,990
+backward.
+
+1236
+01:04:40,990 --> 01:04:41,590
+OK.
+
+1237
+01:04:41,590 --> 01:04:42,630
+So here we go.
+
+1238
+01:04:42,630 --> 01:04:46,230
+We send our dog
+through the network.
+
+1239
+01:04:46,230 --> 01:04:50,010
+We look at a specific
+maxpool output.
+
+1240
+01:04:50,010 --> 01:04:51,610
+We take the feature map.
+
+1241
+01:04:51,610 --> 01:04:54,770
+We find the activation that is
+the highest in that feature map.
+
+1242
+01:04:54,770 --> 01:04:56,470
+We zero out all the rest.
+
+1243
+01:04:56,470 --> 01:04:58,170
+We reverse-engineer our network.
+
+1244
+01:04:58,170 --> 01:05:00,470
+We find the cropped
+part of this dog
+
+1245
+01:05:00,470 --> 01:05:04,990
+with the pixels that led to
+that specific feature map.
+
+1246
+01:05:04,990 --> 01:05:08,430
+We are interpreting the filter
+that led that feature map,
+
+1247
+01:05:08,430 --> 01:05:13,550
+and you can do that
+anywhere across the network.
+
+1248
+01:05:13,550 --> 01:05:15,210
+But of course, if
+you're earlier,
+
+1249
+01:05:15,210 --> 01:05:17,990
+the crop is going
+to be even smaller.
+
+1250
+01:05:17,990 --> 01:05:20,210
+If you're later,
+generally bigger.
+
+1251
+01:05:25,070 --> 01:05:30,750
+So you learned
+deconvs/transpose convs.
+
+1252
+01:05:30,750 --> 01:05:34,150
+Now, let's look at some
+practical visualizations
+
+1253
+01:05:34,150 --> 01:05:37,710
+from Matthew Zeiler
+and Rob Fergus.
+
+1254
+01:05:37,710 --> 01:05:41,370
+These are great researchers in
+the space of visualizations.
+
+1255
+01:05:41,370 --> 01:05:44,750
+They've been making
+so much progress.
+
+1256
+01:05:44,750 --> 01:05:47,750
+So they train the network.
+
+1257
+01:05:47,750 --> 01:05:55,990
+They looked at results on a
+validation set of 50,000 images.
+
+1258
+01:05:55,990 --> 01:05:59,790
+So what you're seeing is the
+first layer and specifically
+
+1259
+01:05:59,790 --> 01:06:01,030
+the patches.
+
+1260
+01:06:01,030 --> 01:06:05,030
+What the patches are, they're
+the top 9 strongest activation
+
+1261
+01:06:05,030 --> 01:06:08,230
+per filter.
+
+1262
+01:06:08,230 --> 01:06:10,510
+So for each filter
+in the first layer,
+
+1263
+01:06:10,510 --> 01:06:14,690
+they look at the top 9
+strongest activation.
+
+1264
+01:06:14,690 --> 01:06:18,530
+And they remember the data
+points that was leading to that.
+
+1265
+01:06:18,530 --> 01:06:21,750
+So that's the data set search
+method that we saw together.
+
+1266
+01:06:21,750 --> 01:06:29,270
+What are the 9 images that
+led to that maximum feature
+
+1267
+01:06:29,270 --> 01:06:31,830
+map activating the most?
+
+1268
+01:06:31,830 --> 01:06:32,650
+Print them.
+
+1269
+01:06:32,650 --> 01:06:34,870
+Those are the patches
+for each filter.
+
+1270
+01:06:34,870 --> 01:06:41,350
+If you do that, you can already
+interpret some of the filters
+
+1271
+01:06:41,350 --> 01:06:43,590
+by seeing that,
+oh, this one reacts
+
+1272
+01:06:43,590 --> 01:06:45,870
+to edges that are
+diagonal, or this one
+
+1273
+01:06:45,870 --> 01:06:50,070
+reacts to edges that are
+straight, for example.
+
+1274
+01:06:50,070 --> 01:06:53,990
+On the bottom-right, we
+actually print the filters raw.
+
+1275
+01:06:53,990 --> 01:06:56,190
+And of course, because
+it's the first layer,
+
+1276
+01:06:56,190 --> 01:06:57,410
+it is interpretable.
+
+1277
+01:06:57,410 --> 01:06:59,730
+So if in fact you
+have an edge detector,
+
+1278
+01:06:59,730 --> 01:07:01,870
+you should see when you
+print that matrix that it
+
+1279
+01:07:01,870 --> 01:07:04,480
+looks like an edge detector.
+
+1280
+01:07:04,480 --> 01:07:08,720
+That doesn't work for
+layers beyond one.
+
+1281
+01:07:08,720 --> 01:07:10,680
+So now let's go a little deeper.
+
+1282
+01:07:10,680 --> 01:07:12,880
+Now, we're going layer 2.
+
+1283
+01:07:12,880 --> 01:07:14,920
+And we're looking
+at the deconvs.
+
+1284
+01:07:14,920 --> 01:07:16,260
+So what are they doing?
+
+1285
+01:07:20,800 --> 01:07:24,720
+They're essentially looking
+at the top 1 strongest
+
+1286
+01:07:24,720 --> 01:07:27,580
+activation per feature
+in the second layer.
+
+1287
+01:07:27,580 --> 01:07:31,120
+So the second layer
+has 256 feature maps.
+
+1288
+01:07:31,120 --> 01:07:34,160
+They're presented here.
+
+1289
+01:07:34,160 --> 01:07:36,240
+You pick one feature map.
+
+1290
+01:07:36,240 --> 01:07:41,400
+You look across all these
+50,000 validation images.
+
+1291
+01:07:41,400 --> 01:07:44,780
+You find the
+maximum feature map.
+
+1292
+01:07:44,780 --> 01:07:46,920
+You take the specific
+portion of that feature
+
+1293
+01:07:46,920 --> 01:07:50,080
+map, the specific entry
+that's maximally activated.
+
+1294
+01:07:50,080 --> 01:07:52,280
+You zero out the rest.
+
+1295
+01:07:52,280 --> 01:07:53,620
+You do your deconv.
+
+1296
+01:07:53,620 --> 01:07:55,480
+You pass the switches,
+blah, blah, blah,
+
+1297
+01:07:55,480 --> 01:07:58,320
+and you get the cropped part
+of the image that represents
+
+1298
+01:07:58,320 --> 01:07:59,780
+why it was activated.
+
+1299
+01:07:59,780 --> 01:08:01,840
+And this is printed
+all over here.
+
+1300
+01:08:01,840 --> 01:08:04,400
+And you can see you can
+start interpreting that
+
+1301
+01:08:04,400 --> 01:08:07,100
+by doing the top 1, or
+you can do the top 9.
+
+1302
+01:08:07,100 --> 01:08:09,280
+And if you actually
+do the top 9,
+
+1303
+01:08:09,280 --> 01:08:14,040
+you would start seeing that
+in fact a certain filter have
+
+1304
+01:08:14,040 --> 01:08:15,600
+very clear purposes.
+
+1305
+01:08:15,600 --> 01:08:17,220
+Some filters detect circles.
+
+1306
+01:08:17,220 --> 01:08:21,979
+Some filters detect odd shapes.
+
+1307
+01:08:26,880 --> 01:08:30,060
+If you keep doing
+that in layer 3,
+
+1308
+01:08:30,060 --> 01:08:33,319
+you would start seeing
+with the deconv method
+
+1309
+01:08:33,319 --> 01:08:36,540
+that the filters are capturing
+more complex information.
+
+1310
+01:08:36,540 --> 01:08:38,840
+Remember, in the first
+lecture, we did together.
+
+1311
+01:08:38,840 --> 01:08:40,979
+I said that the deeper
+you go in the network,
+
+1312
+01:08:40,979 --> 01:08:44,600
+the more the
+information adds up,
+
+1313
+01:08:44,600 --> 01:08:46,779
+and you get more
+complex features later.
+
+1314
+01:08:46,779 --> 01:08:51,200
+This is a proof of
+that, pretty much.
+
+1315
+01:08:51,200 --> 01:08:55,740
+Now if you go to layer 3,
+and you can do all of it.
+
+1316
+01:08:55,740 --> 01:08:58,439
+You can do the top
+9 patches where
+
+1317
+01:08:58,439 --> 01:09:00,810
+if the nine patches
+look very similar,
+
+1318
+01:09:00,810 --> 01:09:05,410
+you can probably safely
+say that this filter was
+
+1319
+01:09:05,410 --> 01:09:09,090
+responsible for this
+type of shape or color
+
+1320
+01:09:09,090 --> 01:09:13,649
+or salient feature.
+
+1321
+01:09:13,649 --> 01:09:18,090
+And then you can do the
+deconv as well, essentially.
+
+1322
+01:09:18,090 --> 01:09:20,770
+Let's watch together
+a very short video
+
+1323
+01:09:20,770 --> 01:09:25,450
+of Jason Yosinski that shows a
+little bit of everything we've
+
+1324
+01:09:25,450 --> 01:09:26,850
+learned together.
+
+1325
+01:09:26,850 --> 01:09:29,090
+In school buses
+and zebras, you can
+
+1326
+01:09:29,090 --> 01:09:31,729
+tell the difference between
+Maltese terriers and Yorkshire
+
+1327
+01:09:31,729 --> 01:09:33,050
+terriers.
+
+1328
+01:09:33,050 --> 01:09:35,790
+We now what it takes to train
+these neural networks well,
+
+1329
+01:09:35,790 --> 01:09:37,957
+but we don't know so much
+about how they're actually
+
+1330
+01:09:37,957 --> 01:09:39,649
+computing their final answers.
+
+1331
+01:09:39,649 --> 01:09:42,609
+We developed this interactive,
+deep visualization toolbox
+
+1332
+01:09:42,609 --> 01:09:44,710
+to shine light into
+these black boxes,
+
+1333
+01:09:44,710 --> 01:09:47,450
+showing what happens
+inside of neural nets.
+
+1334
+01:09:47,450 --> 01:09:49,170
+In the top left corner,
+we show the input
+
+1335
+01:09:49,170 --> 01:09:51,410
+to the network, which
+can be a still image
+
+1336
+01:09:51,410 --> 01:09:53,315
+or video from a webcam.
+
+1337
+01:09:53,315 --> 01:09:54,690
+These black squares
+in the middle
+
+1338
+01:09:54,690 --> 01:09:57,270
+show the activations on a
+single layer of a network,
+
+1339
+01:09:57,270 --> 01:09:59,990
+in this case, the popular deep
+neural network called AlexNet,
+
+1340
+01:09:59,990 --> 01:10:01,592
+running in cafe.
+
+1341
+01:10:01,592 --> 01:10:03,050
+By interacting with
+the network, we
+
+1342
+01:10:03,050 --> 01:10:06,490
+can see what some of
+the neurons are doing.
+
+1343
+01:10:06,490 --> 01:10:09,250
+For example, on this first
+layer, a unit in the center
+
+1344
+01:10:09,250 --> 01:10:13,410
+responds strongly to
+light to dark edges.
+
+1345
+01:10:13,410 --> 01:10:15,690
+Its neighbor, one
+neuron over, responds
+
+1346
+01:10:15,690 --> 01:10:20,230
+to edges in the opposite
+direction, dark to light.
+
+1347
+01:10:20,230 --> 01:10:22,370
+Using optimization,
+we can synthetically
+
+1348
+01:10:22,370 --> 01:10:24,690
+produce images that light
+up each neuron in this layer
+
+1349
+01:10:24,690 --> 01:10:26,792
+to see what each
+neuron is looking for.
+
+1350
+01:10:26,792 --> 01:10:28,250
+We can scroll
+through every layer--
+
+1351
+01:10:28,250 --> 01:10:30,170
+We've seen that method
+class activation.
+
+1352
+01:10:30,170 --> 01:10:34,697
+Including convolution, pooling,
+and normalization layers.
+
+1353
+01:10:34,697 --> 01:10:36,530
+We can switch back and
+forth between showing
+
+1354
+01:10:36,530 --> 01:10:39,490
+the actual activations and
+showing images synthesized
+
+1355
+01:10:39,490 --> 01:10:41,410
+to produce high activation.
+
+1356
+01:10:41,410 --> 01:10:44,370
+This is a class model
+visualization method.
+
+1357
+01:10:44,370 --> 01:10:46,750
+By the time you get to the
+fifth convolutional layer,
+
+1358
+01:10:46,750 --> 01:10:51,410
+the features being computed
+represent abstract concepts.
+
+1359
+01:10:51,410 --> 01:10:54,570
+For example, this neuron
+seems to respond to faces.
+
+1360
+01:10:54,570 --> 01:10:56,170
+We can further
+investigate this neuron
+
+1361
+01:10:56,170 --> 01:10:58,610
+by showing a few different
+types of information.
+
+1362
+01:10:58,610 --> 01:11:00,970
+First, we can artificially
+create optimized images
+
+1363
+01:11:00,970 --> 01:11:02,850
+using new regularization
+techniques that
+
+1364
+01:11:02,850 --> 01:11:04,070
+are described in our paper.
+
+1365
+01:11:04,070 --> 01:11:06,810
+That's the class
+model visualization.
+
+1366
+01:11:06,810 --> 01:11:08,753
+Respond to a face and shoulders.
+
+1367
+01:11:08,753 --> 01:11:10,170
+We can also plot
+the images from--
+
+1368
+01:11:10,170 --> 01:11:12,410
+That's the data set search.
+
+1369
+01:11:12,410 --> 01:11:15,410
+As well pixels from those images
+most responsible for the high
+
+1370
+01:11:15,410 --> 01:11:16,212
+activations.
+
+1371
+01:11:16,212 --> 01:11:17,170
+And that's the deconv--
+
+1372
+01:11:17,170 --> 01:11:19,010
+Deconvolution technique.
+
+1373
+01:11:19,010 --> 01:11:20,650
+This feature responds
+to multiple faces
+
+1374
+01:11:20,650 --> 01:11:22,450
+in different locations.
+
+1375
+01:11:22,450 --> 01:11:25,810
+And by looking at
+the deconv, we can
+
+1376
+01:11:25,810 --> 01:11:28,370
+see that it would respond more
+strongly if we had even darker
+
+1377
+01:11:28,370 --> 01:11:30,130
+eyes and rosier lips.
+
+1378
+01:11:30,130 --> 01:11:31,650
+We can also confirm
+that it cares
+
+1379
+01:11:31,650 --> 01:11:35,970
+about the head and shoulders
+that ignores the arms and torso.
+
+1380
+01:11:35,970 --> 01:11:39,010
+We can even see that it fires
+to some extent for cat faces.
+
+1381
+01:11:39,010 --> 01:11:42,690
+Using backprop or
+deconv, we can see
+
+1382
+01:11:42,690 --> 01:11:44,370
+that this unit
+depends most strongly
+
+1383
+01:11:44,370 --> 01:11:47,170
+on a couple units in the
+previous layer conv4,
+
+1384
+01:11:47,170 --> 01:11:50,450
+and on about a dozen
+or so in conv3.
+
+1385
+01:11:50,450 --> 01:11:53,740
+So because of deconv, you can
+trace back the entire layers
+
+1386
+01:11:53,740 --> 01:11:55,140
+before where--
+
+1387
+01:11:55,140 --> 01:11:56,240
+The top 9 images.
+
+1388
+01:11:56,240 --> 01:11:59,620
+OK, I'm going to leave it to
+you, but you get the idea.
+
+1389
+01:11:59,620 --> 01:12:02,172
+These researchers
+built a toolkit
+
+1390
+01:12:02,172 --> 01:12:04,380
+that essentially reproduces
+some of the methods we've
+
+1391
+01:12:04,380 --> 01:12:06,838
+seen together, although we've
+seen more methods than what's
+
+1392
+01:12:06,838 --> 01:12:07,660
+in the toolkit.
+
+1393
+01:12:07,660 --> 01:12:12,100
+And so your kit is now able
+to answer many questions
+
+1394
+01:12:12,100 --> 01:12:15,140
+about convolution, such,
+hey, what part of the input
+
+1395
+01:12:15,140 --> 01:12:16,800
+is responsible for the output?
+
+1396
+01:12:16,800 --> 01:12:20,340
+We now that we can use occlusion
+sensitivity or class activation
+
+1397
+01:12:20,340 --> 01:12:21,900
+maps.
+
+1398
+01:12:21,900 --> 01:12:25,240
+What is the role of a
+neuron filter layer?
+
+1399
+01:12:25,240 --> 01:12:27,760
+We have many methods that
+can allow us to do that.
+
+1400
+01:12:27,760 --> 01:12:29,500
+Can we check what
+the network focuses
+
+1401
+01:12:29,500 --> 01:12:30,840
+on given the input image?
+
+1402
+01:12:30,840 --> 01:12:32,240
+We have methods to do that.
+
+1403
+01:12:32,240 --> 01:12:35,600
+And how does the neural
+network see our world?
+
+1404
+01:12:35,600 --> 01:12:37,580
+We have the gradient
+ascent class
+
+1405
+01:12:37,580 --> 01:12:42,820
+model visualization method that
+allow us to maximize an input
+
+1406
+01:12:42,820 --> 01:12:45,740
+image with respect-- sorry--
+find the input image that
+
+1407
+01:12:45,740 --> 01:12:48,100
+maximizes a certain activation.
+
+1408
+01:12:48,100 --> 01:12:48,760
+Super.
+
+1409
+01:12:48,760 --> 01:12:51,500
+So that was the first part.
+
+1410
+01:12:51,500 --> 01:12:57,140
+And then we're going to
+move toward frontier ideas.
+
+1411
+01:12:57,140 --> 01:12:59,435
+Any questions on CNNs?
+
+1412
+01:12:59,435 --> 01:13:01,060
+Do you feel like you
+have a better idea
+
+1413
+01:13:01,060 --> 01:13:02,540
+of how to look inside a CNN?
+
+1414
+01:13:07,060 --> 01:13:08,740
+Good.
+
+1415
+01:13:08,740 --> 01:13:17,740
+So let me start by comparing
+CNNs to more modern frontier
+
+1416
+01:13:17,740 --> 01:13:20,340
+networks.
+
+1417
+01:13:20,340 --> 01:13:27,340
+The core distinction is going to
+be that CNNs deal with localized
+
+1418
+01:13:27,340 --> 01:13:28,580
+information.
+
+1419
+01:13:28,580 --> 01:13:33,420
+They visualize edges, textures,
+and shapes when in modern,
+
+1420
+01:13:33,420 --> 01:13:39,300
+call it, LLMs, we visualize
+relationships and meanings
+
+1421
+01:13:39,300 --> 01:13:41,880
+between concepts
+or between tokens.
+
+1422
+01:13:44,500 --> 01:13:50,452
+And this is because transformers
+are based on attention.
+
+1423
+01:13:50,452 --> 01:13:52,660
+And that started with the
+"Attention Is All You Need"
+
+1424
+01:13:52,660 --> 01:13:58,060
+paper, which essentially
+explained why attention on its
+
+1425
+01:13:58,060 --> 01:14:03,060
+own is highly performant and can
+allow us to model very complex
+
+1426
+01:14:03,060 --> 01:14:04,080
+relationships.
+
+1427
+01:14:06,860 --> 01:14:11,060
+By the way, this is just the
+first figure of the "Attention
+
+1428
+01:14:11,060 --> 01:14:13,980
+Is All You Need" paper, which
+you should all be able to read
+
+1429
+01:14:13,980 --> 01:14:17,620
+and understand by
+now in the class.
+
+1430
+01:14:17,620 --> 01:14:20,500
+And transformers
+really represent
+
+1431
+01:14:20,500 --> 01:14:26,500
+language using two very simple
+ideas that are visualizable.
+
+1432
+01:14:26,500 --> 01:14:29,540
+We can interpret them
+to a certain extent.
+
+1433
+01:14:29,540 --> 01:14:33,820
+The first one is the
+attention patterns.
+
+1434
+01:14:33,820 --> 01:14:37,720
+Attention looks at the
+relationship between tokens.
+
+1435
+01:14:37,720 --> 01:14:40,920
+So you look at a specific
+token, which can be a word,
+
+1436
+01:14:40,920 --> 01:14:43,360
+a sub-word or a syllable--
+
+1437
+01:14:43,360 --> 01:14:46,180
+I'm going to simplify
+by saying it's a word--
+
+1438
+01:14:46,180 --> 01:14:50,230
+and its relationship with other
+words in the training set.
+
+1439
+01:14:50,230 --> 01:14:54,910
+And that's the attention that
+the transformer looking at it.
+
+1440
+01:14:54,910 --> 01:14:58,430
+Each attention head
+learns different patterns.
+
+1441
+01:14:58,430 --> 01:15:00,630
+So it can learn things
+like linking pronouns
+
+1442
+01:15:00,630 --> 01:15:04,790
+to nouns or tracking structures
+or enforcing a certain ordering.
+
+1443
+01:15:04,790 --> 01:15:09,270
+And then I really like
+this visualization, which
+
+1444
+01:15:09,270 --> 01:15:13,910
+is from Jesse Vig in 2019.
+
+1445
+01:15:13,910 --> 01:15:16,310
+And this visualization
+essentially
+
+1446
+01:15:16,310 --> 01:15:18,110
+shows you there's a
+very nice blog post
+
+1447
+01:15:18,110 --> 01:15:21,230
+that he wrote with
+a few figures where
+
+1448
+01:15:21,230 --> 01:15:24,990
+you can see he presents
+how attention can
+
+1449
+01:15:24,990 --> 01:15:27,490
+be visualized in simple ways.
+
+1450
+01:15:27,490 --> 01:15:31,190
+What is the connection between a
+fixed token with the surrounding
+
+1451
+01:15:31,190 --> 01:15:35,310
+tokens, let's say.
+
+1452
+01:15:35,310 --> 01:15:39,830
+So this is essentially
+the transformer analog
+
+1453
+01:15:39,830 --> 01:15:45,010
+to the CNN saliency maps that
+we looked at, pretty much.
+
+1454
+01:15:48,390 --> 01:15:51,110
+The other things
+that transformers
+
+1455
+01:15:51,110 --> 01:15:54,590
+or more modern language
+model uses embeddings.
+
+1456
+01:15:54,590 --> 01:15:59,510
+During the pre-training phase,
+you're also learning embeddings.
+
+1457
+01:15:59,510 --> 01:16:02,390
+You are ready to read the
+BERT paper, in fact, now
+
+1458
+01:16:02,390 --> 01:16:05,590
+with the baggage you
+have from the class.
+
+1459
+01:16:05,590 --> 01:16:08,730
+And what's interesting
+about embeddings,
+
+1460
+01:16:08,730 --> 01:16:13,810
+and I printed a picture
+here from Garg in 2021.
+
+1461
+01:16:13,810 --> 01:16:17,190
+I also encourage you
+to see that short blog
+
+1462
+01:16:17,190 --> 01:16:19,990
+posts where he uses a
+visualization method
+
+1463
+01:16:19,990 --> 01:16:20,705
+called t-SNE.
+
+1464
+01:16:20,705 --> 01:16:22,330
+It's a dimensionality
+reduction method.
+
+1465
+01:16:22,330 --> 01:16:24,130
+We're not going to
+present it in the class,
+
+1466
+01:16:24,130 --> 01:16:28,370
+but it's taught actually a
+lot in biotech and health.
+
+1467
+01:16:28,370 --> 01:16:31,550
+It's used very extensively
+for those of you who work
+
+1468
+01:16:31,550 --> 01:16:34,470
+with the Stanford Hospital.
+
+1469
+01:16:34,470 --> 01:16:36,890
+And it allows you to
+visualize embeddings.
+
+1470
+01:16:36,890 --> 01:16:39,790
+And embeddings are
+how the language model
+
+1471
+01:16:39,790 --> 01:16:40,810
+perceives our words.
+
+1472
+01:16:40,810 --> 01:16:43,910
+So you would expect
+tokens that should
+
+1473
+01:16:43,910 --> 01:16:45,870
+have similar semantic
+meanings to be
+
+1474
+01:16:45,870 --> 01:16:47,870
+next to each other
+in that space,
+
+1475
+01:16:47,870 --> 01:16:50,130
+or tokens that have nothing
+to do with each other
+
+1476
+01:16:50,130 --> 01:16:52,510
+to be far away from
+each other in distance.
+
+1477
+01:16:52,510 --> 01:16:55,510
+And that can be a
+way to sanity check
+
+1478
+01:16:55,510 --> 01:16:57,270
+that your model
+actually is learning
+
+1479
+01:16:57,270 --> 01:17:01,310
+meaningful representations.
+
+1480
+01:17:01,310 --> 01:17:04,510
+So together attention
+and embeddings
+
+1481
+01:17:04,510 --> 01:17:07,590
+are what let large language
+models track relationship
+
+1482
+01:17:07,590 --> 01:17:08,670
+and meanings.
+
+1483
+01:17:08,670 --> 01:17:12,870
+And you can visualize
+your embeddings
+
+1484
+01:17:12,870 --> 01:17:14,490
+with dimensionality
+reduction tool.
+
+1485
+01:17:14,490 --> 01:17:19,310
+You can even visualize
+attention relationships as well.
+
+1486
+01:17:19,310 --> 01:17:22,510
+Unfortunately, the
+modern transformers
+
+1487
+01:17:22,510 --> 01:17:26,510
+are so complicated that
+even the cutting edge
+
+1488
+01:17:26,510 --> 01:17:30,190
+research is only
+able to interpret
+
+1489
+01:17:30,190 --> 01:17:37,070
+those relationships with two
+layer transformers, pretty much.
+
+1490
+01:17:37,070 --> 01:17:40,090
+The best you find out there
+is probably Anthropic's work,
+
+1491
+01:17:40,090 --> 01:17:41,835
+so I linked two papers.
+
+1492
+01:17:41,835 --> 01:17:43,960
+The first one is called
+the "Mathematical Framework
+
+1493
+01:17:43,960 --> 01:17:48,160
+for Transformer Circuits", which
+is essentially explaining how
+
+1494
+01:17:48,160 --> 01:17:50,920
+the different components within
+a transformer interact with each
+
+1495
+01:17:50,920 --> 01:17:54,060
+other, and they introduce
+the concept of a circuit.
+
+1496
+01:17:54,060 --> 01:17:58,000
+And then the second one is a
+follow up to that paper called
+
+1497
+01:17:58,000 --> 01:18:00,480
+"In-Context Learning
+With Induction Heads".
+
+1498
+01:18:00,480 --> 01:18:02,540
+Induction heads are
+probably the best tool
+
+1499
+01:18:02,540 --> 01:18:06,120
+we have to visualize what's
+happening inside a transformer.
+
+1500
+01:18:06,120 --> 01:18:07,380
+It's pretty complex.
+
+1501
+01:18:07,380 --> 01:18:09,840
+You should be able to
+understand it by now,
+
+1502
+01:18:09,840 --> 01:18:13,660
+but you'd have to spend quite
+some time to go deeper into it.
+
+1503
+01:18:13,660 --> 01:18:14,770
+I just will link them.
+
+1504
+01:18:14,770 --> 01:18:17,020
+We're not going to talk about
+it for the sake of time.
+
+1505
+01:18:21,440 --> 01:18:24,440
+Let's get to some fun stuff.
+
+1506
+01:18:24,440 --> 01:18:27,900
+Training and
+scaling diagnostics.
+
+1507
+01:18:27,900 --> 01:18:32,900
+So how do frontier labs
+check if a model is training?
+
+1508
+01:18:32,900 --> 01:18:35,940
+Well, we've talked about
+it in the first case study.
+
+1509
+01:18:35,940 --> 01:18:39,720
+But one very natural way is
+to look at the loss curves.
+
+1510
+01:18:39,720 --> 01:18:42,960
+You can look at the training
+loss, at and the validation loss
+
+1511
+01:18:42,960 --> 01:18:47,253
+and make sure that they
+follow a smooth trajectory.
+
+1512
+01:18:47,253 --> 01:18:48,920
+And if it's not smooth,
+there's probably
+
+1513
+01:18:48,920 --> 01:18:50,480
+something that went wrong.
+
+1514
+01:18:50,480 --> 01:18:52,200
+You've probably trained
+your own network
+
+1515
+01:18:52,200 --> 01:18:54,560
+where some loss functions
+look very funky.
+
+1516
+01:18:54,560 --> 01:18:56,680
+I remember back in the
+days, there was even blogs
+
+1517
+01:18:56,680 --> 01:19:00,640
+where people would post
+their ugliest loss functions,
+
+1518
+01:19:00,640 --> 01:19:03,680
+and there was a lot on there.
+
+1519
+01:19:03,680 --> 01:19:06,060
+You might find sudden
+jumps on the loss.
+
+1520
+01:19:06,060 --> 01:19:09,360
+That means maybe the batch
+that has been processed
+
+1521
+01:19:09,360 --> 01:19:11,000
+has been corrupted.
+
+1522
+01:19:11,000 --> 01:19:12,720
+Maybe you're doing
+extremely well on it
+
+1523
+01:19:12,720 --> 01:19:16,620
+when you should actually
+not do that well.
+
+1524
+01:19:16,620 --> 01:19:19,120
+And it might raise a flag.
+
+1525
+01:19:19,120 --> 01:19:21,900
+You might find bugs in
+your code because of that.
+
+1526
+01:19:21,900 --> 01:19:24,260
+You might find gradients
+that are exploding,
+
+1527
+01:19:24,260 --> 01:19:26,400
+gradients that are vanishing.
+
+1528
+01:19:26,400 --> 01:19:30,600
+All of that you could visualize
+at the loss function level.
+
+1529
+01:19:30,600 --> 01:19:34,720
+Now, note that loss functions
+can be run at a global level
+
+1530
+01:19:34,720 --> 01:19:38,180
+or on a specific
+subset of your data.
+
+1531
+01:19:38,180 --> 01:19:41,600
+We're going to talk about
+it in data diagnostics.
+
+1532
+01:19:41,600 --> 01:19:44,640
+The other things that are
+interesting to track, also
+
+1533
+01:19:44,640 --> 01:19:48,840
+sometimes referred to in
+the community as a training
+
+1534
+01:19:48,840 --> 01:19:54,560
+telemetry, is to watch and
+track your gradient norms,
+
+1535
+01:19:54,560 --> 01:19:57,360
+look at your learning
+rate schedule,
+
+1536
+01:19:57,360 --> 01:20:00,960
+or even look at hardware
+efficiency metrics
+
+1537
+01:20:00,960 --> 01:20:04,360
+to feel if you've underutilized
+compute, which we talked about
+
+1538
+01:20:04,360 --> 01:20:06,720
+again in the first part.
+
+1539
+01:20:06,720 --> 01:20:10,420
+So imagine that if you're
+working at a major frontier lab,
+
+1540
+01:20:10,420 --> 01:20:13,960
+you probably have a dashboard
+that tracks your different loss
+
+1541
+01:20:13,960 --> 01:20:17,860
+function for different subsets
+of the data, your checkpoints,
+
+1542
+01:20:17,860 --> 01:20:18,820
+all of that.
+
+1543
+01:20:18,820 --> 01:20:20,780
+You would have all of that.
+
+1544
+01:20:20,780 --> 01:20:22,880
+Unfortunately, very
+few of these are
+
+1545
+01:20:22,880 --> 01:20:26,640
+published because they're IP.
+
+1546
+01:20:26,640 --> 01:20:29,120
+They don't want to
+give it out because it
+
+1547
+01:20:29,120 --> 01:20:32,263
+will leak essential information
+about their architecture,
+
+1548
+01:20:32,263 --> 01:20:34,680
+about what's going well, what's
+not going well, et cetera.
+
+1549
+01:20:34,680 --> 01:20:39,090
+And that's why you find very
+few information on these.
+
+1550
+01:20:39,090 --> 01:20:42,730
+The one thing that you do
+find some charts on that are
+
+1551
+01:20:42,730 --> 01:20:44,690
+really helpful is scaling laws.
+
+1552
+01:20:44,690 --> 01:20:47,490
+So scaling laws,
+which we've talked
+
+1553
+01:20:47,490 --> 01:20:50,770
+about in a previous
+lecture, is essentially
+
+1554
+01:20:50,770 --> 01:20:54,490
+trying to understand the
+relationship between our model
+
+1555
+01:20:54,490 --> 01:21:00,650
+performance and some other,
+call it, hyperparameters
+
+1556
+01:21:00,650 --> 01:21:03,210
+such as the model
+capacity, so the size
+
+1557
+01:21:03,210 --> 01:21:06,370
+of the model, the amount of
+compute that's being used
+
+1558
+01:21:06,370 --> 01:21:08,730
+or the data set size.
+
+1559
+01:21:08,730 --> 01:21:11,770
+DeepMind has done
+amazing work, I
+
+1560
+01:21:11,770 --> 01:21:17,810
+think it was in 2022, a couple
+of years ago, with Chinchilla.
+
+1561
+01:21:17,810 --> 01:21:22,770
+This chart is borrowed from
+the Chinchilla paper, where
+
+1562
+01:21:22,770 --> 01:21:25,250
+essentially what I want
+you to look at here
+
+1563
+01:21:25,250 --> 01:21:27,370
+is they're comparing
+the Chinchilla
+
+1564
+01:21:27,370 --> 01:21:30,150
+model, the green
+star, to other models,
+
+1565
+01:21:30,150 --> 01:21:35,050
+including GPT-3, which
+came up a little before.
+
+1566
+01:21:35,050 --> 01:21:40,370
+And what they're showing is
+that the scaling law is actually
+
+1567
+01:21:40,370 --> 01:21:43,850
+slightly different than
+what OpenAI thought.
+
+1568
+01:21:43,850 --> 01:21:45,650
+And they analyze GPT-3.
+
+1569
+01:21:45,650 --> 01:21:50,570
+And said GPT-3 is actually
+not performing well enough
+
+1570
+01:21:50,570 --> 01:21:52,430
+for the size that it is at.
+
+1571
+01:21:52,430 --> 01:21:56,770
+And it was found that GPT-3 was
+not trained for long enough.
+
+1572
+01:21:56,770 --> 01:21:59,610
+They essentially explained
+that if you kept training GPT-3
+
+1573
+01:21:59,610 --> 01:22:03,950
+for longer, you would have
+had way better performance.
+
+1574
+01:22:03,950 --> 01:22:05,630
+And it was not about
+the model size.
+
+1575
+01:22:05,630 --> 01:22:08,730
+In fact, the model
+was underutilized.
+
+1576
+01:22:08,730 --> 01:22:10,530
+So they plotted these lines.
+
+1577
+01:22:10,530 --> 01:22:13,490
+So the dotted line
+is what probably we
+
+1578
+01:22:13,490 --> 01:22:18,190
+thought in 2021, the scaling
+law, the power law would be.
+
+1579
+01:22:18,190 --> 01:22:20,810
+And they showed that it's
+actually not exactly that
+
+1580
+01:22:20,810 --> 01:22:26,730
+where essentially the idea is
+they plot the full line here,
+
+1581
+01:22:26,730 --> 01:22:30,090
+and they say this is our
+analysis of the scaling law.
+
+1582
+01:22:30,090 --> 01:22:33,770
+If your star is
+above that line, it's
+
+1583
+01:22:33,770 --> 01:22:39,050
+probably that your model
+should be trained longer.
+
+1584
+01:22:39,050 --> 01:22:41,930
+If it's on the line, it's
+respecting the scaling laws
+
+1585
+01:22:41,930 --> 01:22:43,093
+that they're finding.
+
+1586
+01:22:43,093 --> 01:22:45,510
+And that's what's interesting
+about this Chinchilla paper.
+
+1587
+01:22:45,510 --> 01:22:46,170
+Yeah.
+
+1588
+01:22:46,170 --> 01:22:50,450
+So this is after
+OpenAI GPT model paper?
+
+1589
+01:22:50,450 --> 01:22:53,730
+So that's after the
+GPT-3 paper, Chinchilla
+
+1590
+01:22:53,730 --> 01:22:57,070
+came in 2022 saying you should
+have trained GPT-3 longer.
+
+1591
+01:22:57,070 --> 01:22:58,230
+You would have done better.
+
+1592
+01:22:58,230 --> 01:23:01,290
+And here's Chinchilla,
+a model that
+
+1593
+01:23:01,290 --> 01:23:05,730
+has less parameters than
+GPT-3, so 70 billion
+
+1594
+01:23:05,730 --> 01:23:08,130
+versus 175 billion.
+
+1595
+01:23:08,130 --> 01:23:09,750
+And that is performing better.
+
+1596
+01:23:13,170 --> 01:23:14,570
+Yes.
+
+1597
+01:23:14,570 --> 01:23:20,970
+To go deeper, I also
+pulled a few charts
+
+1598
+01:23:20,970 --> 01:23:26,670
+that show you the power laws
+between the loss function.
+
+1599
+01:23:26,670 --> 01:23:30,210
+So on the vertical axis,
+you have the test loss
+
+1600
+01:23:30,210 --> 01:23:33,780
+that shows essentially your
+performance on the test set.
+
+1601
+01:23:33,780 --> 01:23:36,520
+And then on the horizontal
+axis, on the x-axis,
+
+1602
+01:23:36,520 --> 01:23:39,480
+you have compute data
+set size and parameters.
+
+1603
+01:23:39,480 --> 01:23:41,280
+So how are those scaling
+laws established?
+
+1604
+01:23:41,280 --> 01:23:42,860
+Essentially, they
+fix two of them,
+
+1605
+01:23:42,860 --> 01:23:44,160
+and they vary the third one.
+
+1606
+01:23:44,160 --> 01:23:47,700
+And they see if
+things are respected.
+
+1607
+01:23:47,700 --> 01:23:52,340
+Let's say you're keeping
+the same compute,
+
+1608
+01:23:52,340 --> 01:23:57,500
+the same data set size, but
+you're training a model that
+
+1609
+01:23:57,500 --> 01:24:02,980
+is twice as big in
+logarithms, what
+
+1610
+01:24:02,980 --> 01:24:05,640
+does it tell you about the
+performance, essentially?
+
+1611
+01:24:05,640 --> 01:24:07,397
+Are those scaling
+laws respected?
+
+1612
+01:24:07,397 --> 01:24:08,980
+And so what's nice
+now is that we have
+
+1613
+01:24:08,980 --> 01:24:10,840
+a precedent for scaling laws.
+
+1614
+01:24:10,840 --> 01:24:14,880
+So if you were actually
+training such big models,
+
+1615
+01:24:14,880 --> 01:24:16,820
+you would compare
+to the scaling laws
+
+1616
+01:24:16,820 --> 01:24:19,787
+that are available out there.
+
+1617
+01:24:19,787 --> 01:24:21,620
+Remember, another reason
+these are important
+
+1618
+01:24:21,620 --> 01:24:25,540
+is because models training
+runs are so expensive.
+
+1619
+01:24:25,540 --> 01:24:27,260
+It wasn't shared
+publicly, but we
+
+1620
+01:24:27,260 --> 01:24:33,500
+estimate that GPT-5 is probably
+in the hundreds of millions.
+
+1621
+01:24:33,500 --> 01:24:36,260
+And so you want to know,
+should I train that model
+
+1622
+01:24:36,260 --> 01:24:37,760
+twice longer or not?
+
+1623
+01:24:37,760 --> 01:24:40,260
+Because that's a big
+financial decision.
+
+1624
+01:24:40,260 --> 01:24:42,760
+And the scaling laws
+allow you to determine,
+
+1625
+01:24:42,760 --> 01:24:44,260
+should I invest in
+compute, should I
+
+1626
+01:24:44,260 --> 01:24:48,020
+invest in growing my data
+set, so finding more data,
+
+1627
+01:24:48,020 --> 01:24:50,060
+or should I invest
+in model capacity,
+
+1628
+01:24:50,060 --> 01:24:51,440
+making my model bigger?
+
+1629
+01:25:02,380 --> 01:25:05,440
+Together these forms a health
+dashboard for the model.
+
+1630
+01:25:09,300 --> 01:25:12,780
+So that's training and scaling
+diagnostic, loss functions,
+
+1631
+01:25:12,780 --> 01:25:14,780
+et cetera.
+
+1632
+01:25:14,780 --> 01:25:17,580
+Health dashboard,
+scaling laws, all of that
+
+1633
+01:25:17,580 --> 01:25:18,980
+are things that
+researchers might
+
+1634
+01:25:18,980 --> 01:25:23,140
+use to get a broad sense
+of where to invest more
+
+1635
+01:25:23,140 --> 01:25:25,660
+in terms of improving
+their model.
+
+1636
+01:25:25,660 --> 01:25:27,780
+The other one is
+something we've already
+
+1637
+01:25:27,780 --> 01:25:31,900
+seen to a certain extent,
+is how labs evaluate
+
+1638
+01:25:31,900 --> 01:25:34,340
+model capabilities and safety.
+
+1639
+01:25:34,340 --> 01:25:36,360
+And they might do
+it with benchmarks.
+
+1640
+01:25:36,360 --> 01:25:39,380
+So capability benchmark
+might be evaluating
+
+1641
+01:25:39,380 --> 01:25:43,060
+the model in tasks like
+reasoning or coding
+
+1642
+01:25:43,060 --> 01:25:46,500
+or math or multilingual
+tasks, et cetera.
+
+1643
+01:25:46,500 --> 01:25:49,060
+It might also be
+comparing checkpoints
+
+1644
+01:25:49,060 --> 01:25:53,780
+that help you understand how
+your model is improving over
+
+1645
+01:25:53,780 --> 01:25:56,900
+time depending on what you're
+feeding it, or depending
+
+1646
+01:25:56,900 --> 01:26:01,300
+on some hyperparameters
+that you're tweaking.
+
+1647
+01:26:01,300 --> 01:26:05,000
+And also error clusters.
+
+1648
+01:26:05,000 --> 01:26:08,660
+So just to tell you a little
+more about error clusters,
+
+1649
+01:26:08,660 --> 01:26:12,080
+if you actually use benchmarks
+across a wide variety of tasks,
+
+1650
+01:26:12,080 --> 01:26:16,180
+you might see that all the model
+checkpoint number 5 is actually
+
+1651
+01:26:16,180 --> 01:26:17,880
+doing very poorly at reasoning.
+
+1652
+01:26:17,880 --> 01:26:20,860
+Let's see why is that.
+
+1653
+01:26:20,860 --> 01:26:26,780
+So here are some examples from
+a competitive math benchmark
+
+1654
+01:26:26,780 --> 01:26:32,900
+2025 AIME published
+by OpenAI on GPT-5.
+
+1655
+01:26:32,900 --> 01:26:34,650
+And actually the bottom
+one is from today.
+
+1656
+01:26:34,650 --> 01:26:39,710
+This morning, Mistral announced
+their third generation model.
+
+1657
+01:26:39,710 --> 01:26:42,510
+So I thought I'd pull it to show
+you how real time these things
+
+1658
+01:26:42,510 --> 01:26:45,950
+are and just published today.
+
+1659
+01:26:45,950 --> 01:26:48,630
+And they're comparing across
+reasoning, and math, and et
+
+1660
+01:26:48,630 --> 01:26:51,250
+cetera against benchmarks.
+
+1661
+01:26:51,250 --> 01:26:55,550
+Now the risk is, are these
+benchmarks contaminated?
+
+1662
+01:26:55,550 --> 01:26:58,310
+How can a benchmark
+be contaminated?
+
+1663
+01:26:58,310 --> 01:27:01,078
+Yeah.
+
+1664
+01:27:01,078 --> 01:27:02,370
+If it was in the training data.
+
+1665
+01:27:02,370 --> 01:27:05,125
+The problem is these models are
+trained on so much data online.
+
+1666
+01:27:05,125 --> 01:27:05,750
+You don't know.
+
+1667
+01:27:05,750 --> 01:27:08,590
+Maybe it was trained on a blog
+post where someone actually
+
+1668
+01:27:08,590 --> 01:27:10,350
+was presenting a
+benchmark and describing
+
+1669
+01:27:10,350 --> 01:27:11,722
+what the benchmark was about.
+
+1670
+01:27:11,722 --> 01:27:13,430
+Maybe it was trained
+on GitHub, and there
+
+1671
+01:27:13,430 --> 01:27:16,630
+was a text file in a very
+shady part of the GitHub
+
+1672
+01:27:16,630 --> 01:27:20,450
+that was listing some of
+the test sets information.
+
+1673
+01:27:20,450 --> 01:27:22,610
+All of those might
+contaminate benchmarks.
+
+1674
+01:27:22,610 --> 01:27:31,710
+How would you identify that
+benchmark has been contaminated,
+
+1675
+01:27:31,710 --> 01:27:33,170
+test set has been contaminated?
+
+1676
+01:27:33,170 --> 01:27:36,830
+Isn't that kind of what
+is normal for [INAUDIBLE].
+
+1677
+01:27:36,830 --> 01:27:39,233
+Everybody should read the
+results and benchmarks,
+
+1678
+01:27:39,233 --> 01:27:41,150
+but then the model came
+up and people actually
+
+1679
+01:27:41,150 --> 01:27:43,230
+tried it on similar tasks.
+
+1680
+01:27:43,230 --> 01:27:44,570
+It wasn't performing well.
+
+1681
+01:27:44,570 --> 01:27:50,430
+So it's like we're testing
+it on similar stuff.
+
+1682
+01:27:50,430 --> 01:27:50,930
+Yeah.
+
+1683
+01:27:50,930 --> 01:27:54,190
+Llama 4 you brought
+up, just to repeat,
+
+1684
+01:27:54,190 --> 01:27:57,510
+looked good on benchmark,
+looked poor in practice
+
+1685
+01:27:57,510 --> 01:27:59,090
+after the community tested it.
+
+1686
+01:27:59,090 --> 01:28:02,510
+The general consensus, I mean,
+my opinion is, I actually
+
+1687
+01:28:02,510 --> 01:28:04,710
+don't look too much
+at the benchmarks
+
+1688
+01:28:04,710 --> 01:28:07,450
+when a foundation model
+provider publishes them.
+
+1689
+01:28:07,450 --> 01:28:09,590
+Or in other words,
+I would look at them
+
+1690
+01:28:09,590 --> 01:28:13,830
+in relative value between models
+rather than absolute value.
+
+1691
+01:28:13,830 --> 01:28:16,030
+And you'll wait for the
+community to test it,
+
+1692
+01:28:16,030 --> 01:28:18,690
+on agentic workflows
+on their tasks,
+
+1693
+01:28:18,690 --> 01:28:21,810
+and then people will get a
+taste for if it works or not,
+
+1694
+01:28:21,810 --> 01:28:23,150
+and on what it works.
+
+1695
+01:28:23,150 --> 01:28:24,650
+So it took some
+time, for example,
+
+1696
+01:28:24,650 --> 01:28:28,230
+for the community to realize
+how good Claude was at coding,
+
+1697
+01:28:28,230 --> 01:28:29,822
+let's say.
+
+1698
+01:28:29,822 --> 01:28:32,030
+It was clear from the
+benchmark, but others were also
+
+1699
+01:28:32,030 --> 01:28:33,030
+clearly good.
+
+1700
+01:28:33,030 --> 01:28:35,190
+But over time, people
+felt like, oh, wow, it's
+
+1701
+01:28:35,190 --> 01:28:37,550
+actually really good at coding.
+
+1702
+01:28:37,550 --> 01:28:39,550
+You had a question or no?
+
+1703
+01:28:39,550 --> 01:28:40,750
+OK.
+
+1704
+01:28:40,750 --> 01:28:41,430
+Cool.
+
+1705
+01:28:41,430 --> 01:28:43,310
+Oh, yeah, contamination.
+
+1706
+01:28:43,310 --> 01:28:50,150
+So how to detect if a
+test set has been exposed?
+
+1707
+01:28:50,150 --> 01:28:53,670
+A few methods.
+
+1708
+01:28:53,670 --> 01:28:59,170
+Some researchers might do a
+search within the data set.
+
+1709
+01:28:59,170 --> 01:29:00,950
+So let's say you
+have a training set,
+
+1710
+01:29:00,950 --> 01:29:03,150
+and you have a
+held out test set.
+
+1711
+01:29:03,150 --> 01:29:05,330
+And you actually
+look for n grams.
+
+1712
+01:29:05,330 --> 01:29:08,950
+So you take sequences
+of tokens size 7, 8.
+
+1713
+01:29:08,950 --> 01:29:10,670
+And you search
+through the train set,
+
+1714
+01:29:10,670 --> 01:29:12,870
+and you find that
+they're same n grams
+
+1715
+01:29:12,870 --> 01:29:15,050
+is also found in the test set.
+
+1716
+01:29:15,050 --> 01:29:17,350
+There's a chance some of
+it has been contaminated.
+
+1717
+01:29:17,350 --> 01:29:21,730
+You can do it also with
+hashes or with embeddings.
+
+1718
+01:29:21,730 --> 01:29:25,240
+Actually, maybe the test set has
+been contaminated but not word
+
+1719
+01:29:25,240 --> 01:29:27,473
+for word, maybe semantically.
+
+1720
+01:29:27,473 --> 01:29:29,640
+And so you might do the
+same thing with an embedding
+
+1721
+01:29:29,640 --> 01:29:31,960
+and run a search and
+say that, oh, wow,
+
+1722
+01:29:31,960 --> 01:29:36,440
+this specific example
+from the test set
+
+1723
+01:29:36,440 --> 01:29:40,520
+is found in the training set
+semantically very similar stuff.
+
+1724
+01:29:40,520 --> 01:29:43,080
+So you might
+actually run analysis
+
+1725
+01:29:43,080 --> 01:29:45,900
+to figure out if
+it's contaminated.
+
+1726
+01:29:45,900 --> 01:29:48,800
+And if you find that your
+test set has been exposed
+
+1727
+01:29:48,800 --> 01:29:51,800
+or you have a reason to
+think it's been exposed,
+
+1728
+01:29:51,800 --> 01:29:52,920
+what do you do?
+
+1729
+01:29:52,920 --> 01:29:55,420
+You would usually
+fix the test set.
+
+1730
+01:29:55,420 --> 01:29:56,582
+The test set is smaller.
+
+1731
+01:29:56,582 --> 01:29:58,040
+You would remove
+all those examples
+
+1732
+01:29:58,040 --> 01:30:01,080
+that you think are exposed,
+and you would replace them
+
+1733
+01:30:01,080 --> 01:30:03,880
+with brand new ones
+that are completely held
+
+1734
+01:30:03,880 --> 01:30:07,400
+offline in a folder that
+is separate, not available
+
+1735
+01:30:07,400 --> 01:30:11,000
+online, et cetera.
+
+1736
+01:30:11,000 --> 01:30:12,680
+Yeah.
+
+1737
+01:30:12,680 --> 01:30:15,388
+Then there's the problem
+of safety evaluations.
+
+1738
+01:30:15,388 --> 01:30:17,180
+I'm not going to spend
+too much time on it,
+
+1739
+01:30:17,180 --> 01:30:23,880
+but safety is important to
+foundation model providers.
+
+1740
+01:30:23,880 --> 01:30:28,060
+They stress test their model and
+their many adversarial attacks,
+
+1741
+01:30:28,060 --> 01:30:32,320
+jailbreaking, social
+engineering, misuses.
+
+1742
+01:30:32,320 --> 01:30:36,780
+They also assess harmful content
+generation, hallucination,
+
+1743
+01:30:36,780 --> 01:30:40,000
+privacy, leakage, et
+cetera, et cetera.
+
+1744
+01:30:40,000 --> 01:30:43,440
+And then they also look
+at how the foundation
+
+1745
+01:30:43,440 --> 01:30:46,140
+model behaves in an
+agentic workflow,
+
+1746
+01:30:46,140 --> 01:30:47,720
+as I was saying earlier.
+
+1747
+01:30:47,720 --> 01:30:52,900
+So not only evaluating
+it one shot,
+
+1748
+01:30:52,900 --> 01:30:57,720
+but evaluating it in a workflow.
+
+1749
+01:30:57,720 --> 01:31:01,000
+Here are some examples
+of actually very
+
+1750
+01:31:01,000 --> 01:31:05,760
+nice joint collaboration
+between OpenAI and Anthropic
+
+1751
+01:31:05,760 --> 01:31:08,960
+from last year, where
+they work together
+
+1752
+01:31:08,960 --> 01:31:11,420
+to assess the safety
+of their models,
+
+1753
+01:31:11,420 --> 01:31:15,940
+and they tried to jailbreak
+the model to socially engineer.
+
+1754
+01:31:15,940 --> 01:31:19,840
+And they published
+some the findings
+
+1755
+01:31:19,840 --> 01:31:23,383
+on password protection
+or phrase protection.
+
+1756
+01:31:23,383 --> 01:31:24,800
+I linked it, and
+I would encourage
+
+1757
+01:31:24,800 --> 01:31:26,240
+you to quickly look at it.
+
+1758
+01:31:26,240 --> 01:31:31,280
+They wrote prompts to try to
+extract a password from a model
+
+1759
+01:31:31,280 --> 01:31:36,360
+and see if the model was good
+at not leaking the password,
+
+1760
+01:31:36,360 --> 01:31:37,060
+for example.
+
+1761
+01:31:40,240 --> 01:31:45,560
+So these dashboards essentially
+inform the go/no-go decision
+
+1762
+01:31:45,560 --> 01:31:52,660
+for releasing or for determining
+what the HF will be based on.
+
+1763
+01:31:52,660 --> 01:31:55,560
+So if you're actually going
+to do supervised fine-tuning
+
+1764
+01:31:55,560 --> 01:32:01,040
+or reinforcement learning from
+human feedback, it's expensive
+
+1765
+01:32:01,040 --> 01:32:04,560
+and you want to do it on
+the stuff that's failing.
+
+1766
+01:32:04,560 --> 01:32:07,720
+So if you identify exactly
+which evals are failing,
+
+1767
+01:32:07,720 --> 01:32:09,760
+you will then use
+that information
+
+1768
+01:32:09,760 --> 01:32:13,320
+to focus the RLHF on
+that specific problem
+
+1769
+01:32:13,320 --> 01:32:15,820
+and save a lot of
+money and human time.
+
+1770
+01:32:20,250 --> 01:32:22,250
+Lastly, let me see
+if there's anything
+
+1771
+01:32:22,250 --> 01:32:24,070
+else I wanted to mention here.
+
+1772
+01:32:35,730 --> 01:32:37,770
+Let's talk about
+the data diagnostic,
+
+1773
+01:32:37,770 --> 01:32:40,410
+and we'll end on that.
+
+1774
+01:32:40,410 --> 01:32:44,970
+So data diagnostics, this
+is probably the last area
+
+1775
+01:32:44,970 --> 01:32:47,790
+that frontier models
+are very focused on.
+
+1776
+01:32:47,790 --> 01:32:49,830
+So how labs detect data issues.
+
+1777
+01:32:52,370 --> 01:32:55,310
+There are many
+things you can do.
+
+1778
+01:32:55,310 --> 01:32:56,950
+But I really like
+distribution check.
+
+1779
+01:32:56,950 --> 01:33:01,450
+So I pulled this chart from
+a paper called "The Pile"
+
+1780
+01:33:01,450 --> 01:33:05,670
+from 2020 where the pile
+is a very large data set,
+
+1781
+01:33:05,670 --> 01:33:10,130
+800 gigabytes, that is
+made from diverse texts.
+
+1782
+01:33:10,130 --> 01:33:11,830
+And they kept the data domain.
+
+1783
+01:33:11,830 --> 01:33:15,370
+So they explained using that
+figure what the data set
+
+1784
+01:33:15,370 --> 01:33:16,290
+is made of.
+
+1785
+01:33:16,290 --> 01:33:20,610
+So the data set might be made
+of information from free law,
+
+1786
+01:33:20,610 --> 01:33:22,590
+or it might be
+made of Wikipedia,
+
+1787
+01:33:22,590 --> 01:33:25,050
+Stack Exchange,
+GitHub with coding.
+
+1788
+01:33:25,050 --> 01:33:28,090
+And so you have different
+domains within that data set.
+
+1789
+01:33:28,090 --> 01:33:30,270
+And in fact, when you
+train a model on that,
+
+1790
+01:33:30,270 --> 01:33:33,150
+you can plot the loss function
+across the entire data set,
+
+1791
+01:33:33,150 --> 01:33:34,930
+or you can plot
+the loss function
+
+1792
+01:33:34,930 --> 01:33:37,970
+across different domains
+within that data set, which
+
+1793
+01:33:37,970 --> 01:33:41,050
+give you more
+intuition for where
+
+1794
+01:33:41,050 --> 01:33:43,630
+it might be failing or working.
+
+1795
+01:33:43,630 --> 01:33:46,370
+And so you might want to
+track domain proportions
+
+1796
+01:33:46,370 --> 01:33:48,130
+in your data set.
+
+1797
+01:33:48,130 --> 01:33:53,090
+And domain proportions also
+matter because it is observed
+
+1798
+01:33:53,090 --> 01:34:00,010
+that if certain domains are
+underrepresented in the data,
+
+1799
+01:34:00,010 --> 01:34:02,850
+the performance of the
+model on that domain
+
+1800
+01:34:02,850 --> 01:34:07,530
+is likely going to drop in
+comparison to another domain.
+
+1801
+01:34:07,530 --> 01:34:08,890
+So all things are not equal.
+
+1802
+01:34:08,890 --> 01:34:13,130
+If you actually have so much--
+we remember with the speech
+
+1803
+01:34:13,130 --> 01:34:14,750
+recognition example
+where I said,
+
+1804
+01:34:14,750 --> 01:34:16,920
+you have too many
+zeros and too few ones,
+
+1805
+01:34:16,920 --> 01:34:19,000
+and so the model just
+doesn't learn the ones.
+
+1806
+01:34:25,860 --> 01:34:28,200
+This is also a problem
+with online learning.
+
+1807
+01:34:28,200 --> 01:34:32,040
+So imagine those frontier
+model they're learning live.
+
+1808
+01:34:32,040 --> 01:34:35,380
+Oftentimes, they're just
+being fed data constantly.
+
+1809
+01:34:35,380 --> 01:34:38,780
+And maybe the batch
+from the last month
+
+1810
+01:34:38,780 --> 01:34:40,980
+had very little coding data.
+
+1811
+01:34:40,980 --> 01:34:44,980
+And so the last portion of
+the training, the distribution
+
+1812
+01:34:44,980 --> 01:34:47,500
+of the coding domain,
+or the frequency
+
+1813
+01:34:47,500 --> 01:34:49,520
+was lower than other domains.
+
+1814
+01:34:49,520 --> 01:34:51,860
+And so sometimes
+you might see a drop
+
+1815
+01:34:51,860 --> 01:34:56,100
+in performance for a specific
+domain if you're not careful.
+
+1816
+01:34:56,100 --> 01:34:59,032
+That can be fixed with
+sampling like smart sampling.
+
+1817
+01:34:59,032 --> 01:35:00,740
+You remember what we
+saw in reinforcement
+
+1818
+01:35:00,740 --> 01:35:03,580
+learning with the experience
+replay, where we actually
+
+1819
+01:35:03,580 --> 01:35:06,680
+kept experiences and we put
+them in a replay memory,
+
+1820
+01:35:06,680 --> 01:35:08,360
+and then we sampled from that.
+
+1821
+01:35:08,360 --> 01:35:11,700
+Those are the types of
+methods, sampling methods that
+
+1822
+01:35:11,700 --> 01:35:14,660
+allow a model provider
+to make sure they keep
+
+1823
+01:35:14,660 --> 01:35:18,140
+the frequency of data domain
+the same at different portions
+
+1824
+01:35:18,140 --> 01:35:19,000
+of the training.
+
+1825
+01:35:23,060 --> 01:35:27,260
+Token statistics, just to
+mention it a little bit,
+
+1826
+01:35:27,260 --> 01:35:34,460
+you want to count the frequency
+changes for key tokens which
+
+1827
+01:35:34,460 --> 01:35:35,320
+I was mentioning.
+
+1828
+01:35:35,320 --> 01:35:41,620
+So let's say, a math
+token is underrepresented.
+
+1829
+01:35:41,620 --> 01:35:43,060
+That will be a problem.
+
+1830
+01:35:43,060 --> 01:35:46,140
+The derivative symbol
+is underrepresented.
+
+1831
+01:35:46,140 --> 01:35:49,540
+That might actually lead
+to way worse performance
+
+1832
+01:35:49,540 --> 01:35:51,660
+for that specific
+task where you ask
+
+1833
+01:35:51,660 --> 01:35:53,520
+the model to make derivatives.
+
+1834
+01:35:56,740 --> 01:36:02,020
+And so labs oftentimes monitor
+token drift or distribution
+
+1835
+01:36:02,020 --> 01:36:03,400
+or the frequency per token.
+
+1836
+01:36:03,400 --> 01:36:05,140
+And they use sampling to fix it.
+
+1837
+01:36:05,140 --> 01:36:07,260
+And finally the
+contamination checks, which
+
+1838
+01:36:07,260 --> 01:36:09,640
+we have talked about earlier.
+
+1839
+01:36:09,640 --> 01:36:11,600
+I also give you
+concrete examples.
+
+1840
+01:36:11,600 --> 01:36:13,480
+I'm not going to go
+through all of them.
+
+1841
+01:36:13,480 --> 01:36:18,620
+But these are examples of token
+distribution, reef reports,
+
+1842
+01:36:18,620 --> 01:36:25,420
+tokenizer statistics,
+issues that I raise here
+
+1843
+01:36:25,420 --> 01:36:31,280
+or some anomalies on
+corrupt data detection.
+
+1844
+01:36:31,280 --> 01:36:35,060
+So if I read one of
+the examples for you,
+
+1845
+01:36:35,060 --> 01:36:38,120
+let's pick this one maybe.
+
+1846
+01:36:41,500 --> 01:36:47,300
+Non-English tokens increase from
+12% to 19% after new web crawl,
+
+1847
+01:36:47,300 --> 01:36:51,780
+where that might mean that the
+domain of that specific language
+
+1848
+01:36:51,780 --> 01:36:53,600
+is increasing
+relative to others,
+
+1849
+01:36:53,600 --> 01:36:57,860
+and that might lead to an
+increase in performance
+
+1850
+01:36:57,860 --> 01:37:00,820
+or a drop in performance
+for a different language.
+
+1851
+01:37:00,820 --> 01:37:01,920
+As simple as that.
+
+1852
+01:37:06,420 --> 01:37:12,710
+OK, to summarize everything,
+what are examples of things
+
+1853
+01:37:12,710 --> 01:37:15,470
+that frontier labs monitor?
+
+1854
+01:37:15,470 --> 01:37:18,670
+Global training loss, validation
+loss, both global and domain
+
+1855
+01:37:18,670 --> 01:37:21,790
+specific on the
+subset of the data,
+
+1856
+01:37:21,790 --> 01:37:25,070
+scaling curve alignment,
+comparing your test loss
+
+1857
+01:37:25,070 --> 01:37:27,910
+to your compute to
+your, to your data set,
+
+1858
+01:37:27,910 --> 01:37:30,870
+or to your model capacity.
+
+1859
+01:37:30,870 --> 01:37:34,830
+We didn't talk too much about
+router, but mixture of experts.
+
+1860
+01:37:34,830 --> 01:37:38,750
+Imagine you have a lot of the
+models that are top models right
+
+1861
+01:37:38,750 --> 01:37:40,590
+now or mixtures of
+experts, meaning
+
+1862
+01:37:40,590 --> 01:37:46,010
+that in your transformer block
+for the multi-layer perceptron,
+
+1863
+01:37:46,010 --> 01:37:48,630
+there's actually multiple
+experts that are being trained
+
+1864
+01:37:48,630 --> 01:37:51,550
+in parallel, and
+there's a router that
+
+1865
+01:37:51,550 --> 01:37:55,830
+will route that batch of
+data to the right experts
+
+1866
+01:37:55,830 --> 01:37:58,590
+to top 1, top 2, top 3, experts.
+
+1867
+01:37:58,590 --> 01:38:01,750
+And it's very common for
+the router to fail to
+
+1868
+01:38:01,750 --> 01:38:05,410
+or to always exploit the
+same mixture of experts.
+
+1869
+01:38:05,410 --> 01:38:08,130
+You need a mechanism to
+detect when this happens.
+
+1870
+01:38:08,130 --> 01:38:10,750
+And so you might have in
+your health dashboard some
+
+1871
+01:38:10,750 --> 01:38:15,030
+of a router information, or
+whether the mixture of experts
+
+1872
+01:38:15,030 --> 01:38:17,092
+are all used as
+much as each other.
+
+1873
+01:38:17,092 --> 01:38:18,550
+Sometimes certain
+experts are going
+
+1874
+01:38:18,550 --> 01:38:20,175
+to be so specialized
+that they're never
+
+1875
+01:38:20,175 --> 01:38:21,410
+going to be used almost.
+
+1876
+01:38:21,410 --> 01:38:22,850
+And you want to avoid that.
+
+1877
+01:38:22,850 --> 01:38:25,350
+And you might do some
+load balancing to avoid.
+
+1878
+01:38:25,350 --> 01:38:31,670
+Gradient norms, learning
+rates, checkpoint
+
+1879
+01:38:31,670 --> 01:38:34,010
+to checkpoint, eval
+benchmark token distribution,
+
+1880
+01:38:34,010 --> 01:38:35,010
+tokenizer statistic.
+
+1881
+01:38:35,010 --> 01:38:37,390
+We covered all of
+that at a high level.
+
+1882
+01:38:37,390 --> 01:38:40,470
+And as I said earlier,
+frontier labs rarely
+
+1883
+01:38:40,470 --> 01:38:43,550
+publish those dashboards
+because it's IP
+
+1884
+01:38:43,550 --> 01:38:47,310
+and because it can leak certain
+deep information about their IP
+
+1885
+01:38:47,310 --> 01:38:49,470
+and how their
+models are trained.
+
+1886
+01:38:49,470 --> 01:38:52,930
+And so you usually learn
+about these things year after.
+
+1887
+01:38:52,930 --> 01:38:54,630
+You might learn
+about these things
+
+1888
+01:38:54,630 --> 01:38:58,430
+on a model that came out three
+years ago or four years ago
+
+1889
+01:38:58,430 --> 01:39:01,630
+and they're OK now
+with sharing it.
+
+1890
+01:39:01,630 --> 01:39:02,490
+It's pretty common.
+
+1891
+01:39:05,435 --> 01:39:08,430
+So closing remarks,
+any questions first?
+
+1892
+01:39:08,430 --> 01:39:09,950
+Yeah.
+
+1893
+01:39:09,950 --> 01:39:14,690
+Do you, for example, Claude
+training coding models.
+
+1894
+01:39:14,690 --> 01:39:17,310
+So do they care
+more about tokens
+
+1895
+01:39:17,310 --> 01:39:21,570
+that are shown in
+code in general,
+
+1896
+01:39:21,570 --> 01:39:26,610
+or are they more worried about
+having that diverse tokens?
+
+1897
+01:39:26,610 --> 01:39:27,110
+Yeah.
+
+1898
+01:39:27,110 --> 01:39:31,830
+So you're asking if Anthropic
+is training Cloud Code,
+
+1899
+01:39:31,830 --> 01:39:34,230
+do they care mostly
+about coding data,
+
+1900
+01:39:34,230 --> 01:39:37,710
+or do they also add other data?
+
+1901
+01:39:37,710 --> 01:39:39,490
+Yeah, it's a tough question.
+
+1902
+01:39:39,490 --> 01:39:41,030
+I don't have the exact answer.
+
+1903
+01:39:41,030 --> 01:39:43,510
+It's been shown that
+certain domains might
+
+1904
+01:39:43,510 --> 01:39:45,570
+improve the performance
+of other domains.
+
+1905
+01:39:45,570 --> 01:39:50,030
+So I imagine that in coding
+if you have math data,
+
+1906
+01:39:50,030 --> 01:39:53,210
+maybe math data actually helps
+the performance of coding,
+
+1907
+01:39:53,210 --> 01:39:54,890
+especially for
+functional programming,
+
+1908
+01:39:54,890 --> 01:39:58,550
+let's say coding languages
+that are more mathematical.
+
+1909
+01:39:58,550 --> 01:40:02,190
+But I could clearly see
+that if they were training
+
+1910
+01:40:02,190 --> 01:40:04,920
+Cloud Code on web
+crawl and everything,
+
+1911
+01:40:04,920 --> 01:40:06,920
+it would not perform well
+because you would have
+
+1912
+01:40:06,920 --> 01:40:09,280
+so much crap data that is
+not relevant for what you're
+
+1913
+01:40:09,280 --> 01:40:10,780
+trying to get the model to do.
+
+1914
+01:40:10,780 --> 01:40:13,520
+And so I think there is a
+balance between those things.
+
+1915
+01:40:13,520 --> 01:40:17,640
+So it's safe to say you
+would want to be in the--
+
+1916
+01:40:17,640 --> 01:40:21,560
+you would want to include
+neighboring domains as well?
+
+1917
+01:40:21,560 --> 01:40:23,260
+I think you could
+run experiments.
+
+1918
+01:40:23,260 --> 01:40:25,600
+So would you include
+neighboring domains
+
+1919
+01:40:25,600 --> 01:40:29,760
+if I were training
+Cloud Code and I
+
+1920
+01:40:29,760 --> 01:40:32,240
+had a lot of money to do
+that, I would probably--
+
+1921
+01:40:32,240 --> 01:40:35,792
+maybe you would start
+with a Python language,
+
+1922
+01:40:35,792 --> 01:40:38,500
+and you get as much, and there's
+so much data on Python language,
+
+1923
+01:40:38,500 --> 01:40:40,660
+so you probably have
+enough already there.
+
+1924
+01:40:40,660 --> 01:40:43,240
+But then you want a model that
+scales to other programming
+
+1925
+01:40:43,240 --> 01:40:43,820
+languages.
+
+1926
+01:40:43,820 --> 01:40:48,000
+Well, probably Python is useful
+for C++, C++ is useful for Java,
+
+1927
+01:40:48,000 --> 01:40:52,080
+and then functional programming,
+if you're going to ELIXIR,
+
+1928
+01:40:52,080 --> 01:40:54,600
+Scala, things like that, they're
+helping each other probably
+
+1929
+01:40:54,600 --> 01:40:56,200
+to a certain extent.
+
+1930
+01:40:56,200 --> 01:40:59,240
+But you will need to have
+a presentation of those.
+
+1931
+01:40:59,240 --> 01:41:01,880
+I could see that--
+
+1932
+01:41:01,880 --> 01:41:04,933
+I'm pretty sure, and I
+don't work at Anthropic,
+
+1933
+01:41:04,933 --> 01:41:05,600
+so I don't know.
+
+1934
+01:41:05,600 --> 01:41:09,480
+But I'm pretty sure, let's say
+a language like Rust increases
+
+1935
+01:41:09,480 --> 01:41:12,360
+in popularity,
+which is the case.
+
+1936
+01:41:12,360 --> 01:41:14,220
+And then in the
+data distribution,
+
+1937
+01:41:14,220 --> 01:41:18,600
+you start seeing more frequency
+of those tokens from Rust.
+
+1938
+01:41:18,600 --> 01:41:22,780
+Does that affect the
+performance on other languages?
+
+1939
+01:41:22,780 --> 01:41:23,980
+Probably yes.
+
+1940
+01:41:23,980 --> 01:41:25,080
+That's my guess.
+
+1941
+01:41:25,080 --> 01:41:26,220
+And how do you track it?
+
+1942
+01:41:26,220 --> 01:41:30,100
+This is all what
+we talked about.
+
+1943
+01:41:30,100 --> 01:41:30,600
+Yeah.
+
+1944
+01:41:30,600 --> 01:41:34,280
+If you train on publicly
+available data, a lot of people
+
+1945
+01:41:34,280 --> 01:41:35,957
+are saying to use
+synthetic data.
+
+1946
+01:41:35,957 --> 01:41:37,040
+What do you think of that?
+
+1947
+01:41:37,040 --> 01:41:39,300
+Do you think that would
+increase performance?
+
+1948
+01:41:39,300 --> 01:41:39,800
+Yeah.
+
+1949
+01:41:39,800 --> 01:41:44,120
+Question is, let's say we
+trained on everything online
+
+1950
+01:41:44,120 --> 01:41:46,120
+and now real data.
+
+1951
+01:41:46,120 --> 01:41:47,222
+What about synthetic data?
+
+1952
+01:41:47,222 --> 01:41:48,180
+Should we use it a lot?
+
+1953
+01:41:48,180 --> 01:41:50,780
+Should we use it strategically?
+
+1954
+01:41:50,780 --> 01:41:53,000
+What's the future of that?
+
+1955
+01:41:53,000 --> 01:41:58,320
+So it depends of are you talking
+about general purpose models
+
+1956
+01:41:58,320 --> 01:42:00,360
+or not, specialized models?
+
+1957
+01:42:00,360 --> 01:42:04,320
+In general, it is a good
+idea to do data augmentation
+
+1958
+01:42:04,320 --> 01:42:05,860
+to use synthetic data.
+
+1959
+01:42:05,860 --> 01:42:10,840
+Although I would always watch
+the token frequency, meaning you
+
+1960
+01:42:10,840 --> 01:42:13,720
+can't because synthetic
+data is way cheaper.
+
+1961
+01:42:13,720 --> 01:42:16,920
+And so if you actually
+generate some synthetic data
+
+1962
+01:42:16,920 --> 01:42:19,778
+of a certain data domain, and
+then it impedes on the rest
+
+1963
+01:42:19,778 --> 01:42:22,320
+and lowers the performance on
+the rest because the model just
+
+1964
+01:42:22,320 --> 01:42:24,460
+is always trained on
+that synthetic data,
+
+1965
+01:42:24,460 --> 01:42:25,680
+then that's a problem.
+
+1966
+01:42:25,680 --> 01:42:28,560
+In practice, I think also
+the returns of synthetic data
+
+1967
+01:42:28,560 --> 01:42:32,240
+might be plateauing
+at some point.
+
+1968
+01:42:32,240 --> 01:42:38,600
+The recent news, I guess, and if
+you look at the DeepMind paper,
+
+1969
+01:42:38,600 --> 01:42:41,360
+it's probably that we're
+lacking high quality data more
+
+1970
+01:42:41,360 --> 01:42:44,948
+than we're lacking synthetic
+data for most domains right now.
+
+1971
+01:42:44,948 --> 01:42:46,740
+But who knows if it's
+going to be the case.
+
+1972
+01:42:46,740 --> 01:42:49,120
+Some other people would
+say what we're actually
+
+1973
+01:42:49,120 --> 01:42:52,760
+lacking is letting these
+agents play in RL environments
+
+1974
+01:42:52,760 --> 01:42:57,020
+in the wild and generate their
+own synthetic data or real data
+
+1975
+01:42:57,020 --> 01:42:59,050
+but part of a game.
+
+1976
+01:42:59,050 --> 01:43:00,630
+Nobody has quite the answer.
+
+1977
+01:43:00,630 --> 01:43:04,170
+I would just say the
+trend has gone from--
+
+1978
+01:43:04,170 --> 01:43:07,670
+Actually you should look
+at a paper from Epoch AI.
+
+1979
+01:43:07,670 --> 01:43:09,310
+Maybe you've seen that already.
+
+1980
+01:43:09,310 --> 01:43:14,450
+But Epoch AI has a really nice
+research report which says by--
+
+1981
+01:43:14,450 --> 01:43:16,590
+I forgot the exact
+numbers, but it's in there.
+
+1982
+01:43:16,590 --> 01:43:23,570
+By 2025, the frontier labs
+would have exhausted low quality
+
+1983
+01:43:23,570 --> 01:43:27,450
+data available online in texts.
+
+1984
+01:43:27,450 --> 01:43:30,890
+By 2027, low quality data
+in audio, image, and video
+
+1985
+01:43:30,890 --> 01:43:32,050
+would have been exhausted.
+
+1986
+01:43:32,050 --> 01:43:35,650
+By 2030, high quality data
+would also have been exhausted.
+
+1987
+01:43:35,650 --> 01:43:37,890
+And at that point it's
+like, what's next?
+
+1988
+01:43:37,890 --> 01:43:41,410
+Probably by that
+time, data is not
+
+1989
+01:43:41,410 --> 01:43:43,410
+going to be the
+bottleneck anymore.
+
+1990
+01:43:43,410 --> 01:43:47,950
+And it's going to be more about
+model architecture, potentially.
+
+1991
+01:43:52,194 --> 01:43:56,230
+Are we producing more data than
+we're using to train the models?
+
+1992
+01:43:56,230 --> 01:43:59,370
+Are we producing more
+data than we're using?
+
+1993
+01:43:59,370 --> 01:44:00,550
+Probably, yes.
+
+1994
+01:44:00,550 --> 01:44:05,370
+But it doesn't mean the
+models are not plateauing.
+
+1995
+01:44:05,370 --> 01:44:07,610
+You go and you code in Python.
+
+1996
+01:44:07,610 --> 01:44:11,070
+Your Python code is going to
+be already online somewhere,
+
+1997
+01:44:11,070 --> 01:44:13,390
+most likely, or 99% of it.
+
+1998
+01:44:13,390 --> 01:44:16,210
+So the model is actually not
+learning that much from it.
+
+1999
+01:44:16,210 --> 01:44:19,090
+It's just more data,
+not higher quality data.
+
+2000
+01:44:19,090 --> 01:44:21,230
+And that's why I think
+the plateau is there.
+
+2001
+01:44:21,230 --> 01:44:24,130
+Maybe the best
+radiologist in the world
+
+2002
+01:44:24,130 --> 01:44:26,490
+is producing a
+research paper that
+
+2003
+01:44:26,490 --> 01:44:30,450
+is so unique that it's
+high quality by definition
+
+2004
+01:44:30,450 --> 01:44:32,850
+of what the models feel
+is high quality today.
+
+2005
+01:44:32,850 --> 01:44:35,850
+But how much of
+that can we expect?
+
+2006
+01:44:35,850 --> 01:44:38,170
+Is there a risk that
+the model gives training
+
+2007
+01:44:38,170 --> 01:44:43,650
+on data information [INAUDIBLE]
+and that data is probably
+
+2008
+01:44:43,650 --> 01:44:46,850
+a bad idea to train on
+this thing [INAUDIBLE]
+
+2009
+01:44:46,850 --> 01:44:48,370
+we produce for what.
+
+2010
+01:44:48,370 --> 01:44:50,410
+What would that [INAUDIBLE]
+
+2011
+01:44:50,410 --> 01:44:51,310
+Yeah, it's risky.
+
+2012
+01:44:51,310 --> 01:44:54,028
+Is it risky for the
+model to-- the model,
+
+2013
+01:44:54,028 --> 01:44:55,570
+let's say is online
+learning, so it's
+
+2014
+01:44:55,570 --> 01:44:58,770
+learning from new data
+being produced by everyone.
+
+2015
+01:44:58,770 --> 01:45:03,285
+Is that going to risk the
+model performance to drop?
+
+2016
+01:45:03,285 --> 01:45:04,910
+Essentially, that's
+what you're asking?
+
+2017
+01:45:04,910 --> 01:45:07,530
+[INAUDIBLE] anyone
+at the end of the day
+
+2018
+01:45:07,530 --> 01:45:11,250
+is also [INAUDIBLE] because
+most people have used data.
+
+2019
+01:45:11,250 --> 01:45:11,750
+Yeah, yeah.
+
+2020
+01:45:11,750 --> 01:45:13,290
+In that case, yeah.
+
+2021
+01:45:13,290 --> 01:45:15,590
+Yeah, the data produced
+is also coming out of AI.
+
+2022
+01:45:15,590 --> 01:45:17,670
+Yeah, for sure, more
+today than before.
+
+2023
+01:45:17,670 --> 01:45:25,830
+Coding data today is
+increasingly generated.
+
+2024
+01:45:25,830 --> 01:45:27,110
+And so it's just fed back.
+
+2025
+01:45:27,110 --> 01:45:28,610
+So just long story
+short, it's not
+
+2026
+01:45:28,610 --> 01:45:31,310
+that interesting for training.
+
+2027
+01:45:37,570 --> 01:45:38,970
+Super.
+
+2028
+01:45:38,970 --> 01:45:43,290
+So closing remarks and
+reminder on what's next.
+
+2029
+01:45:43,290 --> 01:45:45,650
+So by the way, I hope you
+feel after this lecture
+
+2030
+01:45:45,650 --> 01:45:48,250
+that you have a better
+understanding of the techniques
+
+2031
+01:45:48,250 --> 01:45:50,510
+that you can use in order
+to look inside a model,
+
+2032
+01:45:50,510 --> 01:45:55,620
+look outside the model, both for
+CNNs and for frontier models.
+
+2033
+01:45:55,620 --> 01:45:58,520
+Again, it's just a
+two-hour lecture.
+
+2034
+01:45:58,520 --> 01:46:01,580
+We don't have time to go so
+deep as much as I would like it
+
+2035
+01:46:01,580 --> 01:46:04,420
+in each of these domains.
+
+2036
+01:46:04,420 --> 01:46:08,620
+It's my last
+lecture this quarter
+
+2037
+01:46:08,620 --> 01:46:10,660
+and so thank you
+for participating.
+
+2038
+01:46:10,660 --> 01:46:14,340
+I enjoyed spending
+time with you all.
+
+2039
+01:46:14,340 --> 01:46:17,120
+I hope you spend time
+on your projects.
+
+2040
+01:46:17,120 --> 01:46:20,740
+Projects can be very
+delightful in CS230.
+
+2041
+01:46:20,740 --> 01:46:24,800
+Over the years, I've seen people
+use their products to get a job,
+
+2042
+01:46:24,800 --> 01:46:27,420
+to start a company,
+to make friends.
+
+2043
+01:46:27,420 --> 01:46:29,060
+And so I don't think
+you will regret
+
+2044
+01:46:29,060 --> 01:46:32,120
+putting time and effort
+into your projects,
+
+2045
+01:46:32,120 --> 01:46:34,940
+even if we don't have
+too much time left.
+
+2046
+01:46:34,940 --> 01:46:40,752
+Those are the last milestones
+or deliverables for the class.
+
+2047
+01:46:40,752 --> 01:46:41,960
+I hope you enjoyed the class.
+
+2048
+01:46:41,960 --> 01:46:44,340
+We're always looking
+for feedback.
+
+2049
+01:46:44,340 --> 01:46:46,560
+And so I'm eager to
+hear from you all.
+
+2050
+01:46:46,560 --> 01:46:48,330
+Thank you.
+

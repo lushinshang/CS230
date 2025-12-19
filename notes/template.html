@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>筆記範本 — 課程心得</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    /* 筆記專屬樣式：限制閱讀寬度、圖片 RWD 與圓角邊框 */
+    .note-wrapper{max-width:860px;margin:1.25rem auto;padding:0 1rem}
+    .note-article img{max-width:100%;height:auto;border-radius:14px;border:6px solid rgba(255,255,255,0.6);box-shadow:var(--shadow-soft);display:block;margin:0.8rem 0}
+    .nav-back{margin:1rem 0}
+    .note-footer{display:flex;justify-content:space-between;gap:0.5rem;margin-top:1.25rem}
+    @media (max-width:600px){
+      .note-footer{flex-direction:column-reverse;align-items:stretch}
+    }
+  </style>
+</head>
+<body>
+  <header class="container nav-back">
+    <a href="../index.html" class="btn btn-ghost" aria-label="回首頁">← 回首頁</a>
+  </header>
+
+  <main class="note-wrapper">
+    <article class="note-article">
+      <h1>範例筆記：第 X 堂 - 範例標題</h1>
+      <div class="muted" style="margin-bottom:0.6rem">授課日期 · 時長 · 標籤</div>
+
+      <p>這是一個筆記範本，示範如何排版段落、插入圖片與程式碼區塊。閱讀區最大寬度已限制為 860px 以確保舒適的閱讀體驗。</p>
+
+      <p class="muted" style="margin:0.6rem 0">（插圖已移除，本文僅保留文字内容）</p>
+
+      <h2>小節標題</h2>
+      <p>在此記錄本堂重點，使用清楚的段落、列點與程式碼範例。</p>
+
+      <pre><code>// 範例程式碼
+console.log('Hello, notes!');
+</code></pre>
+
+      <h3>延伸閱讀</h3>
+      <ul>
+        <li><a href="#">參考論文 / 資源 A</a></li>
+        <li><a href="#">參考資源 B</a></li>
+      </ul>
+
+      <div class="note-footer">
+        <a class="btn btn-ghost" href="lesson{{prev}}.html" aria-label="上一堂">← 上一堂</a>
+        <a class="btn btn-primary" href="lesson{{next}}.html" aria-label="下一堂">下一堂 →</a>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer container">
+    <div class="muted">© 2025 課程心得分享 · 筆記由學習者維護</div>
+  </footer>
+</body>
+</html>
