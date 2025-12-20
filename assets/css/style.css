@@ -214,6 +214,8 @@ a:focus,button:focus,input:focus,textarea:focus{outline:3px solid rgba(100,149,2
 /* Course list & link styles */
 .course-item{display:block;padding:0.75rem;margin-bottom:0.5rem;border-radius:12px;background:linear-gradient(180deg,var(--card),#fbfbfe);border:1px solid rgba(14,21,30,0.03);}
 .course-item .course-title{font-weight:700;margin-bottom:0.35rem;font-size:1.05rem}
+.course-title-zh{font-family:'Noto Sans TC','Inter',sans-serif;font-size:0.95rem;color:var(--muted-strong);margin-top:0.15rem}
+.course-summary{font-family:'Noto Sans TC','Inter',sans-serif;font-size:0.92rem;color:var(--muted);margin-top:0.25rem;line-height:1.35}
 .course-links{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.35rem}
 .link-btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.45rem 0.75rem;border-radius:999px;border:0;cursor:pointer;font-weight:600}
 .link-yt{background:linear-gradient(90deg,var(--accent-pink),var(--accent-blue));color:#3d0017}
