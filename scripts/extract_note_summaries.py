@@ -34,7 +34,12 @@ def extract(path):
         pass
     return h1, summary
 
-files = sorted(glob.glob(os.path.join(NOTES_DIR, 'lesson*.html')))
+files = glob.glob(os.path.join(NOTES_DIR, 'lesson*.html'))
+# sort by numeric lesson index (lesson1, lesson2, ..., lesson10)
+def lesson_key(path):
+    m = re.search(r'lesson(\d+)\.html$', path)
+    return int(m.group(1)) if m else 999
+files = sorted(files, key=lesson_key)
 titles = []
 summaries = []
 for f in files:
