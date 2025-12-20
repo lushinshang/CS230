@@ -149,7 +149,7 @@
             } else {
               // transcripts (if available in transcriptsMap)
               const tm = transcriptsMap[i+1] || null;
-              const transcriptsHtml = tm ? `${tm.zh? `<a class="link-btn link-trans-zh" href="${encodeURI(tm.zh)}" target="_blank" rel="noopener">📝 逐字稿(中)</a>` : ''} ${tm.en? `<a class="link-btn link-trans-en" href="${encodeURI(tm.en)}" target="_blank" rel="noopener">逐字稿(英)</a>` : ''}` : '';
+              const transcriptsHtml = tm ? `${tm.zh? `<a class="link-btn link-trans-zh" href="${encodeURI(tm.zh)}">📝 逐字稿(中)</a>` : ''} ${tm.en? `<a class="link-btn link-trans-en" href="${encodeURI(tm.en)}">逐字稿(英)</a>` : ''}` : '';
 
               list.push(`
                 <article class="course-item" role="article">
