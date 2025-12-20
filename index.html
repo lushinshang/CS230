@@ -53,6 +53,7 @@
       <p class="muted" style="margin:0 0 1rem 0">每堂顯示：課程名稱 / 播放（YouTube） / 簡報（若有） / 筆記</p>
 
       <div class="courses-grid" aria-live="polite">
+        <script src="assets/js/lecture_summaries.js"></script>
         <script>
           const courses = ['導論與基本概念','神經網路基礎','訓練技巧與正則化','卷積神經網路','循環與序列模型','注意力機制與Transformer','生成模型','最佳化與實務技巧','視覺應用實作','專案總結與展望'];
           const videoIds = ['_NLHFoVNlbg','DNCn1BpCAUY','MGqQuQEUXhk','aWlRtOlacYM','4E27qlfYw0A','s6JVGzABKho','k1njvbBmfsw','k1njvbBmfsw','AuZoDsNmG_s','Ozb1AR_F5MU'];
@@ -118,6 +119,7 @@
             10:{en: 'transcription/Stanford CS230 ｜ Autumn 2025 ｜ Lecture 10： What’s Going On Inside My Model？.en-US.html', zh: 'transcription/Stanford CS230 ｜ Autumn 2025 ｜ Lecture 10： What’s Going On Inside My Model？.zh-TW.html'}
           };
 
+          // lectureTitlesZh & lectureSummariesZh are generated from notes by scripts/extract_note_summaries.py
           const list = [];
           for(let i=0;i<lectures.length;i++){
             const L = lectures[i];
@@ -131,12 +133,17 @@
 
             // 特別處理第七講（index 6）：不顯示播放與筆記
             if(i === 6) {
+              const titleZh = (typeof lectureTitlesZh !== 'undefined' && lectureTitlesZh[i]) ? lectureTitlesZh[i] : '';
+              const summaryZh = (typeof lectureSummariesZh !== 'undefined' && lectureSummariesZh[i]) ? lectureSummariesZh[i] : '';
+
               list.push(`
                 <article class="course-item" role="article">
                   <div style="display:flex;justify-content:space-between;align-items:flex-start">
                     <div>
                       <div class="course-title">${L.title}</div>
+                      ${titleZh?`<div class="muted" style="font-size:0.98rem;margin-top:0.25rem">${titleZh}</div>`:''}
                       <div class="muted" style="font-size:0.95rem;margin-top:0.25rem">${L.date}</div>
+                      ${summaryZh?`<div class="muted" style="font-size:0.95rem;margin-top:0.25rem">${summaryZh}</div>`:''}
                     </div>
                   </div>
                   <div class="course-links" style="margin-top:0.6rem">
