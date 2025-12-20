@@ -54,11 +54,7 @@
       <p class="muted" style="margin:0 0 1rem 0">每堂顯示：課程名稱 / 播放（YouTube） / 簡報（若有） / 筆記</p>
 
       <div class="courses-grid" aria-live="polite">
-        <script>
-          // inlined lecture summaries (auto-generated at build time)
-          const lectureTitlesZh = ['第 1 堂 — 導論與基本概念', '第 2 堂 — 神經網路基礎', '第 3 堂 — 訓練技巧與正則化', '第 4 堂 — 卷積神經網路', '第 5 堂 — 循環與序列模型', '第 6 堂 — 注意力機制與 Transformer', '第 7 堂 — 生成模型', '第 8 堂 — 最佳化與實務技巧', '第 9 堂 — 視覺應用實作', '第 10 堂 — 專案總結與展望'];
-          const lectureSummariesZh = ['本堂概述深度學習的基本概念、課程架構與實作目標。適合對本課程建立整體認知的讀者。', '本堂介紹神經網路的基本結構、前向/反向傳播與損失函數概念。', '涵蓋常見訓練技巧、過擬合防範與正則化手法。', '介紹卷積運算、卷積層設計與在影像任務上的應用。', '討論 RNN、LSTM、GRU 與序列建模的基本技巧與範例。', '說明注意力機制、Self-Attention 與 Transformer 架構的核心概念。', '覆蓋生成模型的基本思想，包括 GAN、VAE 與近期的生成式架構。', '匯總最佳化方法、訓練實務與模型調校的實作建議。', '實作導向的視覺任務示範，包含物件檢測、分割與應用案例。', '總結核心觀念、專案經驗與後續學習建議。'];
-        </script>
+        <script src="assets/js/lecture_summaries.js"></script>
         <script>
           const courses = ['導論與基本概念','神經網路基礎','訓練技巧與正則化','卷積神經網路','循環與序列模型','注意力機制與Transformer','生成模型','最佳化與實務技巧','視覺應用實作','專案總結與展望'];
           const videoIds = ['_NLHFoVNlbg','DNCn1BpCAUY','MGqQuQEUXhk','aWlRtOlacYM','4E27qlfYw0A','s6JVGzABKho','k1njvbBmfsw','k1njvbBmfsw','AuZoDsNmG_s','Ozb1AR_F5MU'];
@@ -124,7 +120,6 @@
             10:{en: 'transcription/Stanford CS230 ｜ Autumn 2025 ｜ Lecture 10： What’s Going On Inside My Model？.en-US.html', zh: 'transcription/Stanford CS230 ｜ Autumn 2025 ｜ Lecture 10： What’s Going On Inside My Model？.zh-TW.html'}
           };
 
-          // lectureTitlesZh & lectureSummariesZh are generated from notes by scripts/extract_note_summaries.py
           const list = [];
           for(let i=0;i<lectures.length;i++){
             const L = lectures[i];
@@ -142,7 +137,6 @@
 
             // 特別處理第七講（index 6）：不顯示播放與筆記
             if(i === 6) {
-
               list.push(`
                 <article class="course-item" role="article">
                   <div style="display:flex;justify-content:space-between;align-items:flex-start">
