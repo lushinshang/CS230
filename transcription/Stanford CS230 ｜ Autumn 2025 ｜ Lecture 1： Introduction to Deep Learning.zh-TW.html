@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Stanford CS230 ｜ Autumn 2025 ｜ Lecture 1： Introduction to Deep Learning.en-US (繁體中文)</title>
+  <style>
+    body{font-family:Inter, Noto Sans TC, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;line-height:1.6;padding:1rem;max-width:900px;margin:0 auto;color:#111}
+    .meta{color:#666;font-size:0.95rem;margin-bottom:0.5rem}
+    article{background:#fff;border-radius:8px;padding:1rem 1.2rem;box-shadow:0 6px 18px rgba(10,20,30,0.05)}
+    p.speaker{margin:0 0 0.6rem}
+    p.speaker strong{color:#0b5; /* just example */}
+  </style>
+</head>
+<body>
+<article>
+  <header>
+    <h1>課程逐字稿 — Stanford CS230｜Autumn 2025｜Lecture 1：Introduction to Deep Learning</h1>
+    <p><strong>推測場次/時間：</strong>Lecture 1 | 2025</p>
+    <p><em>註：逐字稿已去除與理解無關之語助詞與冗長停頓；保留原文關鍵術語（英文字樣以括號標示）。對發音或詞彙不確定之處以括號附註可能選項。</em></p>
+  </header>
+
+  <section class="transcript">
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[00:00]</span> 今天先概覽這門課；這學期（2025 年秋季）我們採「翻轉教室」模式（flipped classroom），請先在線上觀看高品質錄製講座，課堂時間用來做更深入討論與練習。</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[01:10]</span> 歡迎剛到史丹佛的新生，請大家留意並主動歡迎他們；如果有問題請舉手發問，課堂上鼓勵即時互動。</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[02:05]</span> CS230 的目標是讓你們在本學期結束時，能夠接近或達到 current state‑of‑the‑art 的深度學習應用（Deep Learning）；我與共同授課者 Kian 會幫助你們學會如何實作與應用。</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[03:10]</span> 近 10–15 年 AI 的進展很多來自於 scale（擴大資料與模型）——大型神經網路（neural networks）配合大量資料能持續提升效能；這也催生了對大量 GPU 與資料中心的投資。</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[04:30]</span> 有趣的歷史小故事：早期在 Stanford 有用 CUDA（CUDA）與 GPUs（GPU）做深度學習的嘗試，我第一台用來訓練的 GPU 機器是由當時的 Stanford undergraduate Ian Goodfellow 在宿舍做出的（Ian Goodfellow為人名）。</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[05:30]</span> 深度學習擅長「吸收大量資料」，因而在許多任務上可持續透過放大模型與資料量得到更好表現；部分研究（例如 scaling laws）能預測投入計算與資料後的效能提升。</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[06:45]</span> 在電腦科學的知識階層中：CS 基礎（Computer Science fundamentals）→ 機器學習（Machine Learning）→ 深度學習（Deep Learning），而近來的生成式 AI（Generative AI）多建立在 transformer 架構（transformer）上。</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[07:40]</span> 深度學習（Deep Learning）與神經網路（neural networks）在口語上常可互換使用，本課會多以「深度學習 / neural networks」描述；若有純理論差異，不影響實務應用的學習重點。</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[08:20]</span> 有時必須深入到深度學習層（非僅利用 LLM prompt）才能讓特定應用達到可用的結果；因此本課既教你如何使用 LLM（large language models, LLMs），也教你如何進入模型層面調整與微調（fine‑tune）。</p>
+
+    <p class="speaker"><strong>學生（Student 1）：</strong> <span class="time">[09:10]</span> 請問機器學習（Machine Learning）是本課的先修嗎？</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[09:25]</span> 不是必要先修，但若沒有任何 ML 基礎，課程前幾週可能會覺得節奏快；常見進入管道包括 CS129（較實作入門）、CS229（理論較重）與 CS230（本課，偏深度學習與實作）。</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[10:20]</span> CS229 與 CS230 可以同時修讀；兩者設計上重疊很少，229 偏理論與推導，230 偏實作與深度學習技術。</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[11:00]</span> 關於 LLM 與最新變體：本課會介紹 transformer 架構與一些 GenAI 概念，但不會涵蓋訓練最前緣、超大規模基礎模型（training huge foundation models）那類極為專門且人數稀少的工作。</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[11:45]</span> 課程整體內容會包含：目標函數與優化技巧、模型微調（fine‑tuning）、訓練時的實務技巧，以及少量 GenAI 主題（例如 transformer 與應用面探討）。</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[12:40]</span> 我們的在線上教材分為五大模組：1) 神經網路基礎（NN / Deep Learning），2) 模型調校（hyperparameters 與訓練技巧），3) 構建機器學習專案的策略與實務（project engineering），4) 捲積網路（ConvNets）與視覺應用，5) 序列模型（包括 transformer 與序列資料）。</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[13:50]</span> 實作方面我們會從 raw Python 實作基礎神經網路開始（不完全依賴框架如 TensorFlow / PyTorch），以便你真正理解底層如何運作；然後再介紹如何在現實專案中快速調參與診斷問題。</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[14:45]</span> 在專案決策面（是否多蒐集資料、是否買更多 GPU 等），我會教你如何以更系統化方式做判斷，避免團隊盲目投入大量資源卻收效甚微。</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[15:35]</span> 若要判斷某應用需多少資料很難一概而論；已有人研究或相似任務可參考文獻；若是全新問題，常見做法是先收小量資料訓模型（try a small experiment），再由結果估算是否需要更多資料。</p>
+
+    <p class="speaker"><strong>學生（Student 2）：</strong> <span class="time">[16:30]</span> 請問課程數學與程式碼比例如何？會不會很理論？</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[16:45]</span> CS230 相對偏實作與應用（較「math‑light」但仍需基本概念）；若想要更深入理論，CS229 是更好的選擇；本課強調實務、診斷與工程化技巧。</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[17:25]</span> 我也會討論生成式 AI（Generative AI）在文本為主的應用（如 ChatGPT、Claude、Gemini 等），以及在影像、音訊、多模態等領域的應用差異；有些情況僅靠 prompt 不夠，需進一步調整模型或微調（fine‑tune）。</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[18:20]</span> 關於原型開發，AI‑assisted coding（AI 協助程式撰寫）極大加速 prototype 速度，但在正式上線的 production 系統仍需更嚴謹的工程流程與安全考量；「快速且負責任地」實驗是我鼓勵的方式。</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[19:20]</span> 許多團隊在產品邁入大規模時會發現 LLM 使用成本飆升，此時深度學習技術（比如微調較小模型）往往是把成本拉回來的重要技能。</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[20:05]</span> 職場面向：現今企業非常需要懂 GenAI / 深度學習的人才；若面試者既有經驗又熟悉 AI 工具會更具競爭力；我個人更傾向於「有 AI 能力且有經驗」的候選人。</p>
+
+    <p class="speaker"><strong>學生（Student 3）：</strong> <span class="time">[20:50]</span> 如何分辨熟悉 GenAI 的人與只會打 prompt 的人？</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[21:05]</span> 可以看他們掌握的工具與方法：例如是否懂 RAG（Retrieval‑Augmented Generation）、vector databases（向量資料庫）、evals（評估）、error analysis（錯誤分析）、guardrails（防護機制）、multimodal LLMs、fine‑tuning，以及如何把 AI 整合進系統等。</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[22:00]</span> 我也鼓勵你們去幫助其他學院同學學會使用 AI 工具與程式設計，當程式撰寫變得更容易時，會有更多人參與建造有影響力的應用。</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[22:40]</span> 最後教學提醒：本課會帶你從基礎實作到工程化與應用面，也會訓練你進行專案診斷、超參數調整（hyperparameter tuning）與製品化考量，希望你能把這些技能帶到日後的專案與工作中。</p>
+
+    <p class="speaker"><strong>主講（Instructor）：</strong> <span class="time">[23:20]</span> 若有即時問題請繼續發問，課堂與線上資源會互補；下週會介紹共同授課者 Kian，之後課程以線上影片為主、課堂討論為輔。</p>
+
+    <p class="speaker"><strong>其他（狀況註記）：</strong> <span class="time">[23:35]</span> [掌聲]</p>
+
+    <footer>
+      <p><em>備註：原始講稿中有個別詞彙或專有名詞發音不清（例如提到的平台 "Seagull"—此處標註為 Seagull（或其他線上影片平台）以示不確定）；另提及工具或名詞保留原文英文字樣，如 CUDA、GPU、transformer、LLMs、ChatGPT、Claude、Gemini、Midjourney、RAG、vector databases 等。</em></p>
+    </footer>
+  </section>
+</article>
+</body>
+</html>

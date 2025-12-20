@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Stanford CS230 ｜ Autumn 2025 ｜ Lecture 6： AI Project Strategy.en-US (繁體中文)</title>
+  <style>
+    body{font-family:Inter, Noto Sans TC, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;line-height:1.6;padding:1rem;max-width:900px;margin:0 auto;color:#111}
+    .meta{color:#666;font-size:0.95rem;margin-bottom:0.5rem}
+    article{background:#fff;border-radius:8px;padding:1rem 1.2rem;box-shadow:0 6px 18px rgba(10,20,30,0.05)}
+    p.speaker{margin:0 0 0.6rem}
+    p.speaker strong{color:#0b5; /* just example */}
+  </style>
+</head>
+<body>
+<article lang="zh-Hant">
+  <header>
+    <h1>逐字稿 — Stanford CS230｜Autumn 2025｜Lecture 6：AI Project Strategy</h1>
+    <p>推測場次與時間：Lecture 6｜2025（依檔名推測）</p>
+    <hr>
+  </header>
+
+  <!-- 開場與課程目標 -->
+  <p class="speaker"><strong>主講：</strong>（約 00:00）今天繼續討論 AI 專案策略，示範兩個範例：第一部分用語音辨識、語音啟動裝置（voice-activated device）示例，第二部分用 AI 深度研究員（deep researcher）示例，帶大家體驗建置 AI 系統時每日的決策與取捨。</p>
+
+  <p class="speaker"><strong>主講：</strong>（約 00:30）理解演算法固然重要，但真正驅動效能的是團隊建立高效率的開發流程：如何調整超參數、蒐集資料、以及當實驗第一次失敗時下一步怎麼做；這些決策往往會帶來 10 倍以上的生產力差異。</p>
+
+  <!-- 案例引入：語音啟動裝置 -->
+  <p class="speaker"><strong>主講：</strong>（約 02:00）第一個範例是建一個桌燈（lamp）插上電就能用語音控制，不需繁瑣的 Wi‑Fi 設定；假設燈有個預設名稱，例如「Robert」，使用者只要說「Robert, turn on」就開燈。</p>
+
+  <p class="speaker"><strong>主講：</strong>（約 02:30）這類產品可做為創業點子：做一個小型 IC（integrated circuit）給家電製造商，讓裝置內建若干預設名稱供使用者選擇，插電即用，不需連網設定。</p>
+
+  <p class="speaker"><strong>主講：</strong>（約 03:15）為簡化討論，今天只聚焦檢測單一句子「Robert, turn on」，其餘如關燈或其他名稱（例如 Lana、Alice、Johnny 等）可用同樣方式拓展。</p>
+
+  <!-- 問題與同學回應 -->
+  <p class="speaker"><strong>主講：</strong>（約 04:00）假設你剛從 CS230 畢業，是這家新創的 CTO，第一步會怎麼做？</p>
+
+  <p class="speaker"><strong>學生A：</strong>（約 04:10）可以拿開源的 speech‑to‑text（語音轉文字）模型試跑，看看能否辨識到燈的指令。</p>
+
+  <p class="speaker"><strong>學生B：</strong>（約 04:25）我會嘗試三個模型：一個檢測聲音活動（voice activity detection）、一個檢測關鍵詞（keyword / wake word），第三個嘗試理解整句（語意理解）。</p>
+
+  <p class="speaker"><strong>主講：</strong>（約 04:45）這是合理的起點；也可以考慮用 Siamese network（孿生網路）讓模型比較兩段音訊是否為同一詞，對於快速泛化到新詞很有幫助。</p>
+
+  <p class="speaker"><strong>學生C：</strong>（約 05:10）或許也能用手機把部分運算放到使用者的手機上，手機辨識再傳訊號給裝置。（註：此為不同產品設計方向）</p>
+
+  <!-- 重要觀念：速度與實驗流程 -->
+  <p class="speaker"><strong>主講：</strong>（約 06:00）一個強烈的觀察是速度：比起完美的設計，能快速做出原型、快速驗證的團隊通常更有競爭力；寧可一週或兩天內做出能跑的版本，用實驗快速修正。</p>
+
+  <p class="speaker"><strong>主講：</strong>（約 06:30）舉例來說，完整語音辨識模型通常較重，難以在極小成本的邊緣裝置上運行；但若只偵測單一喚醒詞（wake word / trigger word），可用相當小的神經網路。</p>
+
+  <!-- 建議：文獻搜尋與資源 -->
+  <p class="speaker"><strong>主講：</strong>（約 07:15）第一件事常是做 literature search（文獻搜尋）與試試現有開源軟體；建議廣泛且淺層瀏覽多篇文章及 repo，再針對看起來最相關的慢讀與深入。</p>
+
+  <p class="speaker"><strong>主講：</strong>（約 07:50）另外善用專家：在做過功課後，若仍卡住，寄禮貌郵件給論文作者或領域專家（例如 Dan Jurafsky（Dan Jurafsky）等）通常能很快取得關鍵指引，回覆機率常比想像高。</p>
+
+  <!-- 資料集問題：沒有 Robert 範例 -->
+  <p class="speaker"><strong>主講：</strong>（約 09:00）實務上沒有公開大量「Robert, turn on」的資料集，所以若決定用這個喚醒詞，就必須自行蒐集資料來區分「有人說 Robert, turn on」與「沒有人說 Robert, turn on」。</p>
+
+  <p class="speaker"><strong>學生D：</strong>（約 09:30）可以用 text‑to‑speech（TTS）合成語音來擴增資料。</p>
+
+  <p class="speaker"><strong>主講：</strong>（約 09:45）TTS（合成語音）是可行的方法，但通常不是第一選，因為合成語音可能不足以反映真實語音的多樣性；直接外出實錄、取得同意後錄音通常更可靠且比較快取得多樣聲音。</p>
+
+  <p class="speaker"><strong>主講：</strong>（約 10:30）蒐集策略包含向路上或校園的人錄音並取得同意，或用乾淨的正例（清楚說 Robert, turn on）加上各式背景雜訊素材合成，藉由波形相加模擬真實情境（superposition 特性）。</p>
+
+  <!-- 建立訓練集與不平衡問題 -->
+  <p class="speaker"><strong>主講：</strong>（約 11:30）一個常見作法是把較長音檔切成多個視窗（window），例如取 3 秒視窗，視窗若包含「Robert, turn on」的結尾即為正例，否則為負例；由少量錄音可切出數千個二元標記樣本。</p>
+
+  <p class="speaker"><strong>主講：</strong>（約 12:10）但要注意不平衡資料的陷阱：若正例太少，模型可能學到「永遠回傳 0」的捷徑就能達到高準確度；要解法例如複製正例、給正例較高權重、或增加正例多樣性。</p>
+
+  <p class="speaker"><strong>學生E：</strong>（約 12:50）可否透過資料複製、或在正例附近多取幾個時間視窗來增加量？</p>
+
+  <p class="speaker"><strong>主講：</strong>（約 13:05）正確，複製正例或調整 loss weight 都是可行；另一個實務上的小技巧是把「正例窗口」延展，例如把偵測窗口從 0.1 秒延長到 0.5 或 1 秒，這樣從一段正例可以產生更多略有差異的正樣本，提高多樣性。</p>
+
+  <!-- 過擬合、資料分布不一致 -->
+  <p class="speaker"><strong>主講：</strong>（約 14:00）如果訓練集上表現很好但 dev/test 上很差，可能是過擬合或訓練與測試的資料分布不同；常見解法包含正則化（regularization）、蒐集更多真實資料、或修正合成資料的製作方式。</p>
+
+  <p class="speaker"><strong>主講：</strong>（約 14:40）合成資料（例如把乾淨語音加上背景雜訊或加上各種音樂）在很多情況下能大幅擴充訓練集，但要注意不要只產生聲音活動檢測（voice activity detection）的 shortcut，需在負例中加入各式非目標詞語與雜訊來避免模型只學「有聲就是正例」的策略。</p>
+
+  <!-- 訓練迴圈與團隊節奏 -->
+  <p class="speaker"><strong>主講：</strong>（約 15:30）建議把訓練當成持續的偵錯循環（debugging）：例如每天晚上啟動訓練、隔天早上分析錯誤、午後修正並在晚上再啟動訓練；若能每天解決一個問題、長期累積會很快改進系統。</p>
+
+  <p class="speaker"><strong>主講：</strong>（約 16:10）訓練時間長短會影響節奏：若訓練只需 10 分鐘，迭代非常快；若需數週訓練，就要靠檢視檢查點（checkpoints）來提早發現明顯問題並終止不合適的執行。</p>
+
+  <p class="speaker"><strong>主講：</strong>（約 16:50）另一個技巧是 transfer learning（遷移學習）：先在大資料集訓好模型，再對小資料集做 fine‑tuning，能把迭代時間大幅縮短到數十分鐘或小時級別。</p>
+
+  <!-- 商業競爭與速度優勢 -->
+  <p class="speaker"><strong>主講：</strong>（約 17:30）速度常成為市場競爭的關鍵：若你的團隊速度是競爭者的一半，你在相同時間內將達到遠超他們的成果，這種速度差會累積成巨大的市場優勢。</p>
+
+  <!-- 第二範例：AI 深度研究員（pipeline） -->
+  <p class="speaker"><strong>主講：</strong>（約 18:20）第二例子是建立一個「深度研究員」（deep researcher）pipeline：輸入查詢（例如最新黑洞研究），首先用 LLM（大型語言模型）生成多組搜尋關鍵字，再呼叫網路搜尋、抓取網頁、最後用 LLM 組成綜述報告。</p>
+
+  <p class="speaker"><strong>主講：</strong>（約 19:00）這類系統通常是串接多個元件的流水線（pipeline / cascade），每個元件都可能成為瓶頸或錯誤來源；因此重要的是用系統性錯誤分析（error analysis）決定應該優先改善哪一個元件。</p>
+
+  <p class="speaker"><strong>主講：</strong>（約 19:40）錯誤分析做法：選 10–100 個代表查詢，檢視每個查詢在各步驟的輸出（產生的搜尋詞、搜尋結果清單、抓取的網頁、最後輸出的文章），釐清哪個步驟造成多數問題，然後集中改進該步驟。</p>
+
+  <p class="speaker"><strong>主講：</strong>（約 20:30）舉例：若系統常抓到 bobsbackyardastronomyblog.com 而非 nasa.gov，可能是 web search engine（搜尋引擎）或搜尋詞生成有問題；若搜尋結果合理但最後寫作品質差，則需改善 LLM 的 prompt 或資料摘要策略。</p>
+
+  <p class="speaker"><strong>主講：</strong>（約 21:10）錯誤分析需要人工檢視與領域知識，建立試驗表格（spreadsheet）逐一紀錄與統計各步驟失敗比率，能有效縮短後續的改進方向與時間浪費。</p>
+
+  <!-- 綜合總結 -->
+  <p class="speaker"><strong>主講：</strong>（約 22:00）總結：實務上很多問題不是純演算法，而是資料收集、資料分布不匹配、工程化流程與速度。建立快速迭代的節奏、做好廣泛搜尋與錯誤分析、適時請教專家，往往比只鑽研模型結構更能快速把產品做出來。</p>
+
+  <footer>
+    <hr>
+    <p>註記：文中保留原文關鍵術語（例如 LLM、TTS、wake word）；對於口音或語音模糊處原文標示為「（可能為：...）」或以括號提供最可能的選詞替代。</p>
+  </footer>
+</article>
+</body>
+</html>

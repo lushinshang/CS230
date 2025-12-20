@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Stanford CS230 ｜ Autumn 2025 ｜ Lecture 2： Supervised, Self-Supervised, & Weakly Supervised Learning.en-US (繁體中文)</title>
+  <style>
+    body{font-family:Inter, Noto Sans TC, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;line-height:1.6;padding:1rem;max-width:900px;margin:0 auto;color:#111}
+    .meta{color:#666;font-size:0.95rem;margin-bottom:0.5rem}
+    article{background:#fff;border-radius:8px;padding:1rem 1.2rem;box-shadow:0 6px 18px rgba(10,20,30,0.05)}
+    p.speaker{margin:0 0 0.6rem}
+    p.speaker strong{color:#0b5; /* just example */}
+  </style>
+</head>
+<body>
+<article lang="zh-Hant">
+  <header>
+    <h1>逐字稿 — Stanford CS230：Lecture 2（推測場次/時間：Autumn 2025｜Lecture 2）</h1>
+    <p>課程主題：Supervised, Self‑Supervised, &amp; Weakly Supervised Learning</p>
+    <p>來源檔名：Stanford CS230 ｜ Autumn 2025 ｜ Lecture 2： Supervised, Self‑Supervised, &amp; Weakly Supervised Learning.en‑US.srt</p>
+    <p class="note">說明：下列為經過清理與標準化的逐字稿（已移除冗詞、整理停頓），保留原文關鍵術語英文字樣於括號中；對不確定或聽不清之詞以括號標註可能選項或註記。</p>
+  </header>
+
+  <section>
+    <h2>導入與課程大綱</h2>
+    <p class="speaker"><strong>主講者（Kian Katanforoosh）：</strong> 我是 Kian Katanforoosh，與 Andrew 共同創辦並負責本課程 CS230，這學期我會授課約一半的實體課程。我同時在產業工作，領導一家公司 Workera，使用 AI 測量技能；因此課堂除了線上影片的理論，也會帶來許多產業實務與案例。</p>
+
+    <p class="speaker"><strong>主講者（Kian）：</strong> 今天的結構大概分三到四部份：先快速複習（neurons, layers, deep neural networks），接著幾個 supervised learning 的專案（白天/夜晚分類、trigger word detection、face verification），第三部分討論 self‑supervised 與 weakly supervised learning（重點為 embeddings），如果有時間會再談 adversarial attacks &amp; defenses。請隨時打斷發問，盡量互動。</p>
+  </section>
+
+  <section>
+    <h2>複習：監督式學習（Supervised Learning）要點</h2>
+    <p class="speaker"><strong>主講者（Kian）：</strong> 傳統監督式學習的核心是從輸入到輸出學習，例如輸入一張影像（像素矩陣），輸出一個 0 到 1 之間的機率值，表示圖片是否有貓。模型可拆成 architecture（架構）與 parameters（參數）兩部分；訓練用的是 gradient descent，透過 loss function（損失函數）比較預測與真實標籤並更新參數。</p>
+
+    <p class="speaker"><strong>主講者：</strong> 輸入可為影像、文字、聲音、結構化資料等；輸出不必僅為二分類，也可為回歸或生成任務（例如 diffusion models 或 GANs），輸入輸出尺寸、架構（MLP、RNN、CNN、Transformer 等）與 loss function 都會影響性能—設計好的 loss 是一門藝術（例如 YOLO 的複雜 loss，YOLO 全名為 "you only look once"）。</p>
+
+    <p class="speaker"><strong>主講者：</strong> neuron（神經元）可視為 logistic regression：線性運算 W^T x + b，接 activation（例如 sigmoid）使輸出落在 0–1 之間。若要從二分類改為多類別（例如貓、狗、長頸鹿），需改變輸出層神經元數（one‑hot 或 multi‑hot 向量），並適當調整資料標註；常見錯誤是新增資料卻忘記調整 label。</p>
+  </section>
+
+  <section>
+    <h2>案例一：白天 / 夜晚分類（Day vs Night）</h2>
+    <p class="speaker"><strong>主講者：</strong> 問題：給定一張圖片，判斷是白天還是夜晚。首先可以做 feature engineering（例如檢查同一列像素的差異）或直接用大量標註資料訓練。收集資料時要注意任務定義：是針對單一地點還是全球任務？範圍不同對資料多樣性與 model capacity 有巨大影響。</p>
+
+    <p class="speaker"><strong>學生A：</strong> 若在同一地點只需偵測光線差異會比較容易，但若要求全球適用需要大量多樣資料（氣候、文化、室內/室外、黎明/黃昏等邊界情況）。</p>
+
+    <p class="speaker"><strong>主講者：</strong> 在快速試驗時可用人類作為 proxy（例如把圖列印成不同解析度問人能否分辨），實驗結果顯示 64×64×3 常是可行的起點；顏色（RGB）在此任務很重要，因為藍天資訊能有效區分白天夜晚。輸出為 0/1，最後 activation 可用 sigmoid，loss 用 binary cross‑entropy（logistic loss）。</p>
+
+    <p class="speaker"><strong>主講者：</strong> 設定解析度時要考量資訊損失與運算成本：解析度太低會失去關鍵資訊（例如鐘面），太高則訓練耗時。實務上常在資料前處理階段對影像 downsample/upsample 以統一大小。</p>
+    <p class="meta">（本段提到：人類 proxy 實驗與解析度討論；時間標記：暖身約 15 分鐘）</p>
+  </section>
+
+  <section>
+    <h2>案例二：觸發詞檢測（Trigger Word Detection）</h2>
+    <p class="speaker"><strong>主講者：</strong> 例子：給定 10 秒音訊片段，偵測是否說到 trigger word（例如 "activate"）。在實務上通常採 cascade of models：先偵測活躍音量，再用輕量模型偵測 trigger word，最後呼叫較重的語意模型。</p>
+
+    <p class="speaker"><strong>主講者：</strong> 音訊處理常先做頻譜預處理（如 Fourier transform / spectrogram），並考量語音長度（time steps）與採樣率。資料收集可以用手機錄音、上網抓自由授權語料、錄製包含正例（"activate"）與負例（相似詞如 "deactivate"、其他詞）以及背景雜訊（可大量從影片中擷取）。</p>
+
+    <p class="speaker"><strong>主講者：</strong> 標註策略很重要：若只標註整段是否含詞（粗略標註），模型可能需要大量資料；若標註詞的時間區間（更精細），模型學習效率高很多。實務做法：用合成方法把正、負及背景合成到長片段，Python 腳本可自動插入並產生 label，短時間內能生成大量訓練資料；測試集仍須用真實手工標註的資料來評估。</p>
+
+    <p class="speaker"><strong>主講者：</strong> 架構上因為是 sequence data，通常會在每個 time step 做 sigmoid 輸出並計算 sequence‑wise binary cross‑entropy；也會考慮 class imbalance（正例非常少）而用工程上平衡策略。訓練時可使用 data augmentation（改變頻率、加噪、加速/減速等）。</p>
+
+    <p class="speaker"><strong>教學示範：</strong> 課中播放三段音訊讓學生猜 trigger word，實驗顯示在不同標註策略下人類與模型的辨識難度差異，較精細的標註能大幅降低所需數據量（避免 cold start 問題）。</p>
+  </section>
+
+  <section>
+    <h2>案例三：人臉驗證（Face Verification）與識別（Identification）</h2>
+    <p class="speaker"><strong>主講者：</strong> 應用情境：校園使用人臉驗證核對學生證。資料通常有學生 ID 照片（資料庫）與即時攝影機拍攝影像。解析度需求高（範例提到 412×412×3）以保留細節（眼睛、虹膜、膚色等）。</p>
+
+    <p class="speaker"><strong>主講者：</strong> 傳統直接的 pixel‑wise 比較會受光線、平移、縮放、戴帽/眼鏡、髮型、年齡變化等影響，因此實務上用 encoding（embedding）方法：將影像餵入經過訓練的深度網路，擷取中／深層某層的向量表示（例如 128 維向量），再用距離或相似度（L2、cosine）比較兩張影像的向量距離。</p>
+
+    <p class="speaker"><strong>主講者：</strong> 訓練時常用 triplet loss（anchor, positive, negative triplets）：希望 anchor 與 positive 的編碼距離靠近，anchor 與 negative 的距離拉遠；也會搭配 data augmentation（翻轉、旋轉、裁切）來強化健壯性。若要做 identification，可先把所有學生的 images 轉為 vectors 並儲存，實務搜尋用 K‑Nearest Neighbors（或比較向量與 centroid）來辨識。</p>
+
+    <p class="speaker"><strong>主講者：</strong> 若每個人只有一張照片，可用資料增強或其他方法（課程後續將介紹），但 triplet / contrastive 方法通常要有多張同一人的圖片來建立穩定訓練。此章節引用 FaceNet（Schroff et al., 2015）做為範例。</p>
+  </section>
+
+  <section>
+    <h2>自監督學習（Self‑Supervised Learning）與弱監督（Weakly Supervised Learning）</h2>
+    <p class="speaker"><strong>主講者：</strong> 標註昂貴，若只有大量無標註資料要怎麼學有效表示？做法之一是利用 data augmentation 建對（pairs）或對比學習（contrastive learning，例如 SimCLR）：把同一張圖經過不同變換（旋轉、裁切、遮擋、加噪）視為「相同」，訓練網路使這些變換後的編碼靠近，而不同影像的編碼則彼此分離，這就是 self‑supervised 的核心。</p>
+
+    <p class="speaker"><strong>主講者：</strong> 在文字上，GPT 類模型的 next‑token prediction（預測下個 token）也是 self‑supervised，因為資料本身提供監督訊號；訓練大規模的自監督模型會產生 emergent behaviors（未被直接教導但因大規模任務出現的新能力），例如語義知識、常識推理等。</p>
+
+    <p class="speaker"><strong>主講者：</strong> 弱監督（weakly supervised）的例子是自然出現的跨模態配對（例如圖像＋caption、影片＋字幕、音訊＋影像），這些「弱標註」可以用來把不同模態綁在同一個 embedding 空間（multimodal embedding，例如 ImageBind 類方法），使得文字、影像、音訊等可以互相檢索與對應。</p>
+
+    <p class="speaker"><strong>主講者：</strong> 自監督方法適用於圖片、音訊（mask 或預測缺失區段）、影片（預測幀或順序）、生物序列（mask and predict）等多種模態；關鍵在於設計能讓模型自行從資料中學到有意義結構的 proxy 任務（如對比或重建）。</p>
+  </section>
+
+  <section>
+    <h2>總結與後續主題</h2>
+    <p class="speaker"><strong>主講者：</strong> 今天重點整理：理解 model（architecture vs parameters）、訓練流程（gradient descent、loss function）、encoding/embeddings 的概念、三個 proxy project（白天/夜晚分類、觸發詞檢測、臉部驗證），以及自監督與弱監督學習如何利用大量無標註資料得到強大的預訓練表示。</p>
+
+    <p class="speaker"><strong>主講者：</strong> 後續課程會深入：embedding 的應用、interpretability（視覺化與解釋神經網路）、adversarial attacks &amp; defenses（若時間允許今天也會簡述，否則兩週後再詳談）、以及更進階的生成模型與強化學習議題。若做專案，善用 human‑proxy 實驗、與 TA/專家討論，並重視資料與標註策略。</p>
+
+    <p class="note">註記：課中出現多處口語互動與學生問答（已重新整理為上文問答句），若原音段落有不確定處（標註為 [INAUDIBLE] 或 [NON‑ENGLISH SPEECH]），逐字稿在該處以括號標示為「（詞彙不清或外語，可能選項：...）」。</p>
+  </section>
+
+  <footer>
+    <p>版本註記：此逐字稿依來源 SRT 內容整理、移除語助詞與長停頓、並將技術術語保留英文關鍵字於括號中。如需逐字對照原時間軸或保留完整時間碼，請提供原 SRT 檔案時間碼要求。</p>
+  </footer>
+</article>
+</body>
+</html>

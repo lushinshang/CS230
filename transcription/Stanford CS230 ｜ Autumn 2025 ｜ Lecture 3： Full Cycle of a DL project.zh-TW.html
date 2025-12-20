@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Stanford CS230 ｜ Autumn 2025 ｜ Lecture 3： Full Cycle of a DL project.en-US (繁體中文)</title>
+  <style>
+    body{font-family:Inter, Noto Sans TC, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;line-height:1.6;padding:1rem;max-width:900px;margin:0 auto;color:#111}
+    .meta{color:#666;font-size:0.95rem;margin-bottom:0.5rem}
+    article{background:#fff;border-radius:8px;padding:1rem 1.2rem;box-shadow:0 6px 18px rgba(10,20,30,0.05)}
+    p.speaker{margin:0 0 0.6rem}
+    p.speaker strong{color:#0b5; /* just example */}
+  </style>
+</head>
+<body>
+<article lang="zh-Hant">
+  <header>
+    <h1>逐字稿 — Stanford CS230：Lecture 3（Full Cycle of a DL Project）</h1>
+    <p><strong>推測場次／時間：</strong>Lecture 3 — Autumn 2025（2025 年秋季）</p>
+  </header>
+
+  <section>
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 00:00）</span> 今晚想和大家討論「深度學習專案的完整週期」。今天會用一個範例說明，並在過程中向大家提出很多問題，讓課程更具互動性，若有問題請隨時打斷發問。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 01:30）</span> AI（包括深度學習與大型語言模型 LLM（Large Language Model，大型語言模型））與傳統軟體工程最大的不同，在於除了程式碼還有資料，且常常無法事先完全預測資料中有哪些奇異或重要的現象。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 02:30）</span> 以臉部辨識（face recognition）為例：你可能不知道光線、髮型、怪異表情或眼鏡等會如何影響系統，因此 ML／DL 的開發通常是高度循環、實驗性的──寫一個東西、看它的表現，再根據錯誤（error analysis）去修正模型或資料。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 04:00）</span> 這不只是深度學習的事，LLM 的不可預測性也是因為訓練資料龐大且無法逐一檢視；因此建置應用時也必須用實驗來發現問題，然後修正。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 05:10）</span> 一般流程是：定義問題 → 收資料 → 設計模型 → 訓練模型 → 評估並反覆執行（iterate），直到模型表現足夠，再部署並持續監控與維護。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 06:00）</span> 我今天的跑例是把臉部辨識用在門禁解鎖（decide when to unlock a door）上。常見做法是採用可以比較兩張照片是否為同一人的架構，例如 Siamese network（暫譯：連體網路，Siamese network）。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 07:00）</span> 這類系統的部署方式通常是：使用者先註冊數張樣本照片（registration photos），系統在辨識時把即時影像與註冊影像比對，若相符則放行；例如公司刷卡時同時拍照確認持卡者為本人。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 08:20）</span> 問題給大家思考：如果你是三人新創的 CTO、而律師禁止從網路抓資料（不能下載網路資料），要怎麼蒐集臉部辨識需要的訓練資料？以及要蒐集多久才開始訓練？</p>
+
+    <p class="speaker"><strong>參與者 A（學生）：</strong><span class="time">（大約 09:00）</span> （發言摘要）提到用串流影片或安全監視錄影來蒐集資料（例如 Zoom、監視器影片）。</p>
+
+    <p class="speaker"><strong>參與者 B（學生）：</strong><span class="time">（大約 09:30）</span> （發言摘要）可以在公司或校園放置相機，讓員工或同學選擇性加入並同意拍照；雖然樣本可能不夠多元，但速度快、能快速驗證想法。</p>
+
+    <p class="speaker"><strong>參與者 C（學生）：</strong><span class="time">（大約 10:00）</span> （發言摘要）建議向校方或社群發信號召自願者，但這通常花較長時間。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 10:40）</span> 我建議以「速度」作為蒐集策略的主要考量：對於初次嘗試的應用，能在一、兩天內快速蒐集資料、訓練並迭代常比花兩個月準備大量資料來得有效。快速的實驗能早點揭露資料中真正的問題，然後針對性地修正。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 12:00）</span> 當然有例外：如果有先驗知識或文獻指出某任務需要大量資料（例如至少 50,000 張圖），那就可以在一開始投入更多資源；但多數第一次做的專案，建議先走快速迭代路線。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 13:10）</span> 關於資料的「相似度」問題：訓練資料是否要與目標分布完全一致？答案通常沒那麼嚴格。大型神經網路有能力吸收一定程度的「非完全匹配」資料，雖然具體效果仍需用實驗驗證；但「錯誤資料（incorrect data）」是會有害的，應避免。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 14:20）</span> 資料不是單一的，有子類別（subcategories），直接「大量抓取任意資料」通常低效率且昂貴；更好的做法是錯誤分析（error analysis），找到系統薄弱的子類別再針對性蒐集高品質資料。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 15:30）</span> 舉例來說，LLM 的進步也來自於針對性資料（如程式碼相關資料）以及設計可重複的 agentic workflows（代理式工作流程）來改善特定任務表現。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 16:20）</span> 接著談部署：通常把訓練好的模型放到雲端或本地伺服器做推論（inference），但在實際應用（例如家庭門禁）上，連續將 24/7 的影片串流到雲端並逐幀分類成本太高，因此實務上會加入前端的篩選機制。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 17:10）</span> 一個常見的設計是加入 VAD（Visual Activity Detection，視覺活動偵測）階段：先用低成本的方式快速判斷畫面是否有人的活動，只有通過才送到更昂貴的臉部辨識模型。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 17:50）</span> 我給兩個實作選項供大家思考：選項一是用非 ML 的方法（例如比對連續影格中像素變動比例是否大於閾值 epsilon）；選項二是訓練一個小型、低功耗的神經網路來判斷畫面是否有人。</p>
+
+    <p class="speaker"><strong>參與者 D（學生）：</strong><span class="time">（大約 18:30）</span> （發言摘要）擔心選項一會有誤觸，例如路樹擺動、車輛或動物會觸發。</p>
+
+    <p class="speaker"><strong>參與者 E（學生）：</strong><span class="time">（大約 18:50）</span>（發言摘要）建議先用簡單方法快速上線（選項一），若需要再以小網路或邊緣模型取代（選項二），或把兩者串接成cascade（級聯）。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 19:30）</span> 我的實務建議也是以速度為優先：先做能最快得到答案的方案（通常是五行 Python 的選項一），把系統裝上相機看真實資料，再由觀察結果決定是否需要用選項二 或其他改進（例如針對"模糊影格"做額外挑選）。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 20:40）</span> 實務經驗顯示：挑選「清晰、高解析度」的影格送去辨識，對 accuracy 提升很有幫助；這類洞見常只有在實做後才能發現，正說明了實驗性的價值。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 21:30）</span> 關於衡量標準（benchmark）：一個常見參考是人類水平（human-level performance），若模型在受控環境下可超越人類，通常代表表現相當好；不過有些任務人類本身就不擅長，基準就較難定義。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 22:10）</span> 部署後的另一項重要工作是監控與維護：世界會變（data drift / concept drift），例如季節、穿戴風格、地域差異（例如交通號誌在不同州/國的外觀差異），都會讓模型在實務中失靈，需要持續抓回新資料並更新模型。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 23:20）</span> 簡單模型（選項一）因為參數少，常對分布變化較穩健；而複雜模型（選項二）若訓練資料不包含新情況，就較容易失效，因此在能取得用戶許可（opt-in）並回傳少量資料的情況下，持續收集並建立監控儀表板（dashboards）很重要。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 24:10）</span> 常見應該監控的指標例子：接受率／拒絕率、重新驗證（re-authentication）次數（使用者需重試的頻率）、延遲（latency）等；建議先多畫、廣泛監控，幾週後篩選出真正有用的幾個指標並設定告警閾值。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 25:00）</span> 最後強調一點：把工作視為「建立一個能在真實世界工作的系統」，而不是僅僅在測試集上做得好；當產品負責人指出系統在現場不夠好，請主動檢視真實資料與測試集差異並修正，而不是只回「我在測試集上做得很好」。</p>
+
+    <p class="speaker"><strong>主講者（講者）：</strong><span class="time">（大約 26:00）</span> 總結：AI／DL 的專案是一個以資料為中心的實驗迴圈——快速蒐集資料、訓練、做錯誤分析、針對性改進；部署後持續監控與更新，以應對世界的不斷變化。</p>
+
+    <p class="notes"><em>註記：</em> 原始片段中有多處標註為 [INAUDIBLE] 或不清楚之處，已根據上下文以最可能之詞彙轉寫；若仍有不確定之詞，已在該處以括號標註可能選項或說明（例如：Siamese network（Siamese network）、LLM（Large Language Model，大型語言模型）、VAD（Visual Activity Detection））。</p>
+  </section>
+</article>
+</body>
+</html>

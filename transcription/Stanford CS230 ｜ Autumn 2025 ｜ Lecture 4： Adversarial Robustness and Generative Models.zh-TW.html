@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Stanford CS230 ｜ Autumn 2025 ｜ Lecture 4： Adversarial Robustness and Generative Models.en-US (繁體中文)</title>
+  <style>
+    body{font-family:Inter, Noto Sans TC, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;line-height:1.6;padding:1rem;max-width:900px;margin:0 auto;color:#111}
+    .meta{color:#666;font-size:0.95rem;margin-bottom:0.5rem}
+    article{background:#fff;border-radius:8px;padding:1rem 1.2rem;box-shadow:0 6px 18px rgba(10,20,30,0.05)}
+    p.speaker{margin:0 0 0.6rem}
+    p.speaker strong{color:#0b5; /* just example */}
+  </style>
+</head>
+<body>
+<article lang="zh-Hant">
+  <header>
+    <h1>逐字稿 — Stanford CS230｜Autumn 2025｜Lecture 4：Adversarial Robustness and Generative Models</h1>
+    <p><strong>推測時間/場次：</strong>Lecture 4 | 2025</p>
+    <p><em>說明：標註為授課錄音逐字稿，已去除不影響理解之語助詞與長停頓。若遇不清楚之詞彙，先以最可能的詞彙轉錄，並於括號內列出其他可能選項；保留關鍵英文術語（例如：LLM、GAN、ImageNet、diffusion 等）。</em></p>
+  </header>
+
+  <section id="transcript">
+    <p class="speaker"><strong>主講者：</strong><span class="time">[00:00]</span> 歡迎來到 CS230，第 4 講。謝謝各位親自到場或線上參與。今天的內容是我很喜歡的一講，滿有趣，也會有很多視覺範例，並涵蓋許多現代方法（modern methods）。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[01:00]</span> 今天聚焦兩個主題：對抗性魯棒性（adversarial robustness）與生成式建模（generative modeling）。對抗性魯棒性很重要，因為越來越多 AI 模型進入真實世界，你每天可能會用到好幾個模型，使用越多就越容易被攻擊，因此需要主動建立防禦。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[02:00]</span> 另一個主題是生成式模型（generative models），近來非常熱門：影像生成、影片生成、文字（text）與程式碼生成。今天會介紹驅動像 Sora 或 Veo 這類產品的算法。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[03:00]</span> 我們先從對抗性魯棒性開始，預計花 30–45 分鐘，然後後半段聚焦生成模型，特別是 GAN（Generative Adversarial Networks）與 diffusion models（擴散模型）。注意：雖然名稱有 adversarial，但 GAN 的 adversarial 概念與對抗性攻擊不是同一回事。</p>
+
+    <p class="speaker"><strong>主講者（問答）：</strong><span class="time">[04:00]</span> 開放問題：大家能舉出對 AI 模型的攻擊例子嗎？你們使用 AI 時會擔心什麼？</p>
+
+    <p class="speaker"><strong>學生 A：</strong><span class="time">[04:20]</span> Prompt injection（提示注入）。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[04:30]</span> Prompt injection 指的是在 prompt 或複製貼上的內容中夾帶惡意指令或惡意內容（最可能：惡意內容；其他可能：payload、惡意指令），嘗試騙過 LLM（大型語言模型）以繞過原本的限制，可能導致資訊外洩，例如密碼或個資（PII）。我們會討論 prompt injection 與 jailbreaking 的相關概念。</p>
+
+    <p class="speaker"><strong>學生 B：</strong><span class="time">[05:30]</span> 有人提到對 AI 藝術的資料中毒（data poisoning）—把某些圖片標記為其他類別（例如：把貓的某些特徵加上狗的特徵），讓模型學到錯誤關聯。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[05:50]</span> 對，這是資料中毒（data poisoning）或後門（backdoor）攻擊的例子：在訓練資料加入被製作的樣本，使模型在遇到含觸發器（trigger）的輸入時產生特定錯誤行為。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[06:30]</span> 高風險情境例如自駕車偵測交通號誌被惡意修改導致辨識失效，或 LLM 被逆向工程還原訓練資料中的敏感資訊（例如銀行或 SSN），這些都會對公司與用戶造成重大風險。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[07:30]</span> 回顧過去十年，對抗性攻擊研究大致經歷三個浪潮：先是 2013 年 Szegedy 等人發現對抗性擾動（adversarial perturbations）——對人類幾乎不可見的小擾動就能騙過視覺模型；接著是資料中毒 / 後門攻擊（web scraping 導致被動收錄惡意資料）；最近是針對 LLM 的 prompt injection 與 jailbreaking。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[09:00]</span> 這個領域的一個特性是「每個防禦會催生新攻擊、每個攻擊會催生新防禦」，攻擊與防禦常由相同研究團隊提出（對抗研究者同時提出攻擊與防禦）。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[10:00]</span> 早期攻擊多以輸入為主；現代系統有更多入口（instruction、context、retrieval pipelines），例如連接資料庫或檢索外部文件的系統會增加攻擊面，兩三週後會講 Retrieval-Augmented Generation（RAG）相關風險。</p>
+
+    <p class="speaker"><strong>主講者（出題）：</strong><span class="time">[11:30]</span> 現在實作一個影像空間的對抗性範例。假設有一個在 ImageNet（保留英文）上預訓練的網路，目標是找到一個輸入 x 使得模型預測為 iguana（鬣蜥）。如何從優化角度設計這個問題？</p>
+
+    <p class="speaker"><strong>學生 C：</strong><span class="time">[12:10]</span> 可以直接給一張鬣蜥的照片。主講者：那不保證一定被模型判為 iguana，取決於模型表現。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[12:40]</span> 若沒有模型參數也沒有訓練集，另一種方法是向模型發送大量圖片直到找到輸出為 iguana 的一張，這是將問題視為優化或搜尋問題。理想化的損失函數是讓預測 y_hat 接近目標 y_iguana（可用 L2 或交叉熵），但注意這次不是調整參數而是對輸入像素做梯度更新——固定模型，針對 x 做梯度下降。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[14:10]</span> 問題來了：被優化出的 x 會像鬣蜥嗎？大多數情況不會。像素空間非常高維，模型的「iguana 類別」在輸入空間佔據的區域遠大於人類認為的真實鬣蜥圖像分布，所以優化出的樣本常是人眼看不出為鬣蜥的對抗性樣本（adversarial example）。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[15:20]</span> 更危險的是攻擊者從真實圖像（例如停車場的停止標誌或一張貓的照片）開始，只做小量像素修改，使圖像在人類看來仍是停牌或貓，但模型卻錯誤分類；這類攻擊在實務上更嚴重。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[16:10]</span> 技術上，我們會把優化目標加上正則項，既希望模型輸出為目標類別，也希望修改後的 x 與原始圖像 x_hat 保持接近；可從原始圖像出發逐步微調，速度更快而且更可能留在「人類可辨識」的影像分布上。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[17:30]</span> 再看實例與補充：2017 年有研究把圖像改造後在手機上運行實際模型即可看到分類結果改變，還有 adversarial patch（對抗性貼片）研究——把可列印的貼片貼到人或物上，可讓模型忽略或誤判目標。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[19:00]</span> 那些貼片設計時還要考慮列印可行性（colors in printable set）與顏色平滑（smoothness）等工程細節，研究者會在 loss 裡加入相應項以便於實體列印與跨場景泛化。</p>
+
+    <p class="speaker"><strong>學生 D：</strong><span class="time">[20:00]</span> 該研究只針對某個模型（例如 YOLO v2）優化，換模型還有效嗎？</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[20:10]</span> 若針對 YOLO v2 優化通常在 YOLO v2 上效果最好，但因模型在特徵上有相似性，該貼片有時能 transfer（跨模型轉移）到其他模型，這屬於 black-box attack（黑箱攻擊）策略：攻擊者在代理模型上訓練，然後把貼片或樣本送到目標模型試驗，若被限制請求速率則攻擊會受阻，但仍有方法繞過。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[21:30]</span> 為何神經網路容易被對抗性擾動影響？直覺上是高維度問題：對每個像素做小改變，如果方向正確，這些小改變會在 logit 空間累積，造成輸出大幅改變。Goodfellow 等人提出的 Fast Gradient Sign Method（FGSM，快速梯度符號法）就是一種一次性擾動：x* = x + epsilon * sign(∇_x J)，單步就能造成顯著影響。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[23:00]</span> 另一個觀察是：從輸入到 logits 的映射在實務上相當近似線性，且維度極高，這讓小擾動沿著權重向量方向被放大，導致分類結果劇變（可用 logistic 範例數學推導說明）。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[24:30]</span> 對抗性防禦有哪些？學生說了資料增強（加入 adversarial samples）與 input sanitization（輸入清理）。常見防禦還包括 adversarial training（對抗性訓練，並行訓練原圖與對抗圖、保留原標籤）、輸出過濾、以及專門的 red teaming（紅隊演練）。RLHF（Reinforcement Learning from Human Feedback）與人工審查也是常見的實務做法。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[26:00]</span> 回到後門攻擊（backdoor）：攻擊者在大型網路爬蟲抓取的資料中放入帶 trigger 的樣本（例如小貼片），並把該樣本標記成特定類別，模型訓練後會把觸發器與標籤關聯起來；後門攻擊能在部署時被觸發，例如臉部驗證系統中只要戴某小貼片就能通過。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[27:30]</span> Backdoor 不只在影像，有可能在文字或網頁中加入特定字串或 prompt，當模型檢索該網頁或被檢索到時可能執行不當指令；防禦困難，需要大量人工審查、檢測異常分布與多層次防護。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[29:00]</span> 談完對抗性攻防，我們轉到生成式模型（generative modeling）。舉例：圖像生成、影片生成、text-to-image（文字到影像）、超解析（super-resolution）、影像填補（inpainting）、語音、程式碼生成、以及以隱私保護考量的合成資料集等。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[31:00]</span> 一般 ML 區分 discriminative 與 generative：前者學分類邊界，後者嘗試學習資料的機率分布 p_data(x)。我們會看兩大類生成模型：GANs 與 diffusion models（擴散模型），並簡化數學以建立直覺。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[32:00]</span> 先介紹 GAN：GAN 的特色是對抗訓練（two networks）：Generator G（要學會產生影像）與 Discriminator D（判別真偽）。G 以隨機碼 z（例如維度 100）生成影像，D 要判別輸入來自真實資料或 G 的產出，兩者互相競爭。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[33:30]</span> D 的 loss 類似二元交叉熵（binary cross-entropy），要把真實影像判為 1，把生成影像判為 0；G 的目標是騙過 D，使得 D 誤判生成影像為真實，因此在經典 GAN 設定會用一個對抗性目標（minimax）。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[34:30]</span> GAN 訓練不穩定、容易出現 mode collapse（模式崩潰，generator 只產生資料子集而非完整分布），也有冷啟動問題（初期 G 的梯度可能很小）。Good engineering tricks 包括改 generator 的 loss（non-saturating loss）、不同訓練頻率、或 pretraining 等技巧。</p>
+
+    <p class="speaker"><strong>學生 E：</strong><span class="time">[36:00]</span> GAN 能否學到特定物件或只是學會騙 D？</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[36:10]</span> 可能會發生模式崩潰：GAN 可能學會生成一小組非常逼真的範例來騙 D，但未覆蓋整體資料分布；這就是為何後來 diffusion models 很受重視，它在某些任務上能提供更好多樣性與訓練穩定性。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[37:30]</span> 進入 diffusion（擴散模型）主題：核心想法是 denoising（去噪）。Forward diffusion 是逐步加噪到影像（x0 → xT），訓練時我們把「加的噪音」當作可用的標籤，學習一個模型去預測並移除這些噪音（即學 epsilon_hat 去逼近真實 epsilon），loss 常用 L2（reconstruction loss）。這是一種自監督（self-supervised）策略。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[39:10]</span> 優點：單模型（非對抗）、訓練更穩定、可設計噪音 schedule 逐步從簡單到困難教模型學習。反向採樣（sampling）時從純噪音開始，逐步 denoise，最後得到高品質影像；如果需要條件生成（conditioning），可在訓練與生成時加入文字或其他模態的嵌入（embedding）。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[41:00]</span> 訓練資料的建立方式：對每張影像可生成多個 noisy sample（不同 t），並以 (noisy image, timestep, ground-truth noise) 的三元組作為訓練資料，模型學會依據輸入的 noisy image 與 timestep 預測噪音。</p>
+
+    <p class="speaker"><strong>學生 F：</strong><span class="time">[42:00]</span> 需要多少資料才能訓好？</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[42:10]</span> 原則上生成模型需要大量資料，通常資料量要遠大於模型參數量；小型模型可用較少資料，但 foundation model 供應商通常追求「無限資料」策略，直到 loss 開始趨緩才調整模型架構或訓練細節。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[43:00]</span> 考慮到 vanilla diffusion 在像素空間計算昂貴，現今多數實務上採用 latent diffusion（潛空間擴散）：先用自編碼器（autoencoder）把影像編碼到較低維的潛向量 z，然後在 z 空間做加噪與去噪，最後 decode 回像素空間，運算量與記憶體需求顯著降低。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[44:30]</span> 若要條件生成（例如 text-to-image），會把文字 prompt 編碼成 embedding，並把這個 embedding 與潛向量一同作為模型的條件輸入，生成時從噪音逐步去噪時受該條件導引，最後 decoder 輸出符合 prompt 的影像。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[46:00]</span> 影片生成比影像更複雜，因為要維持時序一致性（temporal consistency）。在 latent 表示上會同時壓縮空間與時間成為「立方體」或 token／cube，模型必須學會維持跨幀的連續性與物體一致性；Sora、Veo 等系統多半在 latent 時間-空間塊上做擴散訓練並加入 prompt 條件。</p>
+
+    <p class="speaker"><strong>主講者（示例與總結）：</strong><span class="time">[48:00]</span> 總結要點：對抗性攻擊（adversarial attacks）與後門攻擊（backdoors）是重要風險，需透過資料審查、輸入清理、對抗性訓練、red teaming 與 RLHF 等複合防禦來降低風險；生成式模型方面，GAN 與 diffusion 各有利弊，diffusion 在多樣性與穩定性上具優勢，latent diffusion 在實務效能上可大幅提升。</p>
+
+    <p class="speaker"><strong>主講者：</strong><span class="time">[49:00]</span> 最後提醒：本課程的助教（TAs）將對你們的專案進行 red-team 測試，請在專案中納入相應防護機制。下週將有更多實作細節與相關論文閱讀建議，投影片底部列有參考資料。</p>
+
+    <p class="speaker"><strong>主講者（結語）：</strong><span class="time">[50:00]</span> 有問題可以在課後討論或到辦公時間找我。今天就到這裡，謝謝大家。</p>
+  </section>
+
+  <footer>
+    <p><strong>註記：</strong>不確定語詞或原 SRT 之標注「[INAUDIBLE]」已依上下文轉錄為最可能之詞彙，並在括號內示出其他可能選項；原文關鍵術語保留英文（例：LLM、GAN、ImageNet、FGSM、YOLO v2、RLHF、latent diffusion、Sora、Veo、DALL·E、Midjourney、Hugging Face、Anthropic）。</p>
+  </footer>
+</article>
+</body>
+</html>

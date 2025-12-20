@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Stanford CS230 ｜ Autumn 2025 ｜ Lecture 10： What’s Going On Inside My Model？.en-US (繁體中文)</title>
+  <style>
+    body{font-family:Inter, Noto Sans TC, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;line-height:1.6;padding:1rem;max-width:900px;margin:0 auto;color:#111}
+    .meta{color:#666;font-size:0.95rem;margin-bottom:0.5rem}
+    article{background:#fff;border-radius:8px;padding:1rem 1.2rem;box-shadow:0 6px 18px rgba(10,20,30,0.05)}
+    p.speaker{margin:0 0 0.6rem}
+    p.speaker strong{color:#0b5; /* just example */}
+  </style>
+</head>
+<body>
+<article lang="zh-Hant">
+  <header>
+    <h1>逐字稿 — Stanford CS230 ｜ Autumn 2025 ｜ Lecture 10</h1>
+    <p><strong>推測場次/時間：</strong>Lecture 10 | 2025（從檔名推測）</p>
+    <p>說明：本文為整理後的逐字稿，已移除語助詞與長停頓；保留關鍵英文字樣於括號內；對不確定處以最可能選項並於括號列出其他可能選項。</p>
+  </header>
+
+  <main>
+    <!-- Intro -->
+    <section id="intro">
+      <p class="speaker"><strong>主講（教授）：</strong> <time>[00:00]</time> 歡迎來到 Lecture 9（註：此處為課程接續說法），希望大家秋假過得好，今天要討論神經網路（neural networks），包含卷積神經網路（convolutional neural networks, CNNs）與變壓器（transformers），並嘗試「打開黑盒」看看內部在做什麼。</p>
+
+      <p class="speaker"><strong>主講（教授）：</strong> <time>[00:30]</time> 本堂原稱「神經網路可解釋性（interpretability）」，但已擴大範疇，會涵蓋前沿模型（frontier models）相關的代表性研究與方法；對於大多數你們會接觸的模型，很多可視化或可解釋方法尚未完全成形，本講以研究方向與已知在 CNN 上有效的方法為主，並延伸到 frontier 模型的概覽。</p>
+    </section>
+
+    <!-- Agenda and case study -->
+    <section id="agenda">
+      <p class="speaker"><strong>主講（教授）：</strong> <time>[02:30]</time> 議程很滿：首先一個案例討論（case study），接著以卷積網路為例深度拆解，再回到前沿模型與現代表徵分析（representation analysis）、尺度律（scaling laws）、能力基準（capability benchmarking）、資料診斷（data diagnostics）等。</p>
+
+      <p class="speaker"><strong>主講（教授）：</strong> <time>[04:00]</time> 案例：你在前沿實驗室訓練一個 2000 億參數（200 billion parameters）的模型，某個新的 checkpoint 通過訓練 sanity check，但出現問題──推理能力在基準測試下降、安全性評估失敗，且在 agentic workflow 使用工具時延遲突增。VP 問：發生了什麼？你第一步要看什麼證據？</p>
+
+      <p class="speaker"><strong>學生A：</strong> <time>[05:10]</time> 我會做錯誤分析（error analysis），找出在 reasoning benchmark 與 safety evals 失敗的例子，尋找模式以定位問題。</p>
+
+      <p class="speaker"><strong>學生B：</strong> <time>[05:40]</time> 檢視訓練過程的監控資料：訓練損失（training loss）、驗證損失（validation loss）、收斂性（convergence）與 spikes，尋找是否有突變或雜訊。</p>
+
+      <p class="speaker"><strong>學生C：</strong> <time>[06:10]</time> 檢查最近一輪的訓練資料（最後一個 batch / recent training data），懷疑該次資料被污染（poisoned）或偏向某類別。</p>
+
+      <p class="speaker"><strong>學生D：</strong> <time>[06:40]</time> 因為是 overnight 發生，懷疑硬體問題（hardware issue），也要看硬體 telemetry 與延遲（latency）指標。</p>
+
+      <p class="speaker"><strong>主講（教授）：</strong> <time>[07:10]</time> 以上都是全域檢查；接著若要從模型內部精確檢視（尤其是語言模型），可比對多個 checkpoint、檢查梯度是否爆炸（exploding gradients）或消失（vanishing gradients），並檢視 attention maps（注意力圖）或做敏感度分析（sensitivity analysis，最可能：參數敏感度分析；其他可能：超參數分析 hyperparameter analysis）。</p>
+
+      <p class="speaker"><strong>學生E：</strong> <time>[08:00]</time> 我會做敏感度分析（sensitivity analysis），找出哪些超參數或 optimizer、learning rate schedule 可能出問題。</p>
+
+      <p class="speaker"><strong>主講（教授）：</strong> <time>[08:30]</time> 也別忘了比較 scaling laws，看是否模型其實只被「部分使用（underutilized）」（例如 mixture of experts 的某些 expert 未被常用），或檢查路由（routing）是否總選同一些 expert，導致實際上模型容量低於標稱容量。</p>
+    </section>
+
+    <!-- CNN deep dive -->
+    <section id="convolutions">
+      <h2>卷積神經網路（CNN）深入解析 — 範例：動物分類（Zoo）</h2>
+
+      <p class="speaker"><strong>主講（教授）：</strong> <time>[12:00]</time> 假設你做了一個動物分類器（softmax 輸出多種動物類別）；園方不信任模型，希望可視化決策流程以建立信心，你會怎麼做？</p>
+
+      <p class="speaker"><strong>學生F：</strong> <time>[12:30]</time> 說明 softmax（softmax）與每層如何逐步學到更深的特徵（features），並展示不同影像與中間層輸出來建立直觀。</p>
+
+      <p class="speaker"><strong>主講（教授）：</strong> <time>[13:10]</time> 可行方法整理（實務 toolkit）：
+        <ul>
+          <li>輸入／輸出關係：對輸入像素求分數（pre-softmax score）對輸入 x 的偏導數，以得到「哪個像素會改變該類別分數」的梯度（即 saliency maps，注意使用 pre-softmax 而非 post-softmax）。</li>
+          <li>積分梯度（integrated gradients）：沿從 baseline（例如黑圖）到原圖路徑累積梯度，通常比單張 saliency 更穩定、語義性更好。</li>
+          <li>遮蔽敏感度（occlusion sensitivity）：用移動的遮罩（mask / dark square）掃描圖像，觀察目標類別機率如何改變，可得到當遮蔽某區域時分數下降的熱圖。</li>
+          <li>類別激活圖（Class Activation Map, CAM）與 Grad-CAM：改變網路最後幾層為 global average pooling + FC，可回溯 feature map 貢獻，快速得到 class activation maps（可即時化以供園方展示）。</li>
+        </ul>
+      </p>
+
+      <p class="speaker"><strong>主講（教授）：</strong> <time>[18:00]</time> 進一步想要知道「模型心中狗長什麼樣子」：可對 pre-softmax 的 class score 做梯度上升（gradient ascent）與正則化，產生一張最大化該類別分數的合成影像（class model visualization）；須在目標函式加正則化以維持像素分布自然。</p>
+
+      <p class="speaker"><strong>主講（教授）：</strong> <time>[19:30]</time> 也能在任何中間 activation 上做同樣操作：找到能最大化該 activation 的輸入影像，或做資料集檢索（dataset search）——找出在驗證集上最能激活該 filter 的 top-N 圖片，觀察是否有共同語義（例如偵測襯衫、圓形等）。</p>
+
+      <p class="speaker"><strong>主講（教授）：</strong> <time>[21:00]</time> 反向工程（reverse-engineer）方法—deconvolution / transpose convolution：把 conv 重寫成矩陣乘法，若能近似視為可逆或用轉置（transpose）來做反向上采樣（sub-pixel、flip filters、stride 調整），搭配 unpooling（儲存 pooling switches）與 ReLU 的特殊處理，可從某一 activation 逆推回原始輸入的局部裁切（cropped region）。</p>
+
+      <p class="speaker"><strong>主講（教授）：</strong> <time>[23:30]</time> 經典工具箱示例（Zeiler & Fergus, Yosinski 等）：結合 dataset search、deconv、合成影像（optimization）與 activation 可視化，能觀察到深層 filter 從邊緣、紋理到臉部等抽象概念的漸進式學習現象。</p>
+    </section>
+
+    <!-- Transition to frontier models -->
+    <section id="frontier">
+      <h2>從 CNN 到前沿（frontier）模型：注意力（Attention）與 Embeddings</h2>
+
+      <p class="speaker"><strong>主講（教授）：</strong> <time>[30:00]</time> 核心差異：CNN 著重局部資訊（edges、textures、shapes），transformers（transformers）則透過 attention 建模 token 之間的關係（relationships）與語意（meaning），可視化工具包括 attention maps、embeddings（以降維如 t-SNE 可視化）。</p>
+
+      <p class="speaker"><strong>主講（教授）：</strong> <time>[31:00]</time> 前沿研究（例如 Anthropic 等）提出 transformer circuits 與 induction heads 等概念，為理解 transformer 內部互動提供數學框架，但對大型現代模型的全面可解釋性仍具挑戰性。</p>
+    </section>
+
+    <!-- Training and scaling diagnostics -->
+    <section id="training-scaling">
+      <h2>訓練與尺度診斷（Training & Scaling Diagnostics）</h2>
+
+      <p class="speaker"><strong>主講（教授）：</strong> <time>[35:00]</time> 常見監控項目：全域與分域的訓練/驗證損失曲線（loss curves）、梯度範數（gradient norms）、learning rate schedule、硬體效率指標（hardware telemetry）、checkpoint 比較。Scaling laws（例如 Chinchilla 的發現）可用來判別模型是否被充分訓練或是否應投入更多 compute/data/parameters。</p>
+
+      <p class="speaker"><strong>主講（教授）：</strong> <time>[37:30]</time> 能力與安全評估（capability & safety evals）：使用多基準（benchmarks）衡量 reasoning、coding、multilingual 等；注意基準被污染（contamination）問題（若測試集出現在訓練資料中會使結果失真）。</p>
+
+      <p class="speaker"><strong>學生G：</strong> <time>[38:20]</time> 若懷疑基準被污染，能用 n-gram 搜尋、hash 或用 embeddings 做語義相似度搜尋來檢測；發現污染就移除或替換測試例。</p>
+    </section>
+
+    <!-- Data diagnostics -->
+    <section id="data-diagnostics">
+      <h2>資料診斷（Data Diagnostics）</h2>
+
+      <p class="speaker"><strong>主講（教授）：</strong> <time>[42:00]</time> 重要面向：
+        <ul>
+          <li>分域分佈（domain proportions）：監控不同域（Wikipedia、GitHub、法律文本等）在訓練資料中的占比，避免長期偏移導致某域表現衰退。</li>
+          <li>token 統計與 drift：監控關鍵 token 頻率變化（例如數學符號或特殊語言 token），不足會影響相關任務表現。</li>
+          <li>混合資料（mixture of experts）與路由監控：檢查是否存在 load imbalance（某些 experts 常被選中而其他冷掉）。</li>
+          <li>污染檢查（contamination checks）：用 n-gram / embeddings 搜尋訓練與測試之間的重複或近似樣本。</li>
+        </ul>
+      </p>
+
+      <p class="speaker"><strong>主講（教授）：</strong> <time>[44:00]</time> 另外，許多 frontier lab 會建立「健康儀表板（health dashboard）」來即時監控這些指標，但因為屬於 IP，公開資訊有限，通常需要靠社群的實驗與復現來驗證廠商宣稱。</p>
+    </section>
+
+    <!-- Closing / Q&A -->
+    <section id="closing">
+      <h2>結語與問答</h2>
+
+      <p class="speaker"><strong>學生H：</strong> <time>[50:00]</time> 若用合成資料（synthetic data）是否能提升效能？</p>
+
+      <p class="speaker"><strong>主講（教授）：</strong> <time>[50:30]</time> 合成資料有用，但要謹慎控制比重與品質；若合成資料過多或品質不佳，會產生分布偏移（distribution shift）。近期研究（見 Epoch AI 等報告）指出，未來高品質資料可能會成為稀缺資源，但目前仍以高品質實際資料為主。</p>
+
+      <p class="speaker"><strong>主講（教授）：</strong> <time>[52:00]</time> 總結：今天介紹了 CNN 的多種可視化與可解釋方法（saliency maps、integrated gradients、occlusion sensitivity、CAM / Grad-CAM、deconv、dataset search、class model visualization），並把這些技能延伸到 frontier 模型的代表性分析（attention、embeddings、scaling laws、data diagnostics、safety / benchmark 分析）。希望你們把這些方法放進工具箱（toolkit），對專案會很有幫助。</p>
+
+      <p class="speaker"><strong>主講（教授）：</strong> <time>[53:30]</time> 祝大家期末專案順利，謝謝參與，歡迎提供回饋。</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>註記：本文為整理與翻譯之逐字稿，已去除無意義語助詞並針對聽不清處以推測標註；關鍵英文字維持於括號中以利術語對照。</p>
+    <p>不確定或聽不清處說明範例：文中曾出現原檔之 [INAUDIBLE] 標註，已以上下文推測並標註為「(發音不清，最可能：...；其他可能：...)」。</p>
+  </footer>
+</article>
+</body>
+</html>

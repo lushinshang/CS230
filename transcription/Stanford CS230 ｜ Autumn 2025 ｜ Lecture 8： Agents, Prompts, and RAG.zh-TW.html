@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Stanford CS230 ｜ Autumn 2025 ｜ Lecture 8： Agents, Prompts, and RAG.en-US (繁體中文)</title>
+  <style>
+    body{font-family:Inter, Noto Sans TC, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;line-height:1.6;padding:1rem;max-width:900px;margin:0 auto;color:#111}
+    .meta{color:#666;font-size:0.95rem;margin-bottom:0.5rem}
+    article{background:#fff;border-radius:8px;padding:1rem 1.2rem;box-shadow:0 6px 18px rgba(10,20,30,0.05)}
+    p.speaker{margin:0 0 0.6rem}
+    p.speaker strong{color:#0b5; /* just example */}
+  </style>
+</head>
+<body>
+<article lang="zh-Hant-TW">
+  <header>
+    <h1>逐字稿 — Stanford CS230｜Autumn 2025｜Lecture 8：Agents, Prompts, and RAG</h1>
+    <p><strong>推測場次/時間：</strong>Lecture 8 ｜ 2025（來源檔名：Stanford CS230 ｜ Autumn 2025 ｜ Lecture 8： Agents, Prompts, and RAG.en-US.srt）</p>
+    <p><em>說明：下列時間為段落估計標記；發言者名稱以「主講者」及「參與者1/2/3/未辨識」標註，原文英文術語保留於括號內。</em></p>
+  </header>
+
+  <main>
+    <section>
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 00:00）</span> 大家好，歡迎來到 CS230 深度學習的另一堂課。今天要談的是強化大型語言模型應用的做法，這堂課我稱為「超越 LLM（Beyond LLM）」，內容包含許多新的技術與實務作法，目標是讓你們了解各種 prompt 技巧、agent 工作流程、多代理系統、以及 evals 等等，讓你在課後能快速深入學習與實作。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 02:00）</span> 我們的議程會從擴充 LLM 的挑戰與機會開始，然後看第一線優化手段：prompt 方法，再看微調（fine-tuning）、Retrieval-Augmented Generation（RAG）如何運作，接著是 agentic AI 工作流程、實務案例（case study）與如何衡量 agent 是否有效（evals），最後簡要討論 multi-agent 與一些未來展望。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 04:00）</span> 開放式問題：使用預訓練模型（例如 GPT-3.5 Turbo、GPT-4）時的限制是什麼？大家先討論一下。</p>
+
+      <p class="speaker"><strong>參與者1：</strong><span class="time">（估計 04:30）</span> 缺乏領域知識。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 04:45）</span> 正確。舉例來說，有組學生做自動化農業的影像判別，該資料集是特殊的，預訓練的電腦視覺模型可能無法直接適應。</p>
+
+      <p class="speaker"><strong>參與者2：</strong><span class="time">（估計 05:30）</span> 真實世界的資料品質較差（例如：影像太暗）。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 05:45）</span> 對，資料分佈差異會造成問題；另外模型可能缺乏「最新資訊」——例如某些社群上的新詞（例：Covfefe（可能拼寫：covfefe）、或 Gen Z 用語如 rizz、mid）模型無法即時知道，重訓成本很高。</p>
+
+      <p class="speaker"><strong>參與者3：</strong><span class="time">（估計 07:00）</span> 模型是廣度導向，若要做專精任務可能表現不足。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 07:15）</span> 對，企業應用常需高精準度、低延遲，有時預訓練模型過大且包含多餘知識，會導致效能或成本不佳；可以考慮裁剪（prune）、量化、或其他修改。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 08:00）</span> 還有一點是 LLM 很難控制——歷史例子有微軟的 Twitter bot 快速學壞（2016），或近期在社群上可見 LLM 偶爾產出具爭議或歧視的內容（Sam Altman 與 Elon Musk 有相關爭論）。控制模型是很困難的工程問題。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 09:30）</span> LLM 在特定任務（例如醫療診斷、法律文本）可能表現不穩定，且常缺乏「來源」（sourcing），容易幻覺（hallucination）。此外，context window（上下文視窗）有限，即使是數十萬 tokens 的模型也有上限，對大量文件或影片理解仍有限。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 11:30）</span> 為了解決來源與時效問題，我們常用 RAG（Retrieval-Augmented Generation）：把文件做 embedding、存到向量資料庫（vector DB），查詢時檢索相關片段作為上下文再餵給 LLM，這樣可以更新知識、提供來源，並改善準確性與可追溯性。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 12:30）</span> 針對提升 LLM 的做法，可分兩個維度：一是改良基礎模型本身（例如 GPT 3.5 → GPT-4 → GPT-5），二是工程化利用 LLM（例如更好的 prompt、RAG、agent 工作流程、多代理系統）。本堂重點在後者（垂直軸）。</p>
+
+      <hr>
+
+      <h2>第一線優化：Prompt Engineering（提示工程）</h2>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 14:00）</span> 先分享一項研究（Harvard Business School、Wharton 等），他們讓顧問分三組：無 AI、使用 GPT-4、使用 GPT-4 並接受 prompt 訓練。結果顯示：受訓組表現最好，且存在所謂的「jagged frontier」——某些任務 AI 幫助有效，有些任務則會讓人變差（人員過於倚賴 AI 反而失誤）。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 15:30）</span> 研究還分出「Centaurs（半人半馬）」與「Cyborgs（人機混合）」兩種工作模式：centaur 傾向把較大任務交給 AI 完成再檢查，cyborg 則與模型快速互動、多次微調；二者各有優勢，企業自動化常偏向 centaur 模式。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 16:30）</span> 基本 prompt 設計原則：比起簡單的「Summarize this document」，較佳的 prompt 會說明目標讀者、長度、格式（例如「將 10 頁論文摘要為五點要點，針對政策制定者」），或加入角色扮演（act like an expert），並使用 self-critique、chain-of-thought（逐步思考）等技術。</p>
+
+      <p class="speaker"><strong>參與者1：</strong><span class="time">（估計 17:30）</span> 可以給出範例嗎？</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 17:45）</span> 範例：先請模型當「可再現的優秀摘要範例」，或給一個好摘要範例；或分步驟（step 1 擷取三個重要發現；step 2 解釋影響；step 3 產出五點要點）。Chain-of-thought 與 chaining（分段工作流程）是兩個不同概念：前者鼓勵模型逐步思考，後者把整個任務拆成多個 prompt 執行並串接輸出。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 19:00）</span> Prompt templates 很常見（例如 GitHub 上的 prompt repositories），方便在程式碼中標準化與個人化（插入使用者 metadata，例如職位、語言偏好）。基礎模型本身通常也有 system prompt（你看不到的系統提示），但你仍可以在應用層加上自己的模板。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 20:00）</span> Zero-shot vs few-shot：對分類任務，給模型少數範例（few-shot）能將模型對結果的對齊改為你想要的標準；因此許多團隊把人類標記的例子直接放入 prompt 作為 few-shot，而不是立刻微調模型。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 21:00）</span> Prompt 過長或多輪會讓模型「走失」的研究不斷更新；實務上可用「章節化」或摘要回放（summarize & continue）來控制對話長度與一致性。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 22:00）</span> Chaining（鏈式工作流）示例：將「擷取問題要點」→「用要點產出大綱」→「由大綱撰寫完整回覆」分成三個 prompt，能更容易 debug、優化各階段，也有助於提高最終品質；但會增加延遲（latency），需權衡。</p>
+
+      <hr>
+
+      <h2>測試 prompts 與自動化評估（LLM judges）</h2>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 24:00）</span> 一般實作會建立 baseline prompt、refined prompt 或整個 workflow，然後用「測試集」與人工評分比較；為了擴大規模可以用平台（範例：PromptFoo）或讓 LLM 當 judge（pairwise comparison、rubric-based grading），並混合人工與自動化評估。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 25:00）</span> LLM judge 可以做 pairwise（兩者比較哪個好）或根據 rubric（評分規則）打分；可把好的/壞的例子 few-shot 給 judge，提升評估穩定性。</p>
+
+      <hr>
+
+      <h2>微調（Fine-tuning）與其利弊</h2>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 27:00）</span> 微調會改變模型權重，理論上能提升專業領域表現，但缺點包括需大量標註資料、容易 overfit（失去通用性）、時間與成本高，而且模型更新頻繁時，你的微調版本可能很快被新的基礎模型超越，所以我通常盡量避免微調，除非任務需要非常高精度（法律、醫療等）。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 28:30）</span> 案例：Ros (或 Ross) Lazerowitz（姓名可能為 Ross Lazerowitz，註：若有誤請參考原始來源）用 Slack 訊息微調模型，結果模型模仿了員工的寫法，但在執行上產生奇怪行為（像是宣稱「我現在早上 6:30 在寫」），說明微調有風險。</p>
+
+      <hr>
+
+      <h2>RAG（Retrieval-Augmented Generation）深入</h2>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 30:00）</span> RAG 的核心是把外部知識庫（文件、API、資料庫）整合進來：先把文件 chunk 並做 embedding，存在向量資料庫；使用者 query 也做 embedding 後檢索相似片段，將檢索結果作為 prompt 的額外上下文給 LLM，並可要求模型在文件中標註來源與位置。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 31:30）</span> RAG 的優勢：1) 可更新知識（不必重訓模型）；2) 可提供來源（sourcing）；3) 彈性高。但也有討論是否為長期解法：若 compute 無上限，理論上可直接讀全部資料；不過在現實中，延遲與成本考量使 RAG 仍很有用。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 32:30）</span> RAG 進階技巧包括 chunking（存章節與全文向量）、HyDE（Hypothetical Document Embeddings，先用 query 生成假想文件再 embed 以改善檢索相似度）、以及混合多層級檢索策略等。</p>
+
+      <hr>
+
+      <h2>從單步任務到 Agentic AI 工作流程</h2>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 34:30）</span> Agentic workflows（Andrew Ng 所稱）指的是將 prompts、tools、memory、API 等組成多步驟的自動化流程（非僅單一 prompt），用於完成多步、需外部資源或決策的任務；這不同於強化學習中 agent 的嚴格定義（state/action/reward）。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 35:30）</span> 範例比較：單一 RAG 回答「退款政策是 30 天」與 agentic 流程的差別——後者會檢索政策、詢問使用者訂單編號、查 API、確認是否符合退款條件，最後回覆並執行退款流程，顯然更完整也更能自動化實務流程。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 37:00）</span> 建構 agent 需要考量：memory（工作記憶與長期記憶）、prompts、tools（API、檢索工具）、resources（例如 CRM），以及自治程度（從完全硬編排步驟到完全自決流程）。Anthropic 提出的 MCP（Model Context Protocol）是一種中介協議，讓 agent 與外部資源更便利溝通（MCP：Model Context Protocol，註：文中提及 Anthropic）。</p>
+
+      <p class="speaker"><strong>參與者2：</strong><span class="time">（估計 38:30）</span> MCP 有安全疑慮嗎？</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 38:45）</span> 可能有，MCP 與 API 一樣需認證與授權，暴露的資料與權限需嚴格控管；這部分還在發展中，需注意驗證與資安設計。</p>
+
+      <hr>
+
+      <h2>Travel agent 範例的步驟化工作流</h2>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 40:00）</span> 假設使用者說「我要 12/15–12/20 去巴黎，靠近艾菲爾鐵塔的飯店」，agent 的步驟可以是：1) 計畫步驟（找航班、飯店、行程）；2) 執行檢索與 API 呼叫；3) 與使用者互動確認；4) 完成預訂並更新記憶（例如偏好直飛、預算上限等）。每一步都可能是 LLM 的 prompt、或外部 tool 的 API 呼叫。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 41:30）</span> 如何知道 agent 有效？可用端到端的滿意度（使用者評分）、元件導向的檢查（檢查 database update 是否成功）、客觀指標（成功更新地址之比率、延遲）與主觀指標（語氣、禮貌度的 LLM judge 或人工評分）。</p>
+
+      <hr>
+
+      <h2>Case study：客服 agent 的設計與評估（簡略）</h2>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 43:00）</span> 若產品經理要求建一個能處理「更改寄送地址」的客服 agent，流程應先做任務拆解（extract key info → lookup DB → check policy → draft response → send email），再設計哪些步驟由 LLM 處理、哪些為 deterministic 或工具呼叫，並建立 traces（LLM traces）以便 debugging。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 44:30）</span> 評估方式綜合前述：1) 終端滿意度；2) 元件績效（database 更新成功率、API 呼叫錯誤率）；3) 客觀/主觀 eval（LLM judges + rubric）；4) 定量與質性錯誤分析。</p>
+
+      <hr>
+
+      <h2>Multi-agent workflow（多代理系統）</h2>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 46:00）</span> 多代理系統的優勢在於並行處理與 agent 可重用性（例如設計 agent 可被行銷與產品共用），常見組織有扁平（flat）或階層（hierarchical）架構；階層式常由 orchestrator（協調者）與多個專責 agent（安全、氣候控制、能源管理等）組成。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 47:30）</span> 課堂互動示例：若要為智慧家庭設計 agent，學生舉出的 agent 包括：生理/位置偵測、溫度控制、能源管理、安全門禁、採購（冰箱食材辨識與下單）及一個 orchestrator 做統籌；這類系統通常選階層式以簡化對使用者介面。</p>
+
+      <hr>
+
+      <h2>測試、Debug 與實務建議</h2>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 49:00）</span> 實務上建議保有 LLM traces（呼叫與 prompt 的完整紀錄），以便回溯問題來源；測試策略要混合自動化與人工檢視，先做錯誤分析（error analysis）找常見失誤，再把可量化的部分做自動化監控。</p>
+
+      <hr>
+
+      <h2>課堂結尾：趨勢與未來方向</h2>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 51:00）</span> 幾個值得關注的趨勢：1) 是否會出現性能瓶頸（Ilya Sutskever 等人討論是否 plateau），若 compute 與能量持續提升，模型仍可成長，但架構創新（architecture search）有可能帶來巨大飛躍；2) 多模態（text、image、audio、video）能互相促進，使模型更強；3) 多種學習方法整合（監督、自監督、強化、prompt engineering、RAG 等）可能構成更有效的混合學習體系；4) 人類中心與非人類中心的架構研究都重要（可從腦科學啟發，也可能開創非類腦架構）。</p>
+
+      <p class="speaker"><strong>主講者：</strong><span class="time">（估計 53:00）</span> 最後提醒：AI 技術更新很快（half-life of skill 很短），課程目的給你廣度，未來要能快速鑽研必要的深度。謝謝大家參與，期待接下來的討論與你們的問題。</p>
+
+      <p class="speaker"><strong>主講者（結語）：</strong><span class="time">（估計 54:00）</span> 謝謝大家。</p>
+    </section>
+
+    <footer>
+      <p><small>註記：部分原始語音無法辨識處以說明性文字替代（標示為「聽不清 / 未辨識」或在括號提供可能選項）。保留原文關鍵術語英文寫法：LLM、RAG（Retrieval-Augmented Generation）、MCP（Model Context Protocol）、GPT-3.5 Turbo、GPT-4、Chain-of-Thought、HyDE、Anthropic、Andrew Ng、Sam Altman、Elon Musk、Ilya Sutskever 等。</small></p>
+    </footer>
+  </main>
+</article>
+</body>
+</html>

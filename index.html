@@ -104,6 +104,20 @@
             'C5M4':'https://cs230.stanford.edu/syllabus/files/C5M4.pdf'
           };
 
+          // mapping lecture index (1-based) to transcript files (EN and ZH-TW)
+          const transcriptsMap = {
+            1: {en: 'transcription/Stanford CS230 ｜ Autumn 2025 ｜ Lecture 1： Introduction to Deep Learning.en-US.html', zh: 'transcription/Stanford CS230 ｜ Autumn 2025 ｜ Lecture 1： Introduction to Deep Learning.zh-TW.html'},
+            2: {en: 'transcription/Stanford CS230 ｜ Autumn 2025 ｜ Lecture 2： Supervised, Self-Supervised, & Weakly Supervised Learning.en-US.html', zh: 'transcription/Stanford CS230 ｜ Autumn 2025 ｜ Lecture 2： Supervised, Self-Supervised, & Weakly Supervised Learning.zh-TW.html'},
+            3: {en: 'transcription/Stanford CS230 ｜ Autumn 2025 ｜ Lecture 3： Full Cycle of a DL project.en-US.html', zh: 'transcription/Stanford CS230 ｜ Autumn 2025 ｜ Lecture 3： Full Cycle of a DL project.zh-TW.html'},
+            4: {en: 'transcription/Stanford CS230 ｜ Autumn 2025 ｜ Lecture 4： Adversarial Robustness and Generative Models.en-US.html', zh: 'transcription/Stanford CS230 ｜ Autumn 2025 ｜ Lecture 4： Adversarial Robustness and Generative Models.zh-TW.html'},
+            5: {en: 'transcription/Stanford CS230 ｜ Autumn 2025 ｜ Lecture 5： Deep Reinforcement Learning.en-US.html', zh: 'transcription/Stanford CS230 ｜ Autumn 2025 ｜ Lecture 5： Deep Reinforcement Learning.zh-TW.html'},
+            6: {en: 'transcription/Stanford CS230 ｜ Autumn 2025 ｜ Lecture 6： AI Project Strategy.en-US.html', zh: 'transcription/Stanford CS230 ｜ Autumn 2025 ｜ Lecture 6： AI Project Strategy.zh-TW.html'},
+            // 7: no transcript (no class)
+            8: {en: 'transcription/Stanford CS230 ｜ Autumn 2025 ｜ Lecture 8： Agents, Prompts, and RAG.en-US.html', zh: 'transcription/Stanford CS230 ｜ Autumn 2025 ｜ Lecture 8： Agents, Prompts, and RAG.zh-TW.html'},
+            9: {en: 'transcription/Stanford CS230 ｜ Autumn 2025 ｜ Lecture 9： Career Advice in AI.en-US.html', zh: 'transcription/Stanford CS230 ｜ Autumn 2025 ｜ Lecture 9： Career Advice in AI.zh-TW.html'},
+            10:{en: 'transcription/Stanford CS230 ｜ Autumn 2025 ｜ Lecture 10： What’s Going On Inside My Model？.en-US.html', zh: 'transcription/Stanford CS230 ｜ Autumn 2025 ｜ Lecture 10： What’s Going On Inside My Model？.zh-TW.html'}
+          };
+
           const list = [];
           for(let i=0;i<lectures.length;i++){
             const L = lectures[i];
@@ -133,6 +147,10 @@
                 </article>
               `);
             } else {
+              // transcripts (if available in transcriptsMap)
+              const tm = transcriptsMap[i+1] || null;
+              const transcriptsHtml = tm ? `${tm.zh? `<a class="link-btn link-trans-zh" href="${encodeURI(tm.zh)}" target="_blank" rel="noopener">📝 逐字稿(中)</a>` : ''} ${tm.en? `<a class="link-btn link-trans-en" href="${encodeURI(tm.en)}" target="_blank" rel="noopener">逐字稿(英)</a>` : ''}` : '';
+
               list.push(`
                 <article class="course-item" role="article">
                   <div style="display:flex;justify-content:space-between;align-items:flex-start">
@@ -145,6 +163,7 @@
                     <a class="link-btn link-yt" href="${ytHref}" target="_blank" rel="noopener">🎬 播放</a>
                     ${L.slides? `<a class="link-btn link-slides" href="${L.slides}" target="_blank" rel="noopener">📑 簡報</a>` : ''}
                     <a class="link-btn link-note" href="notes/lesson${i+1}.html">📘 筆記</a>
+                    ${transcriptsHtml}
                   </div>
                   <div class="muted single-line" style="margin-top:0.5rem;font-size:0.95rem">模組：${modulesHtml || '—'}</div>
                   <div class="muted single-line" style="margin-top:0.25rem;font-size:0.95rem">資料：${L.materials || '—'}</div>

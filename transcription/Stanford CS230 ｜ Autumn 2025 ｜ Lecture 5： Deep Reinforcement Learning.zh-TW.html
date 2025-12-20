@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Stanford CS230 ｜ Autumn 2025 ｜ Lecture 5： Deep Reinforcement Learning.en-US (繁體中文)</title>
+  <style>
+    body{font-family:Inter, Noto Sans TC, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;line-height:1.6;padding:1rem;max-width:900px;margin:0 auto;color:#111}
+    .meta{color:#666;font-size:0.95rem;margin-bottom:0.5rem}
+    article{background:#fff;border-radius:8px;padding:1rem 1.2rem;box-shadow:0 6px 18px rgba(10,20,30,0.05)}
+    p.speaker{margin:0 0 0.6rem}
+    p.speaker strong{color:#0b5; /* just example */}
+  </style>
+</head>
+<body>
+<article lang="zh-Hant">
+  <header>
+    <h1>逐字稿 — Stanford CS230｜Autumn 2025 ｜ Lecture 5：Deep Reinforcement Learning</h1>
+    <p>推測場次/時間：Lecture 5｜2025（依檔名推測）</p>
+    <p class="meta">註：逐字稿已移除口語贅詞與長停頓；原文關鍵術語保留英文；聽不清或不確定之詞彙以括號列出可能選項。</p>
+  </header>
+
+  <section>
+    <p class="speaker"><strong>主講：</strong><span class="time">[00:00]</span> 歡迎來到 CS230 第五次實體課程，今天主題是深度強化學習（Deep Reinforcement Learning）。原定討論神經網路可解釋性與大型模型視覺化改成之後再講，因為大家還沒學過 attention maps 與捲積網路（convolutional neural networks）相關細節。</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[00:30]</span> 今日議程先介紹深度強化學習——把深度學習與強化學習結合的領域，然後下半堂聚焦「從人類回饋學習的強化學習（RLHF）」，這是使 GPT-2 跳躍到 ChatGPT 的核心技術，能把語言模型與人類偏好對齊（alignment）。</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[02:00]</span> 強化學習（RL）受注目的一些代表性成果：DeepMind 的 Human-Level Control through Deep Reinforcement Learning（在多個 Atari 遊戲超越人類）、AlphaGo（擊敗人類圍棋高手）、之後用於複雜策略遊戲（如 StarCraft、DOTA/League of Legends）以及 2022 年提出用人類回饋來對齊語言模型的研究（即 RLHF）。</p>
+
+    <p class="speaker"><strong>學生A：</strong><span class="time">[04:00]</span>（短促插問）如果用監督式學習解圍棋要怎麼做？</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[04:05]</span> 監督式做法會收集大量高手棋譜，把目前棋盤狀態 x 當輸入、下一步 y 當標籤，訓練模型模仿人類落子；但缺點明顯：狀態空間太大（無法覆蓋所有局面）、只能學習單步行為無法捕捉長期策略、還可能把人類的次佳決策當成「正確」標籤（ground truth 本身不完美）。</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[06:00]</span> 強化學習的核心在於「延遲回饋」與「序列決策」：教的是經驗而非範例。基本元素：agent（代理）、environment（環境）、state（狀態 s）、action（動作 a）、observation（觀測 o，有時等於 state）、reward（獎勵 r），目標是最大化累積回報（return），常用折扣因子 γ（0 到 1）處理時間價值。觀測 <em>可能</em>不等於完整狀態（例如 StarCraft 有視野遮蔽，英文常稱 fog 或 fog of war（視野遮蔽））。</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[08:00]</span> 用一個簡單環境示意：五個狀態的遊戲，起始在 S2，向左到垃圾桶（reward +2，終端），向右有空位或巧克力包（+1），走到回收桶（recycle bin）有更高獎勵 +10（終端），且限制三分鐘垃圾車來（每走一步需一分鐘），代表策略不能一直刷短利得。目標是最大化折扣後的總回報。</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[10:30]</span> 舉例計算：當 γ=1 時，最佳策略是直接去回收桶（總獎勵 11）。當 γ=0.9 時，用回推計算（backtracking）得到從 S2 出發預期回報約 9；這示範 Q-table（狀態×動作矩陣）可以完整決定策略，但當狀態/動作空間巨大時不可行（例如圍棋）。</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[12:30]</span> 貝爾曼最優方程（Bellman optimality equation）：Q*(s,a) = r + γ max_a' Q*(s',a')，直覺是最優值等於當前即時獎勵加上折扣後從下一狀態能獲得的最佳未來回報；策略（policy）可由 argmax_a Q*(s,a) 決定。</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[13:30]</span> 為了處理大狀態空間，引入深度 Q-learning（DQN）：用神經網路近似 Q 函數，輸入為狀態（例如 one-hot 或像素），輸出每個動作的 Q 值。問題是沒有直接標籤 y，如何訓練？用貝爾曼方程建立目標值 y = r + γ max_a' Q(s',a'; θ)，把 y 當作監督目標（注意 y 基於網路估計但在反向傳播時視為固定，不對 y 求導）。</p>
+
+    <p class="speaker"><strong>學生B：</strong><span class="time">[15:00]</span>（短問）那要連續回傳多步嗎？</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[15:05]</span> DQN 通常只看一步的目標（one-step lookahead）。理論上可以看多步，但成本與不穩定性會上升。算法大致：用當前網路選動作、觀察 r 與 s'，用 s' 經網路估計 max Q 作為目標，再做一次前向與反向更新，重複訓練。</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[16:30]</span> 具體訓練中常見技巧：輸入預處理（phi(s)，例如像素灰階化、裁切分辨率並堆疊數幀以表現動態/速度）、記錄終端狀態以正確處理目標（若為終端只用即時獎勵 r），以及經驗回放（experience replay）來打散時間相關性並重複利用樣本，提高資料效率。</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[18:30]</span> 經驗回放（replay memory D）：把每個 transition (s,a,r,s') 存入記憶池，訓練時隨機抽 mini-batch，避免連續樣本高度相關導致訓練震盪；也有優先重放（prioritized replay）等變體，依重要性抽樣以加速學習。</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[20:00]</span> 探索與開發的平衡（exploration vs. exploitation）：若始終選擇目前估值最高的動作，可能永遠不會碰到高回報但一開始估值低的路徑（local minima）。常見做法是 ε-greedy：以機率 ε 做隨機動作以探索新路徑（例如 ε=0.05）。</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[21:30]</span> 將所有技巧整合後的 DQN 流程：初始化網路與 replay memory，循環多個 episode，對每一步以 ε-greedy 探索/利用，將 transition 存入記憶池，隨機抽樣訓練，透過目標值（貝爾曼式）更新網路參數。</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[23:00]</span> 實例：Atari Breakout，輸入可用多個畫面堆疊（例如 4 幀）以推估球的方向；輸出是對應不同動作的 Q 值（例如 左/右/不動）；常用卷積神經網路（CNN）做特徵抽取。</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[25:00]</span> 若只依像素可能要較多資料，但好處是能用同一套預處理與演算法在多款 Atari 遊戲上通用（DeepMind 的 DQN 即採用此思路）；若僅針對單一遊戲，可設計低維度描述（例如物體位置與速度向量）以加速學習。</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[26:30]</span> 其他重要技巧：target network（目標網路）與更穩定的演算法變體；DQN 屬於 value-based 方法，另一類是 policy-based（直接學 policy），目前流行的演算法如 PPO（Proximal Policy Optimization）較適合連續動作空間與直接學習政策（policy），PPO 與 TRPO 為代表性工作；還有近年提出的 DPO（Direct Preference Optimization）（註：可能為 Direct Preference Optimization）等新方法。</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[28:00]</span> 進階挑戰：像 Montezuma's Revenge 這類遊戲獎勵極為稀疏（delayed reward），隨機初始化下極難碰到正回報，這時人類直覺／先驗（imitation learning 或人類示範）能大幅幫忙，或用更精巧的探索策略。</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[29:30]</span> 接著介紹 RLHF（Reinforcement Learning from Human Feedback）：先回顧語言模型訓練為 next-token prediction（預訓練），但原始網路沒辦法保證「有幫助」或「符合人類偏好」。改進流程通常三階段：1) SFT（Supervised Fine-Tuning，讓模型模仿人類示範），2) 訓練一個 reward model（RM）去預測人類在回應間的偏好，3) 用 RL（例如 PPO）以 reward model 的評分作為環境回饋，進行強化學習以最大化預期偏好分數。</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[31:30]</span> 套用先前 RL 概念到語言模型：agent 是語言模型，環境是 prompts 與生成過程，狀態是目前 prompt 加上已生成的 token 序列，action 是選下一個 token，episode 是一次完整的完成（completion）；reward 由獎勵模型在生成完成後評分（通常是序列級別的稀疏回饋）。</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[33:00]</span> Reward model 的訓練：利用人類標註者對同一 prompt 下多個候選回應做偏好排序（pairwise 或 ranking），以此訓練一個將「較佳回應」給予較高標量分數的模型；此模型替代人工進行大規模評估，作為 RL 期間的獎勵函數（critic）。</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[34:30]</span> RLHF 的優勢：比單純 SFT 更能直接優化人類偏好（preference optimization），而收集偏好比較容易且成本較低（比起要求人完整撰寫示範回應）；整體流程常見採用 PPO 等策略優化方法來微調語言模型。</p>
+
+    <p class="speaker"><strong>學生C：</strong><span class="time">[36:00]</span>（短問）生成過程中是否每個 token 都有回饋？</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[36:05]</span> 通常不是；reward model 多在完成整段回應後評分（序列級回饋），因此會是稀疏的 episodic reward 問題，學習需要把最終回報回溯到整個生成過程的決策。</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[37:00]</span> 小結：今天介紹 DQN 的基本概念與實務技巧（預處理、replay、ε-greedy、折扣 γ、Bellman 方程）；討論了進階主題（PPO、連續動作、多代理、self-play），最後講述 RLHF 的基本三步驟（SFT → 訓練 Reward Model → 用 RL 微調以最大化偏好分數），這是目前把大型語言模型（LLM）與人類偏好對齊的主要方式。</p>
+
+    <p class="speaker"><strong>主講：</strong><span class="time">[38:30]</span> 補註與參考：投影片底部列有重要論文（例如 DQN、AlphaGo、PPO、RLHF 相關工作）；若想更深入，建議看 AlphaGo 的紀錄片以理解強化學習帶來的非直覺性策略（例如看起來奇怪但能贏的落子）。</p>
+
+    <p class="speaker"><strong>旁白（雜音 / 聽不清）：</strong><span class="time">[多處]</span> 註記：原稿中若為 [INAUDIBLE]，已標示為「（聽不清）」。</p>
+  </section>
+
+  <footer>
+    <p class="notes">備註：如遇專有名詞或縮寫，保留英文以利查證，例如 Q-learning、DQN、PPO、RLHF、SFT、RM、AlphaGo、DeepMind、ChatGPT；疑義詞例如「fog（fog of war／視野遮蔽）」、「DPO（可能為 Direct Preference Optimization）」已於文中括註可能選項。</p>
+  </footer>
+</article>
+</body>
+</html>
