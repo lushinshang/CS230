@@ -219,8 +219,12 @@ a:focus,button:focus,input:focus,textarea:focus{outline:3px solid rgba(100,149,2
 .course-links{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.35rem}
 .link-btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.45rem 0.75rem;border-radius:999px;border:0;cursor:pointer;font-weight:600}
 .link-yt{background:linear-gradient(90deg,var(--accent-pink),var(--accent-blue));color:#3d0017}
-.link-note{background:transparent;border:1px solid rgba(14,21,30,0.06);color:var(--text)}
+.link-note{background:linear-gradient(90deg,var(--accent-mint),var(--accent-pink));color:#06231f}
 .link-slides{background:linear-gradient(90deg,var(--accent-blue),var(--accent-mint));color:#082032}
+.link-trans-zh{background:linear-gradient(90deg,#ffd6e0,#f7e6d6);color:#6b1e2a}
+.link-trans-en{background:linear-gradient(90deg,#e0f7f0,#d6e6ff);color:#042033}
+.link-note, .link-yt, .link-slides, .link-trans-zh, .link-trans-en{border:0}
+.link-btn:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(16,24,40,0.12)}
 .link-btn:focus{outline:3px solid rgba(100,149,237,0.12);outline-offset:3px}
 
 @media (max-width:480px){
